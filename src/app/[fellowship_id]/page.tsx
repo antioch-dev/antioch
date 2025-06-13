@@ -1,10 +1,10 @@
-import Image from "next/image"
-import Link from "next/link"
-import { Facebook, Instagram, Twitter, Youtube, Mail, Phone, MapPin, Heart, Calendar, User } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import TestimonialCarousel from "@/components/testimonial-carousel"
-import AnnouncementCarousel from "@/components/announcement-carousel"
+import Image from 'next/image'
+import Link from 'next/link'
+import { Facebook, Instagram, Twitter, Youtube, Mail, Phone, MapPin, Heart, Calendar, User } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
+import TestimonialCarousel from '@/components/testimonial-carousel'
+import AnnouncementCarousel from '@/components/announcement-carousel'
 
 export default function Home() {
   return (
@@ -76,10 +76,10 @@ export default function Home() {
           />
           <div className="container relative z-10 text-center text-white">
             <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl mb-6">
-            International Chrisitian Festivals in China
+              International Chrisitian Festivals in China
             </h1>
             <p className="mx-auto max-w-[700px] text-lg sm:text-xl md:text-2xl mb-8">
-            Raising christian leaders, promoting unity, and facilitating revivals across fellowships in the land
+              Raising christian leaders, promoting unity, and facilitating revivals across fellowships in the land
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" className="text-lg">
@@ -99,14 +99,15 @@ export default function Home() {
               <div>
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-6">About Us</h2>
                 <p className="text-muted-foreground mb-6">
-                  Established in 1985 by Christian students who could not return home during holidays, the
-                  initiative began by organizing festivals, retreats, conferences, and seminars for students
-                  stranded on campus. Over time, the ICFC has evolved into a pivotal force—training Christian
-                  leaders, fostering unity, and igniting revivals across fellowships in China.
+                  Established in 1985 by Christian students who could not return home during holidays, the initiative
+                  began by organizing festivals, retreats, conferences, and seminars for students stranded on campus.
+                  Over time, the ICFC has evolved into a pivotal force—training Christian leaders, fostering unity, and
+                  igniting revivals across fellowships in China.
                 </p>
                 <p className="text-muted-foreground mb-6">
-                  Our mission is to serve as a unifying platform for Christian students, providing spiritual growth through
-                  retreats, leadership training, and revival initiatives—empowering fellowships across China with enduring faith and community.
+                  Our mission is to serve as a unifying platform for Christian students, providing spiritual growth
+                  through retreats, leadership training, and revival initiatives—empowering fellowships across China
+                  with enduring faith and community.
                 </p>
                 <Button>Learn More About Us</Button>
               </div>
@@ -153,7 +154,8 @@ export default function Home() {
                   </div>
                   <h3 className="text-xl font-bold mb-2">Sunday Worship Service</h3>
                   <p className="text-muted-foreground mb-4">
-                    Join an ICFC affiliate fellowship today for our weekly worship service with inspiring messages and uplifting music.
+                    Join an ICFC affiliate fellowship today for our weekly worship service with inspiring messages and
+                    uplifting music.
                   </p>
                   <Button variant="outline" className="w-full">
                     Learn More
@@ -256,8 +258,8 @@ export default function Home() {
                   Support Our Ministry
                 </h2>
                 <p className="mb-6">
-                  Your generous donations help us continue our mission of serving the purposes of God and spreading God's
-                  love. Every contribution, no matter the size, makes a difference in the lives we touch.
+                  Your generous donations help us continue our mission of serving the purposes of God and spreading
+                  God's love. Every contribution, no matter the size, makes a difference in the lives we touch.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Button variant="secondary" size="lg" className="text-primary">
