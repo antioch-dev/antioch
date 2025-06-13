@@ -12,7 +12,7 @@ const products: ProductType[] = [
 ]
 
 export function Page() {
-  const [items, setItems] = useState<ProductType[]>([])
+  const [items, setItems] = useState<ProductType[]>(products)
   function addItem() {
     setItems([...items, { id: items.length + 1, name: `Product ${items.length + 1}`, price: (items.length + 1) * 10 }])
   }

@@ -112,13 +112,13 @@ export default function TestimonialCarousel() {
               <CardContent className="p-6 flex flex-col items-center text-center">
                 <div className="relative w-20 h-20 rounded-full overflow-hidden mb-4">
                   <Image
-                    src={testimonial.image || '/placeholder.svg'}
+                    src={testimonial.image ?? '/placeholder.svg'}
                     alt={testimonial.name}
                     fill
                     className="object-cover"
                   />
                 </div>
-                <blockquote className="mb-4 italic">"{testimonial.quote}"</blockquote>
+                <blockquote className="mb-4 italic">{`"${testimonial.quote}"`}</blockquote>
                 <div>
                   <h4 className="font-bold">{testimonial.name}</h4>
                   <p className="text-sm text-muted-foreground">{testimonial.role}</p>
