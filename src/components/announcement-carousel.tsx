@@ -1,52 +1,56 @@
-"use client"
+'use client'
 
-import { useState, useEffect } from "react"
-import Image from "next/image"
-import { Card, CardContent } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { useState, useEffect } from 'react'
+import Image from 'next/image'
+import { Card, CardContent } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 
-const announcements = [
+type AnnouncementType = {
+  id: number
+  title: string
+  description: string
+  image: string
+}
+const announcements: AnnouncementType[] = [
   {
     id: 1,
-    title: "Thursday Prayer Meeting",
-    description:
-      "Join us every Thursday night by 10:30 PM on ZOOM as we wait upon the Lord in prayers for the land!",
-    image: "/placeholder.svg?height=400&width=600",
+    title: 'Thursday Prayer Meeting',
+    description: 'Join us every Thursday night by 10:30 PM on ZOOM as we wait upon the Lord in prayers for the land!',
+    image: '/placeholder.svg?height=400&width=600',
   },
   {
     id: 2,
-    title: "Spring Leadership Training",
+    title: 'Spring Leadership Training',
     description:
-      "Our annual Spring Leadership Training is here again! Be a part of what the Lord is doing in this season - stirring up the gifts in leaders",
-    image: "/placeholder.svg?height=400&width=600",
+      'Our annual Spring Leadership Training is here again! Be a part of what the Lord is doing in this season - stirring up the gifts in leaders',
+    image: '/placeholder.svg?height=400&width=600',
   },
   {
     id: 3,
-    title: "Summerfest",
-    description:
-      "Our annual Summerfest is here again! Be a part of what the Lord is doing in this season",
-    image: "/placeholder.svg?height=400&width=600",
+    title: 'Summerfest',
+    description: 'Our annual Summerfest is here again! Be a part of what the Lord is doing in this season',
+    image: '/placeholder.svg?height=400&width=600',
   },
   {
     id: 4,
-    title: "Building Fund Update",
+    title: 'Building Fund Update',
     description:
       "We're excited to announce we've reached 75% of our goal for the new children's wing. Thank you for your generous support!",
-    image: "/placeholder.svg?height=400&width=600",
+    image: '/placeholder.svg?height=400&width=600',
   },
   {
     id: 5,
-    title: "New Worship Schedule",
+    title: 'New Worship Schedule',
     description:
       "Starting June 1st, we'll be adding a new contemporary service at 11:30 AM in addition to our traditional 9:00 AM service.",
-    image: "/placeholder.svg?height=400&width=600",
+    image: '/placeholder.svg?height=400&width=600',
   },
 ]
 
 export default function AnnouncementCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [visibleAnnouncements, setVisibleAnnouncements] = useState([])
+  const [visibleAnnouncements, setVisibleAnnouncements] = useState<AnnouncementType[]>([])
   const [itemsToShow, setItemsToShow] = useState(2)
 
   useEffect(() => {
@@ -59,8 +63,8 @@ export default function AnnouncementCarousel() {
     }
 
     handleResize()
-    window.addEventListener("resize", handleResize)
-    return () => window.removeEventListener("resize", handleResize)
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
   }, [])
 
   useEffect(() => {
@@ -97,7 +101,7 @@ export default function AnnouncementCarousel() {
             <Card key={announcement.id} className="min-w-[calc(100%/2-0.75rem)] flex-1">
               <div className="relative h-48 w-full overflow-hidden rounded-t-lg">
                 <Image
-                  src={announcement.image || "/placeholder.svg"}
+                  src={announcement.image || '/placeholder.svg'}
                   alt={announcement.title}
                   fill
                   className="object-cover"
@@ -140,7 +144,7 @@ export default function AnnouncementCarousel() {
           <button
             key={index}
             className={`h-2 w-2 rounded-full ${
-              index >= currentIndex && index < currentIndex + itemsToShow ? "bg-primary" : "bg-muted"
+              index >= currentIndex && index < currentIndex + itemsToShow ? 'bg-primary' : 'bg-muted'
             }`}
             onClick={() => setCurrentIndex(index)}
             aria-label={`Go to slide ${index + 1}`}

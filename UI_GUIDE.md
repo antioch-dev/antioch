@@ -5,4 +5,5 @@
 - [] Commit changes
 - [] Try to build
 - [] Resolve any build issues
+- [] Push changes
 - [] Open merge request
