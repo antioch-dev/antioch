@@ -7,8 +7,10 @@ import AnnouncementCarousel from '@/components/announcement-carousel'
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen flex-col">
-      <main className="flex-1">
+    // Apply items-center to center content horizontally in a flex-col
+    // The min-h-screen keeps it full height for vertical centering if needed on sections
+    <div className="flex min-h-screen flex-col items-center">
+      <main className="flex-1 w-full"> {/* Add w-full to main so it takes up available width */}
         {/* Hero Section */}
         <section className="relative h-[80vh] flex items-center justify-center overflow-hidden">
           <Image
