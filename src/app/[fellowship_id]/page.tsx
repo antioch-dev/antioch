@@ -1,16 +1,14 @@
-import Image from 'next/image'
-import { Facebook, Instagram, Twitter, Youtube, Mail, Phone, MapPin, Heart, Calendar, User } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
-import TestimonialCarousel from '@/components/testimonial-carousel'
-import AnnouncementCarousel from '@/components/announcement-carousel'
+import Image from 'next/image';
+import { Facebook, Instagram, Twitter, Youtube, Mail, Phone, MapPin, Heart, Calendar, User } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import TestimonialCarousel from '@/components/testimonial-carousel';
+import AnnouncementCarousel from '@/components/announcement-carousel';
 
 export default function Home() {
   return (
-    // Apply items-center to center content horizontally in a flex-col
-    // The min-h-screen keeps it full height for vertical centering if needed on sections
     <div className="flex min-h-screen flex-col items-center">
-      <main className="flex-1 w-full"> {/* Add w-full to main so it takes up available width */}
+      <main className="flex-1 w-full"> 
         {/* Hero Section */}
         <section className="relative h-[80vh] flex items-center justify-center overflow-hidden">
           <Image
@@ -20,12 +18,13 @@ export default function Home() {
             className="object-cover brightness-50"
             priority
           />
-          <div className="container relative z-10 text-center text-white">
+        
+          <div className="container relative z-10 text-center text-white mx-auto">
             <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl mb-6">
-              International Chrisitian Festivals in China
+              International Christian Festivals in China
             </h1>
             <p className="mx-auto max-w-[700px] text-lg sm:text-xl md:text-2xl mb-8">
-              Raising christian leaders, promoting unity, and facilitating revivals across fellowships in the land
+              Raising Christian leaders, promoting unity, and facilitating revivals across fellowships in the land
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" className="text-lg">
@@ -40,7 +39,7 @@ export default function Home() {
 
         {/* About Us Section */}
         <section id="about" className="py-16 md:py-24 bg-muted/50">
-          <div className="container">
+          <div className="container mx-auto">
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div>
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-6">About Us</h2>
@@ -71,7 +70,7 @@ export default function Home() {
 
         {/* Events Section */}
         <section id="events" className="py-16 md:py-24">
-          <div className="container">
+          <div className="container mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-4">Upcoming Events</h2>
               <p className="text-muted-foreground mx-auto max-w-[700px]">
@@ -169,7 +168,7 @@ export default function Home() {
 
         {/* Testimonials Section */}
         <section id="testimonials" className="py-16 md:py-24 bg-muted/50">
-          <div className="container">
+          <div className="container mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-4">Praise Reports</h2>
               <p className="text-muted-foreground mx-auto max-w-[700px]">
@@ -183,7 +182,8 @@ export default function Home() {
 
         {/* Announcements Section */}
         <section id="announcements" className="py-16 md:py-24">
-          <div className="container">
+          
+          <div className="container mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-4">Announcements</h2>
               <p className="text-muted-foreground mx-auto max-w-[700px]">
@@ -196,8 +196,8 @@ export default function Home() {
         </section>
 
         {/* Donations Section */}
-        <section id="donate" className="py-16 md:py-24 bg-primary text-primary-foreground">
-          <div className="container">
+        <section id="donate" className="py-16 md:py-24 bg-primary text-primary-foreground">  
+          <div className="container mx-auto">
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div>
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-6">
@@ -278,5 +278,5 @@ export default function Home() {
         </section>
       </main>
     </div>
-  )
+  );
 }
