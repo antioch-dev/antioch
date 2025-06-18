@@ -7,23 +7,23 @@ export function Footer() {
       <div className="container">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Contact Info */}
-          <div>
+          <div className="flex flex-col items-center text-center md:items-center md:text-center"> {/* Changed md:items-start md:text-left to md:items-center md:text-center */}
             <h3 className="text-lg font-bold mb-4">Contact Us</h3>
             <ul className="space-y-3">
-              <li className="flex items-start gap-3">
+              <li className="flex items-start gap-3 justify-center md:justify-center"> {/* Added justify-center for li items */}
                 <MapPin className="h-5 w-5 text-muted-foreground mt-0.5" />
                 <span>123 Faith Avenue, Cityville, ST 12345</span>
               </li>
-              <li className="flex items-start gap-3">
+              <li className="flex items-start gap-3 justify-center md:justify-center"> {/* Added justify-center for li items */}
                 <Phone className="h-5 w-5 text-muted-foreground mt-0.5" />
                 <span>(555) 123-4567</span>
               </li>
-              <li className="flex items-start gap-3">
+              <li className="flex items-start gap-3 justify-center md:justify-center"> {/* Added justify-center for li items */}
                 <Mail className="h-5 w-5 text-muted-foreground mt-0.5" />
                 <span>info@icfc.org</span>
               </li>
             </ul>
-            <div className="flex gap-4 mt-6">
+            <div className="flex gap-4 mt-6 justify-center"> {/* Added justify-center for social links */}
               <Link href="#" className="text-muted-foreground hover:text-foreground transition-colors">
                 <Facebook className="h-5 w-5" />
                 <span className="sr-only">Facebook</span>
@@ -44,7 +44,7 @@ export function Footer() {
           </div>
 
           {/* Resources */}
-          <div>
+          <div className="flex flex-col items-center text-center md:items-center md:text-center"> {/* Changed md:items-start md:text-left to md:items-center md:text-center */}
             <h3 className="text-lg font-bold mb-4">Resources</h3>
             <ul className="space-y-2">
               <li>
@@ -81,7 +81,7 @@ export function Footer() {
           </div>
 
           {/* Get Involved */}
-          <div>
+          <div className="flex flex-col items-center text-center md:items-center md:text-center"> {/* Changed md:items-start md:text-left to md:items-center md:text-center */}
             <h3 className="text-lg font-bold mb-4">Get Involved</h3>
             <ul className="space-y-2">
               <li>
@@ -118,7 +118,7 @@ export function Footer() {
           </div>
 
           {/* Quick Links */}
-          <div>
+          <div className="flex flex-col items-center text-center md:items-center md:text-center"> {/* Changed md:items-start md:text-left to md:items-center md:text-center */}
             <h3 className="text-lg font-bold mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li>
