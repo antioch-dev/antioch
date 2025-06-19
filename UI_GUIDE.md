@@ -1,0 +1,9 @@
+- [] Get the V0 Design link
+- [] Make a new branch for the new pages you are adding
+- [] Bring in the code from the design into the code base
+- [] Resolve any errors until page looks like design
+- [] Commit changes
+- [] Try to build
+- [] Resolve any build issues
+- [] Push changes
+- [] Open merge request
