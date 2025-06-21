@@ -36,7 +36,7 @@ export function Header() {
             <span className="hidden sm:inline">Sign In</span>
           </Link>
           <Link href="/register">
-              <Button className="hidden md:flex">Sign UP</Button>
+              <Button className="hidden md:flex">Sign Up</Button>
           </Link>
         </div>
       </div>
