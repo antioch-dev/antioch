@@ -31,11 +31,11 @@ export function Header() {
           </Link>
         </nav>
         <div className="flex items-center gap-4">
-          <Link href="/login" className="flex items-center gap-1 text-sm font-medium">
+          <Link href="/auth/login" className="flex items-center gap-1 text-sm font-medium">
             <User className="h-4 w-4" />
             <span className="hidden sm:inline">Sign In</span>
           </Link>
-          <Link href="/register">
+          <Link href="/auth/register">
               <Button className="hidden md:flex">Sign Up</Button>
           </Link>
         </div>

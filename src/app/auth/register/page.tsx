@@ -1,4 +1,5 @@
- "use client"
+"use client"
+
 import type React from "react"
 
 import { useState } from "react"
@@ -8,7 +9,8 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { ChevronLeft, User, Mail, Lock, Facebook, Github, Cross, MapPin, Globe, Users } from "lucide-react"
+// FIX 1: Removed 'Facebook' as it was unused.
+import { ChevronLeft, User, Mail, Lock, Github, Cross, MapPin, Globe, Users } from "lucide-react"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { BackgroundGallery } from "@/components/background-gallery"
 
@@ -89,7 +91,8 @@ export default function RegisterPage() {
             <CardDescription>Become part of the Antioch community</CardDescription>
             <div className="pt-2">
               <p className="text-xs text-gray-500 italic">
-                "For where two or three gather in my name, there am I with them."
+                {/* FIX 2: Escaped double quotes with &quot; */}
+                &quot;For where two or three gather in my name, there am I with them.&quot;
                 <span className="block mt-1">— Matthew 18:20</span>
               </p>
             </div>
@@ -258,7 +261,7 @@ export default function RegisterPage() {
           <CardFooter className="flex flex-col space-y-4">
             <div className="text-center text-sm">
               Already part of our fellowship?{" "}
-              <Link href="/login" className="text-black hover:text-gray-600 font-medium">
+              <Link href="/auth/login" className="text-black hover:text-gray-600 font-medium">
                 Sign in
               </Link>
             </div>

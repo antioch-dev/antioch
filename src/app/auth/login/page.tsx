@@ -1,4 +1,4 @@
- "use client"
+"use client"
 import type React from "react"
 
 import { useState } from "react"
@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { ChevronLeft, Mail, Lock, Facebook, Github, Cross } from "lucide-react"
+import { ChevronLeft, Mail, Lock, Github, Cross } from "lucide-react" // Removed Facebook
 import { BackgroundGallery } from "@/components/background-gallery"
 
 export default function LoginPage() {
@@ -53,7 +53,7 @@ export default function LoginPage() {
             <CardDescription>Sign in to your Antioch fellowship account</CardDescription>
             <div className="pt-2">
               <p className="text-xs text-gray-500 italic">
-                "I am the vine; you are the branches. If you remain in me and I in you, you will bear much fruit."
+                &quot;I am the vine; you are the branches. If you remain in me and I in you, you will bear much fruit.&quot;
                 <span className="block mt-1">— John 15:5</span>
               </p>
             </div>
@@ -76,7 +76,7 @@ export default function LoginPage() {
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <Label htmlFor="password">Password</Label>
-                  <Link href="/forgot-password" className="text-black hover:text-gray-600 text-sm">
+                  <Link href="/auth/forgot-password" className="text-black hover:text-gray-600 text-sm">
                     Forgot password?
                   </Link>
                 </div>
@@ -121,7 +121,7 @@ export default function LoginPage() {
           <CardFooter className="flex flex-col space-y-4">
             <div className="text-center text-sm">
               Not yet part of our fellowship?{" "}
-              <Link href="/register" className="text-black hover:text-gray-600 font-medium">
+              <Link href="/auth/register" className="text-black hover:text-gray-600 font-medium">
                 Join us
               </Link>
             </div>

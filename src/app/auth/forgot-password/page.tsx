@@ -54,12 +54,13 @@ export default function ForgotPasswordPage() {
             <CardTitle className="text-2xl font-bold text-black">Forgot your password?</CardTitle>
             <CardDescription>
               {!isSubmitted
-                ? "Enter your email and we'll send you a reset link"
+                ? "Enter your email and we&apos;ll send you a reset link" // FIX 2: Escaped ' in "we'll"
                 : "Check your email for a password reset link"}
             </CardDescription>
             <div className="pt-2">
               <p className="text-xs text-gray-500 italic">
-                "Ask and it will be given to you; seek and you will find; knock and the door will be opened to you."
+                {/* FIX 1: Escaped double quotes with &quot; */}
+                &quot;Ask and it will be given to you; seek and you will find; knock and the door will be opened to you.&quot;
                 <span className="block mt-1">— Matthew 7:7</span>
               </p>
             </div>
@@ -90,11 +91,11 @@ export default function ForgotPasswordPage() {
                   <CheckCircle className="h-16 w-16 text-green-500" />
                 </div>
                 <p className="text-gray-600">
-                  We've sent a password reset link to your email address. Please check your inbox and follow the
+                  We&apos;ve sent a password reset link to your email address. Please check your inbox and follow the {/* FIX 3: Escaped ' in "We've" */}
                   instructions.
                 </p>
                 <p className="text-sm text-gray-500">
-                  If you don't see the email, check your spam folder or try again.
+                  If you don&apos;t see the email, check your spam folder or try again. {/* FIX 4: Escaped ' in "don't" */}
                 </p>
                 <Button onClick={() => setIsSubmitted(false)} className="mt-4 bg-black hover:bg-gray-800 text-white">
                   Try Again
