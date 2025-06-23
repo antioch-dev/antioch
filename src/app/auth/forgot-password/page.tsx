@@ -59,7 +59,6 @@ export default function ForgotPasswordPage() {
             </CardDescription>
             <div className="pt-2">
               <p className="text-xs text-gray-500 italic">
-                {/* FIX 1: Escaped double quotes with &quot; */}
                 &quot;Ask and it will be given to you; seek and you will find; knock and the door will be opened to you.&quot;
                 <span className="block mt-1">— Matthew 7:7</span>
               </p>
