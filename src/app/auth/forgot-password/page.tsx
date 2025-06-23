@@ -91,11 +91,10 @@ export default function ForgotPasswordPage() {
                   <CheckCircle className="h-16 w-16 text-green-500" />
                 </div>
                 <p className="text-gray-600">
-                  We&apos;ve sent a password reset link to your email address. Please check your inbox and follow the {/* FIX 3: Escaped ' in "We've" */}
-                  instructions.
+                  We&apos;ve sent a password reset link to your email address. Please check your inbox and follow the instructions.
                 </p>
                 <p className="text-sm text-gray-500">
-                  If you don&apos;t see the email, check your spam folder or try again. {/* FIX 4: Escaped ' in "don't" */}
+                  If you don&apos;t see the email, check your spam folder or try again.
                 </p>
                 <Button onClick={() => setIsSubmitted(false)} className="mt-4 bg-black hover:bg-gray-800 text-white">
                   Try Again
