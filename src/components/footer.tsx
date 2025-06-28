@@ -60,7 +60,7 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link href="Bible_system" className="text-muted-foreground hover:text-foreground transition-colors">
                   Bible Study Materials
                 </Link>
               </li>

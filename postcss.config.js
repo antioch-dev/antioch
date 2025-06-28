@@ -1,5 +1,13 @@
-export default {
+
+export default { 
   plugins: {
-    '@tailwindcss/postcss': {},
+    'postcss-preset-env': {
+      features: {
+        'custom-selectors': true,
+        'custom-properties': true,
+        'nesting': true
+      }
+    },
+    '@tailwindcss/postcss': {}, 
   },
-}
+};
