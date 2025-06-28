@@ -15,10 +15,11 @@ import { Badge } from "@/components/ui/badge"
 import { Trash2, GripVertical, Eye, Save, Upload, X, ImageIcon } from "lucide-react"
 
 import type { FormField, Form } from "../../../types"
-import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd"
+import { DragDropContext, Droppable, Draggable, type OnDragEndResponder, type DropResult } from "@hello-pangea/dnd"
 import { Share } from "lucide-react"
 import { toast } from "sonner"
 import { ShareFormDialog } from "../../components/share-form-dialog"
+import { useParams } from "next/navigation"
 
 const fieldTypes = [
   { value: "text", label: "Text" },
@@ -32,7 +33,8 @@ const fieldTypes = [
   { value: "file", label: "File Upload" },
 ]
 
-export default function FormBuilder({ params }: { params: { id: string } }) {
+export default function FormBuilder() {
+  const params = useParams<{id: string}>()
   const [form, setForm] = useState<Form>({
     id: params.id === "new" ? "" : params.id,
     title: "Untitled Form",
@@ -83,7 +85,7 @@ export default function FormBuilder({ params }: { params: { id: string } }) {
       fields: prev.fields.filter((field) => field.id !== fieldId),
     }))
   }
-  const onDragEnd = (result: any) => {
+  const onDragEnd = (result: DropResult<string>) => {
   if (!result.destination) return
 
   const items = Array.from(form.fields)

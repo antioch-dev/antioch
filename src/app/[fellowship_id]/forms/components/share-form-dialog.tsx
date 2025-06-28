@@ -19,7 +19,7 @@ import { Badge } from "@/components/ui/badge"
 import { Switch } from "@/components/ui/switch"
 import { Copy, Mail, QrCode, Users } from "lucide-react"
 import { toast } from "sonner"
-import type { Form } from "../../types"
+import type { Form } from "../types"
 
 interface ShareFormDialogProps {
   form: Form
@@ -31,9 +31,13 @@ export function ShareFormDialog({ form, children }: ShareFormDialogProps) {
   const formUrl = `${typeof window !== "undefined" ? window.location.origin : ""}/forms/fill/${form.id}`
   const embedCode = `<iframe src="${formUrl}" width="100%" height="600" frameborder="0"></iframe>`
 
-  const copyToClipboard = (text: string, message: string) => {
-    navigator.clipboard.writeText(text)
-    toast.success(message)
+  const copyToClipboard = async (text: string, message: string) => {
+    navigator.clipboard.writeText(text).then(() => {
+      toast.success(message)
+    }).catch((err) => {
+      console.error("Failed to copy text: ", err)
+      toast.error("Failed to copy text")
+    })
   }
 
   const shareViaEmail = () => {
@@ -50,7 +54,7 @@ ${form.description}`)
       <DialogContent className="max-w-2xl">
         <DialogHeader>
           <DialogTitle>Share Form</DialogTitle>
-          <DialogDescription>Share "{form.title}" with others to collect responses</DialogDescription>
+          <DialogDescription>{`Share "${form.title}" with others to collect responses`}</DialogDescription>
         </DialogHeader>
 
         <Tabs defaultValue="link" className="w-full">

@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { MoreHorizontal, Plus, Eye, Edit, Trash2, Share, BarChart3, Users, FileText } from "lucide-react"
 import Link from "next/link"
-import type { Form } from "../../types"
+import type { Form } from "../types"
 
 // Mock data - in a real app, this would come from an API
 const mockForms: Form[] = [

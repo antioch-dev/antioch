@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Search, FileText } from "lucide-react"
 import Link from "next/link"
-import type { Form } from "../../types"
+import type { Form } from "../types"
 
 // Mock public forms data
 const mockPublicForms: Form[] = [

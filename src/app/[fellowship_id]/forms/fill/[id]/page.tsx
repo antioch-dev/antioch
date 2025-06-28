@@ -11,7 +11,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
 import { Checkbox } from "@/components/ui/checkbox"
-import type { Form, FormField } from "../../../types"
+import type { Form, FormField } from "../../types"
 import { CheckCircle } from "lucide-react"
 
 // Mock form data
@@ -65,9 +65,9 @@ const mockForm: Form = {
   responses: [],
 }
 
-export default function FormFiller({ params }: { params: { id: string } }) {
+export default function FormFiller() {
   const [form] = useState<Form>(mockForm)
-  const [responses, setResponses] = useState<Record<string, any>>({})
+  const [responses, setResponses] = useState<Record<string, string>>({})
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)

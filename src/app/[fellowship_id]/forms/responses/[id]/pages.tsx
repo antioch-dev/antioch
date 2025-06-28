@@ -52,7 +52,7 @@ const mockResponses: FormResponse[] = Array(45)
     submittedBy: i % 3 === 0 ? `user${i}@example.com` : undefined,
   }))
 
-export default function FormResponses({ params }: { params: { id: string } }) {
+export default function FormResponses() {
   const [responses] = useState<FormResponse[]>(mockResponses)
   const [formFields] = useState<FormField[]>(mockFormFields)
   const [activeTab, setActiveTab] = useState("table")

@@ -2,7 +2,7 @@
 
 import { Home, FileText, List, Plus } from "lucide-react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { useParams, usePathname } from "next/navigation"
 import {
   Sidebar,
   SidebarContent,
@@ -36,6 +36,8 @@ const menuItems = [
 
 export function FormsSidebar() {
   const pathname = usePathname()
+  const params = useParams()
+  const fellowshipId = params.fellowship_id ?? "fellowship"
 
   return (
     <Sidebar>
@@ -58,7 +60,7 @@ export function FormsSidebar() {
               {menuItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild isActive={pathname === item.url}>
-                    <Link href={item.url}>
+                    <Link href={`/${fellowshipId}/`+item.url}>
                       <item.icon className="w-4 h-4" />
                       <span>{item.title}</span>
                     </Link>
@@ -67,6 +69,7 @@ export function FormsSidebar() {
               ))}
             </SidebarMenu>
           </SidebarGroupContent>
+          <div>{JSON.stringify(params)}</div>
         </SidebarGroup>
       </SidebarContent>
     </Sidebar>
