@@ -30,9 +30,8 @@ export function Footer() {
                 <span>info@icfc.org</span>
               </li>
             </ul>
+            {/* Social links */}
             <div className="flex gap-4 mt-6 justify-center">
-              {' '}
-              {/* Social links */}
               <Link href="#" className="text-muted-foreground hover:text-foreground transition-colors">
                 <Facebook className="h-5 w-5" />
                 <span className="sr-only">Facebook</span>
