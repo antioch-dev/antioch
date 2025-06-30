@@ -132,7 +132,7 @@ export default function PublicFormsList() {
                   </CardTitle>
                   <CardDescription>{form.description}</CardDescription>
                 </div>
-                <Link href={`/forms/fill/${form.id}`}>
+                <Link href={`/${fellowship_id}/forms/fill/${form.id}`}>
                   <Button disabled={!form.settings.isOpen}>Fill Form</Button>
                 </Link>
               </div>
