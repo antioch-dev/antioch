@@ -1,4 +1,4 @@
-import { Facebook, Instagram, Twitter, Youtube, Mail, Phone, MapPin, Heart, Calendar, User } from 'lucide-react'
+import { Facebook, Instagram, Twitter, Youtube, Mail, Phone, MapPin } from 'lucide-react'
 import Link from 'next/link'
 
 export function Footer() {
@@ -30,7 +30,9 @@ export function Footer() {
                 <span>info@icfc.org</span>
               </li>
             </ul>
-            <div className="flex gap-4 mt-6 justify-center"> {/* Social links */}
+            <div className="flex gap-4 mt-6 justify-center">
+              {' '}
+              {/* Social links */}
               <Link href="#" className="text-muted-foreground hover:text-foreground transition-colors">
                 <Facebook className="h-5 w-5" />
                 <span className="sr-only">Facebook</span>
