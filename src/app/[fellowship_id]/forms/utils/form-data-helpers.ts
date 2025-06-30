@@ -390,7 +390,9 @@ export function getDisplayValue(
     case 'textarea':
       return responses.textFields[field.id] || ''
     case 'number':
-      return responses.numberFields[field.id] || ''
+      return responses.numberFields[field.id] !== undefined && responses.numberFields[field.id] !== null
+        ? responses.numberFields[field.id]
+        : ''
     case 'date':
       // Return date in YYYY-MM-DD format for input[type="date"]
       const date = responses.dateFields[field.id]
