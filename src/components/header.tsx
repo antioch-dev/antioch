@@ -1,14 +1,13 @@
-
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { User } from 'lucide-react'
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 flex justify-center items-center">
       <div className="container flex h-16 items-center justify-between">
         <Link href="/" className="flex items-center space-x-2">
-          <span className="text-xl font-bold">International Chrisitian Festivals </span>
+          <span className="text-xl font-bold">Antioch Fellowships</span>
         </Link>
         <nav className="hidden md:flex gap-6">
           <Link href="#about" className="text-sm font-medium transition-colors hover:text-primary">
@@ -29,6 +28,9 @@ export function Header() {
           <Link href="#contact" className="text-sm font-medium transition-colors hover:text-primary">
             Contact
           </Link>
+          <Link href="/fellowship1/forms" className="text-sm font-medium transition-colors hover:text-primary">
+            Forms
+          </Link>
         </nav>
         <div className="flex items-center gap-4">
           <Link href="/auth/login" className="flex items-center gap-1 text-sm font-medium">
@@ -36,7 +38,7 @@ export function Header() {
             <span className="hidden sm:inline">Sign In</span>
           </Link>
           <Link href="/auth/register">
-              <Button className="hidden md:flex">Sign Up</Button>
+            <Button className="hidden md:flex">Sign Up</Button>
           </Link>
         </div>
       </div>
