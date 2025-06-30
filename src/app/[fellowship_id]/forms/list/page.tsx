@@ -1,78 +1,99 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Input } from "@/components/ui/input"
-import { Search, FileText } from "lucide-react"
-import Link from "next/link"
-import type { Form } from "../types"
+import { useState } from 'react'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Input } from '@/components/ui/input'
+import { Search, FileText } from 'lucide-react'
+import Link from 'next/link'
+import type { Form } from '../types'
 
 // Mock public forms data
 const mockPublicForms: Form[] = [
   {
-    id: "1",
-    title: "Customer Feedback Survey",
-    description: "Help us improve our services by sharing your feedback",
+    id: '1',
+    title: 'Customer Feedback Survey',
+    description: 'Help us improve our services by sharing your feedback',
     fields: [],
     settings: {
       isPublic: true,
       isOpen: true,
       requireLogin: false,
-      successMessage: "Thank you!",
+      successMessage: 'Thank you!',
     },
-    createdAt: new Date("2024-01-15"),
-    updatedAt: new Date("2024-01-20"),
-    createdBy: "user1",
+    createdAt: new Date('2024-01-15'),
+    updatedAt: new Date('2024-01-20'),
+    createdBy: 'user1',
     coAdmins: [],
     responses: Array(45)
       .fill(null)
-      .map((_, i) => ({ id: `${i}`, formId: "1", responses: {}, submittedAt: new Date() })),
+      .map((_, i) => ({
+        id: `${i}`,
+        formId: '1',
+        responses: [{ fieldId: '1', fieldName: 'Feedback', fieldType: 'text', value: 'Great service!' }],
+        submittedAt: new Date(),
+      })),
   },
   {
-    id: "3",
-    title: "Community Event Registration",
-    description: "Register for our upcoming community events and workshops",
+    id: '3',
+    title: 'Community Event Registration',
+    description: 'Register for our upcoming community events and workshops',
     fields: [],
     settings: {
       isPublic: true,
       isOpen: true,
       requireLogin: false,
-      successMessage: "Registration successful!",
+      successMessage: 'Registration successful!',
     },
-    createdAt: new Date("2024-01-12"),
-    updatedAt: new Date("2024-01-19"),
-    createdBy: "user2",
+    createdAt: new Date('2024-01-12'),
+    updatedAt: new Date('2024-01-19'),
+    createdBy: 'user2',
     coAdmins: [],
     responses: Array(78)
       .fill(null)
-      .map((_, i) => ({ id: `${i}`, formId: "3", responses: {}, submittedAt: new Date() })),
+      .map((_, i) => ({
+        id: `${i}`,
+        formId: '3',
+        responses: [
+          { fieldId: '1', fieldName: 'Event Name', fieldType: 'text', value: `Event ${i + 1}` },
+          { fieldId: '2', fieldName: 'Participant Name', fieldType: 'text', value: `Participant ${i + 1}` },
+        ],
+        submittedAt: new Date(),
+      })),
   },
   {
-    id: "4",
-    title: "Product Feature Request",
-    description: "Suggest new features for our products",
+    id: '4',
+    title: 'Product Feature Request',
+    description: 'Suggest new features for our products',
     fields: [],
     settings: {
       isPublic: true,
       isOpen: true,
       requireLogin: false,
-      successMessage: "Thank you for your suggestion!",
+      successMessage: 'Thank you for your suggestion!',
     },
-    createdAt: new Date("2024-01-10"),
-    updatedAt: new Date("2024-01-18"),
-    createdBy: "user3",
+    createdAt: new Date('2024-01-10'),
+    updatedAt: new Date('2024-01-18'),
+    createdBy: 'user3',
     coAdmins: [],
     responses: Array(23)
       .fill(null)
-      .map((_, i) => ({ id: `${i}`, formId: "4", responses: {}, submittedAt: new Date() })),
+      .map((_, i) => ({
+        id: `${i}`,
+        formId: '4',
+        responses: [
+          { fieldId: '1', fieldName: 'Feature Suggestion', fieldType: 'text', value: `Feature ${i + 1}` },
+          { fieldId: '2', fieldName: 'Description', fieldType: 'textarea', value: `Description for feature ${i + 1}` },
+        ],
+        submittedAt: new Date(),
+      })),
   },
 ]
 
 export default function PublicFormsList() {
   const [forms] = useState<Form[]>(mockPublicForms)
-  const [searchTerm, setSearchTerm] = useState("")
+  const [searchTerm, setSearchTerm] = useState('')
 
   const filteredForms = forms.filter(
     (form) =>
@@ -105,8 +126,8 @@ export default function PublicFormsList() {
                 <div className="space-y-2">
                   <CardTitle className="flex items-center gap-2">
                     {form.title}
-                    <Badge variant={form.settings.isOpen ? "default" : "secondary"}>
-                      {form.settings.isOpen ? "Open" : "Closed"}
+                    <Badge variant={form.settings.isOpen ? 'default' : 'secondary'}>
+                      {form.settings.isOpen ? 'Open' : 'Closed'}
                     </Badge>
                   </CardTitle>
                   <CardDescription>{form.description}</CardDescription>
@@ -134,7 +155,7 @@ export default function PublicFormsList() {
             <FileText className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
             <h3 className="text-lg font-semibold mb-2">No forms found</h3>
             <p className="text-muted-foreground">
-              {searchTerm ? "Try adjusting your search terms" : "No public forms are available at the moment"}
+              {searchTerm ? 'Try adjusting your search terms' : 'No public forms are available at the moment'}
             </p>
           </CardContent>
         </Card>

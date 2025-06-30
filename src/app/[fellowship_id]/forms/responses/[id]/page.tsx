@@ -1,18 +1,18 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { useState } from 'react'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
   DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu"
+} from '@/components/ui/dropdown-menu'
 import {
   Download,
   BarChart3,
@@ -25,29 +25,83 @@ import {
   FileSpreadsheet,
   FileText,
   Code,
-} from "lucide-react"
-import type { FormResponse, FormField } from "../../types"
+} from 'lucide-react'
+import type { FormResponse, FormField, FormResponseData } from '../../types'
+import { formatFieldValueForDisplay } from '../../utils/form-data-helpers'
 
 // Mock form fields for table headers
 const mockFormFields: FormField[] = [
-  { id: "1", type: "text", title: "What would you like to purchase?", required: true },
-  { id: "2", type: "textarea", title: "Any special instructions or requirements?", required: true },
-  { id: "3", type: "date", title: "What is your preferred delivery date?", required: true },
-  { id: "4", type: "file", title: "Do you have any relevant examples?", required: false },
+  { id: '1', type: 'text', title: 'What would you like to purchase?', required: true },
+  { id: '2', type: 'textarea', title: 'Any special instructions or requirements?', required: true },
+  { id: '3', type: 'date', title: 'What is your preferred delivery date?', required: true },
+  {
+    id: '4',
+    type: 'select',
+    title: 'Preferred delivery time',
+    required: true,
+    options: ['Morning (9-12)', 'Afternoon (12-17)', 'Evening (17-20)'],
+  },
+  {
+    id: '5',
+    type: 'multiselect',
+    title: 'Additional services',
+    required: false,
+    options: ['Gift wrapping', 'Express delivery', 'Installation', 'Extended warranty'],
+  },
+  { id: '6', type: 'boolean', title: 'Would you like to receive updates about your order?', required: false },
+  { id: '7', type: 'file', title: 'Do you have any relevant examples?', required: false },
 ]
 
-// Mock responses data
+// Mock responses data with new structured format
 const mockResponses: FormResponse[] = Array(45)
   .fill(null)
   .map((_, i) => ({
     id: `response-${i}`,
-    formId: "1",
-    responses: {
-      "1": `Product ${i + 1} - ${["Laptop", "Phone", "Tablet", "Monitor", "Keyboard"][i % 5]}`,
-      "2": `Special instructions for order ${i + 1}. ${i % 3 === 0 ? "Please handle with care." : i % 2 === 0 ? "Rush delivery needed." : "Standard delivery is fine."}`,
-      "3": new Date(2024, 0, 15 + (i % 10)).toISOString().split("T")[0],
-      "4": i % 4 === 0 ? "document.pdf" : null,
-    },
+    formId: '1',
+    responses: [
+      {
+        fieldId: '1',
+        fieldName: 'What would you like to purchase?',
+        fieldType: 'text',
+        value: `Product ${i + 1} - ${['Laptop', 'Phone', 'Tablet', 'Monitor', 'Keyboard'][i % 5]}`,
+      },
+      {
+        fieldId: '2',
+        fieldName: 'Any special instructions or requirements?',
+        fieldType: 'textarea',
+        value: `Special instructions for order ${i + 1}. ${i % 3 === 0 ? 'Please handle with care.' : i % 2 === 0 ? 'Rush delivery needed.' : 'Standard delivery is fine.'}`,
+      },
+      {
+        fieldId: '3',
+        fieldName: 'What is your preferred delivery date?',
+        fieldType: 'date',
+        value: new Date(2024, 0, 15 + (i % 10)).toISOString(),
+      },
+      {
+        fieldId: '4',
+        fieldName: 'Preferred delivery time',
+        fieldType: 'select',
+        value: ['Morning (9-12)', 'Afternoon (12-17)', 'Evening (17-20)'][i % 3],
+      },
+      {
+        fieldId: '5',
+        fieldName: 'Additional services',
+        fieldType: 'multiselect',
+        value: JSON.stringify(i % 2 === 0 ? ['Gift wrapping', 'Express delivery'] : ['Installation']),
+      },
+      {
+        fieldId: '6',
+        fieldName: 'Would you like to receive updates about your order?',
+        fieldType: 'boolean',
+        value: (i % 2 === 0).toString(),
+      },
+      {
+        fieldId: '7',
+        fieldName: 'Do you have any relevant examples?',
+        fieldType: 'file',
+        value: i % 4 === 0 ? JSON.stringify({ name: 'document.pdf', size: 1234, type: 'application/pdf' }) : 'null',
+      },
+    ] as FormResponseData[],
     submittedAt: new Date(2024, 0, 15 + (i % 30)),
     submittedBy: i % 3 === 0 ? `user${i}@example.com` : undefined,
   }))
@@ -55,64 +109,45 @@ const mockResponses: FormResponse[] = Array(45)
 export default function FormResponses() {
   const [responses] = useState<FormResponse[]>(mockResponses)
   const [formFields] = useState<FormField[]>(mockFormFields)
-  const [activeTab, setActiveTab] = useState("table")
-  const [viewMode, setViewMode] = useState<"table" | "cards">("table")
-
+  const [activeTab, setActiveTab] = useState('table')
+  const [viewMode, setViewMode] = useState<'table' | 'cards'>('table')
   const totalResponses = responses.length
-  const responseRate = "85%" // Mock data
-  const avgCompletionTime = "3.2 minutes" // Mock data
+  const responseRate = '85%' // Mock data
+  const avgCompletionTime = '3.2 minutes' // Mock data
 
-  const truncateText = (text: string, maxLength = 50) => {
-    if (!text) return "-"
-    return text.length > maxLength ? `${text.substring(0, maxLength)}...` : text
+  const getFieldResponseData = (response: FormResponse, fieldId: string): FormResponseData | undefined => {
+    return response.responses.find((r) => r.fieldId === fieldId)
   }
-
-  const formatCellValue = (value: any, fieldType: string) => {
-    if (!value) return "-"
-
-    switch (fieldType) {
-      case "date":
-        return new Date(value).toLocaleDateString()
-      case "file":
-        return value ? "📎 " + value : "-"
-      case "boolean":
-        return value ? "Yes" : "No"
-      case "textarea":
-        return truncateText(value, 100)
-      default:
-        return truncateText(value)
-    }
-  }
-
   const exportToCSV = () => {
-    const headers = ["Response #", "Submitted Date", "Submitted By", ...formFields.map((f) => f.title)]
+    const headers = ['Response #', 'Submitted Date', 'Submitted By', ...formFields.map((f) => f.title)]
     const csvContent = [
-      headers.join(","),
+      headers.join(','),
       ...responses.map((response, index) =>
         [
           `#${index + 1}`,
           response.submittedAt.toLocaleDateString(),
-          response.submittedBy || "Anonymous",
+          response.submittedBy || 'Anonymous',
           ...formFields.map((field) => {
-            const value = response.responses[field.id]
-            return `"${formatCellValue(value, field.type).replace(/"/g, '""')}"`
+            const responseData = getFieldResponseData(response, field.id)
+            const displayValue = responseData ? formatFieldValueForDisplay(responseData) : '-'
+            return `"${displayValue.replace(/"/g, '""')}"`
           }),
-        ].join(","),
+        ].join(','),
       ),
-    ].join("\n")
+    ].join('\n')
 
-    const blob = new Blob([csvContent], { type: "text/csv" })
+    const blob = new Blob([csvContent], { type: 'text/csv' })
     const url = window.URL.createObjectURL(blob)
-    const a = document.createElement("a")
+    const a = document.createElement('a')
     a.href = url
-    a.download = `form-responses-${new Date().toISOString().split("T")[0]}.csv`
+    a.download = `form-responses-${new Date().toISOString().split('T')[0]}.csv`
     a.click()
     window.URL.revokeObjectURL(url)
   }
 
   const exportToJSON = () => {
     const exportData = {
-      formTitle: "Customer Feedback Survey",
+      formTitle: 'Customer Feedback Survey',
       exportDate: new Date().toISOString(),
       totalResponses: responses.length,
       fields: formFields,
@@ -124,11 +159,11 @@ export default function FormResponses() {
       })),
     }
 
-    const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: "application/json" })
+    const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' })
     const url = window.URL.createObjectURL(blob)
-    const a = document.createElement("a")
+    const a = document.createElement('a')
     a.href = url
-    a.download = `form-responses-${new Date().toISOString().split("T")[0]}.json`
+    a.download = `form-responses-${new Date().toISOString().split('T')[0]}.json`
     a.click()
     window.URL.revokeObjectURL(url)
   }
@@ -148,17 +183,17 @@ export default function FormResponses() {
         <div className="flex gap-2">
           <div className="flex border rounded-lg">
             <Button
-              variant={viewMode === "table" ? "default" : "ghost"}
+              variant={viewMode === 'table' ? 'default' : 'ghost'}
               size="sm"
-              onClick={() => setViewMode("table")}
+              onClick={() => setViewMode('table')}
               className="rounded-r-none"
             >
               <List className="w-4 h-4" />
             </Button>
             <Button
-              variant={viewMode === "cards" ? "default" : "ghost"}
+              variant={viewMode === 'cards' ? 'default' : 'ghost'}
               size="sm"
-              onClick={() => setViewMode("cards")}
+              onClick={() => setViewMode('cards')}
               className="rounded-l-none"
             >
               <Grid className="w-4 h-4" />
@@ -236,7 +271,7 @@ export default function FormResponses() {
         </TabsList>
 
         <TabsContent value="table" className="space-y-4">
-          {viewMode === "table" ? (
+          {viewMode === 'table' ? (
             <Card>
               <CardHeader>
                 <CardTitle>All Responses</CardTitle>
@@ -278,14 +313,18 @@ export default function FormResponses() {
                             ) : (
                               <span className="text-muted-foreground text-sm">Anonymous</span>
                             )}
-                          </TableCell>
-                          {formFields.map((field) => (
-                            <TableCell key={field.id} className="max-w-xs">
-                              <div className="truncate" title={response.responses[field.id]}>
-                                {formatCellValue(response.responses[field.id], field.type)}
-                              </div>
-                            </TableCell>
-                          ))}
+                          </TableCell>{' '}
+                          {formFields.map((field) => {
+                            const responseData = getFieldResponseData(response, field.id)
+                            const displayValue = responseData ? formatFieldValueForDisplay(responseData) : '-'
+                            return (
+                              <TableCell key={field.id} className="max-w-xs">
+                                <div className="truncate" title={displayValue}>
+                                  {displayValue}
+                                </div>
+                              </TableCell>
+                            )
+                          })}
                           <TableCell>
                             <DropdownMenu>
                               <DropdownMenuTrigger asChild>
@@ -325,14 +364,18 @@ export default function FormResponses() {
                         {response.submittedBy && <Badge variant="secondary">{response.submittedBy}</Badge>}
                       </div>
                     </div>
-                  </CardHeader>
+                  </CardHeader>{' '}
                   <CardContent className="space-y-4">
-                    {formFields.map((field) => (
-                      <div key={field.id} className="border-l-2 border-muted pl-4">
-                        <p className="font-medium text-sm text-muted-foreground mb-1">{field.title}</p>
-                        <p className="text-sm">{formatCellValue(response.responses[field.id], field.type)}</p>
-                      </div>
-                    ))}
+                    {formFields.map((field) => {
+                      const responseData = getFieldResponseData(response, field.id)
+                      const displayValue = responseData ? formatFieldValueForDisplay(responseData) : '-'
+                      return (
+                        <div key={field.id} className="border-l-2 border-muted pl-4">
+                          <p className="font-medium text-sm text-muted-foreground mb-1">{field.title}</p>
+                          <p className="text-sm">{displayValue}</p>
+                        </div>
+                      )
+                    })}
                   </CardContent>
                 </Card>
               ))}
@@ -361,7 +404,7 @@ export default function FormResponses() {
                       <div key={field.id} className="p-4 border rounded-lg">
                         <h4 className="font-medium">{field.title}</h4>
                         <p className="text-sm text-muted-foreground">
-                          {responses.length} responses, completion rate: {field.required ? "100%" : "85%"}
+                          {responses.length} responses, completion rate: {field.required ? '100%' : '85%'}
                         </p>
                       </div>
                     ))}

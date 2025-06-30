@@ -1,6 +1,6 @@
 export interface FormField {
   id: string
-  type: "text" | "number" | "select" | "multiselect" | "file" | "boolean" | "email" | "textarea" | "date"
+  type: 'text' | 'number' | 'select' | 'multiselect' | 'file' | 'boolean' | 'email' | 'textarea' | 'date'
   title: string
   description?: string
   required: boolean
@@ -33,12 +33,49 @@ export interface Form {
   responses: FormResponse[]
 }
 
+// Typed response value based on field type
+export type FormFieldValue =
+  | { type: 'text' | 'email' | 'textarea'; value: string }
+  | { type: 'number'; value: number }
+  | { type: 'date'; value: Date }
+  | { type: 'boolean'; value: boolean }
+  | { type: 'select'; value: string }
+  | { type: 'multiselect'; value: string[] }
+  | { type: 'file'; value: FileData | null }
+
+export interface FileData {
+  name: string
+  size: number
+  type: string
+  url?: string // For storing file URL after upload
+  data?: string // Base64 data for client-side handling
+}
+
+// Structured response data for backend storage
+export interface FormResponseData {
+  fieldId: string
+  fieldName: string
+  fieldType: FormField['type']
+  value: string // JSON stringified value
+}
+
 export interface FormResponse {
   id: string
   formId: string
-  responses: Record<string, any>
+  responses: FormResponseData[]
   submittedAt: Date
   submittedBy?: string
+}
+
+// Client-side structured response state
+export interface TypedFormResponses {
+  textFields: Record<string, string>
+  numberFields: Record<string, number>
+  dateFields: Record<string, Date>
+  booleanFields: Record<string, boolean>
+  selectFields: Record<string, string>
+  multiselectFields: Record<string, string[]>
+  fileFields: Record<string, FileData | null>
 }
 
 export interface User {

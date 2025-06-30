@@ -32,7 +32,14 @@ const mockForms: Form[] = [
       .map((_, i) => ({
         id: `resp-${i}`,
         formId: '1',
-        responses: {},
+        responses: [
+          {
+            fieldId: '1',
+            fieldName: 'Customer Name',
+            fieldType: 'text',
+            value: `Customer ${i + 1}`,
+          },
+        ],
         submittedAt: new Date(),
       })),
   },
@@ -51,12 +58,19 @@ const mockForms: Form[] = [
     updatedAt: new Date('2024-01-18'),
     createdBy: 'user1',
     coAdmins: ['user2'],
-    responses: Array(23)
+    responses: Array(45)
       .fill(null)
       .map((_, i) => ({
         id: `resp-${i}`,
-        formId: '2',
-        responses: {},
+        formId: '1',
+        responses: [
+          {
+            fieldId: '1',
+            fieldName: 'Customer Name',
+            fieldType: 'text',
+            value: `Customer ${i + 1}`,
+          },
+        ],
         submittedAt: new Date(),
       })),
   },
