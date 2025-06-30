@@ -24,7 +24,7 @@ const menuItems = [
   },
   {
     title: 'My Forms',
-    url: '/forms/dashboard',
+    url: '/forms/manage',
     icon: FileText,
   },
   {
@@ -49,7 +49,7 @@ export function FormsSidebar() {
       }}
     >
       <SidebarHeader className="p-4">
-        <Link href="/forms">
+        <Link href={`/${fellowshipId}/forms`}>
           <h2 className="text-xl font-bold">Form Builder</h2>
         </Link>
         <Link href={`/${fellowshipId}/forms/builder/new`}>
@@ -67,7 +67,7 @@ export function FormsSidebar() {
               {menuItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild isActive={pathname === item.url}>
-                    <Link href={`/${fellowshipId}/` + item.url}>
+                    <Link href={`/${fellowshipId}` + item.url}>
                       <item.icon className="w-4 h-4" />
                       <span>{item.title}</span>
                     </Link>

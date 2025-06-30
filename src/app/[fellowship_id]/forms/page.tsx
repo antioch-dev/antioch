@@ -29,7 +29,7 @@ export default function FormsPage() {
             Create New Form
           </Button>
         </Link>
-        <Link href={`/${fellowship_id}/forms/dashboard`}>
+        <Link href={`/${fellowship_id}/forms/manage`}>
           <Button variant="outline" size="lg">
             <FileText className="w-5 h-5 mr-2" />
             View My Forms

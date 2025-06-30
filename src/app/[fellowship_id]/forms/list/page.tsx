@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input'
 import { Search, FileText } from 'lucide-react'
 import Link from 'next/link'
 import type { Form } from '../types'
+import { useParams } from 'next/navigation'
 
 // Mock public forms data
 const mockPublicForms: Form[] = [
@@ -94,6 +95,8 @@ const mockPublicForms: Form[] = [
 export default function PublicFormsList() {
   const [forms] = useState<Form[]>(mockPublicForms)
   const [searchTerm, setSearchTerm] = useState('')
+  const params = useParams<{ fellowship_id?: string }>()
+  const fellowship_id = params.fellowship_id ?? 'fellowship'
 
   const filteredForms = forms.filter(
     (form) =>

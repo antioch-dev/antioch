@@ -1,16 +1,15 @@
-
-const config = { 
+const config = {
   plugins: {
     'postcss-preset-env': {
       features: {
         'custom-selectors': true,
         'custom-properties': true,
         'nesting-rules': true, // Use 'nesting-rules' instead of 'nesting'
-        'is-pseudo-class': false // Disable problematic :is() transformation
-      }
+        'is-pseudo-class': false, // Disable problematic :is() transformation
+      },
     },
-    '@tailwindcss/postcss': {}, 
+    '@tailwindcss/postcss': {},
   },
-};
+}
 
-export default config;
+export default config
