@@ -19,6 +19,7 @@ export default tseslint.config(
     ],
     rules: {
       '@typescript-eslint/array-type': 'off',
+      '@typescript-eslint/prefer-nullish-coalescing': 'off',
       '@typescript-eslint/consistent-type-definitions': 'off',
       '@typescript-eslint/consistent-type-imports': [
         'warn',
@@ -27,6 +28,7 @@ export default tseslint.config(
       '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
       '@typescript-eslint/require-await': 'off',
       '@typescript-eslint/no-misused-promises': ['error', { checksVoidReturn: { attributes: false } }],
+      '@next/next/no-img-element': 'off',
     },
   },
   {

@@ -1,14 +1,14 @@
-import Image from 'next/image';
-import { Facebook, Instagram, Twitter, Youtube, Mail, Phone, MapPin, Heart, Calendar, User } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import TestimonialCarousel from '@/components/testimonial-carousel';
-import AnnouncementCarousel from '@/components/announcement-carousel';
+import Image from 'next/image'
+import { Heart, Calendar } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
+import TestimonialCarousel from '@/components/testimonial-carousel'
+import AnnouncementCarousel from '@/components/announcement-carousel'
 
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col items-center">
-      <main className="flex-1 w-full"> 
+      <main className="flex-1 w-full">
         {/* Hero Section */}
         <section className="relative h-[80vh] flex items-center justify-center overflow-hidden">
           <Image
@@ -18,7 +18,7 @@ export default function Home() {
             className="object-cover brightness-50"
             priority
           />
-        
+
           <div className="container relative z-10 text-center text-white mx-auto">
             <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl mb-6">
               International Christian Festivals in China
@@ -182,7 +182,6 @@ export default function Home() {
 
         {/* Announcements Section */}
         <section id="announcements" className="py-16 md:py-24">
-          
           <div className="container mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-4">Announcements</h2>
@@ -196,7 +195,7 @@ export default function Home() {
         </section>
 
         {/* Donations Section */}
-        <section id="donate" className="py-16 md:py-24 bg-primary text-primary-foreground">  
+        <section id="donate" className="py-16 md:py-24 bg-primary text-primary-foreground">
           <div className="container mx-auto">
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div>
@@ -278,5 +277,5 @@ export default function Home() {
         </section>
       </main>
     </div>
-  );
+  )
 }
