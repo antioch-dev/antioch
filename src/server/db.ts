@@ -1,16 +1,20 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '@prisma/client';
+import { env } from '@/env';
 
-import { env } from '@/env'
-
-const createPrismaClient = () =>
-  new PrismaClient({
-    log: env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
-  })
-
-const globalForPrisma = globalThis as unknown as {
-  prisma: ReturnType<typeof createPrismaClient> | undefined
+declare global {
+  // eslint-disable-next-line no-var -- `var` is required for global declarations in this context
+  var prisma: PrismaClient | undefined;
 }
 
-export const db = globalForPrisma.prisma ?? createPrismaClient()
+const prismaClient = new PrismaClient({
+  log: env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
+});
 
-if (env.NODE_ENV !== 'production') globalForPrisma.prisma = db
+// Use global object caching in development (HMR safe)
+export const db = global.prisma ?? prismaClient;
+
+if (env.NODE_ENV !== 'production') {
+  global.prisma = db;
+}
+
+

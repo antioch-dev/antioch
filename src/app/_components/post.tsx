@@ -3,9 +3,12 @@
 import { useState } from 'react'
 
 import { api } from '@/trpc/react'
+import { type Post } from '@prisma/client' // Assuming Post type from Prisma
 
 export function LatestPost() {
-  const [latestPost] = api.post.getLatest.useSuspenseQuery()
+  // Correctly destructure the tuple.
+  // The first element is the data, which can be 'Post | null'.
+  const [latestPost] = api.post.getLatest.useSuspenseQuery<Post | null>()
 
   const utils = api.useUtils()
   const [name, setName] = useState('')
