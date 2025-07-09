@@ -1,26 +1,31 @@
 "use client"
-import type React from "react"
 
+import type React from "react"
 import { useState } from "react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
+
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { ChevronLeft, Mail, Lock, Github, Cross } from "lucide-react" // Removed Facebook
+import { ChevronLeft, Mail, Lock, Github, Cross } from "lucide-react"
 import { BackgroundGallery } from "@/components/background-gallery"
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false)
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
 
-    // Simulate login process
     setTimeout(() => {
       setIsLoading(false)
+      router.push("/user-1/dashboard")
     }, 1500)
   }
 
@@ -43,13 +48,17 @@ export default function LoginPage() {
           Back to home
         </Link>
       </div>
+
       <div className="flex-1 flex items-center justify-center px-4 py-12 z-10">
         <Card className="w-full max-w-md border-gray-200 shadow-lg bg-white/95">
           <CardHeader className="space-y-1 text-center">
             <div className="flex justify-center mb-2">
               <Cross className="h-10 w-10 text-black" />
             </div>
-            <CardTitle className="text-2xl font-bold text-black">Welcome back</CardTitle>
+            {/* Dynamically welcome the user by their email, if entered */}
+            <CardTitle className="text-2xl font-bold text-black">
+              {email ? `Welcome back, ${email.split('@')[0]}!` : "Welcome back"}
+            </CardTitle>
             <CardDescription>Sign in to your Antioch fellowship account</CardDescription>
             <div className="pt-2">
               <p className="text-xs text-gray-500 italic">
@@ -70,6 +79,8 @@ export default function LoginPage() {
                     placeholder="your.email@example.com"
                     className="pl-10 border-gray-200 focus-visible:ring-black"
                     required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
               </div>
@@ -87,6 +98,8 @@ export default function LoginPage() {
                     type="password"
                     className="pl-10 border-gray-200 focus-visible:ring-black"
                     required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
               </div>
