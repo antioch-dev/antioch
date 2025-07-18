@@ -7,11 +7,12 @@ import Link from 'next/link'
 import { useParams } from 'next/navigation'
 
 export default function FormsPage() {
-  // const { fellowship_id } = await params
+  // Extracting 'fellowship_id' from URL parameters
   const params = useParams<{
     fellowship_id: string
   }>()
-  const { fellowship_id } = params
+  const { fellowship_id } = params // Destructuring for easier access
+
   return (
     <div className="container mx-auto p-6 space-y-8">
       <div className="text-center space-y-4">
@@ -23,19 +24,25 @@ export default function FormsPage() {
       </div>
 
       <div className="flex justify-center gap-4">
-        <Link href={`/${fellowship_id}/forms/builder/new`}>
+        {/* Link for "Create New Form" button */}
+        {/* The fellowship_id is correctly used here */}
+        <Link href={`/fellowships/${fellowship_id}/forms/builder/new`}>
           <Button size="lg">
             <Plus className="w-5 h-5 mr-2" />
             Create New Form
           </Button>
         </Link>
-        <Link href={`/${fellowship_id}/forms/manage`}>
+        {/* Link for "View My Forms" button */}
+        {/* The fellowship_id is correctly used here */}
+        <Link href={`/fellowships/${fellowship_id}/forms/manage`}>
           <Button variant="outline" size="lg">
             <FileText className="w-5 h-5 mr-2" />
             View My Forms
           </Button>
         </Link>
-        <Link href={`/${fellowship_id}/forms/list`}>
+        {/* Link for "Browse Public Forms" button */}
+        {/* The fellowship_id is correctly used here */}
+        <Link href={`/fellowships/${fellowship_id}/forms/list`}>
           <Button variant="outline" size="lg">
             <Users className="w-5 h-5 mr-2" />
             Browse Public Forms

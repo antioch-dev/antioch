@@ -7,12 +7,12 @@ import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
 import { mockFellowships } from "@/lib/mock-data"
 import { TrendingUp, TrendingDown, Users, Church, Calendar, Activity, Download, Filter, BarChart3 } from "lucide-react"
-import jsPDF from 'jspdf'; // Import jspdf
-import html2canvas from 'html2canvas'; // Import html2canvas
-import { useCallback } from "react" // Import useCallback
+import jsPDF from 'jspdf'; 
+import html2canvas from 'html2canvas'; 
+import { useCallback } from "react" ;
 
 export default function AdminAnalytics() {
-  // Mock analytics data
+  
   const analyticsData = {
     totalMembers: mockFellowships.reduce((acc, f) => acc + f.memberCount, 0),
     memberGrowth: 12.5,
@@ -29,12 +29,11 @@ export default function AdminAnalytics() {
 
   const fellowshipStats = mockFellowships.map((fellowship) => ({
     ...fellowship,
-    growth: Math.floor(Math.random() * 20) - 5, // Random growth between -5 and 15
-    engagement: Math.floor(Math.random() * 30) + 70, // Random engagement between 70-100
-    events: Math.floor(Math.random() * 10) + 5, // Random events between 5-15
+    growth: Math.floor(Math.random() * 20) - 5, 
+    engagement: Math.floor(Math.random() * 30) + 70, 
+    events: Math.floor(Math.random() * 10) + 5, 
   }))
 
-  // Function to handle exporting the analytics data to PDF
   const handleExportPdf = useCallback(async () => {
     const input = document.getElementById('analytics-content'); // Get the main content div by ID
     if (input) {
