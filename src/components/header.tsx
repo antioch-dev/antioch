@@ -28,7 +28,7 @@ export function Header() {
           <Link href="#contact" className="text-sm font-medium transition-colors hover:text-primary">
             Contact
           </Link>
-          <Link href="/fellowship1/forms" className="text-sm font-medium transition-colors hover:text-primary">
+          <Link href="/fellowships/fellowship1/forms" className="text-sm font-medium transition-colors hover:text-primary">
             Forms
           </Link>
         </nav>
