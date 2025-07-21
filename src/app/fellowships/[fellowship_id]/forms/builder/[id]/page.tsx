@@ -126,7 +126,7 @@ export default function FormBuilder() {
 
   const openFormInNewTab = () => {
     const formId = params.id
-    window.open(`/${params.fellowship_id}/forms/fill/${formId}`, '_blank')
+    window.open(`/fellowships/${params.fellowship_id}/forms/fill/${formId}`, '_blank')
   }
 
   return (

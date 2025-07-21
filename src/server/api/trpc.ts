@@ -1,4 +1,4 @@
-/**
+/*
  * YOU PROBABLY DON'T NEED TO EDIT THIS FILE, UNLESS:
  * 1. You want to modify request context (see Part 1).
  * 2. You want to create a new middleware or type of procedure (see Part 3).
@@ -10,9 +10,24 @@
 import { initTRPC, TRPCError } from '@trpc/server'
 import superjson from 'superjson'
 import { ZodError } from 'zod'
+import type { Session } from 'next-auth'; // Changed to 'import type'
+import { PrismaClient } from '@prisma/client'; // Keep as 'import' if you instantiate it, otherwise change to 'import type'
 
 import { auth } from '@/server/auth'
-import { db } from '@/server/db'
+import { db } from '@/server/db' // Assuming 'db' is an already instantiated PrismaClient instance
+
+/**
+ * Define the interface for your tRPC context.
+ * This is crucial for type safety and preventing 'any' propagation.
+ * You'll need to ensure db and session have proper types from their respective modules.
+ */
+interface MyTRPCContext {
+  // CHANGED: Explicitly use PrismaClient type for db
+  db: PrismaClient; // MODIFIED: Use PrismaClient directly
+  // Explicitly using Session | null for the session type, assuming auth() returns this.
+  session: Session | null;
+  headers: Headers;
+}
 
 /**
  * 1. CONTEXT
@@ -30,7 +45,7 @@ export const createTRPCContext = async (opts: { headers: Headers }) => {
   const session = await auth()
 
   return {
-    db,
+    db, // TypeScript will now check if this 'db' (from '@/server/db') is assignable to PrismaClient
     session,
     ...opts,
   }
@@ -43,7 +58,8 @@ export const createTRPCContext = async (opts: { headers: Headers }) => {
  * ZodErrors so that you get typesafety on the frontend if your procedure fails due to validation
  * errors on the backend.
  */
-const t = initTRPC.context<typeof createTRPCContext>().create({
+// Explicitly pass the context type to initTRPC to ensure type safety.
+const t = initTRPC.context<MyTRPCContext>().create({
   transformer: superjson,
   errorFormatter({ shape, error }) {
     return {

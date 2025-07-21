@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation'
 
 export default function Page() {
-  redirect('/fellowship1')
+  redirect('/fellowships/fellowship1')
 }
