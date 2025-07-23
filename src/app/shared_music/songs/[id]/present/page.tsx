@@ -80,7 +80,7 @@ export default function SongPresentPage({ params }: { params: { id: string } }) 
     if (document.fullscreenElement) {
       document.exitFullscreen()
     }
-    router.push(`/songs/${params.id}`)
+    router.push(`/shared_music/songs/${params.id}`)
   }, [router, params.id])
 
   const toggleFullscreen = () => {

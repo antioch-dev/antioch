@@ -89,7 +89,7 @@ export default function SongDetailPage({ params }: { params: { id: string } }) {
   const router = useRouter()
 
   const startPresentation = () => {
-    router.push(`/songs/${params.id}/present`)
+    router.push(`/shared_music/songs/${params.id}/present`)
   }
 
   const toggleFavorite = () => {
@@ -132,7 +132,7 @@ export default function SongDetailPage({ params }: { params: { id: string } }) {
       {/* Header */}
       <div className="flex items-center gap-4 mb-6">
         <Button variant="ghost" size="icon" asChild className="hover-lift transition-all-smooth">
-          <Link href="/songs">
+          <Link href="/shared_music/songs">
             <ArrowLeft className="h-4 w-4" />
           </Link>
         </Button>
@@ -158,7 +158,7 @@ export default function SongDetailPage({ params }: { params: { id: string } }) {
             <Share2 className="h-4 w-4" />
           </Button>
           <Button variant="outline" asChild className="hover-lift transition-all-smooth bg-transparent">
-            <Link href={`/songs/${params.id}/edit`}>
+            <Link href={`/shared_music/songs/${params.id}/edit`}>
               <Edit className="h-4 w-4 mr-2" />
               Edit
             </Link>

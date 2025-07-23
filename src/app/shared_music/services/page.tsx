@@ -139,7 +139,7 @@ export default function ServicesPage() {
           <div className="flex-1">
             <CardTitle className="text-lg">
               <Link
-                href={`/services/${service.id}`}
+                href={`/shared_music/services/${service.id}`}
                 className="hover:underline transition-all-smooth hover:text-primary"
                 onClick={() => handleViewDetails(service.id, service.title)}
               >
@@ -223,7 +223,7 @@ export default function ServicesPage() {
             style={{ animationDelay: `${index * 0.1 + 0.6}s` }}
           >
             <Link
-              href={`/playlists/${service.playlistId}`}
+              href={`/shared_music/playlists/${service.playlistId}`}
               className="text-sm font-medium hover:underline flex items-center gap-2 transition-all-smooth hover:text-primary group/playlist"
             >
               <Music className="h-4 w-4 group-hover/playlist:scale-110 transition-transform duration-300" />
@@ -239,7 +239,7 @@ export default function ServicesPage() {
               className="flex-1 hover-lift transition-all-smooth group/view"
               onClick={() => handleViewDetails(service.id, service.title)}
             >
-              <Link href={`/services/${service.id}`}>
+              <Link href={`/shared_music/services/${service.id}`}>
                 <Eye className="h-4 w-4 mr-2 group-hover/view:scale-110 transition-transform duration-300" />
                 View Details
               </Link>
@@ -272,7 +272,7 @@ export default function ServicesPage() {
           <p className="text-muted-foreground">Manage and coordinate worship services</p>
         </div>
         <Button asChild className="hover-lift transition-all-smooth group">
-          <Link href="/services/create">
+          <Link href="/shared_music/services/create">
             <Plus className="h-4 w-4 mr-2 group-hover:scale-110 transition-transform duration-300" />
             Schedule Service
           </Link>

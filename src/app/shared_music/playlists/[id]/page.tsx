@@ -130,19 +130,19 @@ export default function PlaylistDetailPage({ params }: { params: { id: string } 
   const handleDuplicate = () => {
     console.log("Duplicating playlist...")
     // Navigate to create page with pre-filled data
-    router.push(`/playlists/create?duplicate=${params.id}`)
+    router.push(`/shared_music/playlists/create?duplicate=${params.id}`)
   }
 
   const handleScheduleService = () => {
     console.log("Scheduling service...")
     // Navigate to service creation with this playlist
-    router.push(`/services/create?playlist=${params.id}`)
+    router.push(`/shared_music/services/create?playlist=${params.id}`)
   }
 
   const handleViewAnalytics = () => {
     console.log("Viewing analytics...")
     // Navigate to analytics page
-    router.push(`/playlists/${params.id}/analytics`)
+    router.push(`/shared_music/playlists/${params.id}/analytics`)
   }
 
   const handleAddToFavorites = (songId: number) => {
@@ -156,7 +156,7 @@ export default function PlaylistDetailPage({ params }: { params: { id: string } 
   const router = useRouter()
 
   const startPlaylistPresentation = () => {
-    router.push(`/playlists/${params.id}/present`)
+    router.push(`/shared_music/playlists/${params.id}/present`)
   }
 const totalDuration = playlistData.songs.reduce((total, song) => {
 
@@ -188,7 +188,7 @@ const totalDuration = playlistData.songs.reduce((total, song) => {
       {/* Header */}
       <div className="flex items-center gap-4 mb-6">
         <Button variant="ghost" size="icon" asChild className="hover-lift transition-all-smooth">
-          <Link href="/playlists">
+          <Link href="/shared_music/playlists">
             <ArrowLeft className="h-4 w-4" />
           </Link>
         </Button>
@@ -294,7 +294,7 @@ const totalDuration = playlistData.songs.reduce((total, song) => {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                       <DropdownMenuItem asChild>
-                        <Link href={`/playlists/${params.id}/edit`}>
+                        <Link href={`/shared_music/playlists/${params.id}/edit`}>
                           <Edit className="h-4 w-4 mr-2" />
                           Edit Playlist
                         </Link>
@@ -349,7 +349,7 @@ const totalDuration = playlistData.songs.reduce((total, song) => {
 
                     <div className="flex-1 min-w-0">
                       <Link
-                        href={`/songs/${song.id}`}
+                        href={`/shared_music/songs/${song.id}`}
                         className="font-medium hover:underline block truncate transition-all-smooth"
                       >
                         {song.title}
@@ -380,7 +380,7 @@ const totalDuration = playlistData.songs.reduce((total, song) => {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                           <DropdownMenuItem asChild>
-                            <Link href={`/songs/${song.id}`}>
+                            <Link href={`/shared_music/songs/${song.id}`}>
                               <Play className="h-4 w-4 mr-2" />
                               View Song
                             </Link>

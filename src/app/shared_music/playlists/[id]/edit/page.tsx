@@ -45,7 +45,7 @@ export default function EditPlaylistPage({ params }: { params: { id: string } })
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1000))
     setIsSaving(false)
-    router.push(`/playlists/${params.id}`)
+    router.push(`/shared_music/playlists/${params.id}`)
   }
 
   const handleInputChange = (field: string, value: string | boolean) => {
@@ -67,7 +67,7 @@ export default function EditPlaylistPage({ params }: { params: { id: string } })
       {/* Header */}
       <div className="flex items-center gap-4 mb-6">
         <Button variant="ghost" size="icon" asChild className="hover-lift transition-all-smooth">
-          <Link href={`/playlists/${params.id}`}>
+          <Link href={`/shared_music/playlists/${params.id}`}>
             <ArrowLeft className="h-4 w-4" />
           </Link>
         </Button>
@@ -77,7 +77,7 @@ export default function EditPlaylistPage({ params }: { params: { id: string } })
         </div>
         <div className="flex gap-2">
           <Button variant="outline" asChild className="hover-lift transition-all-smooth bg-transparent">
-            <Link href={`/playlists/${params.id}`}>
+            <Link href={`shared_music/playlists/${params.id}`}>
               <Eye className="h-4 w-4 mr-2" />
               Preview
             </Link>
@@ -249,7 +249,7 @@ export default function EditPlaylistPage({ params }: { params: { id: string } })
             </CardHeader>
             <CardContent className="space-y-2">
               <Button variant="outline" className="w-full hover-lift transition-all-smooth bg-transparent" asChild>
-                <Link href={`/playlists/${params.id}/present`}>
+                <Link href={`/shared_music/playlists/${params.id}/present`}>
                   <Eye className="h-4 w-4 mr-2" />
                   Start Presentation
                 </Link>

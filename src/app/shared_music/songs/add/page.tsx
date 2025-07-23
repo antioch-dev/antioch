@@ -66,7 +66,7 @@ export default function AddSongPage() {
     await new Promise((resolve) => setTimeout(resolve, 1000))
 
     // Navigate to the new song
-    router.push("/songs/1") // In real app, use the actual created song ID
+    router.push("/shared_music/songs/1") // In real app, use the actual created song ID
   }
 
   const handlePreview = () => {
@@ -78,7 +78,7 @@ export default function AddSongPage() {
     <div className="container mx-auto px-4 py-8">
       <div className="flex items-center gap-4 mb-6">
         <Button variant="ghost" size="icon" asChild>
-          <Link href="/songs">
+          <Link href="/shared_music/songs">
             <ArrowLeft className="h-4 w-4" />
           </Link>
         </Button>

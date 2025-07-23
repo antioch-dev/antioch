@@ -158,13 +158,35 @@ export default function ServiceDetailPage({ params }: { params: { id: string } }
   const router = useRouter()
 
   const startServicePresentation = () => {
-    router.push(`/services/${params.id}/present`)
+    router.push(`/shared_music/services/${params.id}/present`)
   }
 
-  const totalDuration = serviceData.songs.reduce((total, song) => {
-    const [minutes, seconds] = song.duration.split(":").map(Number)
-    return total + minutes * 60 + seconds
-  }, 0)
+ const totalDuration = serviceData.songs.reduce((total, song) => {
+  
+  if (typeof song.duration !== 'string') {
+    console.warn(`Invalid duration format for song:`, song);
+    return total; 
+  }
+
+  const parts = song.duration.split(":");
+
+
+  if (parts.length < 2) {
+    console.warn(`Unexpected duration format for song: ${song.duration}. Expected "MM:SS".`);
+    return total; 
+  }
+
+
+  const minutes = Number(parts[0]) || 0;
+  const seconds = Number(parts[1]) || 0;
+
+  if (isNaN(minutes) || isNaN(seconds)) {
+    console.warn(`Could not parse minutes or seconds for song: ${song.duration}`);
+    return total; 
+  }
+
+  return total + minutes * 60 + seconds;
+}, 0);
 
   const formatDuration = (seconds: number) => {
     const mins = Math.floor(seconds / 60)
@@ -209,7 +231,7 @@ export default function ServiceDetailPage({ params }: { params: { id: string } }
       {/* Header */}
       <div className="flex items-center gap-4 mb-6">
         <Button variant="ghost" size="icon" asChild>
-          <Link href="/services">
+          <Link href="/shared_music/services">
             <ArrowLeft className="h-4 w-4" />
           </Link>
         </Button>
@@ -222,7 +244,7 @@ export default function ServiceDetailPage({ params }: { params: { id: string } }
             <Share2 className="h-4 w-4" />
           </Button>
           <Button variant="outline" asChild>
-            <Link href={`/services/${params.id}/edit`}>
+            <Link href={`/shared_music/services/${params.id}/edit`}>
               <Edit className="h-4 w-4 mr-2" />
               Edit
             </Link>
@@ -405,7 +427,7 @@ export default function ServiceDetailPage({ params }: { params: { id: string } }
                 </CardHeader>
                 <CardContent>
                   <Link
-                    href={`/playlists/${serviceData.playlistId}`}
+                    href={`/shared_music/playlists/${serviceData.playlistId}`}
                     className="flex items-center gap-3 p-3 border rounded-lg hover:bg-muted/50"
                   >
                     <Music className="h-8 w-8 text-muted-foreground" />
@@ -439,7 +461,7 @@ export default function ServiceDetailPage({ params }: { params: { id: string } }
                     </div>
 
                     <div className="flex-1">
-                      <Link href={`/songs/${song.id}`} className="font-medium hover:underline block">
+                      <Link href={`/shared_music/songs/${song.id}`} className="font-medium hover:underline block">
                         {song.title}
                       </Link>
                       <p className="text-sm text-muted-foreground">{song.artist}</p>
