@@ -10,8 +10,8 @@
 import { initTRPC, TRPCError } from '@trpc/server'
 import superjson from 'superjson'
 import { ZodError } from 'zod'
-import type { Session } from 'next-auth'; // Changed to 'import type'
-import { PrismaClient } from '@prisma/client'; // Keep as 'import' if you instantiate it, otherwise change to 'import type'
+import type { Session } from 'next-auth' // Changed to 'import type'
+import type { PrismaClient } from '@prisma/client' // Keep as 'import' if you instantiate it, otherwise change to 'import type'
 
 import { auth } from '@/server/auth'
 import { db } from '@/server/db' // Assuming 'db' is an already instantiated PrismaClient instance
@@ -23,10 +23,10 @@ import { db } from '@/server/db' // Assuming 'db' is an already instantiated Pri
  */
 interface MyTRPCContext {
   // CHANGED: Explicitly use PrismaClient type for db
-  db: PrismaClient; // MODIFIED: Use PrismaClient directly
+  db: PrismaClient // MODIFIED: Use PrismaClient directly
   // Explicitly using Session | null for the session type, assuming auth() returns this.
-  session: Session | null;
-  headers: Headers;
+  session: Session | null
+  headers: Headers
 }
 
 /**

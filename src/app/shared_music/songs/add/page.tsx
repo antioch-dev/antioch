@@ -1,34 +1,34 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Badge } from "@/components/ui/badge"
-import Link from "next/link"
-import { ArrowLeft, Save, Eye, Youtube } from "lucide-react"
-import { useRouter } from "next/navigation"
+import { useState } from 'react'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Badge } from '@/components/ui/badge'
+import Link from 'next/link'
+import { ArrowLeft, Save, Eye, Youtube } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
 export default function AddSongPage() {
-  const [title, setTitle] = useState("")
-  const [artist, setArtist] = useState("")
-  const [category, setCategory] = useState("")
-  const [key, setKey] = useState("")
-  const [tempo, setTempo] = useState("")
-  const [lyrics, setLyrics] = useState("")
-  const [youtubeUrl, setYoutubeUrl] = useState("")
+  const [title, setTitle] = useState('')
+  const [artist, setArtist] = useState('')
+  const [category, setCategory] = useState('')
+  const [key, setKey] = useState('')
+  const [tempo, setTempo] = useState('')
+  const [lyrics, setLyrics] = useState('')
+  const [youtubeUrl, setYoutubeUrl] = useState('')
   const [tags, setTags] = useState<string[]>([])
-  const [newTag, setNewTag] = useState("")
+  const [newTag, setNewTag] = useState('')
 
   const router = useRouter()
 
   const addTag = () => {
     if (newTag.trim() && !tags.includes(newTag.trim())) {
       setTags([...tags, newTag.trim()])
-      setNewTag("")
+      setNewTag('')
     }
   }
 
@@ -38,19 +38,19 @@ export default function AddSongPage() {
 
   const extractYouTubeId = (url: string) => {
     const regex = /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/
-    const match = url.match(regex)
+    const match = regex.exec(url)
     return match ? match[1] : null
   }
 
   const handleSubmit = async () => {
     if (!title || !lyrics) {
-      console.log("Please fill in required fields")
+      console.log('Please fill in required fields')
       return
     }
 
     const youtubeId = youtubeUrl ? extractYouTubeId(youtubeUrl) : null
 
-    console.log("Adding song...", {
+    console.log('Adding song...', {
       title,
       artist,
       category,
@@ -66,11 +66,11 @@ export default function AddSongPage() {
     await new Promise((resolve) => setTimeout(resolve, 1000))
 
     // Navigate to the new song
-    router.push("/shared_music/songs/1") // In real app, use the actual created song ID
+    router.push('/shared_music/songs/1') // In real app, use the actual created song ID
   }
 
   const handlePreview = () => {
-    console.log("Opening preview...")
+    console.log('Opening preview...')
     // Could open a modal or navigate to preview page
   }
 
@@ -199,7 +199,7 @@ export default function AddSongPage() {
                     placeholder="Add a tag..."
                     value={newTag}
                     onChange={(e) => setNewTag(e.target.value)}
-                    onKeyPress={(e) => e.key === "Enter" && addTag()}
+                    onKeyPress={(e) => e.key === 'Enter' && addTag()}
                   />
                   <Button type="button" onClick={addTag}>
                     Add
@@ -294,7 +294,7 @@ Chorus:
                       <h4 className="font-medium mb-2">Lyrics Preview:</h4>
                       <div className="whitespace-pre-line text-sm max-h-64 overflow-y-auto">
                         {lyrics.substring(0, 200)}
-                        {lyrics.length > 200 && "..."}
+                        {lyrics.length > 200 && '...'}
                       </div>
                     </div>
                   )}

@@ -1,41 +1,37 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Badge } from "@/components/ui/badge"
-import { Separator } from "@/components/ui/separator"
-import { Switch } from "@/components/ui/switch"
-import Link from "next/link"
-import { ArrowLeft, Save, Eye, Music, Users, Plus, X, GripVertical } from "lucide-react"
-import { useRouter } from "next/navigation"
-
-
-interface PageProps {
-  params: { id: string }
-}
-
+import { useState } from 'react'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Badge } from '@/components/ui/badge'
+import { Separator } from '@/components/ui/separator'
+import { Switch } from '@/components/ui/switch'
+import Link from 'next/link'
+import { ArrowLeft, Save, Eye, Music, Users, Plus, X, GripVertical } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { useParams } from 'next/navigation'
 
 // Mock playlist data
 const initialPlaylistData = {
   id: 1,
-  title: "Sunday Morning Worship",
+  title: 'Sunday Morning Worship',
   description:
-    "Our regular Sunday morning service playlist with a mix of traditional hymns and contemporary worship songs",
-  category: "Service",
+    'Our regular Sunday morning service playlist with a mix of traditional hymns and contemporary worship songs',
+  category: 'Service',
   isPublic: true,
   songs: [
-    { id: 1, title: "Amazing Grace", artist: "Traditional", duration: "4:32", key: "G", tempo: "Slow" },
-    { id: 2, title: "How Great Thou Art", artist: "Carl Boberg", duration: "3:45", key: "C", tempo: "Medium" },
-    { id: 3, title: "10,000 Reasons", artist: "Matt Redman", duration: "4:03", key: "G", tempo: "Medium" },
+    { id: 1, title: 'Amazing Grace', artist: 'Traditional', duration: '4:32', key: 'G', tempo: 'Slow' },
+    { id: 2, title: 'How Great Thou Art', artist: 'Carl Boberg', duration: '3:45', key: 'C', tempo: 'Medium' },
+    { id: 3, title: '10,000 Reasons', artist: 'Matt Redman', duration: '4:03', key: 'G', tempo: 'Medium' },
   ],
 }
 
-export default function EditPlaylistPage({ params }: { params: { id: string } }) {
+export default function EditPlaylistPage() {
+  const params = useParams<{ id?: string }>()
   const router = useRouter()
   const [playlistData, setPlaylistData] = useState(initialPlaylistData)
   const [isSaving, setIsSaving] = useState(false)
@@ -84,7 +80,7 @@ export default function EditPlaylistPage({ params }: { params: { id: string } })
           </Button>
           <Button onClick={handleSave} disabled={isSaving} className="hover-scale transition-all-smooth">
             <Save className="h-4 w-4 mr-2" />
-            {isSaving ? "Saving..." : "Save Changes"}
+            {isSaving ? 'Saving...' : 'Save Changes'}
           </Button>
         </div>
       </div>
@@ -99,7 +95,7 @@ export default function EditPlaylistPage({ params }: { params: { id: string } })
                 <Music className="h-5 w-5" />
                 Playlist Information
               </CardTitle>
-              <CardDescription>Update the playlist's basic details</CardDescription>
+              <CardDescription>{`Update the playlist's basic details`}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
@@ -107,7 +103,7 @@ export default function EditPlaylistPage({ params }: { params: { id: string } })
                 <Input
                   id="title"
                   value={playlistData.title}
-                  onChange={(e) => handleInputChange("title", e.target.value)}
+                  onChange={(e) => handleInputChange('title', e.target.value)}
                   className="transition-all-smooth focus:ring-2"
                 />
               </div>
@@ -117,7 +113,7 @@ export default function EditPlaylistPage({ params }: { params: { id: string } })
                 <Textarea
                   id="description"
                   value={playlistData.description}
-                  onChange={(e) => handleInputChange("description", e.target.value)}
+                  onChange={(e) => handleInputChange('description', e.target.value)}
                   className="transition-all-smooth focus:ring-2"
                   rows={3}
                 />
@@ -125,7 +121,7 @@ export default function EditPlaylistPage({ params }: { params: { id: string } })
 
               <div className="space-y-2">
                 <Label htmlFor="category">Category</Label>
-                <Select value={playlistData.category} onValueChange={(value) => handleInputChange("category", value)}>
+                <Select value={playlistData.category} onValueChange={(value) => handleInputChange('category', value)}>
                   <SelectTrigger className="transition-all-smooth">
                     <SelectValue />
                   </SelectTrigger>
@@ -143,7 +139,7 @@ export default function EditPlaylistPage({ params }: { params: { id: string } })
                 <Switch
                   id="public"
                   checked={playlistData.isPublic}
-                  onCheckedChange={(checked) => handleInputChange("isPublic", checked)}
+                  onCheckedChange={(checked) => handleInputChange('isPublic', checked)}
                 />
                 <Label htmlFor="public">Make this playlist public</Label>
               </div>
@@ -236,7 +232,7 @@ export default function EditPlaylistPage({ params }: { params: { id: string } })
                 <span className="text-sm text-muted-foreground">Visibility:</span>
                 <Badge variant="outline" className="hover-scale transition-all-smooth">
                   <Users className="h-3 w-3 mr-1" />
-                  {playlistData.isPublic ? "Public" : "Private"}
+                  {playlistData.isPublic ? 'Public' : 'Private'}
                 </Badge>
               </div>
             </CardContent>

@@ -1,9 +1,9 @@
-"use client"
+'use client'
 
-import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { useRouter } from "next/navigation"
+import { useState, useEffect, useCallback } from 'react'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import { useRouter } from 'next/navigation'
 import {
   ArrowLeft,
   Maximize,
@@ -15,20 +15,20 @@ import {
   SkipBack,
   Clock,
   Users,
-} from "lucide-react"
+} from 'lucide-react'
 
 // Mock service data
 const serviceData = {
   id: 1,
-  title: "Sunday Morning Worship",
-  date: "2024-12-15",
-  time: "10:00 AM",
+  title: 'Sunday Morning Worship',
+  date: '2024-12-15',
+  time: '10:00 AM',
   songs: [
     {
       id: 1,
-      title: "Amazing Grace",
-      artist: "Traditional",
-      type: "Opening",
+      title: 'Amazing Grace',
+      artist: 'Traditional',
+      type: 'Opening',
       lyrics: `Amazing grace! How sweet the sound
 That saved a wretch like me!
 I once was lost, but now am found;
@@ -41,9 +41,9 @@ The hour I first believed.`,
     },
     {
       id: 2,
-      title: "How Great Thou Art",
-      artist: "Carl Boberg",
-      type: "Worship",
+      title: 'How Great Thou Art',
+      artist: 'Carl Boberg',
+      type: 'Worship',
       lyrics: `O Lord my God, when I in awesome wonder
 Consider all the worlds Thy hands have made
 I see the stars, I hear the rolling thunder
@@ -56,9 +56,9 @@ How great Thou art, how great Thou art`,
     },
     {
       id: 3,
-      title: "10,000 Reasons",
-      artist: "Matt Redman",
-      type: "Praise",
+      title: '10,000 Reasons',
+      artist: 'Matt Redman',
+      type: 'Praise',
       lyrics: `Bless the Lord, O my soul, O my soul
 Worship His holy name
 Sing like never before, O my soul
@@ -72,12 +72,12 @@ Let me be singing when the evening comes`,
   ],
 }
 
-export default function ServicePresentationPage({ params }: { params: { id: string } }) {
+export default function ServicePresentationPage() {
   const router = useRouter()
   const [currentSongIndex, setCurrentSongIndex] = useState(0)
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isFullscreen, setIsFullscreen] = useState(false)
-  const [fontSize, setFontSize] = useState(48)
+  const [fontSize] = useState(48)
   const [serviceStartTime] = useState(new Date())
 
   const currentSong = serviceData.songs[currentSongIndex]
@@ -86,7 +86,7 @@ export default function ServicePresentationPage({ params }: { params: { id: stri
   const createSlides = (song: typeof currentSong) => {
     if (!song) return []
     const titleSlide = `${song.title}\n\n${song.artist}\n\n${song.type}`
-    const lyricsSlides = song.lyrics.split("\n\n").filter((slide) => slide.trim())
+    const lyricsSlides = song.lyrics.split('\n\n').filter((slide) => slide.trim())
     return [titleSlide, ...lyricsSlides]
   }
 
@@ -107,86 +107,98 @@ export default function ServicePresentationPage({ params }: { params: { id: stri
   const formatDuration = (seconds: number) => {
     const mins = Math.floor(seconds / 60)
     const secs = seconds % 60
-    return `${mins}:${secs.toString().padStart(2, "0")}`
+    return `${mins}:${secs.toString().padStart(2, '0')}`
+  }
+
+  const nextSong = useCallback(() => {
+    if (currentSongIndex < serviceData.songs.length - 1) {
+      setCurrentSongIndex(currentSongIndex + 1)
+      setCurrentSlide(0)
+    }
+  }, [currentSongIndex])
+
+  const nextSlide = useCallback(() => {
+    if (currentSlide < currentSlides.length - 1) {
+      setCurrentSlide(currentSlide + 1)
+    } else {
+      nextSong()
+    }
+  }, [currentSlide, currentSlides.length, nextSong])
+
+  const prevSong = useCallback(() => {
+    if (currentSongIndex > 0) {
+      setCurrentSongIndex(currentSongIndex - 1)
+      setCurrentSlide(0)
+    }
+  }, [currentSongIndex])
+
+  const prevSlide = useCallback(() => {
+    if (currentSlide > 0) {
+      setCurrentSlide(currentSlide - 1)
+    } else if (currentSongIndex > 0) {
+      prevSong()
+    }
+  }, [currentSlide, currentSongIndex, prevSong])
+
+  const exitPresentation = useCallback(() => {
+    if (document.fullscreenElement) {
+      void document.exitFullscreen()
+    }
+    router.back()
+  }, [router])
+
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement
+        .requestFullscreen()
+        .then(() => {
+          setIsFullscreen(true)
+        })
+        .catch((err) => {
+          console.error('Error attempting to enable fullscreen mode:', err)
+        })
+    } else {
+      document
+        .exitFullscreen()
+        .then(() => {
+          setIsFullscreen(false)
+        })
+        .catch((err) => {
+          console.error('Error attempting to disable fullscreen mode:', err)
+        })
+    }
   }
 
   // Keyboard navigation
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
       switch (e.key) {
-        case "ArrowRight":
-        case " ":
+        case 'ArrowRight':
+        case ' ':
           nextSlide()
           break
-        case "ArrowLeft":
+        case 'ArrowLeft':
           prevSlide()
           break
-        case "ArrowUp":
+        case 'ArrowUp':
           prevSong()
           break
-        case "ArrowDown":
+        case 'ArrowDown':
           nextSong()
           break
-        case "Escape":
+        case 'Escape':
           exitPresentation()
           break
-        case "f":
-        case "F":
+        case 'f':
+        case 'F':
           toggleFullscreen()
           break
       }
     }
 
-    window.addEventListener("keydown", handleKeyPress)
-    return () => window.removeEventListener("keydown", handleKeyPress)
-  }, [currentSlide, currentSongIndex])
-
-  const nextSlide = () => {
-    if (currentSlide < currentSlides.length - 1) {
-      setCurrentSlide(currentSlide + 1)
-    } else {
-      nextSong()
-    }
-  }
-
-  const prevSlide = () => {
-    if (currentSlide > 0) {
-      setCurrentSlide(currentSlide - 1)
-    } else if (currentSongIndex > 0) {
-      prevSong()
-    }
-  }
-
-  const nextSong = () => {
-    if (currentSongIndex < serviceData.songs.length - 1) {
-      setCurrentSongIndex(currentSongIndex + 1)
-      setCurrentSlide(0)
-    }
-  }
-
-  const prevSong = () => {
-    if (currentSongIndex > 0) {
-      setCurrentSongIndex(currentSongIndex - 1)
-      setCurrentSlide(0)
-    }
-  }
-
-  const exitPresentation = () => {
-    if (document.fullscreenElement) {
-      document.exitFullscreen()
-    }
-    router.back()
-  }
-
-  const toggleFullscreen = () => {
-    if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen()
-      setIsFullscreen(true)
-    } else {
-      document.exitFullscreen()
-      setIsFullscreen(false)
-    }
-  }
+    window.addEventListener('keydown', handleKeyPress)
+    return () => window.removeEventListener('keydown', handleKeyPress)
+  }, [currentSlide, currentSongIndex, exitPresentation, nextSlide, nextSong, prevSlide, prevSong])
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-blue-800 text-white relative">
@@ -255,12 +267,12 @@ export default function ServicePresentationPage({ params }: { params: { id: stri
       {/* Main Presentation Area */}
       <div
         className="flex items-center justify-center min-h-screen p-8"
-        style={{ paddingTop: isFullscreen ? "2rem" : "6rem" }}
+        style={{ paddingTop: isFullscreen ? '2rem' : '6rem' }}
       >
         <div className="text-center max-w-5xl w-full">
           <div
             className="whitespace-pre-line leading-relaxed font-bold text-center drop-shadow-lg"
-            style={{ fontSize: `${fontSize}px`, textShadow: "2px 2px 4px rgba(0,0,0,0.5)" }}
+            style={{ fontSize: `${fontSize}px`, textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}
           >
             {currentSlides[currentSlide]}
           </div>
@@ -281,7 +293,7 @@ export default function ServicePresentationPage({ params }: { params: { id: stri
                   key={index}
                   onClick={() => setCurrentSlide(index)}
                   className={`w-2 h-2 rounded-full transition-all ${
-                    index === currentSlide ? "bg-white" : "bg-white/30"
+                    index === currentSlide ? 'bg-white' : 'bg-white/30'
                   }`}
                 />
               ))}
@@ -305,13 +317,13 @@ export default function ServicePresentationPage({ params }: { params: { id: stri
                 }}
                 className={`px-3 py-1 rounded-full text-xs transition-all flex items-center gap-1 ${
                   index === currentSongIndex
-                    ? "bg-white text-black"
-                    : "text-white/70 hover:text-white hover:bg-white/10"
+                    ? 'bg-white text-black'
+                    : 'text-white/70 hover:text-white hover:bg-white/10'
                 }`}
               >
                 <Music className="h-3 w-3" />
                 {song.title}
-                <Badge variant={index === currentSongIndex ? "secondary" : "outline"} className="text-xs ml-1">
+                <Badge variant={index === currentSongIndex ? 'secondary' : 'outline'} className="text-xs ml-1">
                   {song.type}
                 </Badge>
               </button>

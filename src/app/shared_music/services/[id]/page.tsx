@@ -1,13 +1,13 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Separator } from "@/components/ui/separator"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import Link from "next/link"
+import { useState } from 'react'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Separator } from '@/components/ui/separator'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import Link from 'next/link'
 import {
   ArrowLeft,
   Calendar,
@@ -21,209 +21,207 @@ import {
   Download,
   Eye,
   Settings,
-} from "lucide-react"
-import { useRouter } from "next/navigation"
+} from 'lucide-react'
+import { useParams, useRouter } from 'next/navigation'
 
 // Mock service data
 const serviceData = {
   id: 1,
-  title: "Sunday Morning Worship",
-  date: "2024-12-15",
-  time: "10:00 AM",
-  duration: "90 minutes",
-  location: "Main Sanctuary",
-  organizer: "Pastor John",
-  organizerAvatar: "/placeholder-user.jpg",
-  organizerEmail: "pastor.john@church.com",
+  title: 'Sunday Morning Worship',
+  date: '2024-12-15',
+  time: '10:00 AM',
+  duration: '90 minutes',
+  location: 'Main Sanctuary',
+  organizer: 'Pastor John',
+  organizerAvatar: '/placeholder-user.jpg',
+  organizerEmail: 'pastor.john@church.com',
   playlistId: 1,
-  playlistTitle: "Sunday Morning Worship",
+  playlistTitle: 'Sunday Morning Worship',
   songCount: 8,
   attendees: 150,
-  status: "scheduled",
+  status: 'scheduled',
   description:
-    "Regular Sunday morning worship service with communion. Join us for a time of praise, worship, and fellowship as we gather to honor God together.",
-  notes: "Please ensure all microphones are tested before service. Communion will be served after the sermon.",
+    'Regular Sunday morning worship service with communion. Join us for a time of praise, worship, and fellowship as we gather to honor God together.',
+  notes: 'Please ensure all microphones are tested before service. Communion will be served after the sermon.',
   songs: [
     {
       id: 1,
-      title: "Amazing Grace",
-      artist: "Traditional",
-      duration: "4:32",
-      key: "G",
-      tempo: "Slow",
+      title: 'Amazing Grace',
+      artist: 'Traditional',
+      duration: '4:32',
+      key: 'G',
+      tempo: 'Slow',
       order: 1,
-      type: "Opening",
+      type: 'Opening',
     },
     {
       id: 2,
-      title: "How Great Thou Art",
-      artist: "Carl Boberg",
-      duration: "3:45",
-      key: "C",
-      tempo: "Medium",
+      title: 'How Great Thou Art',
+      artist: 'Carl Boberg',
+      duration: '3:45',
+      key: 'C',
+      tempo: 'Medium',
       order: 2,
-      type: "Worship",
+      type: 'Worship',
     },
     {
       id: 3,
-      title: "10,000 Reasons",
-      artist: "Matt Redman",
-      duration: "4:03",
-      key: "G",
-      tempo: "Medium",
+      title: '10,000 Reasons',
+      artist: 'Matt Redman',
+      duration: '4:03',
+      key: 'G',
+      tempo: 'Medium',
       order: 3,
-      type: "Worship",
+      type: 'Worship',
     },
     {
       id: 4,
-      title: "Blessed Be Your Name",
-      artist: "Matt Redman",
-      duration: "4:12",
-      key: "D",
-      tempo: "Medium",
+      title: 'Blessed Be Your Name',
+      artist: 'Matt Redman',
+      duration: '4:12',
+      key: 'D',
+      tempo: 'Medium',
       order: 4,
-      type: "Praise",
+      type: 'Praise',
     },
     {
       id: 5,
-      title: "Holy, Holy, Holy",
-      artist: "Reginald Heber",
-      duration: "3:28",
-      key: "F",
-      tempo: "Slow",
+      title: 'Holy, Holy, Holy',
+      artist: 'Reginald Heber',
+      duration: '3:28',
+      key: 'F',
+      tempo: 'Slow',
       order: 5,
-      type: "Communion",
+      type: 'Communion',
     },
     {
       id: 6,
-      title: "Cornerstone",
-      artist: "Hillsong",
-      duration: "5:02",
-      key: "E",
-      tempo: "Medium",
+      title: 'Cornerstone',
+      artist: 'Hillsong',
+      duration: '5:02',
+      key: 'E',
+      tempo: 'Medium',
       order: 6,
-      type: "Response",
+      type: 'Response',
     },
     {
       id: 7,
-      title: "Great Is Thy Faithfulness",
-      artist: "Thomas Chisholm",
-      duration: "4:15",
-      key: "Bb",
-      tempo: "Slow",
+      title: 'Great Is Thy Faithfulness',
+      artist: 'Thomas Chisholm',
+      duration: '4:15',
+      key: 'Bb',
+      tempo: 'Slow',
       order: 7,
-      type: "Closing",
+      type: 'Closing',
     },
     {
       id: 8,
-      title: "Be Thou My Vision",
-      artist: "Traditional Irish",
-      duration: "3:52",
-      key: "D",
-      tempo: "Slow",
+      title: 'Be Thou My Vision',
+      artist: 'Traditional Irish',
+      duration: '3:52',
+      key: 'D',
+      tempo: 'Slow',
       order: 8,
-      type: "Benediction",
+      type: 'Benediction',
     },
   ],
   team: [
     {
-      name: "Pastor John",
-      role: "Service Leader",
-      avatar: "/placeholder-user.jpg",
-      email: "pastor.john@church.com",
+      name: 'Pastor John',
+      role: 'Service Leader',
+      avatar: '/placeholder-user.jpg',
+      email: 'pastor.john@church.com',
     },
     {
-      name: "Sarah Wilson",
-      role: "Worship Leader",
-      avatar: "/placeholder-user.jpg",
-      email: "sarah@church.com",
+      name: 'Sarah Wilson',
+      role: 'Worship Leader',
+      avatar: '/placeholder-user.jpg',
+      email: 'sarah@church.com',
     },
     {
-      name: "Mike Johnson",
-      role: "Sound Engineer",
-      avatar: "/placeholder-user.jpg",
-      email: "mike@church.com",
+      name: 'Mike Johnson',
+      role: 'Sound Engineer',
+      avatar: '/placeholder-user.jpg',
+      email: 'mike@church.com',
     },
     {
-      name: "Lisa Chen",
-      role: "Pianist",
-      avatar: "/placeholder-user.jpg",
-      email: "lisa@church.com",
+      name: 'Lisa Chen',
+      role: 'Pianist',
+      avatar: '/placeholder-user.jpg',
+      email: 'lisa@church.com',
     },
   ],
 }
 
-export default function ServiceDetailPage({ params }: { params: { id: string } }) {
-  const [activeTab, setActiveTab] = useState("overview")
+export default function ServiceDetailPage() {
+  const params = useParams<{ id: string }>()
+  const [activeTab, setActiveTab] = useState('overview')
   const router = useRouter()
 
   const startServicePresentation = () => {
     router.push(`/shared_music/services/${params.id}/present`)
   }
 
- const totalDuration = serviceData.songs.reduce((total, song) => {
-  
-  if (typeof song.duration !== 'string') {
-    console.warn(`Invalid duration format for song:`, song);
-    return total; 
-  }
+  const totalDuration = serviceData.songs.reduce((total, song) => {
+    if (typeof song.duration !== 'string') {
+      console.warn(`Invalid duration format for song:`, song)
+      return total
+    }
 
-  const parts = song.duration.split(":");
+    const parts = song.duration.split(':')
 
+    if (parts.length < 2) {
+      console.warn(`Unexpected duration format for song: ${song.duration}. Expected "MM:SS".`)
+      return total
+    }
 
-  if (parts.length < 2) {
-    console.warn(`Unexpected duration format for song: ${song.duration}. Expected "MM:SS".`);
-    return total; 
-  }
+    const minutes = Number(parts[0]) || 0
+    const seconds = Number(parts[1]) || 0
 
+    if (isNaN(minutes) || isNaN(seconds)) {
+      console.warn(`Could not parse minutes or seconds for song: ${song.duration}`)
+      return total
+    }
 
-  const minutes = Number(parts[0]) || 0;
-  const seconds = Number(parts[1]) || 0;
-
-  if (isNaN(minutes) || isNaN(seconds)) {
-    console.warn(`Could not parse minutes or seconds for song: ${song.duration}`);
-    return total; 
-  }
-
-  return total + minutes * 60 + seconds;
-}, 0);
+    return total + minutes * 60 + seconds
+  }, 0)
 
   const formatDuration = (seconds: number) => {
     const mins = Math.floor(seconds / 60)
     const remainingSeconds = seconds % 60
-    return `${mins}:${remainingSeconds.toString().padStart(2, "0")}`
+    return `${mins}:${remainingSeconds.toString().padStart(2, '0')}`
   }
 
   const handleExportPlaylist = () => {
-    console.log("Exporting playlist...")
+    console.log('Exporting playlist...')
     // Generate and download playlist file
   }
 
   const handleDisplaySettings = () => {
-    console.log("Opening display settings...")
+    console.log('Opening display settings...')
     // Navigate to display settings
     router.push(`/services/${params.id}/settings`)
   }
 
   const handleShareService = () => {
-    console.log("Sharing service...")
+    console.log('Sharing service...')
     // Share service details
   }
 
   const handleSetTransitionTiming = () => {
-    console.log("Setting transition timing...")
+    console.log('Setting transition timing...')
   }
 
   const handleUploadBackgrounds = () => {
-    console.log("Uploading background images...")
+    console.log('Uploading background images...')
   }
 
   const handleConfigureAutoAdvance = () => {
-    console.log("Configuring auto-advance...")
+    console.log('Configuring auto-advance...')
   }
 
   const handleAdjustFontSize = () => {
-    console.log("Adjusting font size...")
+    console.log('Adjusting font size...')
   }
 
   return (
@@ -249,7 +247,7 @@ export default function ServiceDetailPage({ params }: { params: { id: string } }
               Edit
             </Link>
           </Button>
-          {serviceData.status === "scheduled" && (
+          {serviceData.status === 'scheduled' && (
             <Button onClick={startServicePresentation}>
               <Play className="h-4 w-4 mr-2" />
               Start Service
@@ -301,7 +299,7 @@ export default function ServiceDetailPage({ params }: { params: { id: string } }
           <CardContent>
             <div className="text-2xl font-bold">{serviceData.attendees}</div>
             <p className="text-xs text-muted-foreground">
-              {serviceData.status === "scheduled" ? "Expected" : "Attended"}
+              {serviceData.status === 'scheduled' ? 'Expected' : 'Attended'}
             </p>
           </CardContent>
         </Card>
@@ -341,8 +339,8 @@ export default function ServiceDetailPage({ params }: { params: { id: string } }
 
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <Badge variant={serviceData.status === "scheduled" ? "default" : "secondary"}>
-                        {serviceData.status === "scheduled" ? "Scheduled" : "Completed"}
+                      <Badge variant={serviceData.status === 'scheduled' ? 'default' : 'secondary'}>
+                        {serviceData.status === 'scheduled' ? 'Scheduled' : 'Completed'}
                       </Badge>
                     </div>
                     <div className="flex gap-2">
@@ -402,14 +400,14 @@ export default function ServiceDetailPage({ params }: { params: { id: string } }
                   <div className="flex items-center gap-3">
                     <Avatar>
                       <AvatarImage
-                        src={serviceData.organizerAvatar || "/placeholder.svg"}
+                        src={serviceData.organizerAvatar || '/placeholder.svg'}
                         alt={serviceData.organizer}
                       />
                       <AvatarFallback>
                         {serviceData.organizer
-                          .split(" ")
+                          .split(' ')
                           .map((n) => n[0])
-                          .join("")}
+                          .join('')}
                       </AvatarFallback>
                     </Avatar>
                     <div>
@@ -454,7 +452,7 @@ export default function ServiceDetailPage({ params }: { params: { id: string } }
             </CardHeader>
             <CardContent>
               <div className="space-y-2">
-                {serviceData.songs.map((song, index) => (
+                {serviceData.songs.map((song) => (
                   <div key={song.id} className="flex items-center gap-4 p-3 border rounded-lg">
                     <div className="w-8 text-center">
                       <span className="text-sm font-medium">{song.order}</span>
@@ -494,12 +492,12 @@ export default function ServiceDetailPage({ params }: { params: { id: string } }
                 {serviceData.team.map((member, index) => (
                   <div key={index} className="flex items-center gap-4 p-3 border rounded-lg">
                     <Avatar>
-                      <AvatarImage src={member.avatar || "/placeholder.svg"} alt={member.name} />
+                      <AvatarImage src={member.avatar || '/placeholder.svg'} alt={member.name} />
                       <AvatarFallback>
                         {member.name
-                          .split(" ")
+                          .split(' ')
                           .map((n) => n[0])
-                          .join("")}
+                          .join('')}
                       </AvatarFallback>
                     </Avatar>
                     <div className="flex-1">

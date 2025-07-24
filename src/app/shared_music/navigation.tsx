@@ -1,19 +1,20 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Badge } from "@/components/ui/badge"
-import { Music, Heart, Calendar, Home, Menu, Search, Bell, User, Settings, LogOut } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { useState } from 'react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { Button } from '@/components/ui/button'
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
+import { Badge } from '@/components/ui/badge'
+import { Music, Heart, Calendar, Home, Menu, Search, Bell, User, Settings, LogOut } from 'lucide-react'
+import { cn } from '@/lib/utils'
 
+const url_prefix = '/shared_music'
 const navigation = [
-  { name: "Home", href: "/", icon: Home },
-  { name: "Songs", href: "/songs", icon: Music },
-  { name: "Playlists", href: "/playlists", icon: Heart },
-  { name: "Services", href: "/services", icon: Calendar },
+  { name: 'Home', href: `${url_prefix}`, icon: Home },
+  { name: 'Songs', href: `${url_prefix}/songs`, icon: Music },
+  { name: 'Playlists', href: `${url_prefix}/playlists`, icon: Heart },
+  { name: 'Services', href: `${url_prefix}/services`, icon: Calendar },
 ]
 
 export default function Navigation() {
@@ -36,22 +37,22 @@ export default function Navigation() {
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-1">
           {navigation.map((item) => {
-            const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href))
+            const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href))
             return (
               <Link
                 key={item.name}
                 href={item.href}
                 className={cn(
-                  "flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all-smooth group relative",
+                  'flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all-smooth group relative',
                   isActive
-                    ? "bg-primary text-primary-foreground shadow-md"
-                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50",
+                    ? 'bg-primary text-primary-foreground shadow-md'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-muted/50',
                 )}
               >
                 <item.icon
                   className={cn(
-                    "h-4 w-4 transition-transform duration-300",
-                    isActive ? "scale-110" : "group-hover:scale-110",
+                    'h-4 w-4 transition-transform duration-300',
+                    isActive ? 'scale-110' : 'group-hover:scale-110',
                   )}
                 />
                 <span>{item.name}</span>
@@ -101,24 +102,24 @@ export default function Navigation() {
                 {/* Mobile Navigation */}
                 <nav className="flex flex-col space-y-2">
                   {navigation.map((item, index) => {
-                    const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href))
+                    const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href))
                     return (
                       <Link
                         key={item.name}
                         href={item.href}
                         onClick={() => setIsOpen(false)}
                         className={cn(
-                          "flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-medium transition-all-smooth group stagger-item",
+                          'flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-medium transition-all-smooth group stagger-item',
                           isActive
-                            ? "bg-primary text-primary-foreground shadow-md"
-                            : "text-muted-foreground hover:text-foreground hover:bg-muted/50",
+                            ? 'bg-primary text-primary-foreground shadow-md'
+                            : 'text-muted-foreground hover:text-foreground hover:bg-muted/50',
                         )}
                         style={{ animationDelay: `${index * 0.1}s` }}
                       >
                         <item.icon
                           className={cn(
-                            "h-5 w-5 transition-transform duration-300",
-                            isActive ? "scale-110" : "group-hover:scale-110",
+                            'h-5 w-5 transition-transform duration-300',
+                            isActive ? 'scale-110' : 'group-hover:scale-110',
                           )}
                         />
                         <span>{item.name}</span>

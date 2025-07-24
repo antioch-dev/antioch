@@ -1,16 +1,16 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Switch } from "@/components/ui/switch"
-import Link from "next/link"
-import { ArrowLeft, Plus, X, Search, Music } from "lucide-react"
-import { useRouter } from "next/navigation"
+import { useState } from 'react'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Switch } from '@/components/ui/switch'
+import Link from 'next/link'
+import { ArrowLeft, Plus, X, Search, Music } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
 interface AvailableSong {
   id: number
@@ -20,23 +20,23 @@ interface AvailableSong {
 }
 
 const availableSongs: AvailableSong[] = [
-  { id: 1, title: "Amazing Grace", artist: "Traditional", duration: "4:32" },
-  { id: 2, title: "How Great Thou Art", artist: "Carl Boberg", duration: "3:45" },
-  { id: 3, title: "Blessed Be Your Name", artist: "Matt Redman", duration: "4:12" },
-  { id: 4, title: "Holy, Holy, Holy", artist: "Reginald Heber", duration: "3:28" },
-  { id: 5, title: "10,000 Reasons", artist: "Matt Redman", duration: "4:03" },
-  { id: 6, title: "Great Is Thy Faithfulness", artist: "Thomas Chisholm", duration: "4:15" },
-  { id: 7, title: "Cornerstone", artist: "Hillsong", duration: "5:02" },
-  { id: 8, title: "Be Thou My Vision", artist: "Traditional Irish", duration: "3:52" },
+  { id: 1, title: 'Amazing Grace', artist: 'Traditional', duration: '4:32' },
+  { id: 2, title: 'How Great Thou Art', artist: 'Carl Boberg', duration: '3:45' },
+  { id: 3, title: 'Blessed Be Your Name', artist: 'Matt Redman', duration: '4:12' },
+  { id: 4, title: 'Holy, Holy, Holy', artist: 'Reginald Heber', duration: '3:28' },
+  { id: 5, title: '10,000 Reasons', artist: 'Matt Redman', duration: '4:03' },
+  { id: 6, title: 'Great Is Thy Faithfulness', artist: 'Thomas Chisholm', duration: '4:15' },
+  { id: 7, title: 'Cornerstone', artist: 'Hillsong', duration: '5:02' },
+  { id: 8, title: 'Be Thou My Vision', artist: 'Traditional Irish', duration: '3:52' },
 ]
 
 export default function CreatePlaylistPage() {
-  const [title, setTitle] = useState("")
-  const [description, setDescription] = useState("")
-  const [category, setCategory] = useState("")
+  const [title, setTitle] = useState('')
+  const [description, setDescription] = useState('')
+  const [category, setCategory] = useState('')
   const [isPublic, setIsPublic] = useState(true)
   const [selectedSongs, setSelectedSongs] = useState<AvailableSong[]>([])
-  const [searchTerm, setSearchTerm] = useState("")
+  const [searchTerm, setSearchTerm] = useState('')
   const router = useRouter()
 
   const filteredSongs = availableSongs
@@ -55,23 +55,23 @@ export default function CreatePlaylistPage() {
     setSelectedSongs(selectedSongs.filter((song) => song.id !== songId))
   }
 
-  const moveSong = (fromIndex: number, toIndex: number) => {
-    const newSongs = [...selectedSongs]
-    const [movedSong] = newSongs.splice(fromIndex, 1)
-    if (movedSong !== undefined) {
-      newSongs.splice(toIndex, 0, movedSong)
-    }
-    setSelectedSongs(newSongs)
-  }
+  // const moveSong = (fromIndex: number, toIndex: number) => {
+  //   const newSongs = [...selectedSongs]
+  //   const [movedSong] = newSongs.splice(fromIndex, 1)
+  //   if (movedSong !== undefined) {
+  //     newSongs.splice(toIndex, 0, movedSong)
+  //   }
+  //   setSelectedSongs(newSongs)
+  // }
 
   const formatDuration = (seconds: number) => {
     const mins = Math.floor(seconds / 60)
     const secs = seconds % 60
-    return `${mins}:${secs.toString().padStart(2, "0")}`
+    return `${mins}:${secs.toString().padStart(2, '0')}`
   }
 
   const totalDuration = selectedSongs.reduce((acc, song) => {
-    const parts = song.duration.split(":")
+    const parts = song.duration.split(':')
     const mins = Number(parts[0]) || 0
     const secs = Number(parts[1]) || 0
     return acc + (mins * 60 + secs)
@@ -79,11 +79,11 @@ export default function CreatePlaylistPage() {
 
   const handleSubmit = async () => {
     if (!title || selectedSongs.length === 0) {
-      console.log("Please fill in required fields")
+      console.log('Please fill in required fields')
       return
     }
 
-    console.log("Creating playlist...", {
+    console.log('Creating playlist...', {
       title,
       description,
       category,
@@ -93,7 +93,7 @@ export default function CreatePlaylistPage() {
 
     await new Promise((resolve) => setTimeout(resolve, 1000))
 
-    router.push("/shared_music/playlists/1")
+    router.push('/shared_music/playlists/1')
   }
 
   return (
@@ -239,7 +239,7 @@ export default function CreatePlaylistPage() {
 
               {filteredSongs.length === 0 && searchTerm && (
                 <div className="text-center py-8 text-muted-foreground">
-                  <p>No songs found matching "{searchTerm}"</p>
+                  <p>{`No songs found matching "${searchTerm}"`}</p>
                 </div>
               )}
             </CardContent>

@@ -1,11 +1,10 @@
-"use client"
+'use client'
 
-import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { useRouter } from "next/navigation"
-import { ArrowLeft, Maximize, Minimize, ChevronLeft, ChevronRight, SkipForward, SkipBack } from "lucide-react"
-
+import { useState, useEffect, useCallback } from 'react'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import { useRouter } from 'next/navigation'
+import { ArrowLeft, Maximize, Minimize, ChevronLeft, ChevronRight, SkipForward, SkipBack } from 'lucide-react'
 
 type Song = {
   id: number
@@ -17,12 +16,12 @@ type Song = {
 // Mock playlist data with full lyrics
 const playlistData = {
   id: 1,
-  title: "Sunday Morning Worship",
+  title: 'Sunday Morning Worship',
   songs: [
     {
       id: 1,
-      title: "Amazing Grace",
-      artist: "Traditional",
+      title: 'Amazing Grace',
+      artist: 'Traditional',
       lyrics: `Amazing grace! How sweet the sound
 That saved a wretch like me!
 I once was lost, but now am found;
@@ -35,8 +34,8 @@ The hour I first believed.`,
     },
     {
       id: 2,
-      title: "How Great Thou Art",
-      artist: "Carl Boberg",
+      title: 'How Great Thou Art',
+      artist: 'Carl Boberg',
       lyrics: `O Lord my God, when I in awesome wonder
 Consider all the worlds Thy hands have made
 I see the stars, I hear the rolling thunder
@@ -49,8 +48,8 @@ How great Thou art, how great Thou art`,
     },
     {
       id: 3,
-      title: "10,000 Reasons",
-      artist: "Matt Redman",
+      title: '10,000 Reasons',
+      artist: 'Matt Redman',
       lyrics: `Bless the Lord, O my soul, O my soul
 Worship His holy name
 Sing like never before, O my soul
@@ -64,105 +63,115 @@ Let me be singing when the evening comes`,
   ],
 }
 
-export default function PlaylistPresentationPage({ params }: { params: { id: string } }) {
+export default function PlaylistPresentationPage() {
   const router = useRouter()
   const [currentSongIndex, setCurrentSongIndex] = useState(0)
   const [currentSlide, setCurrentSlide] = useState(0)
-  const [isPlaying, setIsPlaying] = useState(false)
   const [isFullscreen, setIsFullscreen] = useState(false)
-  const [fontSize, setFontSize] = useState(48)
+  const [fontSize] = useState(48)
 
   const currentSong = playlistData.songs[currentSongIndex]
 
   // Create slides for current song
-const createSlides = (song: Song | undefined) => { 
+  const createSlides = (song: Song | undefined) => {
     if (!song) {
-        return []; 
+      return []
     }
     const titleSlide = `${song.title}\n\n${song.artist}`
-    const lyricsSlides = song.lyrics.split("\n\n").filter((slide:string) => slide.trim())
+    const lyricsSlides = song.lyrics.split('\n\n').filter((slide: string) => slide.trim())
     return [titleSlide, ...lyricsSlides]
-}
+  }
 
   const currentSlides = createSlides(currentSong)
 
-  // Keyboard navigation
-  useEffect(() => {
-    const handleKeyPress = (e: KeyboardEvent) => {
-      switch (e.key) {
-        case "ArrowRight":
-        case " ":
-          nextSlide()
-          break
-        case "ArrowLeft":
-          prevSlide()
-          break
-        case "ArrowUp":
-          prevSong()
-          break
-        case "ArrowDown":
-          nextSong()
-          break
-        case "Escape":
-          exitPresentation()
-          break
-        case "f":
-        case "F":
-          toggleFullscreen()
-          break
-      }
+  const nextSong = useCallback(() => {
+    if (currentSongIndex < playlistData.songs.length - 1) {
+      setCurrentSongIndex(currentSongIndex + 1)
+      setCurrentSlide(0)
     }
+  }, [currentSongIndex])
 
-    window.addEventListener("keydown", handleKeyPress)
-    return () => window.removeEventListener("keydown", handleKeyPress)
-  }, [currentSlide, currentSongIndex])
-
-  const nextSlide = () => {
+  const nextSlide = useCallback(() => {
     if (currentSlide < currentSlides.length - 1) {
       setCurrentSlide(currentSlide + 1)
     } else {
       nextSong()
     }
-  }
+  }, [currentSlide, currentSlides.length, nextSong])
 
-  const prevSlide = () => {
+  const prevSong = useCallback(() => {
+    if (currentSongIndex > 0) {
+      setCurrentSongIndex(currentSongIndex - 1)
+      setCurrentSlide(0)
+    }
+  }, [currentSongIndex])
+  const prevSlide = useCallback(() => {
     if (currentSlide > 0) {
       setCurrentSlide(currentSlide - 1)
     } else if (currentSongIndex > 0) {
       prevSong()
     }
-  }
+  }, [currentSlide, currentSongIndex, prevSong])
 
-  const nextSong = () => {
-    if (currentSongIndex < playlistData.songs.length - 1) {
-      setCurrentSongIndex(currentSongIndex + 1)
-      setCurrentSlide(0)
-    }
-  }
-
-  const prevSong = () => {
-    if (currentSongIndex > 0) {
-      setCurrentSongIndex(currentSongIndex - 1)
-      setCurrentSlide(0)
-    }
-  }
-
-  const exitPresentation = () => {
+  const exitPresentation = useCallback(() => {
     if (document.fullscreenElement) {
-      document.exitFullscreen()
+      void document.exitFullscreen()
     }
     router.back()
-  }
+  }, [router])
 
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen()
-      setIsFullscreen(true)
+      document.documentElement
+        .requestFullscreen()
+        .then(() => {
+          setIsFullscreen(true)
+        })
+        .catch((err) => {
+          console.error(`Error attempting to enable full-screen mode:`, err)
+        })
     } else {
-      document.exitFullscreen()
-      setIsFullscreen(false)
+      void document
+        .exitFullscreen()
+        .then(() => {
+          setIsFullscreen(false)
+        })
+        .catch((err) => {
+          console.error(`Error attempting to disable full-screen mode:}`, err)
+        })
     }
   }
+
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      switch (e.key) {
+        case 'ArrowRight':
+        case ' ':
+          nextSlide()
+          break
+        case 'ArrowLeft':
+          prevSlide()
+          break
+        case 'ArrowUp':
+          prevSong()
+          break
+        case 'ArrowDown':
+          nextSong()
+          break
+        case 'Escape':
+          exitPresentation()
+          break
+        case 'f':
+        case 'F':
+          toggleFullscreen()
+          break
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyPress)
+    return () => window.removeEventListener('keydown', handleKeyPress)
+  }, [currentSlide, currentSongIndex, exitPresentation, nextSlide, nextSong, prevSlide, prevSong])
 
   return (
     <div className="min-h-screen bg-black text-white relative">
@@ -221,7 +230,7 @@ const createSlides = (song: Song | undefined) => {
       {/* Main Presentation Area */}
       <div
         className="flex items-center justify-center min-h-screen p-8"
-        style={{ paddingTop: isFullscreen ? "2rem" : "6rem" }}
+        style={{ paddingTop: isFullscreen ? '2rem' : '6rem' }}
       >
         <div className="text-center max-w-4xl w-full">
           <div
@@ -247,7 +256,7 @@ const createSlides = (song: Song | undefined) => {
                   key={index}
                   onClick={() => setCurrentSlide(index)}
                   className={`w-2 h-2 rounded-full transition-all ${
-                    index === currentSlide ? "bg-white" : "bg-white/30"
+                    index === currentSlide ? 'bg-white' : 'bg-white/30'
                   }`}
                 />
               ))}
@@ -271,8 +280,8 @@ const createSlides = (song: Song | undefined) => {
                 }}
                 className={`px-3 py-1 rounded-full text-xs transition-all ${
                   index === currentSongIndex
-                    ? "bg-white text-black"
-                    : "text-white/70 hover:text-white hover:bg-white/10"
+                    ? 'bg-white text-black'
+                    : 'text-white/70 hover:text-white hover:bg-white/10'
                 }`}
               >
                 {song.title}

@@ -1,12 +1,12 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Separator } from "@/components/ui/separator"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Slider } from "@/components/ui/slider"
+import { useState } from 'react'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Separator } from '@/components/ui/separator'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Slider } from '@/components/ui/slider'
 import {
   Dialog,
   DialogContent,
@@ -14,9 +14,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
-import Link from "next/link"
+} from '@/components/ui/dialog'
+import { Label } from '@/components/ui/label'
+import Link from 'next/link'
 import {
   ArrowLeft,
   Heart,
@@ -30,22 +30,22 @@ import {
   Youtube,
   Play,
   ExternalLink,
-} from "lucide-react"
-import { useRouter } from "next/navigation"
+} from 'lucide-react'
+import { useParams, useRouter } from 'next/navigation'
 
 // Mock song data with YouTube link
 const songData = {
   id: 1,
-  title: "Amazing Grace",
-  artist: "Traditional",
-  category: "Hymn",
-  key: "G",
-  tempo: "Slow",
+  title: 'Amazing Grace',
+  artist: 'Traditional',
+  category: 'Hymn',
+  key: 'G',
+  tempo: 'Slow',
   plays: 1250,
-  duration: "4:32",
-  addedDate: "2024-01-15",
-  youtubeUrl: "https://www.youtube.com/watch?v=CDdvReNKKuk",
-  youtubeId: "CDdvReNKKuk",
+  duration: '4:32',
+  addedDate: '2024-01-15',
+  youtubeUrl: 'https://www.youtube.com/watch?v=CDdvReNKKuk',
+  youtubeId: 'CDdvReNKKuk',
   lyrics: `Amazing grace! How sweet the sound
 That saved a wretch like me!
 I once was lost, but now am found;
@@ -77,10 +77,11 @@ We've no less days to sing God's praise
 Than when we'd first begun.`,
 }
 
-export default function SongDetailPage({ params }: { params: { id: string } }) {
+export default function SongDetailPage() {
+  const params = useParams<{ id: string }>()
   const [fontSize, setFontSize] = useState([18])
-  const [fontFamily, setFontFamily] = useState("serif")
-  const [theme, setTheme] = useState("light")
+  const [fontFamily, setFontFamily] = useState('serif')
+  const [theme, setTheme] = useState('light')
   const [isFavorited, setIsFavorited] = useState(false)
   const [showPlaylistDialog, setShowPlaylistDialog] = useState(false)
   const [showDisplaySettings, setShowDisplaySettings] = useState(false)
@@ -94,7 +95,7 @@ export default function SongDetailPage({ params }: { params: { id: string } }) {
 
   const toggleFavorite = () => {
     setIsFavorited(!isFavorited)
-    console.log(isFavorited ? "Removed from favorites" : "Added to favorites")
+    console.log(isFavorited ? 'Removed from favorites' : 'Added to favorites')
   }
 
   const handleShare = async () => {
@@ -106,21 +107,21 @@ export default function SongDetailPage({ params }: { params: { id: string } }) {
           url: window.location.href,
         })
       } catch (error) {
-        console.log("Error sharing:", error)
+        console.log('Error sharing:', error)
       }
     } else {
-      navigator.clipboard.writeText(window.location.href)
-      console.log("Link copied to clipboard")
+      void navigator.clipboard.writeText(window.location.href)
+      console.log('Link copied to clipboard')
     }
   }
 
   const handleAddToPlaylist = () => {
     setShowPlaylistDialog(true)
-    console.log("Opening playlist selection dialog")
+    console.log('Opening playlist selection dialog', showPlaylistDialog)
   }
 
   const openYouTubeExternal = () => {
-    window.open(songData.youtubeUrl, "_blank")
+    window.open(songData.youtubeUrl, '_blank')
   }
 
   const toggleYouTubePlayer = () => {
@@ -147,7 +148,7 @@ export default function SongDetailPage({ params }: { params: { id: string } }) {
             className="hover-scale transition-all-smooth bg-transparent"
             onClick={toggleFavorite}
           >
-            <Heart className={`h-4 w-4 ${isFavorited ? "fill-current text-red-500" : ""}`} />
+            <Heart className={`h-4 w-4 ${isFavorited ? 'fill-current text-red-500' : ''}`} />
           </Button>
           <Button
             variant="outline"
@@ -323,7 +324,7 @@ export default function SongDetailPage({ params }: { params: { id: string } }) {
 
           {/* Lyrics Display */}
           <Card
-            className={`hover-lift transition-all-smooth ${theme === "dark" ? "bg-slate-900 text-white" : theme === "sepia" ? "bg-amber-50 text-amber-900" : "bg-white"}`}
+            className={`hover-lift transition-all-smooth ${theme === 'dark' ? 'bg-slate-900 text-white' : theme === 'sepia' ? 'bg-amber-50 text-amber-900' : 'bg-white'}`}
           >
             <CardHeader>
               <CardTitle>Lyrics</CardTitle>
@@ -332,7 +333,7 @@ export default function SongDetailPage({ params }: { params: { id: string } }) {
             <CardContent>
               <div
                 className={`whitespace-pre-line leading-relaxed ${
-                  fontFamily === "serif" ? "font-serif" : fontFamily === "sans" ? "font-sans" : "font-mono"
+                  fontFamily === 'serif' ? 'font-serif' : fontFamily === 'sans' ? 'font-sans' : 'font-mono'
                 }`}
                 style={{ fontSize: `${fontSize[0]}px` }}
               >
