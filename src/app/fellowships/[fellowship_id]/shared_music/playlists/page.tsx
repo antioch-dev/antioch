@@ -177,7 +177,7 @@ export default function PlaylistsPage() {
           <p className="text-muted-foreground">Organize and share your worship song collections</p>
         </div>
         <Button asChild className="hover-lift transition-all-smooth group">
-          <Link href="/shared_music/playlists/create">
+          <Link href="/fellowships/fellowship1/shared_music/playlists/create">
             <Plus className="h-4 w-4 mr-2 group-hover:scale-110 transition-transform duration-300" />
             Create Playlist
           </Link>
@@ -208,7 +208,7 @@ export default function PlaylistsPage() {
                 <div className="flex-1">
                   <CardTitle className="text-lg">
                     <Link
-                      href={`/shared_music/playlists/${playlist.id}`}
+                      href={`/fellowships/fellowship1/shared_music/playlists/${playlist.id}`}
                       className="hover:underline transition-all-smooth hover:text-primary"
                     >
                       {playlist.title}
@@ -309,7 +309,7 @@ export default function PlaylistsPage() {
 
               <div className="flex gap-2 animate-slide-in-up" style={{ animationDelay: `${index * 0.1 + 0.7}s` }}>
                 <Button asChild size="sm" className="flex-1 hover-lift transition-all-smooth group/play">
-                  <Link href={`/shared_music/playlists/${playlist.id}`}>
+                  <Link href={`/fellowships/fellowship1/shared_music/playlists/${playlist.id}`}>
                     <Play className="h-4 w-4 mr-2 group-hover/play:scale-110 transition-transform duration-300" />
                     View Playlist
                   </Link>

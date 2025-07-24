@@ -10,7 +10,7 @@ export function Header() {
           <span className="text-xl font-bold">Antioch Fellowships</span>
         </Link>
         <nav className="hidden md:flex gap-6">
-          <Link href="#about" className="text-sm font-medium transition-colors hover:text-primary">
+          {/* <Link href="#about" className="text-sm font-medium transition-colors hover:text-primary">
             About
           </Link>
           <Link href="#events" className="text-sm font-medium transition-colors hover:text-primary">
@@ -27,9 +27,18 @@ export function Header() {
           </Link>
           <Link href="#contact" className="text-sm font-medium transition-colors hover:text-primary">
             Contact
-          </Link>
-          <Link href="/fellowships/fellowship1/forms" className="text-sm font-medium transition-colors hover:text-primary">
+          </Link> */}
+          <Link
+            href="/fellowships/fellowship1/forms"
+            className="text-sm font-medium transition-colors hover:text-primary"
+          >
             Forms
+          </Link>
+          <Link
+            href="/fellowships/fellowship1/shared_music"
+            className="text-sm font-medium transition-colors hover:text-primary"
+          >
+            Shared Music
           </Link>
         </nav>
         <div className="flex items-center gap-4">

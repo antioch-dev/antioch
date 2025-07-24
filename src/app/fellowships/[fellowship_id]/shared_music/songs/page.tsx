@@ -90,7 +90,7 @@ export default function SongDetailPage() {
   const router = useRouter()
 
   const startPresentation = () => {
-    router.push(`/shared_music/songs/${params.id}/present`)
+    router.push(`/fellowships/fellowship1/shared_music/songs/${params.id}/present`)
   }
 
   const toggleFavorite = () => {
@@ -110,14 +110,8 @@ export default function SongDetailPage() {
         console.log('Error sharing:', error)
       }
     } else {
-      navigator.clipboard
-        .writeText(window.location.href)
-        .then(() => {
-          console.log('Link copied to clipboard')
-        })
-        .catch((error) => {
-          console.log('Error copying link:', error)
-        })
+      void navigator.clipboard.writeText(window.location.href)
+      console.log('Link copied to clipboard')
     }
   }
 
@@ -139,7 +133,7 @@ export default function SongDetailPage() {
       {/* Header */}
       <div className="flex items-center gap-4 mb-6">
         <Button variant="ghost" size="icon" asChild className="hover-lift transition-all-smooth">
-          <Link href="shared_music/songs">
+          <Link href="/fellowships/fellowship1/shared_music/songs">
             <ArrowLeft className="h-4 w-4" />
           </Link>
         </Button>
@@ -165,7 +159,7 @@ export default function SongDetailPage() {
             <Share2 className="h-4 w-4" />
           </Button>
           <Button variant="outline" asChild className="hover-lift transition-all-smooth bg-transparent">
-            <Link href={`/shared_music/songs/${params.id}/edit`}>
+            <Link href={`/fellowships/fellowship1/shared_music/songs/${params.id}/edit`}>
               <Edit className="h-4 w-4 mr-2" />
               Edit
             </Link>

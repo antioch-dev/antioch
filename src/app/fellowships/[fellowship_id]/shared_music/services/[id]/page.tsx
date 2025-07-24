@@ -159,7 +159,7 @@ export default function ServiceDetailPage() {
   const router = useRouter()
 
   const startServicePresentation = () => {
-    router.push(`/shared_music/services/${params.id}/present`)
+    router.push(`/fellowships/fellowship1/shared_music/services/${params.id}/present`)
   }
 
   const totalDuration = serviceData.songs.reduce((total, song) => {
@@ -229,7 +229,7 @@ export default function ServiceDetailPage() {
       {/* Header */}
       <div className="flex items-center gap-4 mb-6">
         <Button variant="ghost" size="icon" asChild>
-          <Link href="/shared_music/services">
+          <Link href="/fellowships/fellowship1/shared_music/services">
             <ArrowLeft className="h-4 w-4" />
           </Link>
         </Button>
@@ -242,7 +242,7 @@ export default function ServiceDetailPage() {
             <Share2 className="h-4 w-4" />
           </Button>
           <Button variant="outline" asChild>
-            <Link href={`/shared_music/services/${params.id}/edit`}>
+            <Link href={`/fellowships/fellowship1/shared_music/services/${params.id}/edit`}>
               <Edit className="h-4 w-4 mr-2" />
               Edit
             </Link>
@@ -425,7 +425,7 @@ export default function ServiceDetailPage() {
                 </CardHeader>
                 <CardContent>
                   <Link
-                    href={`/shared_music/playlists/${serviceData.playlistId}`}
+                    href={`/fellowships/fellowship1/shared_music/playlists/${serviceData.playlistId}`}
                     className="flex items-center gap-3 p-3 border rounded-lg hover:bg-muted/50"
                   >
                     <Music className="h-8 w-8 text-muted-foreground" />
@@ -459,7 +459,10 @@ export default function ServiceDetailPage() {
                     </div>
 
                     <div className="flex-1">
-                      <Link href={`/shared_music/songs/${song.id}`} className="font-medium hover:underline block">
+                      <Link
+                        href={`/fellowships/fellowship1/shared_music/songs/${song.id}`}
+                        className="font-medium hover:underline block"
+                      >
                         {song.title}
                       </Link>
                       <p className="text-sm text-muted-foreground">{song.artist}</p>

@@ -81,7 +81,7 @@ export default function SongPresentPage() {
     if (document.fullscreenElement) {
       void document?.exitFullscreen()
     }
-    router.push(`/shared_music/songs/${params.id}`)
+    router.push(`/fellowships/fellowship1/shared_music/songs/${params.id}`)
   }, [router, params.id])
 
   const toggleFullscreen = () => {

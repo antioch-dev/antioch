@@ -41,7 +41,7 @@ export default function EditPlaylistPage() {
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1000))
     setIsSaving(false)
-    router.push(`/shared_music/playlists/${params.id}`)
+    router.push(`/fellowships/fellowship1/shared_music/playlists/${params.id}`)
   }
 
   const handleInputChange = (field: string, value: string | boolean) => {
@@ -63,7 +63,7 @@ export default function EditPlaylistPage() {
       {/* Header */}
       <div className="flex items-center gap-4 mb-6">
         <Button variant="ghost" size="icon" asChild className="hover-lift transition-all-smooth">
-          <Link href={`/shared_music/playlists/${params.id}`}>
+          <Link href={`/fellowships/fellowship1/shared_music/playlists/${params.id}`}>
             <ArrowLeft className="h-4 w-4" />
           </Link>
         </Button>
@@ -245,7 +245,7 @@ export default function EditPlaylistPage() {
             </CardHeader>
             <CardContent className="space-y-2">
               <Button variant="outline" className="w-full hover-lift transition-all-smooth bg-transparent" asChild>
-                <Link href={`/shared_music/playlists/${params.id}/present`}>
+                <Link href={`/fellowships/fellowship1/shared_music/playlists/${params.id}/present`}>
                   <Eye className="h-4 w-4 mr-2" />
                   Start Presentation
                 </Link>

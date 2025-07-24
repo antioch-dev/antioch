@@ -93,14 +93,14 @@ export default function CreatePlaylistPage() {
 
     await new Promise((resolve) => setTimeout(resolve, 1000))
 
-    router.push('/shared_music/playlists/1')
+    router.push('/fellowships/fellowship1/shared_music/playlists/1')
   }
 
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex items-center gap-4 mb-6">
         <Button variant="ghost" size="icon" asChild>
-          <Link href="/shared_music/playlists">
+          <Link href="/fellowships/fellowship1/shared_music/playlists">
             <ArrowLeft className="h-4 w-4" />
           </Link>
         </Button>
@@ -249,7 +249,7 @@ export default function CreatePlaylistPage() {
 
       <div className="flex justify-end gap-4 mt-8">
         <Button variant="outline" asChild>
-          <Link href="/shared_music/playlists">Cancel</Link>
+          <Link href="/fellowships/fellowship1/shared_music/playlists">Cancel</Link>
         </Button>
         <Button disabled={!title || selectedSongs.length === 0} onClick={handleSubmit}>
           Create Playlist

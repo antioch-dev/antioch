@@ -137,19 +137,19 @@ export default function PlaylistDetailPage() {
   const handleDuplicate = () => {
     console.log('Duplicating playlist...')
     // Navigate to create page with pre-filled data
-    router.push(`/shared_music/playlists/create?duplicate=${params.id}`)
+    router.push(`/fellowships/fellowship1/shared_music/playlists/create?duplicate=${params.id}`)
   }
 
   const handleScheduleService = () => {
     console.log('Scheduling service...')
     // Navigate to service creation with this playlist
-    router.push(`/shared_music/services/create?playlist=${params.id}`)
+    router.push(`/fellowships/fellowship1/shared_music/services/create?playlist=${params.id}`)
   }
 
   const handleViewAnalytics = () => {
     console.log('Viewing analytics...')
     // Navigate to analytics page
-    router.push(`/shared_music/playlists/${params.id}/analytics`)
+    router.push(`/fellowships/fellowship1/shared_music/playlists/${params.id}/analytics`)
   }
 
   const handleAddToFavorites = (songId: number) => {
@@ -163,7 +163,7 @@ export default function PlaylistDetailPage() {
   const router = useRouter()
 
   const startPlaylistPresentation = () => {
-    router.push(`/shared_music/playlists/${params.id}/present`)
+    router.push(`/fellowships/fellowship1/shared_music/playlists/${params.id}/present`)
   }
   const totalDuration = playlistData.songs.reduce((total, song) => {
     const parts = song.duration.split(':')
@@ -194,7 +194,7 @@ export default function PlaylistDetailPage() {
       {/* Header */}
       <div className="flex items-center gap-4 mb-6">
         <Button variant="ghost" size="icon" asChild className="hover-lift transition-all-smooth">
-          <Link href="/shared_music/playlists">
+          <Link href="/fellowships/fellowship1/shared_music/playlists">
             <ArrowLeft className="h-4 w-4" />
           </Link>
         </Button>
@@ -300,7 +300,7 @@ export default function PlaylistDetailPage() {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                       <DropdownMenuItem asChild>
-                        <Link href={`/shared_music/playlists/${params.id}/edit`}>
+                        <Link href={`/fellowships/fellowship1/shared_music/playlists/${params.id}/edit`}>
                           <Edit className="h-4 w-4 mr-2" />
                           Edit Playlist
                         </Link>
@@ -355,7 +355,7 @@ export default function PlaylistDetailPage() {
 
                     <div className="flex-1 min-w-0">
                       <Link
-                        href={`/shared_music/songs/${song.id}`}
+                        href={`/fellowships/fellowship1/shared_music/songs/${song.id}`}
                         className="font-medium hover:underline block truncate transition-all-smooth"
                       >
                         {song.title}
@@ -386,7 +386,7 @@ export default function PlaylistDetailPage() {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                           <DropdownMenuItem asChild>
-                            <Link href={`/shared_music/songs/${song.id}`}>
+                            <Link href={`/fellowships/fellowship1/shared_music/songs/${song.id}`}>
                               <Play className="h-4 w-4 mr-2" />
                               View Song
                             </Link>

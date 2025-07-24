@@ -9,7 +9,7 @@ import { Badge } from '@/components/ui/badge'
 import { Music, Heart, Calendar, Home, Menu, Search, Bell, User, Settings, LogOut } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
-const url_prefix = '/shared_music'
+const url_prefix = '/fellowships/fellowship1/shared_music'
 const navigation = [
   { name: 'Home', href: `${url_prefix}`, icon: Home },
   { name: 'Songs', href: `${url_prefix}/songs`, icon: Music },

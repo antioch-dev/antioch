@@ -243,7 +243,7 @@ export default function EditServicePage() {
       // Show confirmation dialog
       return
     }
-    router.push(`/shared_music/services/${params.id}`)
+    router.push(`/fellowships/fellowship1/shared_music/services/${params.id}`)
   }
 
   return (
@@ -252,7 +252,7 @@ export default function EditServicePage() {
       <div className="flex items-center justify-between mb-8 animate-slide-in-left">
         <div className="flex items-center gap-4">
           <Button variant="ghost" size="icon" asChild className="hover-lift transition-all-smooth">
-            <Link href={`/shared_music/services/${params.id}`}>
+            <Link href={`/fellowships/fellowship1/shared_music/services/${params.id}`}>
               <ArrowLeft className="h-4 w-4" />
             </Link>
           </Button>
