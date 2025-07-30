@@ -1,3 +1,4 @@
+// app/admin/permissions/page.tsx
 import { DashboardLayout } from "@/app/_components/dashboard-layout"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -9,10 +10,47 @@ import { mockUsers, mockFellowships } from "@/lib/mock-data"
 import { Search, Shield, Users, Settings, Save, RefreshCw, Edit, MoreHorizontal } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 
+// Define interfaces for better type safety
+interface User {
+  id: string
+  email: string
+  full_name: string | null
+  avatar_url: string | null
+  created_at: string
+  updated_at: string
+  role: "admin" | "pastor" | "leader" | "member" 
+  name?: string
+  permissions: {
+    canManageFellowships?: boolean
+    canManageUsers?: boolean
+    canViewAnalytics?: boolean
+    canManagePermissions?: boolean
+    
+  }
+}
+
+interface Fellowship {
+  id: string
+  name: string
+  pastor: string // Or string[] if multiple pastors
+  status: "active" | "inactive" // Add other statuses if they exist
+  permissions: {
+    canCreateEvents?: boolean
+    canManageMembers?: boolean
+    canViewAnalytics?: boolean
+    canEditInfo?: boolean
+    // Add any other fellowship-specific permissions
+  }
+}
+
 export default function AdminPermissionsPage() {
-  const adminUsers = mockUsers.filter((u) => u.role === "admin")
-  const pastorUsers = mockUsers.filter((u) => u.role === "pastor")
-  const leaderUsers = mockUsers.filter((u) => u.role === "leader")
+  // Assert types for mock data arrays
+  const users: User[] = mockUsers as unknown as User[]
+  const fellowships: Fellowship[] = mockFellowships as Fellowship[]
+
+  const adminUsers = users.filter((u) => u.role === "admin")
+  const pastorUsers = users.filter((u) => u.role === "pastor")
+  const leaderUsers = users.filter((u) => u.role === "leader")
 
   const getRoleBadgeColor = (role: string) => {
     switch (role) {
@@ -55,7 +93,7 @@ export default function AdminPermissionsPage() {
               <Users className="h-4 w-4 text-gray-600" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-gray-900">{mockUsers.length}</div>
+              <div className="text-2xl font-bold text-gray-900">{users.length}</div>
               <p className="text-xs text-gray-600">Platform users</p>
             </CardContent>
           </Card>
@@ -113,11 +151,12 @@ export default function AdminPermissionsPage() {
               </div>
 
               <div className="space-y-4">
-                {mockUsers.slice(0, 4).map((user) => (
+                {users.slice(0, 4).map((user) => (
                   <div key={user.id} className="border border-gray-200 rounded-lg p-4 bg-gray-50">
                     <div className="flex justify-between items-start mb-3">
                       <div>
-                        <h3 className="font-semibold text-gray-900">{user.name}</h3>
+                        {/* Use user.name if available, otherwise fallback to full_name or email */}
+                        <h3 className="font-semibold text-gray-900">{user.name || user.full_name || user.email}</h3>
                         <p className="text-sm text-gray-600">{user.email}</p>
                       </div>
                       <div className="flex items-center gap-2">
@@ -179,7 +218,7 @@ export default function AdminPermissionsPage() {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {mockFellowships.slice(0, 3).map((fellowship) => (
+                {fellowships.slice(0, 3).map((fellowship) => (
                   <div key={fellowship.id} className="border border-gray-200 rounded-lg p-4 bg-gray-50">
                     <div className="flex justify-between items-start mb-3">
                       <div>
@@ -189,9 +228,7 @@ export default function AdminPermissionsPage() {
                       <div className="flex items-center gap-2">
                         <Badge
                           variant={fellowship.status === "active" ? "default" : "secondary"}
-                          className={
-                            fellowship.status === "active" ? "bg-green-100 text-green-800 border-green-200" : ""
-                          }
+                          className={fellowship.status === "active" ? "bg-green-100 text-green-800 border-green-200" : ""}
                         >
                           {fellowship.status}
                         </Badge>

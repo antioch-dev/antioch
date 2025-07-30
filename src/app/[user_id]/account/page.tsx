@@ -1,10 +1,11 @@
-import { DashboardLayout } from "@/app/_components/dashboard-layout" 
+// app/[user_id]/account/page.tsx
+import { DashboardLayout } from "@/app/_components/dashboard-layout"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { getUserById } from "@/lib/mock-data"
 import { Mail, Phone, User, Shield, AlertTriangle, Check, X, Edit, Trash2 } from "lucide-react"
 import { notFound } from "next/navigation"
@@ -14,7 +15,7 @@ interface UserAccountProps {
 }
 
 export default async function UserAccount({ params }: UserAccountProps) {
-  const { user_id } = await params
+  const { user_id } = await params 
   const user = getUserById(user_id)
 
   if (!user) {
@@ -44,15 +45,18 @@ export default async function UserAccount({ params }: UserAccountProps) {
             <CardContent>
               <div className="flex items-center space-x-4 mb-6">
                 <Avatar className="h-20 w-20">
+                  {user.avatar_url && <AvatarImage src={user.avatar_url} alt={user.full_name || "User Avatar"} />}
                   <AvatarFallback className="bg-blue-100 text-blue-600 text-2xl">
-                    {user.name
-                      .split(" ")
-                      .map((n) => n[0])
-                      .join("")}
+                    {user.full_name
+                      ? user.full_name
+                          .split(" ")
+                          .map((n) => n[0])
+                          .join("")
+                      : user.email[0]?.toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900">{user.name}</h3>
+                  <h3 className="text-lg font-semibold text-gray-900">{user.full_name}</h3>
                   <p className="text-gray-600">{user.email}</p>
                   <Badge className="mt-1 bg-blue-100 text-blue-800">
                     {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
@@ -65,7 +69,11 @@ export default async function UserAccount({ params }: UserAccountProps) {
                   <Label htmlFor="full-name" className="text-gray-900">
                     Full Name
                   </Label>
-                  <Input id="full-name" defaultValue={user.name} className="bg-white border-gray-300 text-gray-900" />
+                  <Input
+                    id="full-name"
+                    defaultValue={user.full_name || ""}
+                    className="bg-white border-gray-300 text-gray-900"
+                  />
                 </div>
                 <div>
                   <Label htmlFor="username" className="text-gray-900">

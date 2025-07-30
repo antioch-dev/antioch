@@ -1,8 +1,7 @@
 import Image from 'next/image'
-// Assuming your Footer component is a named export 'Footer'
+
 import { Footer } from '@/components/footer'
-// Assuming your Header component is a named export 'Header'
-import { Header } from '@/components/header' // <--- ADD THIS LINE FOR THE HEADER
+import { Header } from '@/components/header' 
 import { Heart, Calendar } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -13,10 +12,8 @@ import AnnouncementCarousel from '@/components/announcement-carousel'
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col items-center">
-      {/* Place the Header component *before* the main content.
-        It typically wraps the entire layout or is directly inside the flex container.
-      */}
-      <Header /> {/* <--- ADD THIS LINE FOR THE HEADER */}
+      
+      <Header /> 
 
       <main className="flex-1 w-full">
         {/* Hero Section */}
