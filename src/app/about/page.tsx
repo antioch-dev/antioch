@@ -1,8 +1,8 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Heart, Shield, Globe, Users, Target, Eye, ArrowRight } from "lucide-react"
-import Link from "next/link"
-import Image from "next/image"
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Heart, Shield, Globe, Users, Target, Eye, ArrowRight } from 'lucide-react'
+import Link from 'next/link'
+import Image from 'next/image'
 
 export default function AboutPage() {
   return (
@@ -61,8 +61,8 @@ export default function AboutPage() {
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Challenges We Address</h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Through extensive research and community feedback, we've identified key pain points that fellowships face
-              in today's digital age.
+              {`Through extensive research and community feedback, we've identified key pain points that fellowships face
+              in today's digital age.`}
             </p>
           </div>
 
@@ -247,7 +247,7 @@ export default function AboutPage() {
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">Security First</h3>
               <p className="text-gray-600">
-                Protecting your community's data and privacy is our highest technical priority.
+                {`Protecting your community's data and privacy is our highest technical priority.`}
               </p>
             </div>
 
@@ -279,8 +279,8 @@ export default function AboutPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">Join Our Mission</h2>
           <p className="text-xl text-blue-100 mb-8">
-            Be part of a movement that's transforming how Christian communities connect, grow, and serve together around
-            the world.
+            {`Be part of a movement that's transforming how Christian communities connect, grow, and serve together around
+            the world.`}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild size="lg" className="bg-white text-blue-600 hover:bg-gray-100">

@@ -1,10 +1,10 @@
-"use client"
+'use client'
 
-import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import Link from "next/link"
-import { ArrowRight, Play, ChevronDown } from "lucide-react"
-import { ScrollAnimation } from "@/components/scroll-animation"
+import { useState, useEffect } from 'react'
+import { Button } from '@/components/ui/button'
+import Link from 'next/link'
+import { ArrowRight, Play, ChevronDown } from 'lucide-react'
+import { ScrollAnimation } from '@/components/scroll-animation'
 
 interface HeroData {
   title: string
@@ -24,21 +24,21 @@ export function HeroSection() {
       await new Promise((resolve) => setTimeout(resolve, 500))
 
       const mockData: HeroData = {
-        title: "Unite Fellowships Worldwide",
-        subtitle: "One Platform, Endless Possibilities",
+        title: 'Unite Fellowships Worldwide',
+        subtitle: 'One Platform, Endless Possibilities',
         description:
-          "Empowering Christian communities with shared tools, secure data management, and collaborative features that strengthen fellowship connections across the globe.",
-        primaryButton: { text: "Find Fellowships", href: "/search" },
-        secondaryButton: { text: "Watch Demo", href: "#demo" },
+          'Empowering Christian communities with shared tools, secure data management, and collaborative features that strengthen fellowship connections across the globe.',
+        primaryButton: { text: 'Find Fellowships', href: '/search' },
+        secondaryButton: { text: 'Watch Demo', href: '#demo' },
         backgroundImage:
-          "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600&q=80",
+          'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600&q=80',
       }
 
       setHeroData(mockData)
       setIsLoaded(true)
     }
 
-    fetchHeroData()
+    void fetchHeroData()
   }, [])
 
   if (!heroData) {
@@ -68,7 +68,7 @@ export function HeroSection() {
       <div className="absolute top-40 sm:top-48 right-4 sm:right-20 w-10 h-10 sm:w-12 sm:h-12 bg-blue-400/20 rounded-full animate-pulse-slow"></div>
       <div
         className="absolute bottom-32 sm:bottom-40 left-4 sm:left-20 w-12 h-12 sm:w-16 sm:h-16 bg-purple-400/20 rounded-full animate-float"
-        style={{ animationDelay: "1s" }}
+        style={{ animationDelay: '1s' }}
       ></div>
 
       {/* Main content - Added proper top padding to avoid navbar collision */}
@@ -79,9 +79,9 @@ export function HeroSection() {
             <div className="text-white space-y-6 sm:space-y-8 text-center lg:text-left">
               <ScrollAnimation animation="fade-up" delay={200}>
                 <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight">
-                  <span className="block">{heroData.title.split(" ").slice(0, 2).join(" ")}</span>
+                  <span className="block">{heroData.title.split(' ').slice(0, 2).join(' ')}</span>
                   <span className="block bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                    {heroData.title.split(" ").slice(2).join(" ")}
+                    {heroData.title.split(' ').slice(2).join(' ')}
                   </span>
                 </h1>
               </ScrollAnimation>

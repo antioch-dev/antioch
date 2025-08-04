@@ -1,15 +1,15 @@
-"use client"
+'use client'
 
-import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Badge } from "@/components/ui/badge"
-import { Search, MapPin, Users, Globe, ArrowRight } from "lucide-react"
-import Link from "next/link"
-import Image from "next/image"
-import { ScrollAnimation } from "@/components/scroll-animation"
+import { useState, useEffect } from 'react'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Badge } from '@/components/ui/badge'
+import { Search, MapPin, Users, Globe, ArrowRight } from 'lucide-react'
+import Link from 'next/link'
+import Image from 'next/image'
+import { ScrollAnimation } from '@/components/scroll-animation'
 
 interface Fellowship {
   id: string
@@ -24,8 +24,8 @@ interface Fellowship {
 
 export function FellowshipSearch() {
   const [fellowships, setFellowships] = useState<Fellowship[]>([])
-  const [searchTerm, setSearchTerm] = useState("")
-  const [selectedCountry, setSelectedCountry] = useState("all") // Updated default value
+  const [searchTerm, setSearchTerm] = useState('')
+  const [selectedCountry, setSelectedCountry] = useState('all') // Updated default value
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
@@ -34,37 +34,37 @@ export function FellowshipSearch() {
 
       const mockFellowships: Fellowship[] = [
         {
-          id: "1",
-          name: "Grace Fellowship Beijing",
-          country: "China",
-          city: "Beijing",
+          id: '1',
+          name: 'Grace Fellowship Beijing',
+          country: 'China',
+          city: 'Beijing',
           memberCount: 150,
-          description: "A vibrant international community serving expatriates and locals in Beijing.",
-          tags: ["International", "Bilingual", "Family-friendly"],
+          description: 'A vibrant international community serving expatriates and locals in Beijing.',
+          tags: ['International', 'Bilingual', 'Family-friendly'],
           image:
-            "https://images.unsplash.com/photo-1438032005730-c779502df39b?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80",
+            'https://images.unsplash.com/photo-1438032005730-c779502df39b?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80',
         },
         {
-          id: "2",
-          name: "Hope Church Shanghai",
-          country: "China",
-          city: "Shanghai",
+          id: '2',
+          name: 'Hope Church Shanghai',
+          country: 'China',
+          city: 'Shanghai',
           memberCount: 200,
-          description: "Connecting hearts and building faith in the heart of Shanghai.",
-          tags: ["Young Professionals", "Urban Ministry"],
+          description: 'Connecting hearts and building faith in the heart of Shanghai.',
+          tags: ['Young Professionals', 'Urban Ministry'],
           image:
-            "https://images.unsplash.com/photo-1519491050282-cf00c82424b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80",
+            'https://images.unsplash.com/photo-1519491050282-cf00c82424b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80',
         },
         {
-          id: "3",
-          name: "New Life Fellowship Singapore",
-          country: "Singapore",
-          city: "Singapore",
+          id: '3',
+          name: 'New Life Fellowship Singapore',
+          country: 'Singapore',
+          city: 'Singapore',
           memberCount: 180,
-          description: "Multicultural fellowship welcoming all nations and backgrounds.",
-          tags: ["Multicultural", "International"],
+          description: 'Multicultural fellowship welcoming all nations and backgrounds.',
+          tags: ['Multicultural', 'International'],
           image:
-            "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80",
+            'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80',
         },
       ]
 
@@ -72,14 +72,14 @@ export function FellowshipSearch() {
       setIsLoading(false)
     }
 
-    fetchFellowships()
+    void fetchFellowships()
   }, [])
 
   const filteredFellowships = fellowships.filter((fellowship) => {
     const matchesSearch =
       fellowship.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       fellowship.description.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesCountry = selectedCountry === "all" || fellowship.country === selectedCountry
+    const matchesCountry = selectedCountry === 'all' || fellowship.country === selectedCountry
     return matchesSearch && matchesCountry
   })
 
@@ -95,7 +95,7 @@ export function FellowshipSearch() {
         <ScrollAnimation animation="fade-up">
           <div className="text-center mb-12 sm:mb-16">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">
-              Discover{" "}
+              Discover{' '}
               <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                 Fellowships
               </span>
@@ -137,7 +137,7 @@ export function FellowshipSearch() {
 
             <div className="flex justify-between items-center mt-6">
               <p className="text-sm text-gray-600">
-                {isLoading ? "Loading..." : `${filteredFellowships.length} fellowships found`}
+                {isLoading ? 'Loading...' : `${filteredFellowships.length} fellowships found`}
               </p>
               <Button
                 asChild
@@ -174,7 +174,7 @@ export function FellowshipSearch() {
                   <Card className="group bg-white/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-2xl transition-all duration-500 rounded-2xl overflow-hidden hover:scale-105">
                     <div className="relative overflow-hidden">
                       <Image
-                        src={fellowship.image || "/placeholder.svg"}
+                        src={fellowship.image || '/placeholder.svg'}
                         alt={fellowship.name}
                         width={300}
                         height={200}
@@ -241,8 +241,8 @@ export function FellowshipSearch() {
                 <p className="text-gray-500 mb-4">Try adjusting your search criteria or browse all fellowships.</p>
                 <Button
                   onClick={() => {
-                    setSearchTerm("")
-                    setSelectedCountry("all") // Updated default value
+                    setSearchTerm('')
+                    setSelectedCountry('all') // Updated default value
                   }}
                   className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-full px-6 py-2 transition-all duration-300 hover:scale-105 shadow-lg"
                 >
