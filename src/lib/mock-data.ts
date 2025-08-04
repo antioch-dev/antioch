@@ -1,536 +1,584 @@
 export interface User {
-  id: string;
-  name: string;
-  email: string;
-  phone?: string;
-  role: "admin" | "pastor" | "leader" | "member";
-  fellowshipId?: string;
-  joinDate: string;
-  avatar?: string;
-  isEmailVerified: boolean;
-  isPhoneVerified: boolean;
-  username: string;
-  accountStatus: "active" | "suspended" | "pending_verification";
-  lastLogin: string;
+  id: string
+  name: string
+  email: string
+  phone?: string
+  role: 'admin' | 'pastor' | 'leader' | 'member'
+  fellowshipId?: string
+  joinDate: string
+  avatar?: string
+  isEmailVerified: boolean
+  isPhoneVerified: boolean
+  username: string
+  accountStatus: 'active' | 'suspended' | 'pending_verification'
+  lastLogin: string
   permissions: {
-    canManageFellowships: boolean;
-    canManageUsers: boolean;
-    canViewAnalytics: boolean;
-    canManagePermissions: boolean;
-  };
-  bio?: string;
+    canManageFellowships: boolean
+    canManageUsers: boolean
+    canViewAnalytics: boolean
+    canManagePermissions: boolean
+  }
+  bio?: string
 }
 
 export interface Fellowship {
-  id: string;
-  name: string;
-  description: string;
+  id: string
+  name: string
+  country: string
+  city: string
+  description: string
   location: {
-    address: string;
-    city: string;
-    state: string;
-    zipCode: string;
-    coordinates?: { lat: number; lng: number };
-  };
-  memberCount: number;
-  pastor: string;
-  established: string;
-  status: "active" | "inactive" | "banned" | "pending";
-  image?: string;
-  contactEmail: string;
-  contactPhone: string;
-  website?: string;
-  adminIds: string[];
-  applicationStatus: "approved" | "pending" | "rejected";
-  applicationDate: string;
+    address: string
+    city: string
+    state: string
+    zipCode: string
+    coordinates?: { lat: number; lng: number }
+  }
+  memberCount: number
+  pastor: string
+  established: string
+  status: 'active' | 'inactive' | 'banned' | 'pending'
+  image?: string
+  contactEmail: string
+  contactPhone: string
+  website?: string
+  adminIds: string[]
+  applicationStatus: 'approved' | 'pending' | 'rejected'
+  applicationDate: string
   permissions: {
-    canCreateEvents: boolean;
-    canManageMembers: boolean;
-    canViewAnalytics: boolean;
-    canEditInfo: boolean;
-  };
+    canCreateEvents: boolean
+    canManageMembers: boolean
+    canViewAnalytics: boolean
+    canEditInfo: boolean
+  }
+  subpath: string
+  languages: string[]
+
+  meetingAddress?: string
+  leaderName: string
+  leaderEmail: string
 }
 
 export interface Event {
-  id: string;
-  title: string;
-  description: string;
-  date: string;
-  time: string;
-  location: string;
-  fellowshipId: string;
-  attendees: number;
-  maxAttendees?: number;
-  type: "service" | "bible-study" | "fellowship" | "outreach" | "prayer";
+  id: string
+  title: string
+  description: string
+  date: string
+  time: string
+  location: string
+  fellowshipId: string
+  attendees: number
+  maxAttendees?: number
+  type: 'service' | 'bible-study' | 'fellowship' | 'outreach' | 'prayer'
 }
 
 export interface FellowshipApplication {
-  id: string;
-  applicantName: string;
-  fellowshipId: string;
-  fellowshipName: string;
-  pastorName: string;
-  email: string;
-  phone: string;
-  address: string;
-  description: string;
-  status: "pending" | "approved" | "rejected";
-  submittedDate: string;
-  reviewedDate?: string;
-  reviewedBy?: string;
-  notes?: string;
+  id: string
+  applicantName: string
+  fellowshipId: string
+  fellowshipName: string
+  pastorName: string
+  email: string
+  phone: string
+  address: string
+  description: string
+  status: 'pending' | 'approved' | 'rejected'
+  submittedDate: string
+  reviewedDate?: string
+  reviewedBy?: string
+  notes?: string
 }
 
 export const mockFellowships: Fellowship[] = [
   {
-    id: "fellowship-1",
-    name: "Grace Community Fellowship",
-    description: "A vibrant community focused on worship, fellowship, and service",
+    id: 'fellowship-1',
+    name: 'Grace Community Fellowship',
+    description: 'A vibrant community focused on worship, fellowship, and service',
     location: {
-      address: "123 Main Street",
-      city: "Springfield",
-      state: "IL",
-      zipCode: "62701",
+      address: '123 Main Street',
+      city: 'Springfield',
+      state: 'IL',
+      zipCode: '62701',
       coordinates: { lat: 39.7817, lng: -89.6501 },
     },
     memberCount: 150,
-    pastor: "Pastor John Smith",
-    established: "2018",
-    status: "active",
-    contactEmail: "info@gracecommunity.org",
-    contactPhone: "(555) 123-4567",
-    website: "https://gracecommunity.org",
-    adminIds: ["user-2", "user-6"],
-    applicationStatus: "approved",
-    applicationDate: "2018-01-15",
+    pastor: 'Pastor John Smith',
+    established: '2018',
+    status: 'active',
+    contactEmail: 'info@gracecommunity.org',
+    contactPhone: '(555) 123-4567',
+    website: 'https://gracecommunity.org',
+    adminIds: ['user-2', 'user-6'],
+    applicationStatus: 'approved',
+    applicationDate: '2018-01-15',
     permissions: {
       canCreateEvents: true,
       canManageMembers: true,
       canViewAnalytics: true,
       canEditInfo: true,
     },
+    country: '',
+    city: '',
+    subpath: '',
+    languages: [],
+    leaderName: '',
+    leaderEmail: '',
   },
   {
-    id: "fellowship-2",
-    name: "Hope Baptist Fellowship",
-    description: "Traditional Baptist fellowship with strong community roots",
+    id: 'fellowship-2',
+    name: 'Hope Baptist Fellowship',
+    description: 'Traditional Baptist fellowship with strong community roots',
     location: {
-      address: "456 Oak Avenue",
-      city: "Springfield",
-      state: "IL",
-      zipCode: "62702",
+      address: '456 Oak Avenue',
+      city: 'Springfield',
+      state: 'IL',
+      zipCode: '62702',
     },
     memberCount: 89,
-    pastor: "Pastor Mary Johnson",
-    established: "2015",
-    status: "active",
-    contactEmail: "contact@hopebaptist.org",
-    contactPhone: "(555) 234-5678",
-    adminIds: ["user-3"],
-    applicationStatus: "approved",
-    applicationDate: "2015-06-10",
+    pastor: 'Pastor Mary Johnson',
+    established: '2015',
+    status: 'active',
+    contactEmail: 'contact@hopebaptist.org',
+    contactPhone: '(555) 234-5678',
+    adminIds: ['user-3'],
+    applicationStatus: 'approved',
+    applicationDate: '2015-06-10',
     permissions: {
       canCreateEvents: true,
       canManageMembers: true,
       canViewAnalytics: false,
       canEditInfo: true,
     },
+    country: '',
+    city: '',
+    subpath: '',
+    languages: [],
+    leaderName: '',
+    leaderEmail: '',
   },
   {
-    id: "fellowship-3",
-    name: "New Life Assembly",
-    description: "Contemporary worship and dynamic youth programs",
+    id: 'fellowship-3',
+    name: 'New Life Assembly',
+    description: 'Contemporary worship and dynamic youth programs',
     location: {
-      address: "789 Pine Street",
-      city: "Springfield",
-      state: "IL",
-      zipCode: "62703",
+      address: '789 Pine Street',
+      city: 'Springfield',
+      state: 'IL',
+      zipCode: '62703',
     },
     memberCount: 203,
-    pastor: "Pastor David Wilson",
-    established: "2020",
-    status: "active",
-    contactEmail: "hello@newlifeassembly.org",
-    contactPhone: "(555) 345-6789",
-    website: "https://newlifeassembly.org",
-    adminIds: ["user-4"],
-    applicationStatus: "approved",
-    applicationDate: "2020-03-01",
+    pastor: 'Pastor David Wilson',
+    established: '2020',
+    status: 'active',
+    contactEmail: 'hello@newlifeassembly.org',
+    contactPhone: '(555) 345-6789',
+    website: 'https://newlifeassembly.org',
+    adminIds: ['user-4'],
+    applicationStatus: 'approved',
+    applicationDate: '2020-03-01',
     permissions: {
       canCreateEvents: true,
       canManageMembers: true,
       canViewAnalytics: true,
       canEditInfo: true,
     },
+    country: '',
+    city: '',
+    subpath: '',
+    languages: [],
+    leaderName: '',
+    leaderEmail: '',
   },
   {
-    id: "fellowship-4",
-    name: "Unity Methodist Fellowship",
-    description: "Methodist fellowship emphasizing social justice and community service",
+    id: 'fellowship-4',
+    name: 'Unity Methodist Fellowship',
+    description: 'Methodist fellowship emphasizing social justice and community service',
     location: {
-      address: "321 Elm Street",
-      city: "Springfield",
-      state: "IL",
-      zipCode: "62704",
+      address: '321 Elm Street',
+      city: 'Springfield',
+      state: 'IL',
+      zipCode: '62704',
     },
     memberCount: 67,
-    pastor: "Pastor Sarah Brown",
-    established: "2019",
-    status: "banned",
-    contactEmail: "info@unitymethodist.org",
-    contactPhone: "(555) 456-7890",
-    adminIds: ["user-5"],
-    applicationStatus: "approved",
-    applicationDate: "2019-08-15",
+    pastor: 'Pastor Sarah Brown',
+    established: '2019',
+    status: 'banned',
+    contactEmail: 'info@unitymethodist.org',
+    contactPhone: '(555) 456-7890',
+    adminIds: ['user-5'],
+    applicationStatus: 'approved',
+    applicationDate: '2019-08-15',
     permissions: {
       canCreateEvents: false,
       canManageMembers: false,
       canViewAnalytics: false,
       canEditInfo: false,
     },
+    country: '',
+    city: '',
+    subpath: '',
+    languages: [],
+    leaderName: '',
+    leaderEmail: '',
   },
   {
-    id: "fellowship-5",
-    name: "Riverside Community Church",
-    description: "A growing community church focused on family ministry and community outreach",
+    id: 'fellowship-5',
+    name: 'Riverside Community Church',
+    description: 'A growing community church focused on family ministry and community outreach',
     location: {
-      address: "555 River Road",
-      city: "Springfield",
-      state: "IL",
-      zipCode: "62705",
+      address: '555 River Road',
+      city: 'Springfield',
+      state: 'IL',
+      zipCode: '62705',
     },
     memberCount: 0,
-    pastor: "Pastor James Wilson",
-    established: "2022",
-    status: "active",
-    contactEmail: "james@riverside.org",
-    contactPhone: "(555) 567-8901",
+    pastor: 'Pastor James Wilson',
+    established: '2022',
+    status: 'active',
+    contactEmail: 'james@riverside.org',
+    contactPhone: '(555) 567-8901',
     adminIds: [],
-    applicationStatus: "pending",
-    applicationDate: "2022-01-01",
+    applicationStatus: 'pending',
+    applicationDate: '2022-01-01',
     permissions: {
       canCreateEvents: true,
       canManageMembers: true,
       canViewAnalytics: true,
       canEditInfo: true,
     },
+    country: '',
+    city: '',
+    subpath: '',
+    languages: [],
+    leaderName: '',
+    leaderEmail: '',
   },
   {
-    id: "fellowship-6",
-    name: "Mountain View Fellowship",
-    description: "Contemporary worship with emphasis on youth and young adult ministry",
+    id: 'fellowship-6',
+    name: 'Mountain View Fellowship',
+    description: 'Contemporary worship with emphasis on youth and young adult ministry',
     location: {
-      address: "777 Hill Street",
-      city: "Springfield",
-      state: "IL",
-      zipCode: "62706",
+      address: '777 Hill Street',
+      city: 'Springfield',
+      state: 'IL',
+      zipCode: '62706',
     },
     memberCount: 0,
-    pastor: "Pastor Lisa Chen",
-    established: "2021",
-    status: "active",
-    contactEmail: "lisa@mountainview.org",
-    contactPhone: "(555) 678-9012",
+    pastor: 'Pastor Lisa Chen',
+    established: '2021',
+    status: 'active',
+    contactEmail: 'lisa@mountainview.org',
+    contactPhone: '(555) 678-9012',
     adminIds: [],
-    applicationStatus: "pending",
-    applicationDate: "2021-01-01",
+    applicationStatus: 'pending',
+    applicationDate: '2021-01-01',
     permissions: {
       canCreateEvents: true,
       canManageMembers: true,
       canViewAnalytics: true,
       canEditInfo: true,
     },
+    country: '',
+    city: '',
+    subpath: '',
+    languages: [],
+    leaderName: '',
+    leaderEmail: '',
   },
   {
-    id: "fellowship-7",
-    name: "Faith Community Center",
-    description: "Multi-cultural fellowship serving diverse community needs",
+    id: 'fellowship-7',
+    name: 'Faith Community Center',
+    description: 'Multi-cultural fellowship serving diverse community needs',
     location: {
-      address: "999 Faith Avenue",
-      city: "Springfield",
-      state: "IL",
-      zipCode: "62707",
+      address: '999 Faith Avenue',
+      city: 'Springfield',
+      state: 'IL',
+      zipCode: '62707',
     },
     memberCount: 0,
-    pastor: "Pastor Robert Davis",
-    established: "2020",
-    status: "active",
-    contactEmail: "robert@faithcenter.org",
-    contactPhone: "(555) 789-0123",
+    pastor: 'Pastor Robert Davis',
+    established: '2020',
+    status: 'active',
+    contactEmail: 'robert@faithcenter.org',
+    contactPhone: '(555) 789-0123',
     adminIds: [],
-    applicationStatus: "approved",
-    applicationDate: "2020-01-01",
+    applicationStatus: 'approved',
+    applicationDate: '2020-01-01',
     permissions: {
       canCreateEvents: true,
       canManageMembers: true,
       canViewAnalytics: true,
       canEditInfo: true,
     },
+    country: '',
+    city: '',
+    subpath: '',
+    languages: [],
+    leaderName: '',
+    leaderEmail: '',
   },
-];
+]
 
 export const mockUsers: User[] = [
   {
-    id: "user-1",
-    name: "Alice Cooper",
-    email: "alice@example.com",
-    phone: "+1 (555) 123-4567",
-    role: "member",
-    fellowshipId: "fellowship-1",
-    joinDate: "2023-01-15",
+    id: 'user-1',
+    name: 'Alice Cooper',
+    email: 'alice@example.com',
+    phone: '+1 (555) 123-4567',
+    role: 'member',
+    fellowshipId: 'fellowship-1',
+    joinDate: '2023-01-15',
     isEmailVerified: true,
     isPhoneVerified: false,
-    username: "alice_cooper",
-    accountStatus: "active",
-    lastLogin: "2024-01-10T10:30:00Z",
+    username: 'alice_cooper',
+    accountStatus: 'active',
+    lastLogin: '2024-01-10T10:30:00Z',
     permissions: {
       canManageFellowships: false,
       canManageUsers: false,
       canViewAnalytics: false,
       canManagePermissions: false,
     },
-    bio: "Passionate about community service and outreach."
+    bio: 'Passionate about community service and outreach.',
   },
   {
-    id: "user-2",
-    name: "Bob Johnson",
-    email: "bob@example.com",
-    phone: "+1 (555) 234-5678",
-    role: "leader",
-    fellowshipId: "fellowship-1",
-    joinDate: "2022-06-10",
+    id: 'user-2',
+    name: 'Bob Johnson',
+    email: 'bob@example.com',
+    phone: '+1 (555) 234-5678',
+    role: 'leader',
+    fellowshipId: 'fellowship-1',
+    joinDate: '2022-06-10',
     isEmailVerified: true,
     isPhoneVerified: true,
-    username: "bob_johnson",
-    accountStatus: "active",
-    lastLogin: "2024-01-11T14:20:00Z",
+    username: 'bob_johnson',
+    accountStatus: 'active',
+    lastLogin: '2024-01-11T14:20:00Z',
     permissions: {
       canManageFellowships: false,
       canManageUsers: false,
       canViewAnalytics: true,
       canManagePermissions: false,
     },
-    bio: "Leads the youth ministry and loves teaching."
+    bio: 'Leads the youth ministry and loves teaching.',
   },
   {
-    id: "admin-1",
-    name: "Admin User",
-    email: "admin@platform.com",
-    phone: "+1 (555) 999-0000",
-    role: "admin",
-    joinDate: "2021-01-01",
+    id: 'admin-1',
+    name: 'Admin User',
+    email: 'admin@platform.com',
+    phone: '+1 (555) 999-0000',
+    role: 'admin',
+    joinDate: '2021-01-01',
     isEmailVerified: true,
     isPhoneVerified: true,
-    username: "platform_admin",
-    accountStatus: "active",
-    lastLogin: "2024-01-11T16:45:00Z",
+    username: 'platform_admin',
+    accountStatus: 'active',
+    lastLogin: '2024-01-11T16:45:00Z',
     permissions: {
       canManageFellowships: true,
       canManageUsers: true,
       canViewAnalytics: true,
       canManagePermissions: true,
     },
-    bio: "Platform administrator with full access."
+    bio: 'Platform administrator with full access.',
   },
   {
-    id: "user-3",
-    name: "Emma Thompson",
-    email: "emma@example.com",
-    phone: "+1 (555) 345-6789",
-    role: "pastor",
-    fellowshipId: "fellowship-2",
-    joinDate: "2022-03-15",
+    id: 'user-3',
+    name: 'Emma Thompson',
+    email: 'emma@example.com',
+    phone: '+1 (555) 345-6789',
+    role: 'pastor',
+    fellowshipId: 'fellowship-2',
+    joinDate: '2022-03-15',
     isEmailVerified: true,
     isPhoneVerified: true,
-    username: "emma_thompson",
-    accountStatus: "active",
-    lastLogin: "2024-01-10T09:15:00Z",
+    username: 'emma_thompson',
+    accountStatus: 'active',
+    lastLogin: '2024-01-10T09:15:00Z',
     permissions: {
       canManageFellowships: false,
       canManageUsers: false,
       canViewAnalytics: true,
       canManagePermissions: false,
     },
-    bio: "Head pastor of Hope Baptist Fellowship."
+    bio: 'Head pastor of Hope Baptist Fellowship.',
   },
   {
-    id: "user-4",
-    name: "Michael Brown",
-    email: "michael@example.com",
-    role: "member",
-    fellowshipId: "fellowship-3",
-    joinDate: "2023-07-20",
+    id: 'user-4',
+    name: 'Michael Brown',
+    email: 'michael@example.com',
+    role: 'member',
+    fellowshipId: 'fellowship-3',
+    joinDate: '2023-07-20',
     isEmailVerified: false,
     isPhoneVerified: false,
-    username: "michael_brown",
-    accountStatus: "pending_verification",
-    lastLogin: "2024-01-09T18:30:00Z",
+    username: 'michael_brown',
+    accountStatus: 'pending_verification',
+    lastLogin: '2024-01-09T18:30:00Z',
     permissions: {
       canManageFellowships: false,
       canManageUsers: false,
       canViewAnalytics: false,
       canManagePermissions: false,
     },
-    bio: "New member, eager to get involved."
+    bio: 'New member, eager to get involved.',
   },
-];
+]
 
 export const mockFellowshipApplications: FellowshipApplication[] = [
   {
-    id: "app-1",
-    applicantName: "John Doe",
-    fellowshipId: "fellowship-5",
-    fellowshipName: "Riverside Community Church",
-    pastorName: "Pastor James Wilson",
-    email: "james@riverside.org",
-    phone: "(555) 567-8901",
-    address: "555 River Road, Springfield, IL 62705",
-    description: "A growing community church focused on family ministry and community outreach",
-    status: "pending",
-    submittedDate: "2024-01-05",
+    id: 'app-1',
+    applicantName: 'John Doe',
+    fellowshipId: 'fellowship-5',
+    fellowshipName: 'Riverside Community Church',
+    pastorName: 'Pastor James Wilson',
+    email: 'james@riverside.org',
+    phone: '(555) 567-8901',
+    address: '555 River Road, Springfield, IL 62705',
+    description: 'A growing community church focused on family ministry and community outreach',
+    status: 'pending',
+    submittedDate: '2024-01-05',
   },
   {
-    id: "app-2",
-    applicantName: "Jane Smith",
-    fellowshipId: "fellowship-6",
-    fellowshipName: "Mountain View Fellowship",
-    pastorName: "Pastor Lisa Chen",
-    email: "lisa@mountainview.org",
-    phone: "(555) 678-9012",
-    address: "777 Hill Street, Springfield, IL 62706",
-    description: "Contemporary worship with emphasis on youth and young adult ministry",
-    status: "pending",
-    submittedDate: "2024-01-08",
+    id: 'app-2',
+    applicantName: 'Jane Smith',
+    fellowshipId: 'fellowship-6',
+    fellowshipName: 'Mountain View Fellowship',
+    pastorName: 'Pastor Lisa Chen',
+    email: 'lisa@mountainview.org',
+    phone: '(555) 678-9012',
+    address: '777 Hill Street, Springfield, IL 62706',
+    description: 'Contemporary worship with emphasis on youth and young adult ministry',
+    status: 'pending',
+    submittedDate: '2024-01-08',
   },
   {
-    id: "app-3",
-    applicantName: "Peter Jones",
-    fellowshipId: "fellowship-7",
-    fellowshipName: "Faith Community Center",
-    pastorName: "Pastor Robert Davis",
-    email: "robert@faithcenter.org",
-    phone: "(555) 789-0123",
-    address: "999 Faith Avenue, Springfield, IL 62707",
-    description: "Multi-cultural fellowship serving diverse community needs",
-    status: "approved",
-    submittedDate: "2023-12-15",
-    reviewedDate: "2023-12-20",
-    reviewedBy: "admin-1",
-    notes: "Excellent application with strong community references",
+    id: 'app-3',
+    applicantName: 'Peter Jones',
+    fellowshipId: 'fellowship-7',
+    fellowshipName: 'Faith Community Center',
+    pastorName: 'Pastor Robert Davis',
+    email: 'robert@faithcenter.org',
+    phone: '(555) 789-0123',
+    address: '999 Faith Avenue, Springfield, IL 62707',
+    description: 'Multi-cultural fellowship serving diverse community needs',
+    status: 'approved',
+    submittedDate: '2023-12-15',
+    reviewedDate: '2023-12-20',
+    reviewedBy: 'admin-1',
+    notes: 'Excellent application with strong community references',
   },
-];
+]
 
 export const mockEvents: Event[] = [
   {
-    id: "event-1",
-    title: "Sunday Morning Service",
-    description: "Weekly worship service with communion",
-    date: "2024-01-07",
-    time: "10:00 AM",
-    location: "Main Sanctuary",
-    fellowshipId: "fellowship-1",
+    id: 'event-1',
+    title: 'Sunday Morning Service',
+    description: 'Weekly worship service with communion',
+    date: '2024-01-07',
+    time: '10:00 AM',
+    location: 'Main Sanctuary',
+    fellowshipId: 'fellowship-1',
     attendees: 120,
     maxAttendees: 150,
-    type: "service",
+    type: 'service',
   },
   {
-    id: "event-2",
-    title: "Wednesday Bible Study",
-    description: "Study of the Book of Romans",
-    date: "2024-01-10",
-    time: "7:00 PM",
-    location: "Fellowship Hall",
-    fellowshipId: "fellowship-1",
+    id: 'event-2',
+    title: 'Wednesday Bible Study',
+    description: 'Study of the Book of Romans',
+    date: '2024-01-10',
+    time: '7:00 PM',
+    location: 'Fellowship Hall',
+    fellowshipId: 'fellowship-1',
     attendees: 45,
     maxAttendees: 60,
-    type: "bible-study",
+    type: 'bible-study',
   },
   {
-    id: "event-3",
-    title: "Youth Fellowship Night",
-    description: "Games, worship, and fellowship for teens",
-    date: "2024-01-12",
-    time: "6:30 PM",
-    location: "Youth Center",
-    fellowshipId: "fellowship-1",
+    id: 'event-3',
+    title: 'Youth Fellowship Night',
+    description: 'Games, worship, and fellowship for teens',
+    date: '2024-01-12',
+    time: '6:30 PM',
+    location: 'Youth Center',
+    fellowshipId: 'fellowship-1',
     attendees: 28,
     maxAttendees: 40,
-    type: "fellowship",
+    type: 'fellowship',
   },
-];
+]
 
 export const getFellowshipById = (id: string): Fellowship | undefined => {
-  return mockFellowships.find((f) => f.id === id);
-};
+  return mockFellowships.find((f) => f.id === id)
+}
 
 export const getUserById = (id: string): User | undefined => {
-  return mockUsers.find((u) => u.id === id);
-};
+  return mockUsers.find((u) => u.id === id)
+}
 
 export const getEventsByFellowshipId = (fellowshipId: string): Event[] => {
-  return mockEvents.filter((e) => e.fellowshipId === fellowshipId);
-};
+  return mockEvents.filter((e) => e.fellowshipId === fellowshipId)
+}
 
 export const getApprovedFellowshipApplications = (fellowshipId: string): FellowshipApplication[] => {
-  return mockFellowshipApplications.filter(
-    (app) => app.fellowshipId === fellowshipId && app.status === "approved"
-  );
-};
+  return mockFellowshipApplications.filter((app) => app.fellowshipId === fellowshipId && app.status === 'approved')
+}
 
-export const approveFellowshipApplication = (id: string, notes = "", reviewedBy = "admin-1") => {
-  const application = mockFellowshipApplications.find((app) => app.id === id);
+export const approveFellowshipApplication = (id: string, notes = '', reviewedBy = 'admin-1') => {
+  const application = mockFellowshipApplications.find((app) => app.id === id)
   if (application) {
-    application.status = "approved";
-    application.reviewedDate = new Date().toISOString().split('T')[0];
-    application.notes = notes;
-    application.reviewedBy = reviewedBy;
+    application.status = 'approved'
+    application.reviewedDate = new Date().toISOString().split('T')[0]
+    application.notes = notes
+    application.reviewedBy = reviewedBy
   }
-};
+}
 
-export const rejectFellowshipApplication = (id: string, notes = "", reviewedBy = "admin-1") => {
-  const application = mockFellowshipApplications.find((app) => app.id === id);
+export const rejectFellowshipApplication = (id: string, notes = '', reviewedBy = 'admin-1') => {
+  const application = mockFellowshipApplications.find((app) => app.id === id)
   if (application) {
-    application.status = "rejected";
-    application.reviewedDate = new Date().toISOString().split('T')[0];
-    application.notes = notes;
-    application.reviewedBy = reviewedBy;
+    application.status = 'rejected'
+    application.reviewedDate = new Date().toISOString().split('T')[0]
+    application.notes = notes
+    application.reviewedBy = reviewedBy
   }
-};
+}
 
 export const getFellowshipApplications = () => {
-  return mockFellowshipApplications;
-};
+  return mockFellowshipApplications
+}
 
 export const getPendingApplications = () => {
-  return mockFellowshipApplications.filter((app) => app.status === "pending");
-};
+  return mockFellowshipApplications.filter((app) => app.status === 'pending')
+}
 
 export const getFellowshipStats = (fellowshipId: string) => {
-  const fellowship = getFellowshipById(fellowshipId);
-  const events = getEventsByFellowshipId(fellowshipId);
+  const fellowship = getFellowshipById(fellowshipId)
+  const events = getEventsByFellowshipId(fellowshipId)
 
   return {
     totalMembers: fellowship?.memberCount || 0,
     activeEvents: events.length,
     avgAttendance: events.reduce((acc, e) => acc + e.attendees, 0) / events.length || 0,
     upcomingEvents: events.filter((e) => new Date(e.date) > new Date()).length,
-  };
-};
+  }
+}
 
 export function updateUser(id: string, updatedFields: Partial<User>): User | undefined {
-  const userIndex = mockUsers.findIndex(user => user.id === id);
+  const userIndex = mockUsers.findIndex((user) => user.id === id)
   if (userIndex > -1) {
-    const userToUpdate: User = mockUsers[userIndex]!;
-    Object.assign(userToUpdate, updatedFields);
-    userToUpdate.lastLogin = new Date().toISOString();
-    return userToUpdate;
+    const userToUpdate: User = mockUsers[userIndex]!
+    Object.assign(userToUpdate, updatedFields)
+    userToUpdate.lastLogin = new Date().toISOString()
+    return userToUpdate
   }
-  return undefined;
+  return undefined
 }
 
 export function deleteUser(id: string): boolean {
-  const initialLength = mockUsers.length;
-  const newMockUsers = mockUsers.filter(user => user.id !== id);
-  mockUsers.splice(0, mockUsers.length, ...newMockUsers);
-  return mockUsers.length < initialLength;
+  const initialLength = mockUsers.length
+  const newMockUsers = mockUsers.filter((user) => user.id !== id)
+  mockUsers.splice(0, mockUsers.length, ...newMockUsers)
+  return mockUsers.length < initialLength
 }
