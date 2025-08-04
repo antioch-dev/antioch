@@ -1,14 +1,14 @@
-"use client"
+'use client'
 
-import { useState, useEffect } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Calendar, Users, Camera, Play, MapPin, Eye, TrendingUp, Activity, Video, ImageIcon } from "lucide-react"
-import Link from "next/link"
-import Image from "next/image"
-import { CountUp } from "@/components/count-up"
-import { ScrollAnimation } from "@/components/scroll-animation"
+import { useState, useEffect } from 'react'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import { Calendar, Users, Camera, Play, MapPin, Eye, TrendingUp, Activity, Video, ImageIcon } from 'lucide-react'
+import Link from 'next/link'
+import Image from 'next/image'
+import { CountUp } from '@/components/count-up'
+import { ScrollAnimation } from '@/components/scroll-animation'
 
 interface Event {
   id: string
@@ -68,97 +68,97 @@ export function HighlightsSection() {
 
       const mockEvents: Event[] = [
         {
-          id: "1",
-          title: "Sunday Worship Service",
-          date: "2024-01-14",
-          time: "10:00 AM",
-          fellowship: "Grace Fellowship Beijing",
-          location: "Beijing, China",
+          id: '1',
+          title: 'Sunday Worship Service',
+          date: '2024-01-14',
+          time: '10:00 AM',
+          fellowship: 'Grace Fellowship Beijing',
+          location: 'Beijing, China',
           attendees: 120,
           image:
-            "https://images.unsplash.com/photo-1507692049790-de58290a4334?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80",
+            'https://images.unsplash.com/photo-1507692049790-de58290a4334?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80',
         },
         {
-          id: "2",
-          title: "Youth Bible Study",
-          date: "2024-01-15",
-          time: "7:00 PM",
-          fellowship: "Hope Church Shanghai",
-          location: "Shanghai, China",
+          id: '2',
+          title: 'Youth Bible Study',
+          date: '2024-01-15',
+          time: '7:00 PM',
+          fellowship: 'Hope Church Shanghai',
+          location: 'Shanghai, China',
           attendees: 45,
           image:
-            "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80",
+            'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80',
         },
         {
-          id: "3",
-          title: "Community Outreach",
-          date: "2024-01-16",
-          time: "2:00 PM",
-          fellowship: "Living Waters Guangzhou",
-          location: "Guangzhou, China",
+          id: '3',
+          title: 'Community Outreach',
+          date: '2024-01-16',
+          time: '2:00 PM',
+          fellowship: 'Living Waters Guangzhou',
+          location: 'Guangzhou, China',
           attendees: 80,
           image:
-            "https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80",
+            'https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80',
         },
       ]
 
       const mockFellowships: Fellowship[] = [
         {
-          id: "1",
-          name: "Cornerstone Church Tokyo",
-          location: "Tokyo, Japan",
+          id: '1',
+          name: 'Cornerstone Church Tokyo',
+          location: 'Tokyo, Japan',
           memberCount: 95,
-          joinedDate: "2024-01-10",
+          joinedDate: '2024-01-10',
           image:
-            "https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=150&q=80",
+            'https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=150&q=80',
         },
         {
-          id: "2",
-          name: "New Life Fellowship Singapore",
-          location: "Singapore",
+          id: '2',
+          name: 'New Life Fellowship Singapore',
+          location: 'Singapore',
           memberCount: 180,
-          joinedDate: "2024-01-08",
+          joinedDate: '2024-01-08',
           image:
-            "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=150&q=80",
+            'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=150&q=80',
         },
       ]
 
       const mockGalleries: Gallery[] = [
         {
-          id: "1",
-          title: "Christmas Celebration 2023",
-          fellowship: "Grace Fellowship Beijing",
+          id: '1',
+          title: 'Christmas Celebration 2023',
+          fellowship: 'Grace Fellowship Beijing',
           imageCount: 24,
           coverImage:
-            "https://images.unsplash.com/photo-1512389142860-9c449e58a543?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80",
+            'https://images.unsplash.com/photo-1512389142860-9c449e58a543?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80',
         },
         {
-          id: "2",
-          title: "Baptism Service",
-          fellowship: "Hope Church Shanghai",
+          id: '2',
+          title: 'Baptism Service',
+          fellowship: 'Hope Church Shanghai',
           imageCount: 18,
           coverImage:
-            "https://images.unsplash.com/photo-1438032005730-c779502df39b?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80",
+            'https://images.unsplash.com/photo-1438032005730-c779502df39b?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80',
         },
       ]
 
       const mockLiveStreams: LiveStream[] = [
         {
-          id: "1",
-          title: "Sunday Morning Service",
-          fellowship: "Grace Fellowship Beijing",
+          id: '1',
+          title: 'Sunday Morning Service',
+          fellowship: 'Grace Fellowship Beijing',
           viewers: 234,
           thumbnail:
-            "https://images.unsplash.com/photo-1507692049790-de58290a4334?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=150&q=80",
+            'https://images.unsplash.com/photo-1507692049790-de58290a4334?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=150&q=80',
           isLive: true,
         },
         {
-          id: "2",
-          title: "Evening Prayer Meeting",
-          fellowship: "New Life Fellowship Singapore",
+          id: '2',
+          title: 'Evening Prayer Meeting',
+          fellowship: 'New Life Fellowship Singapore',
           viewers: 89,
           thumbnail:
-            "https://images.unsplash.com/photo-1519491050282-cf00c82424b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=150&q=80",
+            'https://images.unsplash.com/photo-1519491050282-cf00c82424b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=150&q=80',
           isLive: true,
         },
       ]
@@ -194,7 +194,7 @@ export function HighlightsSection() {
             <ScrollAnimation animation="fade-up">
               <div className="text-center mb-8 sm:mb-12">
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-                  Platform{" "}
+                  Platform{' '}
                   <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                     Statistics
                   </span>
@@ -208,29 +208,29 @@ export function HighlightsSection() {
                 {
                   icon: Users,
                   value: stats.totalFellowships,
-                  label: "Active Fellowships",
-                  color: "from-blue-500 to-blue-600",
+                  label: 'Active Fellowships',
+                  color: 'from-blue-500 to-blue-600',
                   delay: 0,
                 },
                 {
                   icon: Calendar,
                   value: stats.totalEvents,
-                  label: "Events This Month",
-                  color: "from-green-500 to-green-600",
+                  label: 'Events This Month',
+                  color: 'from-green-500 to-green-600',
                   delay: 100,
                 },
                 {
                   icon: Video,
                   value: stats.totalLiveStreams,
-                  label: "Live Streams",
-                  color: "from-purple-500 to-purple-600",
+                  label: 'Live Streams',
+                  color: 'from-purple-500 to-purple-600',
                   delay: 200,
                 },
                 {
                   icon: TrendingUp,
                   value: stats.totalMembers,
-                  label: "Community Members",
-                  color: "from-orange-500 to-orange-600",
+                  label: 'Community Members',
+                  color: 'from-orange-500 to-orange-600',
                   delay: 300,
                 },
               ].map((stat, index) => (
@@ -243,7 +243,7 @@ export function HighlightsSection() {
                     </div>
                     <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-1 sm:mb-2">
                       <CountUp end={stat.value} duration={2000} />
-                      {index === 3 ? "+" : ""}
+                      {index === 3 ? '+' : ''}
                     </div>
                     <div className="text-xs sm:text-sm lg:text-base text-gray-600 font-medium px-2">{stat.label}</div>
                   </div>
@@ -280,8 +280,8 @@ export function HighlightsSection() {
               <ScrollAnimation key={event.id} animation="fade-up" delay={index * 150}>
                 <Card className="group hover-lift bg-white/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-2xl transition-all duration-500 rounded-2xl overflow-hidden h-full">
                   <div className="relative overflow-hidden">
-                    <Image
-                      src={event.image || "/placeholder.svg"}
+                    <img
+                      src={event.image || '/placeholder.svg'}
                       alt={event.title}
                       width={300}
                       height={200}
@@ -348,8 +348,8 @@ export function HighlightsSection() {
                   <CardContent className="p-6 sm:p-8">
                     <div className="flex items-start space-x-4 sm:space-x-6">
                       <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden flex-shrink-0">
-                        <Image
-                          src={fellowship.image || "/placeholder.svg"}
+                        <img
+                          src={fellowship.image || '/placeholder.svg'}
                           alt={fellowship.name}
                           fill
                           className="object-cover transition-transform duration-500 group-hover:scale-110"
@@ -409,8 +409,8 @@ export function HighlightsSection() {
               <ScrollAnimation key={stream.id} animation="fade-left" delay={index * 200}>
                 <Card className="group hover-lift bg-white/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-2xl transition-all duration-500 rounded-2xl overflow-hidden cursor-pointer">
                   <div className="relative h-40 sm:h-48 overflow-hidden">
-                    <Image
-                      src={stream.thumbnail || "/placeholder.svg"}
+                    <img
+                      src={stream.thumbnail || '/placeholder.svg'}
                       alt={stream.title}
                       fill
                       className="object-cover transition-transform duration-700 group-hover:scale-110"
@@ -472,8 +472,8 @@ export function HighlightsSection() {
               <ScrollAnimation key={gallery.id} animation="fade-up" delay={index * 200}>
                 <Card className="group hover-lift bg-white/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-2xl transition-all duration-500 rounded-2xl overflow-hidden cursor-pointer">
                   <div className="relative h-48 sm:h-56 overflow-hidden">
-                    <Image
-                      src={gallery.coverImage || "/placeholder.svg"}
+                    <img
+                      src={gallery.coverImage || '/placeholder.svg'}
                       alt={gallery.title}
                       fill
                       className="object-cover transition-transform duration-700 group-hover:scale-110"

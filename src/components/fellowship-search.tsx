@@ -173,7 +173,7 @@ export function FellowshipSearch() {
                 <ScrollAnimation key={fellowship.id} animation="fade-up" delay={index * 150}>
                   <Card className="group bg-white/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-2xl transition-all duration-500 rounded-2xl overflow-hidden hover:scale-105">
                     <div className="relative overflow-hidden">
-                      <Image
+                      <img
                         src={fellowship.image || '/placeholder.svg'}
                         alt={fellowship.name}
                         width={300}

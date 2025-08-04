@@ -9,7 +9,6 @@ import { Card, CardContent } from '@/components/ui/card'
 import TestimonialCarousel from '@/components/testimonial-carousel'
 import AnnouncementCarousel from '@/components/announcement-carousel'
 
-
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col items-center">
@@ -17,11 +16,10 @@ export default function Home() {
         It typically wraps the entire layout or is directly inside the flex container.
       */}
       <Header /> {/* <--- ADD THIS LINE FOR THE HEADER */}
-
       <main className="flex-1 w-full">
         {/* Hero Section */}
         <section className="relative h-[80vh] flex items-center justify-center overflow-hidden">
-          <Image
+          <img
             src="/placeholder.svg?height=1080&width=1920"
             alt="Church building"
             fill
@@ -67,7 +65,7 @@ export default function Home() {
                 <Button>Learn More About Us</Button>
               </div>
               <div className="relative h-[400px] rounded-lg overflow-hidden">
-                <Image
+                <img
                   src="/placeholder.svg?height=800&width=600"
                   alt="Church congregation"
                   fill
@@ -92,12 +90,7 @@ export default function Home() {
               {/* Event 1 */}
               <Card>
                 <div className="relative h-48 w-full overflow-hidden rounded-t-lg">
-                  <Image
-                    src="/placeholder.svg?height=400&width=600"
-                    alt="Sunday Service"
-                    fill
-                    className="object-cover"
-                  />
+                  <img src="/placeholder.svg?height=400&width=600" alt="Sunday Service" fill className="object-cover" />
                   <div className="absolute top-2 left-2 bg-primary text-primary-foreground px-3 py-1 rounded-md text-sm font-medium">
                     This Sunday
                   </div>
@@ -121,7 +114,7 @@ export default function Home() {
               {/* Event 2 */}
               <Card>
                 <div className="relative h-48 w-full overflow-hidden rounded-t-lg">
-                  <Image src="/placeholder.svg?height=400&width=600" alt="Youth Group" fill className="object-cover" />
+                  <img src="/placeholder.svg?height=400&width=600" alt="Youth Group" fill className="object-cover" />
                   <div className="absolute top-2 left-2 bg-primary text-primary-foreground px-3 py-1 rounded-md text-sm font-medium">
                     Next Week
                   </div>
@@ -144,7 +137,7 @@ export default function Home() {
               {/* Event 3 */}
               <Card>
                 <div className="relative h-48 w-full overflow-hidden rounded-t-lg">
-                  <Image
+                  <img
                     src="/placeholder.svg?height=400&width=600"
                     alt="Community Outreach"
                     fill
@@ -286,9 +279,7 @@ export default function Home() {
           </div>
         </section>
       </main>
-
-   
-      <Footer /> 
+      <Footer />
     </div>
   )
 }

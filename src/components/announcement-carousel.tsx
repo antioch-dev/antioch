@@ -100,7 +100,7 @@ export default function AnnouncementCarousel() {
           {visibleAnnouncements.map((announcement) => (
             <Card key={announcement.id} className="min-w-[calc(100%/2-0.75rem)] flex-1">
               <div className="relative h-48 w-full overflow-hidden rounded-t-lg">
-                <Image
+                <img
                   src={announcement.image ?? '/placeholder.svg'}
                   alt={announcement.title}
                   fill

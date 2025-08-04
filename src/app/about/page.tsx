@@ -43,7 +43,7 @@ export default function AboutPage() {
               </div>
             </div>
             <div className="relative">
-              <Image
+              <img
                 src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80"
                 alt="Christian community gathering"
                 width={600}

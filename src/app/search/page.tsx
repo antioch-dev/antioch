@@ -1,14 +1,14 @@
-"use client"
+'use client'
 
-import { useState, useEffect } from "react"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Badge } from "@/components/ui/badge"
-import { Search, MapPin, Users, Globe, Filter } from "lucide-react"
-import Link from "next/link"
-import Image from "next/image"
+import { useState, useEffect } from 'react'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Badge } from '@/components/ui/badge'
+import { Search, MapPin, Users, Globe, Filter } from 'lucide-react'
+import Link from 'next/link'
+import Image from 'next/image'
 
 interface Fellowship {
   id: string
@@ -27,128 +27,128 @@ interface Fellowship {
 export default function SearchPage() {
   const [fellowships, setFellowships] = useState<Fellowship[]>([])
   const [filteredFellowships, setFilteredFellowships] = useState<Fellowship[]>([])
-  const [searchTerm, setSearchTerm] = useState("")
-  const [selectedCountry, setSelectedCountry] = useState("")
-  const [selectedCity, setSelectedCity] = useState("")
-  const [sortBy, setSortBy] = useState("name")
+  const [searchTerm, setSearchTerm] = useState('')
+  const [selectedCountry, setSelectedCountry] = useState('')
+  const [selectedCity, setSelectedCity] = useState('')
+  const [sortBy, setSortBy] = useState('name')
 
   useEffect(() => {
     // Mock API call with more comprehensive data
     const mockFellowships: Fellowship[] = [
       {
-        id: "1",
-        name: "Grace Fellowship Beijing",
-        country: "China",
-        city: "Beijing",
+        id: '1',
+        name: 'Grace Fellowship Beijing',
+        country: 'China',
+        city: 'Beijing',
         memberCount: 150,
         description:
-          "A vibrant international community serving expatriates and locals in Beijing with English and Chinese services.",
-        subpath: "grace-beijing",
-        tags: ["International", "Bilingual", "Family-friendly"],
-        established: "2018",
-        languages: ["English", "Chinese"],
+          'A vibrant international community serving expatriates and locals in Beijing with English and Chinese services.',
+        subpath: 'grace-beijing',
+        tags: ['International', 'Bilingual', 'Family-friendly'],
+        established: '2018',
+        languages: ['English', 'Chinese'],
         image:
-          "https://images.unsplash.com/photo-1438032005730-c779502df39b?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80",
+          'https://images.unsplash.com/photo-1438032005730-c779502df39b?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80',
       },
       {
-        id: "2",
-        name: "Hope Church Shanghai",
-        country: "China",
-        city: "Shanghai",
+        id: '2',
+        name: 'Hope Church Shanghai',
+        country: 'China',
+        city: 'Shanghai',
         memberCount: 200,
         description:
-          "Connecting hearts and building faith in the heart of Shanghai with a focus on young professionals.",
-        subpath: "hope-shanghai",
-        tags: ["Young Professionals", "Urban Ministry", "Contemporary"],
-        established: "2015",
-        languages: ["English", "Chinese", "Korean"],
+          'Connecting hearts and building faith in the heart of Shanghai with a focus on young professionals.',
+        subpath: 'hope-shanghai',
+        tags: ['Young Professionals', 'Urban Ministry', 'Contemporary'],
+        established: '2015',
+        languages: ['English', 'Chinese', 'Korean'],
         image:
-          "https://images.unsplash.com/photo-1519491050282-cf00c82424b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80",
+          'https://images.unsplash.com/photo-1519491050282-cf00c82424b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80',
       },
       {
-        id: "3",
-        name: "Living Waters Guangzhou",
-        country: "China",
-        city: "Guangzhou",
+        id: '3',
+        name: 'Living Waters Guangzhou',
+        country: 'China',
+        city: 'Guangzhou',
         memberCount: 120,
-        description: "A growing fellowship focused on community outreach and discipleship in South China.",
-        subpath: "living-waters-gz",
-        tags: ["Community Outreach", "Discipleship", "Missions"],
-        established: "2019",
-        languages: ["English", "Chinese"],
+        description: 'A growing fellowship focused on community outreach and discipleship in South China.',
+        subpath: 'living-waters-gz',
+        tags: ['Community Outreach', 'Discipleship', 'Missions'],
+        established: '2019',
+        languages: ['English', 'Chinese'],
         image:
-          "https://images.unsplash.com/photo-1507692049790-de58290a4334?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80",
+          'https://images.unsplash.com/photo-1507692049790-de58290a4334?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80',
       },
       {
-        id: "4",
-        name: "New Life Fellowship Singapore",
-        country: "Singapore",
-        city: "Singapore",
+        id: '4',
+        name: 'New Life Fellowship Singapore',
+        country: 'Singapore',
+        city: 'Singapore',
         memberCount: 180,
-        description: "Multicultural fellowship welcoming all nations and backgrounds in the heart of Southeast Asia.",
-        subpath: "newlife-singapore",
-        tags: ["Multicultural", "International", "Worship"],
-        established: "2012",
-        languages: ["English", "Mandarin", "Tamil", "Malay"],
+        description: 'Multicultural fellowship welcoming all nations and backgrounds in the heart of Southeast Asia.',
+        subpath: 'newlife-singapore',
+        tags: ['Multicultural', 'International', 'Worship'],
+        established: '2012',
+        languages: ['English', 'Mandarin', 'Tamil', 'Malay'],
         image:
-          "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80",
+          'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80',
       },
       {
-        id: "5",
-        name: "Cornerstone Church Tokyo",
-        country: "Japan",
-        city: "Tokyo",
+        id: '5',
+        name: 'Cornerstone Church Tokyo',
+        country: 'Japan',
+        city: 'Tokyo',
         memberCount: 95,
-        description: "English-speaking fellowship in the heart of Tokyo, serving the international community.",
-        subpath: "cornerstone-tokyo",
-        tags: ["International", "English-speaking", "Expat Community"],
-        established: "2020",
-        languages: ["English", "Japanese"],
+        description: 'English-speaking fellowship in the heart of Tokyo, serving the international community.',
+        subpath: 'cornerstone-tokyo',
+        tags: ['International', 'English-speaking', 'Expat Community'],
+        established: '2020',
+        languages: ['English', 'Japanese'],
         image:
-          "https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80",
+          'https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80',
       },
       {
-        id: "6",
-        name: "Lighthouse Fellowship Seoul",
-        country: "South Korea",
-        city: "Seoul",
+        id: '6',
+        name: 'Lighthouse Fellowship Seoul',
+        country: 'South Korea',
+        city: 'Seoul',
         memberCount: 140,
-        description: "Dynamic fellowship serving both Korean and international communities with contemporary worship.",
-        subpath: "lighthouse-seoul",
-        tags: ["Contemporary", "Bilingual", "Youth Ministry"],
-        established: "2017",
-        languages: ["Korean", "English"],
+        description: 'Dynamic fellowship serving both Korean and international communities with contemporary worship.',
+        subpath: 'lighthouse-seoul',
+        tags: ['Contemporary', 'Bilingual', 'Youth Ministry'],
+        established: '2017',
+        languages: ['Korean', 'English'],
         image:
-          "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80",
+          'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80',
       },
       {
-        id: "7",
-        name: "Harvest Church Kuala Lumpur",
-        country: "Malaysia",
-        city: "Kuala Lumpur",
+        id: '7',
+        name: 'Harvest Church Kuala Lumpur',
+        country: 'Malaysia',
+        city: 'Kuala Lumpur',
         memberCount: 220,
         description:
-          "Thriving multicultural church in Malaysia with strong emphasis on family ministry and community service.",
-        subpath: "harvest-kl",
-        tags: ["Family Ministry", "Community Service", "Multicultural"],
-        established: "2014",
-        languages: ["English", "Malay", "Chinese", "Tamil"],
+          'Thriving multicultural church in Malaysia with strong emphasis on family ministry and community service.',
+        subpath: 'harvest-kl',
+        tags: ['Family Ministry', 'Community Service', 'Multicultural'],
+        established: '2014',
+        languages: ['English', 'Malay', 'Chinese', 'Tamil'],
         image:
-          "https://images.unsplash.com/photo-1520637836862-4d197d17c90a?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80",
+          'https://images.unsplash.com/photo-1520637836862-4d197d17c90a?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80',
       },
       {
-        id: "8",
-        name: "Victory Fellowship Manila",
-        country: "Philippines",
-        city: "Manila",
+        id: '8',
+        name: 'Victory Fellowship Manila',
+        country: 'Philippines',
+        city: 'Manila',
         memberCount: 300,
-        description: "Large, vibrant fellowship in the Philippines with strong missions focus and youth programs.",
-        subpath: "victory-manila",
-        tags: ["Missions", "Youth Programs", "Large Community"],
-        established: "2010",
-        languages: ["English", "Filipino"],
+        description: 'Large, vibrant fellowship in the Philippines with strong missions focus and youth programs.',
+        subpath: 'victory-manila',
+        tags: ['Missions', 'Youth Programs', 'Large Community'],
+        established: '2010',
+        languages: ['English', 'Filipino'],
         image:
-          "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80",
+          'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80',
       },
     ]
 
@@ -179,11 +179,11 @@ export default function SearchPage() {
     // Sort results
     filtered.sort((a, b) => {
       switch (sortBy) {
-        case "name":
+        case 'name':
           return a.name.localeCompare(b.name)
-        case "members":
+        case 'members':
           return b.memberCount - a.memberCount
-        case "established":
+        case 'established':
           return Number.parseInt(b.established) - Number.parseInt(a.established)
         default:
           return 0
@@ -267,10 +267,10 @@ export default function SearchPage() {
             </p>
             <Button
               onClick={() => {
-                setSearchTerm("")
-                setSelectedCountry("")
-                setSelectedCity("")
-                setSortBy("name")
+                setSearchTerm('')
+                setSelectedCountry('')
+                setSelectedCity('')
+                setSortBy('name')
               }}
               variant="outline"
               size="sm"
@@ -299,8 +299,8 @@ export default function SearchPage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  <Image
-                    src={fellowship.image || "/placeholder.svg"}
+                  <img
+                    src={fellowship.image || '/placeholder.svg'}
                     alt={fellowship.name}
                     width={300}
                     height={200}
@@ -335,7 +335,7 @@ export default function SearchPage() {
 
                   <div className="text-xs text-gray-500">
                     <p>Established: {fellowship.established}</p>
-                    <p>Languages: {fellowship.languages.join(", ")}</p>
+                    <p>Languages: {fellowship.languages.join(', ')}</p>
                   </div>
 
                   <Button
@@ -358,9 +358,9 @@ export default function SearchPage() {
               <p className="text-gray-500 mb-4">Try adjusting your search criteria or browse all fellowships.</p>
               <Button
                 onClick={() => {
-                  setSearchTerm("")
-                  setSelectedCountry("")
-                  setSelectedCity("")
+                  setSearchTerm('')
+                  setSelectedCountry('')
+                  setSelectedCity('')
                 }}
                 className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-full px-6 py-2 transition-all duration-300 hover:scale-105 shadow-lg"
               >

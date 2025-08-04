@@ -111,7 +111,7 @@ export default function TestimonialCarousel() {
             <Card key={testimonial.id} className="min-w-[calc(100%/3-1rem)] flex-1">
               <CardContent className="p-6 flex flex-col items-center text-center">
                 <div className="relative w-20 h-20 rounded-full overflow-hidden mb-4">
-                  <Image
+                  <img
                     src={testimonial.image ?? '/placeholder.svg'}
                     alt={testimonial.name}
                     fill
