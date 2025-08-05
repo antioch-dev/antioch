@@ -102,13 +102,13 @@ export default function CheckinPage() {
     return moodColors[mood] || "bg-gray-600"
   }
 
-  const checkinsWithParsedDates = checkins.map(checkin => ({
+  const checkinsWithParsedDates = checkins.map((checkin:any)=> ({
     ...checkin,
     date: checkin.date instanceof Date ? checkin.date : new Date(checkin.date),
   }));
 
   const todaysCheckin = checkinsWithParsedDates.find(
-    (checkin) => checkin.date.toDateString() === new Date().toDateString() && checkin.type === checkinType,
+    (checkin:any) => checkin.date.toDateString() === new Date().toDateString() && checkin.type === checkinType,
   )
 
   return (
@@ -225,7 +225,7 @@ export default function CheckinPage() {
               {checkinsWithParsedDates.length === 0 ? (
                 <p className="text-gray-400 text-center py-4">No check-ins yet</p>
               ) : (
-                checkinsWithParsedDates.slice(0, 5).map((checkin) => (
+                checkinsWithParsedDates.slice(0, 5).map((checkin:any) => (
                   <motion.div
                     key={checkin.id}
                     whileHover={{ scale: 1.02 }}
@@ -259,7 +259,7 @@ export default function CheckinPage() {
                 <span className="text-gray-400">This Week</span>
                 <span className="text-white font-medium">
                   {
-                    checkinsWithParsedDates.filter((c) => {
+                    checkinsWithParsedDates.filter((c:any) => {
                       const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
                       return c.date >= weekAgo && c.type === "daily"
                     }).length
@@ -271,7 +271,7 @@ export default function CheckinPage() {
                 <span className="text-gray-400">This Month</span>
                 <span className="text-white font-medium">
                   {
-                    checkinsWithParsedDates.filter((c) => {
+                    checkinsWithParsedDates.filter((c:any) => {
                       const monthAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
                       return c.date >= monthAgo && c.type === "daily"
                     }).length

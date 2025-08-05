@@ -238,7 +238,7 @@ export default function DashboardPage() {
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"
       >
         {/* Daily Check-in Card  */}
-        <Link href="/task-manager/main/checkin" passHref>
+        <Link href="/fellowships/${fellowshipId}/task-manager/main/checkin" passHref>
           <Card className="bg-gray-900 border-gray-800 hover:bg-gray-800 transition-colors cursor-pointer">
             <CardContent className="p-4 text-center">
               <LogIn className="w-8 h-8 text-blue-500 mx-auto mb-2" />
@@ -249,7 +249,7 @@ export default function DashboardPage() {
         </Link>
 
         {/* Daily Check-out Card */}
-        <Link href="/task-manager/main/checkout" passHref>
+        <Link href="/fellowships/${fellowshipId}/task-manager/main/checkout" passHref>
           <Card className="bg-gray-900 border-gray-800 hover:bg-gray-800 transition-colors cursor-pointer">
             <CardContent className="p-4 text-center">
               <LogOut className="w-8 h-8 text-green-500 mx-auto mb-2" />
@@ -260,7 +260,7 @@ export default function DashboardPage() {
         </Link>
 
         {/* Team Assignments Card  */}
-        <Link href="/task-manager/main/assignments" passHref>
+        <Link href="/fellowships/${fellowshipId}/task-manager/main/assignments" passHref>
           <Card className="bg-gray-900 border-gray-800 hover:bg-gray-800 transition-colors cursor-pointer">
             <CardContent className="p-4 text-center">
               <Users className="w-8 h-8 text-purple-500 mx-auto mb-2" />
@@ -271,7 +271,7 @@ export default function DashboardPage() {
         </Link>
 
         {/* Long Term Planning Card  */}
-        <Link href="/task-manager/main/long-term" passHref> 
+        <Link href="/fellowships/${fellowshipId}/task-manager/main/long-term" passHref> 
           <Card className="bg-gray-900 border-gray-800 hover:bg-gray-800 transition-colors cursor-pointer">
             <CardContent className="p-4 text-center">
               <Calendar className="w-8 h-8 text-orange-500 mx-auto mb-2" />

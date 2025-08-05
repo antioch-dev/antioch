@@ -296,7 +296,7 @@ const initialState: AppState = {
 
 export const useStore = create<AppState>()(
   persist(
-    (set, get) => ({ 
+    (set:any, get:any) => ({ 
       ...initialState, 
 
       // Basic Actions
@@ -305,94 +305,94 @@ export const useStore = create<AppState>()(
       setSelectedTask: (selectedTask: Task | null) => set({ selectedTask }),
       setSidebarOpen: (sidebarOpen: boolean) => set({ sidebarOpen }),
       setTheme: (theme: "light" | "dark") => set({ theme }),
-      addTask: (task: Task) => set((state) => ({ tasks: [...state.tasks, task] })),
+      addTask: (task: Task) => set((state:any) => ({ tasks: [...state.tasks, task] })),
       updateTask: (id: string, updates: Partial<Task>) =>
-        set((state) => ({
-          tasks: state.tasks.map((task) => (task.id === id ? { ...task, ...updates } : task)),
+        set((state:any) => ({
+          tasks: state.tasks.map((task:any) => (task.id === id ? { ...task, ...updates } : task)),
         })),
       deleteTask: (id: string) =>
-        set((state) => ({
-          tasks: state.tasks.filter((task) => task.id !== id),
+        set((state:any) => ({
+          tasks: state.tasks.filter((task:any) => task.id !== id),
         })),
 
       // Team & Assignment Actions
       assignTask: (taskId: string, memberId: string) => {
-        const member = get().teamMembers.find((m) => m.id === memberId)
+        const member = get().teamMembers.find((m:any) => m.id === memberId)
         if (member) {
-          set((state) => ({
-            tasks: state.tasks.map((task) => (task.id === taskId ? { ...task, assignee_id: memberId } : task)),
-            teamMembers: state.teamMembers.map((m) =>
+          set((state:any) => ({
+            tasks: state.tasks.map((task:any) => (task.id === taskId ? { ...task, assignee_id: memberId } : task)),
+            teamMembers: state.teamMembers.map((m:any) =>
               m.id === memberId ? { ...m, taskCount: m.taskCount + 1, tasksAssigned: m.tasksAssigned + 1 } : m,
             ),
           }))
         }
       },
       updateTeamMember: (id: string, updates: Partial<TeamMember>) =>
-        set((state) => ({
-          teamMembers: state.teamMembers.map((member) => (member.id === id ? { ...member, ...updates } : member)),
+        set((state:any) => ({
+          teamMembers: state.teamMembers.map((member:any) => (member.id === id ? { ...member, ...updates } : member)),
         })),
 
       // Recurring Task Actions
       addRecurringTask: (task: Omit<RecurringTask, "id">) =>
-        set((state) => ({
+        set((state:any) => ({
           recurringTasks: [...state.recurringTasks, { ...task, id: `recurring-${Date.now()}` }],
         })),
       updateRecurringTask: (id: string, updates: Partial<RecurringTask>) =>
-        set((state) => ({
-          recurringTasks: state.recurringTasks.map((task) => (task.id === id ? { ...task, ...updates } : task)),
+        set((state:any) => ({
+          recurringTasks: state.recurringTasks.map((task:any) => (task.id === id ? { ...task, ...updates } : task)),
         })),
       toggleRecurringTask: (id: string) =>
-        set((state) => ({
-          recurringTasks: state.recurringTasks.map((task) =>
+        set((state:any) => ({
+          recurringTasks: state.recurringTasks.map((task:any) =>
             task.id === id ? { ...task, isActive: !task.isActive } : task,
           ),
         })),
       deleteRecurringTask: (id: string) =>
-        set((state) => ({
-          recurringTasks: state.recurringTasks.filter((task) => task.id !== id),
+        set((state:any) => ({
+          recurringTasks: state.recurringTasks.filter((task:any) => task.id !== id),
         })),
 
       // Check-in Actions
       addCheckin: (checkin: Omit<CheckinEntry, "id">) =>
-        set((state) => ({
+        set((state:any) => ({
           checkins: [...state.checkins, { ...checkin, id: `checkin-${Date.now()}` }],
         })),
       updateCheckin: (id: string, updates: Partial<CheckinEntry>) =>
-        set((state) => ({
-          checkins: state.checkins.map((checkin) => (checkin.id === id ? { ...checkin, ...updates } : checkin)),
+        set((state:any) => ({
+          checkins: state.checkins.map((checkin:any) => (checkin.id === id ? { ...checkin, ...updates } : checkin)),
         })),
 
       // Check-out Actions
       addCheckout: (checkout: Omit<CheckoutEntry, "id">) =>
-        set((state) => ({
+        set((state:any) => ({
           checkouts: [...state.checkouts, { ...checkout, id: `checkout-${Date.now()}` }],
         })),
 
       // Long Term Task Actions
       addLongTermTask: (task: Omit<LongTermTask, "id">) =>
-        set((state) => ({
+        set((state:any) => ({
           longTermTasks: [...state.longTermTasks, { ...task, id: `long-${Date.now()}` }],
         })),
       updateLongTermTask: (id: string, updates: Partial<LongTermTask>) =>
-        set((state) => ({
-          longTermTasks: state.longTermTasks.map((task) => (task.id === id ? { ...task, ...updates } : task)),
+        set((state:any) => ({
+          longTermTasks: state.longTermTasks.map((task:any) => (task.id === id ? { ...task, ...updates } : task)),
         })),
       moveLongTermTask: (id: string, newStatus: LongTermTask["status"]) =>
-        set((state) => ({
-          longTermTasks: state.longTermTasks.map((task) => (task.id === id ? { ...task, status: newStatus } : task)),
+        set((state:any) => ({
+          longTermTasks: state.longTermTasks.map((task:any) => (task.id === id ? { ...task, status: newStatus } : task)),
         })),
       deleteLongTermTask: (id: string) =>
-        set((state) => ({
-          longTermTasks: state.longTermTasks.filter((task) => task.id !== id),
+        set((state:any) => ({
+          longTermTasks: state.longTermTasks.filter((task:any) => task.id !== id),
         })),
 
       // Settings Actions
       updateNotifications: (notifications: Partial<AppState["notifications"]>) =>
-        set((state) => ({
+        set((state:any) => ({
           notifications: { ...state.notifications, ...notifications },
         })),
       updateProfile: (profile: Partial<AppState["profile"]>) =>
-        set((state) => ({
+        set((state:any) => ({
           profile: { ...state.profile, ...profile },
         })),
     }),

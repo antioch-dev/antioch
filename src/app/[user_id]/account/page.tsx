@@ -45,18 +45,18 @@ export default async function UserAccount({ params }: UserAccountProps) {
             <CardContent>
               <div className="flex items-center space-x-4 mb-6">
                 <Avatar className="h-20 w-20">
-                  {user.avatar_url && <AvatarImage src={user.avatar_url} alt={user.full_name || "User Avatar"} />}
+                  {user.avatar && <AvatarImage src={user.avatar} alt={user.name || "User Avatar"} />}
                   <AvatarFallback className="bg-blue-100 text-blue-600 text-2xl">
-                    {user.full_name
-                      ? user.full_name
+                    {user.name
+                      ? user.name
                           .split(" ")
-                          .map((n) => n[0])
+                          .map((n:any) => n[0])
                           .join("")
                       : user.email[0]?.toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900">{user.full_name}</h3>
+                  <h3 className="text-lg font-semibold text-gray-900">{user.name}</h3>
                   <p className="text-gray-600">{user.email}</p>
                   <Badge className="mt-1 bg-blue-100 text-blue-800">
                     {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
@@ -71,7 +71,7 @@ export default async function UserAccount({ params }: UserAccountProps) {
                   </Label>
                   <Input
                     id="full-name"
-                    defaultValue={user.full_name || ""}
+                    defaultValue={user.name || ""}
                     className="bg-white border-gray-300 text-gray-900"
                   />
                 </div>

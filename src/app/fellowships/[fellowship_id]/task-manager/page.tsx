@@ -25,13 +25,13 @@ export default function LandingPage() {
               matters most.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="task-manager/auth/signup">
+              <Link href="/auth/register">
                 <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3">
                   Get Started
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
-              <Link href="task-manager/auth/signin">
+              <Link href="/auth/login">
                 <Button
                   variant="outline"
                   size="lg"
@@ -96,7 +96,7 @@ export default function LandingPage() {
             <p className="text-xl text-gray-400 mb-8">
               Join thousands of teams already using Taskify to streamline their workflow.
             </p>
-            <Link href="task-manager/auth/signup">
+            <Link href="/fellowships/${fellowshipId}/task-manager/main/dashboard">
               <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3">
                 Start Managing Tasks
                 <ArrowRight className="ml-2 h-5 w-5" />

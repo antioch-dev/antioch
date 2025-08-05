@@ -12,19 +12,8 @@ export function Header() {
         <nav className="hidden md:flex gap-6">
           
           <> 
-            <Link href="#about" className="text-sm font-medium transition-colors hover:text-primary">
-              About
-            </Link>
-            <Link href="#events" className="text-sm font-medium transition-colors hover:text-primary">
-              Events
-            </Link>
-            <Link href="#testimonials" className="text-sm font-medium transition-colors hover:text-primary">
-              Praise Reports
-            </Link>
-            <Link href="#announcements" className="text-sm font-medium transition-colors hover:text-primary">
-              Announcements
-            </Link>
-            <Link href="/fellowships/fellowship1" className="text-sm font-medium transition-colors hover:text-primary">
+            
+            <Link href="/fellowships/fellowship1/task-manager" className="text-sm font-medium transition-colors hover:text-primary">
               Task Manager
             </Link>
             <Link href="/fellowships/fellowship1/shared_music" className="text-sm font-medium transition-colors hover:text-primary">

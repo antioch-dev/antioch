@@ -46,11 +46,11 @@ export default function AssignmentsPage() {
           <h1 className="text-3xl font-bold text-white">Team Assignments</h1>
           <p className="text-gray-400 mt-2">Manage task assignments and team workload</p>
         </div>
-        <div className="flex items-center space-x-4"> {/* Added a div to group buttons */}
+        <div className="flex items-center space-x-4"> 
           <Button 
-            onClick={() => router.back()} // Go Back button
+            onClick={() => router.back()} 
             variant="outline" 
-            className="text-white border-gray-600 hover:bg-gray-700"
+            className="text-gray border-gray-600 hover:bg-gray-700"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Go Back
@@ -125,8 +125,7 @@ export default function AssignmentsPage() {
         </div>
       </div>
 
-      ---
-
+      -
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Team Members */}
         <div className="lg:col-span-2 space-y-4">
