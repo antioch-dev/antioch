@@ -38,7 +38,7 @@ export function HeroSection() {
       setIsLoaded(true)
     }
 
-    fetchHeroData()
+   void fetchHeroData()
   }, [])
 
   if (!heroData) {

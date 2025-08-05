@@ -140,7 +140,7 @@ const ministryTools = [
   },
 ]
 
-function ToolCard({ tool, category }: { tool: any; category: string }) {
+function ToolCard({ tool, category }: { tool: typeof mobileApps[0]; category: string }) {
   return (
     <Card className="group bg-white/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-2xl transition-all duration-500 rounded-2xl hover:scale-105">
       <CardHeader>
@@ -270,7 +270,7 @@ export default function DownloadPage() {
           <div className="text-center mb-8">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Need Help Getting Started?</h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Our support team is here to help you set up and configure all tools for your fellowship's specific needs.
+              {`Our support team is here to help you set up and configure all tools for your fellowship's specific needs.`}
             </p>
           </div>
 

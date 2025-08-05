@@ -335,7 +335,7 @@ export default function RegisterPage() {
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <Label htmlFor="leaderName">Primary Leader's Name *</Label>
+                    <Label htmlFor="leaderName">{`Primary Leader's Name *`}</Label>
                     <Input
                       id="leaderName"
                       value={formData.leaderName}
@@ -465,7 +465,7 @@ export default function RegisterPage() {
                   </li>
                   <li className="flex items-start">
                     <span className="font-medium mr-2">3.</span>
-                    Upon approval, you'll receive setup instructions and your custom subdomain
+                    {`Upon approval, you'll receive setup instructions and your custom subdomain`}
                   </li>
                   <li className="flex items-start">
                     <span className="font-medium mr-2">4.</span>
@@ -495,8 +495,8 @@ export default function RegisterPage() {
               </div>
               <DialogTitle className="text-center text-xl">Application Submitted Successfully!</DialogTitle>
               <DialogDescription className="text-center">
-                Thank you for registering your fellowship with Antioch. We've received your application and will review
-                it within 2-3 business days. You'll receive email updates on the status of your application.
+                {`Thank you for registering your fellowship with Antioch. We've received your application and will review
+                it within 2-3 business days. You'll receive email updates on the status of your application.`}
               </DialogDescription>
             </DialogHeader>
             <div className="flex justify-center mt-6">

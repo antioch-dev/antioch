@@ -72,7 +72,7 @@ export function FellowshipSearch() {
       setIsLoading(false)
     }
 
-    fetchFellowships()
+   void fetchFellowships()
   }, [])
 
   const filteredFellowships = fellowships.filter((fellowship) => {

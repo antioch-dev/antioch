@@ -11,14 +11,14 @@ export default function TermsPage() {
           <section className="mb-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">Agreement to Terms</h2>
             <p className="text-gray-700 mb-4">
-              By accessing and using the Antioch Platform ("Platform", "Service"), you accept and agree to be bound by
+              {`By accessing and using the Antioch Platform ("Platform", "Service"), you accept and agree to be bound by
               the terms and provision of this agreement. If you do not agree to abide by the above, please do not use
-              this service.
+              this service.`}
             </p>
             <p className="text-gray-700">
-              These Terms and Conditions ("Terms") govern your use of our platform operated by Antioch Platform ("us",
+              {`These Terms and Conditions ("Terms") govern your use of our platform operated by Antioch Platform ("us",
               "we", or "our"). Your access to and use of the Service is conditioned on your acceptance of and compliance
-              with these Terms.
+              with these Terms.`}
             </p>
           </section>
 
@@ -58,7 +58,7 @@ export default function TermsPage() {
               <li>You represent that you have authority to register the fellowship</li>
               <li>You agree to provide accurate information about your fellowship</li>
               <li>You understand that registration is subject to our approval process</li>
-              <li>You accept responsibility for managing your fellowship's presence on the platform</li>
+              <li>{`You accept responsibility for managing your fellowship's presence on the platform`}</li>
             </ul>
           </section>
 
@@ -72,7 +72,7 @@ export default function TermsPage() {
               <li>To violate any applicable local, state, national, or international law</li>
               <li>To transmit or procure the sending of any advertising or promotional material</li>
               <li>To impersonate or attempt to impersonate another person or entity</li>
-              <li>To engage in any conduct that restricts or inhibits anyone's use of the Service</li>
+              <li>{`To engage in any conduct that restricts or inhibits anyone's use of the Service`}</li>
               <li>To upload, post, or transmit any content that is harmful, offensive, or inappropriate</li>
               <li>To interfere with or circumvent the security features of the Service</li>
               <li>To use the Service for any commercial purpose without our express written consent</li>
@@ -99,11 +99,11 @@ export default function TermsPage() {
             <h3 className="text-xl font-semibold text-gray-900 mb-3">Prohibited Content</h3>
             <p className="text-gray-700 mb-4">You may not upload, post, or transmit content that:</p>
             <ul className="list-disc pl-6 text-gray-700">
-              <li>Violates any third party's rights</li>
-              <li>Is defamatory, obscene, or offensive</li>
-              <li>Promotes discrimination or hatred</li>
-              <li>Contains viruses or malicious code</li>
-              <li>Violates any applicable laws or regulations</li>
+              <li>{`Violates any third party's rights`}</li>
+              <li>{`Is defamatory, obscene, or offensive`}</li>
+              <li>{`Promotes discrimination or hatred`}</li>
+              <li>{`Contains viruses or malicious code`}</li>
+              <li>{`Violates any applicable laws or regulations`}</li>
             </ul>
           </section>
 
@@ -149,9 +149,9 @@ export default function TermsPage() {
           <section className="mb-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">Disclaimers and Limitation of Liability</h2>
             <p className="text-gray-700 mb-4">
-              The information on this platform is provided on an "as is" basis. To the fullest extent permitted by law,
+              {`The information on this platform is provided on an "as is" basis. To the fullest extent permitted by law,
               we exclude all representations, warranties, and conditions relating to our platform and the use of this
-              platform.
+              platform.`}
             </p>
             <p className="text-gray-700">
               In no event shall Antioch Platform, nor its directors, employees, partners, agents, suppliers, or
@@ -164,10 +164,10 @@ export default function TermsPage() {
           <section className="mb-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">Indemnification</h2>
             <p className="text-gray-700">
-              You agree to defend, indemnify, and hold harmless Antioch Platform and its licensee and licensors, and
+             {` You agree to defend, indemnify, and hold harmless Antioch Platform and its licensee and licensors, and
               their employees, contractors, agents, officers and directors, from and against any and all claims,
               damages, obligations, losses, liabilities, costs or debt, and expenses (including but not limited to
-              attorney's fees).
+              attorney's fees).`}
             </p>
           </section>
 

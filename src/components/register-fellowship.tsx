@@ -79,7 +79,7 @@ export function RegisterFellowship() {
               <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-lg border border-white/20">
                 <h3 className="font-bold text-lg mb-4 flex items-center">
                   <CheckCircle className="h-5 w-5 mr-2 text-green-500" />
-                  What's Included:
+                  {`What's Included:`}
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {features.map((feature, index) => (

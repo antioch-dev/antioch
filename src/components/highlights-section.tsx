@@ -178,7 +178,7 @@ export function HighlightsSection() {
       setIsLoading(false)
     }
 
-    fetchData()
+    void fetchData()
   }, [])
 
   return (
