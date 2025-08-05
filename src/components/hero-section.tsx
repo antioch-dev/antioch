@@ -76,7 +76,7 @@ export function HeroSection() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Text content */}
-            <div className="text-white space-y-6 sm:space-y-8 text-center lg:text-left">
+            <div className="text-white space-y-6 sm:space-y-8 text-center lg:text-left mt-5">
               <ScrollAnimation animation="fade-up" delay={200}>
                 <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight">
                   <span className="block">{heroData.title.split(" ").slice(0, 2).join(" ")}</span>
@@ -97,7 +97,7 @@ export function HeroSection() {
               </ScrollAnimation>
 
               <ScrollAnimation animation="fade-up" delay={800}>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-20">
                   <Button
                     asChild
                     size="lg"
