@@ -13,9 +13,7 @@ import AnnouncementCarousel from '@/components/announcement-carousel'
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col items-center">
-      {/* Place the Header component *before* the main content.
-        It typically wraps the entire layout or is directly inside the flex container.
-      */}
+     
       <Header /> {/* <--- ADD THIS LINE FOR THE HEADER */}
 
       <main className="flex-1 w-full">

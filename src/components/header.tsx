@@ -24,10 +24,10 @@ export function Header() {
           </Link>
           <Link href="#donate" className="text-sm font-medium transition-colors hover:text-primary">
             Donate
-          </Link>
-          <Link href="#contact" className="text-sm font-medium transition-colors hover:text-primary">
-            Contact
-          </Link> */}
+          </Link>*/}
+          <Link href="/fellowships/fellowship1/task-manager" className="text-sm font-medium transition-colors hover:text-primary">
+            task manager
+          </Link> 
           <Link
             href="/fellowships/fellowship1/forms"
             className="text-sm font-medium transition-colors hover:text-primary"
