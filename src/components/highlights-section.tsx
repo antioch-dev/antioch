@@ -60,7 +60,7 @@ export function HighlightsSection() {
   const [galleries, setGalleries] = useState<Gallery[]>([])
   const [liveStreams, setLiveStreams] = useState<LiveStream[]>([])
   const [stats, setStats] = useState<Stats | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
+  const [, setIsLoading] = useState(true)
 
   useEffect(() => {
     const fetchData = async () => {

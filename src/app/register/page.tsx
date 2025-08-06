@@ -176,7 +176,7 @@ export default function RegisterPage() {
         agreeToTerms: false,
         agreeToDataProcessing: false,
       })
-    } catch (error) {
+    } catch {
       toast({
         title: "Submission Failed",
         description: "There was an error submitting your registration. Please try again.",

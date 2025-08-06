@@ -17,7 +17,7 @@ interface HeroData {
 
 export function HeroSection() {
   const [heroData, setHeroData] = useState<HeroData | null>(null)
-  const [isLoaded, setIsLoaded] = useState(false)
+  const [, setIsLoaded] = useState(false)
 
   useEffect(() => {
     const fetchHeroData = async () => {
@@ -97,7 +97,7 @@ export function HeroSection() {
               </ScrollAnimation>
 
               <ScrollAnimation animation="fade-up" delay={800}>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-20">
+                <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb">
                   <Button
                     asChild
                     size="lg"
