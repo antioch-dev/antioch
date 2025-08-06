@@ -91,36 +91,12 @@ export function HeroSection() {
               </ScrollAnimation>
 
               <ScrollAnimation animation="fade-up" delay={600}>
-                <p className="text-base sm:text-lg text-gray-200 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                <p className="text-base sm:text-lg text-gray-200 max-w-2xl mx-auto lg:mx-0 leading-relaxed mb-20">
                   {heroData.description}
                 </p>
               </ScrollAnimation>
 
-              <ScrollAnimation animation="fade-up" delay={800}>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb">
-                  <Button
-                    asChild
-                    size="lg"
-                    className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold rounded-full transition-all duration-300 hover:scale-105 hover:shadow-xl group shadow-lg"
-                  >
-                    <Link href={heroData.primaryButton.href}>
-                      {heroData.primaryButton.text}
-                      <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:translate-x-1" />
-                    </Link>
-                  </Button>
-                  <Button
-                    asChild
-                    variant="outline"
-                    size="lg"
-                    className="border-2 border-white text-white hover:bg-white hover:text-gray-900 bg-transparent px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold rounded-full transition-all duration-300 hover:scale-105 group shadow-lg backdrop-blur-sm"
-                  >
-                    <Link href={heroData.secondaryButton.href}>
-                      <Play className="mr-2 h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:scale-110" />
-                      {heroData.secondaryButton.text}
-                    </Link>
-                  </Button>
-                </div>
-              </ScrollAnimation>
+
             </div>
 
             {/* Visual element */}
