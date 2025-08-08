@@ -1,4 +1,4 @@
-import { DashboardLayout } from "@/app/_components/dashboard-layout" 
+import { DashboardLayout } from "@/app/_components/dashboard-layout"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -47,7 +47,7 @@ export default async function UserAccount({ params }: UserAccountProps) {
                   <AvatarFallback className="bg-blue-100 text-blue-600 text-2xl">
                     {user.name
                       .split(" ")
-                      .map((n) => n[0])
+                      .map((n: string) => n[0])
                       .join("")}
                   </AvatarFallback>
                 </Avatar>
@@ -296,5 +296,6 @@ export default async function UserAccount({ params }: UserAccountProps) {
         </div>
       </div>
     </DashboardLayout>
-  )
+ 
+)
 }
