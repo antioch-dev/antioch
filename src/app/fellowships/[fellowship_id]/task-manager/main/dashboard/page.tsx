@@ -3,6 +3,7 @@
 import { motion } from "framer-motion"
 import { CheckSquare, Users, RotateCcw, LogIn, LogOut, Calendar, ChevronDown, ChevronRight, Plus } from "lucide-react"
 import { useState } from "react"
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -10,6 +11,7 @@ import { TaskCard } from "@/components/tasks/task-card"
 import { TaskForm } from "@/components/tasks/task-form"
 import { useStore } from "@/lib/store"
 import { cn } from "@/lib/utils"
+import { useParams } from 'next/navigation'
 
 const categories = [
   {
@@ -45,6 +47,9 @@ const categories = [
 export default function DashboardPage() {
   const { tasks } = useStore()
   const [expandedCategories, setExpandedCategories] = useState<string[]>(["general"])
+  
+  const params = useParams();
+  const fellowship_id = params.fellowship_id;
 
   const toggleCategory = (categoryId: string) => {
     setExpandedCategories((prev) =>
@@ -216,37 +221,45 @@ export default function DashboardPage() {
         transition={{ delay: 0.6 }}
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"
       >
-        <Card className="bg-gray-900 border-gray-800 hover:bg-gray-800 transition-colors cursor-pointer">
-          <CardContent className="p-4 text-center">
-            <LogIn className="w-8 h-8 text-blue-500 mx-auto mb-2" />
-            <h3 className="text-white font-medium">Daily Check-in</h3>
-            <p className="text-gray-400 text-sm">Log your daily progress</p>
-          </CardContent>
-        </Card>
+        <Link href={`/fellowships/${String(fellowship_id)}/task-manager/main/daily-check-in`}>
+          <Card className="bg-gray-900 border-gray-800 hover:bg-gray-800 transition-colors cursor-pointer">
+            <CardContent className="p-4 text-center">
+              <LogIn className="w-8 h-8 text-blue-500 mx-auto mb-2" />
+              <h3 className="text-white font-medium">Daily Check-in</h3>
+              <p className="text-gray-400 text-sm">Log your daily progress</p>
+            </CardContent>
+          </Card>
+        </Link>
 
-        <Card className="bg-gray-900 border-gray-800 hover:bg-gray-800 transition-colors cursor-pointer">
-          <CardContent className="p-4 text-center">
-            <LogOut className="w-8 h-8 text-green-500 mx-auto mb-2" />
-            <h3 className="text-white font-medium">Daily Check-out</h3>
-            <p className="text-gray-400 text-sm">End your day with notes</p>
-          </CardContent>
-        </Card>
+        <Link href={`/fellowships/${String(fellowship_id)}/task-manager/main/checkout`}>
+          <Card className="bg-gray-900 border-gray-800 hover:bg-gray-800 transition-colors cursor-pointer">
+            <CardContent className="p-4 text-center">
+              <LogOut className="w-8 h-8 text-green-500 mx-auto mb-2" />
+              <h3 className="text-white font-medium">Daily Check-out</h3>
+              <p className="text-gray-400 text-sm">End your day with notes</p>
+            </CardContent>
+          </Card>
+        </Link>
 
-        <Card className="bg-gray-900 border-gray-800 hover:bg-gray-800 transition-colors cursor-pointer">
-          <CardContent className="p-4 text-center">
-            <Users className="w-8 h-8 text-purple-500 mx-auto mb-2" />
-            <h3 className="text-white font-medium">Team Assignments</h3>
-            <p className="text-gray-400 text-sm">Manage team workload</p>
-          </CardContent>
-        </Card>
+        <Link href={`/fellowships/${String(fellowship_id)}/task-manager/main/assignments`}>
+          <Card className="bg-gray-900 border-gray-800 hover:bg-gray-800 transition-colors cursor-pointer">
+            <CardContent className="p-4 text-center">
+              <Users className="w-8 h-8 text-purple-500 mx-auto mb-2" />
+              <h3 className="text-white font-medium">Team Assignments</h3>
+              <p className="text-gray-400 text-sm">Manage team workload</p>
+            </CardContent>
+          </Card>
+        </Link>
 
-        <Card className="bg-gray-900 border-gray-800 hover:bg-gray-800 transition-colors cursor-pointer">
-          <CardContent className="p-4 text-center">
-            <Calendar className="w-8 h-8 text-orange-500 mx-auto mb-2" />
-            <h3 className="text-white font-medium">Long Term Planning</h3>
-            <p className="text-gray-400 text-sm">Plan complex projects</p>
-          </CardContent>
-        </Card>
+        <Link href={`/fellowships/${String(fellowship_id)}/task-manager/main/long-term`}>
+          <Card className="bg-gray-900 border-gray-800 hover:bg-gray-800 transition-colors cursor-pointer">
+            <CardContent className="p-4 text-center">
+              <Calendar className="w-8 h-8 text-orange-500 mx-auto mb-2" />
+              <h3 className="text-white font-medium">Long Term Planning</h3>
+              <p className="text-gray-400 text-sm">Plan complex projects</p>
+            </CardContent>
+          </Card>
+        </Link>
       </motion.div>
     </div>
   )

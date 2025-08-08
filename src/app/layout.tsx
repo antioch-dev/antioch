@@ -1,12 +1,11 @@
+
 import '@/styles/globals.css'
-import './globals.css'
 import type { Metadata } from 'next'
-import { Inter, Geist } from 'next/font/google'
-import { HomeHeader } from '@/components/homeHeader'
-import { Footer } from '@/components/footer'
+import { Inter } from 'next/font/google'
 import { Toaster } from '@/components/ui/toaster'
 import { AOSProvider } from '@/components/aos-provider'
 import { TRPCReactProvider } from '@/trpc/react'
+import { Geist } from 'next/font/google'
 
 // Load fonts
 const geist = Geist({
@@ -33,9 +32,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={inter.className}>
         <AOSProvider>
           <TRPCReactProvider>
-            <HomeHeader />
+           
             <main>{children}</main>
-            <Footer />
             <Toaster />
           </TRPCReactProvider>
         </AOSProvider>

@@ -96,7 +96,7 @@ export default function LandingPage() {
             <p className="text-xl text-gray-400 mb-8">
               Join thousands of teams already using Taskify to streamline their workflow.
             </p>
-            <Link href="/fellowships/${fellowshipId}/task-manager/main/dashboard">
+            <Link href="/fellowships/fellowship1/task-manager/main/dashboard">
               <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3">
                 Start Managing Tasks
                 <ArrowRight className="ml-2 h-5 w-5" />
