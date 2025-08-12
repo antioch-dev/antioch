@@ -534,3 +534,430 @@ export function deleteUser(id: string): boolean {
   mockUsers.splice(0, mockUsers.length, ...newMockUsers);
   return mockUsers.length < initialLength;
 }
+import type { Database } from "./supabase"
+
+// Define the RecurrencePattern types based on your mock data
+export type RecurrencePattern =
+  | { type: "weekly"; day: string; time: string }
+  | { type: "daily"; time: string }
+  | { type: "monthly"; day: number; time: string }
+  | { type: "yearly"; date: string; time: string };
+
+// Update the Task type to use the new RecurrencePattern
+type Task = Omit<Database["public"]["Tables"]["tasks"]["Row"], "recurrence_pattern"> & {
+  recurrence_pattern: RecurrencePattern | null;
+};
+type Profile = Database["public"]["Tables"]["profiles"]["Row"]
+
+export const mockUser: Profile = {
+  id: "mock-user-id",
+  email: "demo@taskflow.com",
+  full_name: "Demo User",
+  avatar_url: null,
+  created_at: new Date().toISOString(),
+  updated_at: new Date().toISOString(),
+}
+
+export const mockTasks: Task[] = [
+  {
+    id: "1",
+    title: "Setup project structure",
+    description: "Initialize the Next.js project with required dependencies and configure the development environment",
+    status: "completed",
+    priority: "high",
+    due_date: null,
+    assignee_id: null,
+    created_by: "mock-user-id",
+    team_id: "mock-team-id",
+    category: "general",
+    tags: ["setup", "development", "infrastructure"],
+    is_recurring: false,
+    recurrence_pattern: null,
+    parent_task_id: null,
+    position: 0,
+    created_at: new Date(Date.now() - 86400000 * 3).toISOString(), // 3 days ago
+    updated_at: new Date(Date.now() - 86400000 * 2).toISOString(), // 2 days ago
+  },
+  {
+    id: "2",
+    title: "Design user interface",
+    description:
+      "Create mockups and design system for the application including color schemes, typography, and component library",
+    status: "in_progress",
+    priority: "high",
+    due_date: new Date(Date.now() + 172800000).toISOString(), // 2 days from now
+    assignee_id: null,
+    created_by: "mock-user-id",
+    team_id: "mock-team-id",
+    category: "general",
+    tags: ["design", "ui", "mockups"],
+    is_recurring: false,
+    recurrence_pattern: null,
+    parent_task_id: null,
+    position: 1,
+    created_at: new Date(Date.now() - 43200000).toISOString(), // 12 hours ago
+    updated_at: new Date(Date.now() - 21600000).toISOString(), // 6 hours ago
+  },
+  {
+    id: "3",
+    title: "Implement authentication system",
+    description: "Set up user authentication with email/password, social login options, and secure session management",
+    status: "not_started",
+    priority: "medium",
+    due_date: new Date(Date.now() + 259200000).toISOString(), // 3 days from now
+    assignee_id: null,
+    created_by: "mock-user-id",
+    team_id: "mock-team-id",
+    category: "general",
+    tags: ["auth", "backend", "security"],
+    is_recurring: false,
+    recurrence_pattern: null,
+    parent_task_id: null,
+    position: 2,
+    created_at: new Date(Date.now() - 21600000).toISOString(), // 6 hours ago
+    updated_at: new Date(Date.now() - 21600000).toISOString(),
+  },
+  {
+    id: "4",
+    title: "Create task management system",
+    description: "Build comprehensive CRUD operations for tasks with filtering, sorting, and search capabilities",
+    status: "not_started",
+    priority: "high",
+    due_date: new Date(Date.now() + 432000000).toISOString(), // 5 days from now
+    assignee_id: null,
+    created_by: "mock-user-id",
+    team_id: "mock-team-id",
+    category: "assignment",
+    tags: ["tasks", "crud", "features"],
+    is_recurring: false,
+    recurrence_pattern: null,
+    parent_task_id: null,
+    position: 3,
+    created_at: new Date(Date.now() - 10800000).toISOString(), // 3 hours ago
+    updated_at: new Date(Date.now() - 10800000).toISOString(),
+  },
+  {
+    id: "5",
+    title: "Weekly team standup",
+    description: "Regular team sync meeting to discuss progress, blockers, and upcoming priorities",
+    status: "not_started",
+    priority: "medium",
+    due_date: new Date(Date.now() + 604800000).toISOString(), // 1 week from now
+    assignee_id: null,
+    created_by: "mock-user-id",
+    team_id: "mock-team-id",
+    category: "recurring",
+    tags: ["meeting", "team", "sync"],
+    is_recurring: true,
+    recurrence_pattern: { type: "weekly", day: "monday", time: "09:00" },
+    parent_task_id: null,
+    position: 4,
+    created_at: new Date(Date.now() - 3600000).toISOString(), // 1 hour ago
+    updated_at: new Date(Date.now() - 3600000).toISOString(),
+  },
+  {
+    id: "6",
+    title: "Platform architecture review",
+    description:
+      "Comprehensive review of platform architecture for scalability, performance, and maintainability improvements",
+    status: "blocked",
+    priority: "low",
+    due_date: null,
+    assignee_id: null,
+    created_by: "mock-user-id",
+    team_id: "mock-team-id",
+    category: "long_term",
+    tags: ["architecture", "planning", "scalability"],
+    is_recurring: false,
+    recurrence_pattern: null,
+    parent_task_id: null,
+    position: 5,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+  {
+    id: "7",
+    title: "Mobile app development",
+    description: "Develop React Native mobile application with core task management features",
+    status: "not_started",
+    priority: "medium",
+    due_date: new Date(Date.now() + 1209600000).toISOString(), // 2 weeks from now
+    assignee_id: null,
+    created_by: "mock-user-id",
+    team_id: "mock-team-id",
+    category: "long_term",
+    tags: ["mobile", "react-native", "development"],
+    is_recurring: false,
+    recurrence_pattern: null,
+    parent_task_id: null,
+    position: 6,
+    created_at: new Date(Date.now() - 1800000).toISOString(), // 30 minutes ago
+    updated_at: new Date(Date.now() - 1800000).toISOString(),
+  },
+  {
+    id: "8",
+    title: "Database optimization",
+    description: "Optimize database queries and implement caching strategies for better performance",
+    status: "in_progress",
+    priority: "urgent",
+    due_date: new Date(Date.now() + 86400000).toISOString(), // 1 day from now
+    assignee_id: null,
+    created_by: "mock-user-id",
+    team_id: "mock-team-id",
+    category: "assignment",
+    tags: ["database", "performance", "optimization"],
+    is_recurring: false,
+    recurrence_pattern: null,
+    parent_task_id: null,
+    position: 7,
+    created_at: new Date(Date.now() - 7200000).toISOString(), // 2 hours ago
+    updated_at: new Date(Date.now() - 3600000).toISOString(), // 1 hour ago
+  },
+  {
+    id: "9",
+    title: "Daily code review",
+    description: "Review pull requests and provide feedback to team members",
+    status: "completed",
+    priority: "medium",
+    due_date: null,
+    assignee_id: null,
+    created_by: "mock-user-id",
+    team_id: "mock-team-id",
+    category: "recurring",
+    tags: ["code-review", "quality", "team"],
+    is_recurring: true,
+    recurrence_pattern: { type: "daily", time: "14:00" },
+    parent_task_id: null,
+    position: 8,
+    created_at: new Date(Date.now() - 14400000).toISOString(), // 4 hours ago
+    updated_at: new Date(Date.now() - 7200000).toISOString(), // 2 hours ago
+  },
+  {
+    id: "10",
+    title: "User testing and feedback collection",
+    description: "Conduct user testing sessions and collect feedback for product improvements",
+    status: "not_started",
+    priority: "high",
+    due_date: new Date(Date.now() + 518400000).toISOString(), // 6 days from now
+    assignee_id: null,
+    created_by: "mock-user-id",
+    team_id: "mock-team-id",
+    category: "general",
+    tags: ["testing", "feedback", "ux"],
+    is_recurring: false,
+    recurrence_pattern: null,
+    parent_task_id: null,
+    position: 9,
+    created_at: new Date(Date.now() - 900000).toISOString(), // 15 minutes ago
+    updated_at: new Date(Date.now() - 900000).toISOString(),
+  },
+]
+
+export const mockTeamMembers = [
+  {
+    id: "member-1",
+    name: "Alice Johnson",
+    email: "alice@taskflow.com",
+    avatar: null,
+    role: "Frontend Developer",
+    taskCount: 3,
+  },
+  {
+    id: "member-2",
+    name: "Bob Smith",
+    email: "bob@taskflow.com",
+    avatar: null,
+    role: "Backend Developer",
+    taskCount: 2,
+  },
+  {
+    id: "member-3",
+    name: "Carol Davis",
+    email: "carol@taskflow.com",
+    avatar: null,
+    role: "UI/UX Designer",
+    taskCount: 4,
+  },
+  {
+    id: "member-4",
+    name: "David Wilson",
+    email: "david@taskflow.com",
+    avatar: null,
+    role: "Product Manager",
+    taskCount: 1,
+  },
+]
+
+export const mockCheckins = [
+  {
+    id: "checkin-1",
+    user_id: "mock-user-id",
+    content: "Started working on the authentication system. Made good progress on the login form and validation logic.",
+    type: "daily" as const,
+    created_at: new Date(Date.now() - 86400000).toISOString(), // 1 day ago
+  },
+  {
+    id: "checkin-2",
+    user_id: "mock-user-id",
+    content: "Completed the UI design mockups for the dashboard. Ready for development phase.",
+    type: "daily" as const,
+    created_at: new Date(Date.now() - 172800000).toISOString(), // 2 days ago
+  },
+  {
+    id: "checkin-3",
+    user_id: "mock-user-id",
+    content: "Weekly review: Great progress on the core features. Team collaboration is excellent.",
+    type: "weekly" as const,
+    created_at: new Date(Date.now() - 604800000).toISOString(), // 1 week ago
+  },
+]
+
+export const mockCheckouts = [
+  {
+    id: "checkout-1",
+    user_id: "mock-user-id",
+    content:
+      "Wrapped up the day with successful implementation of task filtering. Tomorrow will focus on the search functionality.",
+    task_ids: ["2", "4"],
+    type: "daily" as const,
+    created_at: new Date(Date.now() - 86400000).toISOString(), // 1 day ago
+  },
+  {
+    id: "checkout-2",
+    user_id: "mock-user-id",
+    content: "Good productive day. Completed the design system and started on component implementation.",
+    task_ids: ["1", "2"],
+    type: "daily" as const,
+    created_at: new Date(Date.now() - 172800000).toISOString(), // 2 days ago
+  },
+]
+import type { Response, Topic } from "./types"
+
+// Generate mock responses for a questionnaire
+export function generateMockResponses(questionnaire: any): Response[] {
+  if (!questionnaire || !questionnaire.questions || !Array.isArray(questionnaire.questions)) {
+    console.error("Invalid questionnaire provided to generateMockResponses")
+    return []
+  }
+
+  try {
+    const responses = []
+    const responseCount = Math.floor(Math.random() * 50) + 50 // 50-100 responses
+
+    for (let i = 0; i < responseCount; i++) {
+      const answers: Record<string, string> = {}
+
+      questionnaire.questions.forEach((question: any) => {
+        if (!question || !question.id) return // Skip if question is invalid
+
+        if (Math.random() > 0.1) {
+    // 90% chance of answering each question
+    if (
+        question.type === "multiple-choice" &&
+        question.options &&
+        Array.isArray(question.options) &&
+        question.options.length > 0
+    ) {
+        // Randomly select an option
+        const randomIndex = Math.floor(Math.random() * question.options.length)
+        const selectedOption = question.options[randomIndex]
+        if (selectedOption !== undefined) {
+            answers[question.id] = selectedOption
+        }
+    } else if (question.type === "text") {
+        // Generate a random text response
+        const textResponse = generateRandomTextResponse()
+        if (textResponse !== undefined) {
+            answers[question.id] = textResponse
+        }
+    }
+  }
+      })
+
+      responses.push({
+        id: `mock-response-${i}`,
+        answers,
+        submittedAt: getRandomDate(new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), new Date()).toISOString(),
+      })
+    }
+
+    return responses
+  } catch (error) {
+    console.error("Error generating mock responses:", error)
+    return []
+  }
+}
+
+// Generate mock topics
+export function generateMockTopics(): Topic[] {
+  try {
+    const topics: Topic[] = [
+      {
+        id: "topic-1",
+        name: "Product Feedback",
+        description: "Questions about our products and features",
+        color: "#0ea5e9", // sky-500
+        createdAt: new Date().toISOString(),
+      },
+      {
+        id: "topic-2",
+        name: "Customer Service",
+        description: "Questions about customer support and service",
+        color: "#22c55e", // green-500
+        createdAt: new Date().toISOString(),
+      },
+      {
+        id: "topic-3",
+        name: "Website Experience",
+        description: "Questions about website usability and experience",
+        color: "#f59e0b", // amber-500
+        createdAt: new Date().toISOString(),
+      },
+      {
+        id: "topic-4",
+        name: "General",
+        description: "General questions and feedback",
+        color: "#8b5cf6", // violet-500
+        createdAt: new Date().toISOString(),
+      },
+    ]
+
+    return topics
+  } catch (error) {
+    console.error("Error generating mock topics:", error)
+    return []
+  }
+}
+
+// Generate a random date between start and end
+function getRandomDate(start: Date, end: Date) {
+  return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()))
+}
+
+// Generate a random text response
+function generateRandomTextResponse() {
+  const responses = [
+    "This is a great service, I'm very satisfied with it.",
+    "I think there's room for improvement in the customer support area.",
+    "Overall good experience, but could be better.",
+    "The product quality is excellent, but delivery times could be improved.",
+    "I've been using this service for a while and I'm very happy with it.",
+    "The interface is intuitive and easy to use.",
+    "I would recommend this to my friends and colleagues.",
+    "The pricing is fair for the quality of service provided.",
+    "I had some issues initially, but they were quickly resolved.",
+    "The team was very responsive to my inquiries.",
+    "I appreciate the attention to detail in the service.",
+    "The product exceeded my expectations.",
+    "I found the onboarding process to be very smooth.",
+    "There were some technical issues that need to be addressed.",
+    "The customer service team was very helpful.",
+    "I like the variety of options available.",
+    "The website could use some improvements in navigation.",
+    "The mobile app works great and is very convenient.",
+    "I've had a consistent experience across multiple interactions.",
+    "The service has saved me a lot of time and effort.",
+  ]
+
+  return responses[Math.floor(Math.random() * responses.length)]
+}
