@@ -8,9 +8,25 @@ import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { LogOut, Download, FileText, CheckCircle } from "lucide-react"
+import { LogOut, Download, FileText, CheckCircle, ArrowLeft } from "lucide-react" 
 import { useStore } from "@/lib/store"
 import { toast } from "sonner"
+import { useRouter } from "next/navigation" 
+
+interface Task {
+  id: string;
+  title: string;
+  category: string;
+  status: "completed" | "in_progress" | "blocked" | "not_started";
+}
+
+interface Checkout {
+  id?: string;
+  date: Date;
+  selectedTasks: string[];
+  responses: Record<string, string>;
+  exportFormat: "pdf" | "markdown";
+}
 
 const checkoutPrompts = [
   "What did you accomplish today?",
@@ -21,14 +37,20 @@ const checkoutPrompts = [
 ]
 
 export default function CheckoutPage() {
-  const { tasks, checkouts, addCheckout } = useStore()
+  const router = useRouter() 
+
+  const { tasks, checkouts, addCheckout } = useStore() as {
+    tasks: Task[];
+    checkouts: Checkout[];
+    addCheckout: (checkout: Omit<Checkout, "id">) => void;
+  };
   const [selectedTasks, setSelectedTasks] = useState<string[]>([])
   const [responses, setResponses] = useState<Record<string, string>>({})
   const [exportFormat, setExportFormat] = useState<"pdf" | "markdown">("pdf")
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const completedTasks = tasks.filter((task) => task.status === "completed")
-  const inProgressTasks = tasks.filter((task) => task.status === "in_progress")
+  const completedTasks = tasks.filter((task: Task) => task.status === "completed")
+  const inProgressTasks = tasks.filter((task: Task) => task.status === "in_progress")
 
   const handleTaskToggle = (taskId: string) => {
     setSelectedTasks((prev) => (prev.includes(taskId) ? prev.filter((id) => id !== taskId) : [...prev, taskId]))
@@ -41,12 +63,11 @@ export default function CheckoutPage() {
   const handleExport = () => {
     const checkoutData = {
       date: new Date().toISOString(),
-      selectedTasks: tasks.filter((task) => selectedTasks.includes(task.id)),
+      selectedTasks: tasks.filter((task: Task) => selectedTasks.includes(task.id)),
       responses,
       format: exportFormat,
     }
 
-    // Simulate export functionality
     const dataStr = JSON.stringify(checkoutData, null, 2)
     const dataBlob = new Blob([dataStr], { type: "application/json" })
     const url = URL.createObjectURL(dataBlob)
@@ -82,25 +103,39 @@ export default function CheckoutPage() {
       addCheckout(checkoutData)
       toast.success("Daily checkout saved successfully!")
 
-      // Reset form
       setResponses({})
       setSelectedTasks([])
-    } catch (error) {
+    } catch {
       toast.error("Failed to save checkout. Please try again.")
     } finally {
       setIsSubmitting(false)
     }
   }
 
-  const todaysCheckout = checkouts.find((checkout) => checkout.date.toDateString() === new Date().toDateString())
+  const checkoutsWithParsedDates: Checkout[] = checkouts.map((checkout) => ({
+    ...checkout,
+    date: checkout.date instanceof Date ? checkout.date : new Date(checkout.date),
+  }));
+
+  const todaysCheckout = checkoutsWithParsedDates.find((checkout) => checkout.date.toDateString() === new Date().toDateString())
 
   return (
     <div className="p-6 space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-white">End-of-Day Checkout</h1>
-          <p className="text-gray-400 mt-2">Summarize your day and prepare for tomorrow</p>
+        <div className="flex items-center">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => router.back()}
+            className="mr-2 text-gray-400 hover:bg-gray-700 hover:text-white"
+          >
+            <ArrowLeft className="w-5 h-5" />
+          </Button>
+          <div>
+            <h1 className="text-3xl font-bold text-white">End-of-Day Checkout</h1>
+            <p className="text-gray-400 mt-2">Summarize your day and prepare for tomorrow</p>
+          </div>
         </div>
         <div className="flex space-x-2">
           <Select value={exportFormat} onValueChange={(value: "pdf" | "markdown") => setExportFormat(value)}>
@@ -124,7 +159,7 @@ export default function CheckoutPage() {
           <CardContent className="p-4">
             <div className="flex items-center space-x-2">
               <Badge className="bg-green-600">Completed</Badge>
-              <span className="text-green-400">You've already completed your checkout for today!</span>
+              <span className="text-green-400">You&apos;ve already completed your checkout for today!</span>
             </div>
           </CardContent>
         </Card>
@@ -138,7 +173,7 @@ export default function CheckoutPage() {
             <CardHeader>
               <CardTitle className="text-white flex items-center">
                 <CheckCircle className="w-5 h-5 mr-2" />
-                Today's Tasks
+                Today&apos;s Tasks
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -147,7 +182,7 @@ export default function CheckoutPage() {
                 {completedTasks.length === 0 ? (
                   <p className="text-gray-400 text-sm">No completed tasks today</p>
                 ) : (
-                  completedTasks.map((task) => (
+                  completedTasks.map((task: Task) => (
                     <div key={task.id} className="flex items-center space-x-3">
                       <Checkbox
                         checked={selectedTasks.includes(task.id)}
@@ -172,7 +207,7 @@ export default function CheckoutPage() {
                 {inProgressTasks.length === 0 ? (
                   <p className="text-gray-400 text-sm">No tasks in progress</p>
                 ) : (
-                  inProgressTasks.map((task) => (
+                  inProgressTasks.map((task: Task) => (
                     <div key={task.id} className="flex items-center space-x-3">
                       <Checkbox
                         checked={selectedTasks.includes(task.id)}
@@ -228,7 +263,7 @@ export default function CheckoutPage() {
         <div className="space-y-4">
           <Card className="bg-gray-800 border-gray-700">
             <CardHeader>
-              <CardTitle className="text-white">Today's Summary</CardTitle>
+              <CardTitle className="text-white">Today&apos;s Summary</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex justify-between">
@@ -294,10 +329,10 @@ export default function CheckoutPage() {
               <CardTitle className="text-white">Recent Checkouts</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              {checkouts.length === 0 ? (
+              {checkoutsWithParsedDates.length === 0 ? (
                 <p className="text-gray-400 text-center py-4">No checkouts yet</p>
               ) : (
-                checkouts.slice(0, 3).map((checkout) => (
+                checkoutsWithParsedDates.slice(0, 3).map((checkout) => (
                   <motion.div
                     key={checkout.id}
                     whileHover={{ scale: 1.02 }}

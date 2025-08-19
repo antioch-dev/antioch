@@ -7,9 +7,20 @@ import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
 import { Calendar } from "@/components/ui/calendar"
-import { LogIn, Save, CalendarIcon } from "lucide-react"
+import { LogIn, Save, CalendarIcon, ArrowLeft } from "lucide-react"
 import { useStore } from "@/lib/store"
 import { toast } from "sonner"
+import { useRouter } from 'next/navigation'
+
+
+interface Checkin {
+  id: string;
+  date: Date | string;
+  type: "daily" | "weekly";
+  content: string;
+  mood: string;
+  responses: Record<string, string>;
+}
 
 const checkinPrompts = [
   "What did you accomplish today?",
@@ -31,7 +42,8 @@ const moodOptions = [
 ]
 
 export default function CheckinPage() {
-  const { checkins, addCheckin } = useStore()
+  const { checkins, addCheckin } = useStore() as { checkins: Checkin[]; addCheckin: (data: Omit<Checkin, 'id'>) => void };
+  const router = useRouter()
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date())
   const [checkinType, setCheckinType] = useState<"daily" | "weekly">("daily")
   const [responses, setResponses] = useState<Record<string, string>>({})
@@ -43,7 +55,6 @@ export default function CheckinPage() {
   }
 
   const handleSaveCheckin = async () => {
-    // Validate that at least one response is filled
     const hasResponses = Object.values(responses).some((response) => response.trim().length > 0)
 
     if (!hasResponses) {
@@ -59,10 +70,9 @@ export default function CheckinPage() {
     setIsSubmitting(true)
 
     try {
-      // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 1000))
 
-      const checkinData = {
+      const checkinData: Omit<Checkin, 'id'> = {
         date: selectedDate || new Date(),
         type: checkinType,
         content: Object.entries(responses)
@@ -76,17 +86,16 @@ export default function CheckinPage() {
       addCheckin(checkinData)
       toast.success(`${checkinType === "daily" ? "Daily" : "Weekly"} check-in saved successfully!`)
 
-      // Reset form
       setResponses({})
       setSelectedMood("")
-    } catch (error) {
+    } catch (_error) { // Removed the ': any' type annotation
       toast.error("Failed to save check-in. Please try again.")
     } finally {
       setIsSubmitting(false)
     }
   }
 
-  const getMoodColor = (mood: string) => {
+  const getMoodColor = (mood: string): string => {
     const moodColors: Record<string, string> = {
       Productive: "bg-green-600",
       Collaborative: "bg-blue-600",
@@ -100,17 +109,27 @@ export default function CheckinPage() {
     return moodColors[mood] || "bg-gray-600"
   }
 
-  const todaysCheckin = checkins.find(
-    (checkin) => checkin.date.toDateString() === new Date().toDateString() && checkin.type === checkinType,
-  )
+  const getDisplayDate = (dateInput: Date | string): Date => {
+    return typeof dateInput === "string" ? new Date(dateInput) : dateInput;
+  }
+
+  const todaysCheckin = checkins.find((checkin: Checkin) => {
+    const checkinDate = getDisplayDate(checkin.date)
+    return checkinDate.toDateString() === new Date().toDateString() && checkin.type === checkinType
+  })
 
   return (
     <div className="p-6 space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-white">Daily Check-in</h1>
-          <p className="text-gray-400 mt-2">Reflect on your progress and plan ahead</p>
+        <div className="flex items-center">
+          <Button variant="ghost" size="icon" onClick={() => router.back()} className="mr-2 text-gray-400 hover:text-white">
+            <ArrowLeft className="w-6 h-6" />
+          </Button>
+          <div>
+            <h1 className="text-3xl font-bold text-white">Daily Check-in</h1>
+            <p className="text-gray-400 mt-2">Reflect on your progress and plan ahead</p>
+          </div>
         </div>
         <div className="flex space-x-2">
           <Button variant={checkinType === "daily" ? "default" : "outline"} onClick={() => setCheckinType("daily")}>
@@ -127,7 +146,7 @@ export default function CheckinPage() {
           <CardContent className="p-4">
             <div className="flex items-center space-x-2">
               <Badge className="bg-green-600">Completed</Badge>
-              <span className="text-green-400">You've already completed your {checkinType} check-in for today!</span>
+              <span className="text-green-400">You&apos;ve already completed your {checkinType} check-in for today!</span>
             </div>
           </CardContent>
         </Card>
@@ -208,7 +227,7 @@ export default function CheckinPage() {
               {checkins.length === 0 ? (
                 <p className="text-gray-400 text-center py-4">No check-ins yet</p>
               ) : (
-                checkins.slice(0, 5).map((checkin) => (
+                checkins.slice(0, 5).map((checkin: Checkin) => (
                   <motion.div
                     key={checkin.id}
                     whileHover={{ scale: 1.02 }}
@@ -217,7 +236,9 @@ export default function CheckinPage() {
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center space-x-2">
                         <CalendarIcon className="w-4 h-4 text-gray-400" />
-                        <span className="text-sm text-gray-400">{checkin.date.toLocaleDateString()}</span>
+                        <span className="text-sm text-gray-400">
+                          {getDisplayDate(checkin.date).toLocaleDateString()}
+                        </span>
                       </div>
                       <div className="flex items-center space-x-2">
                         <Badge variant="outline" className="text-xs">
@@ -242,9 +263,10 @@ export default function CheckinPage() {
                 <span className="text-gray-400">This Week</span>
                 <span className="text-white font-medium">
                   {
-                    checkins.filter((c) => {
+                    checkins.filter((c: Checkin) => {
+                      const checkinDate = getDisplayDate(c.date)
                       const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
-                      return c.date >= weekAgo && c.type === "daily"
+                      return checkinDate >= weekAgo && c.type === "daily"
                     }).length
                   }
                   /7 days
@@ -254,9 +276,10 @@ export default function CheckinPage() {
                 <span className="text-gray-400">This Month</span>
                 <span className="text-white font-medium">
                   {
-                    checkins.filter((c) => {
+                    checkins.filter((c: Checkin) => {
+                      const checkinDate = getDisplayDate(c.date)
                       const monthAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
-                      return c.date >= monthAgo && c.type === "daily"
+                      return checkinDate >= monthAgo && c.type === "daily"
                     }).length
                   }
                   /30 days

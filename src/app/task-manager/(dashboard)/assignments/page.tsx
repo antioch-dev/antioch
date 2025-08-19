@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import { motion } from "framer-motion"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -11,20 +10,46 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Progress } from "@/components/ui/progress"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Users, Plus, ArrowRight, UserPlus } from "lucide-react"
+import { Users, Plus, ArrowRight, UserPlus, ArrowLeft } from "lucide-react" 
 import { useStore } from "@/lib/store"
+import { useRouter } from "next/navigation" 
 import { toast } from "sonner"
 
+interface Task {
+  id: string;
+  title: string;
+  assignee_id?: string | null;
+  priority: "low" | "medium" | "high";
+  status: "todo" | "in_progress" | "completed";
+}
+
+interface TeamMember {
+  id: string;
+  name: string;
+  role: string;
+  avatar?: string;
+  tasksCompleted: number;
+  tasksAssigned: number;
+  workload: number;
+}
+
 export default function AssignmentsPage() {
-  const { tasks, teamMembers, assignTask, updateTeamMember } = useStore()
+  // `updateTeamMember` has been removed from the destructuring
+  const { tasks, teamMembers, assignTask } = useStore() as { 
+    tasks: Task[]; 
+    teamMembers: TeamMember[]; 
+    assignTask: (taskId: string, memberId: string) => void;
+    updateTeamMember: (memberId: string, data: Partial<TeamMember>) => void;
+  };
+  const router = useRouter() 
   const [selectedMember, setSelectedMember] = useState<string | null>(null)
   const [assignDialogOpen, setAssignDialogOpen] = useState(false)
   const [selectedTaskForAssignment, setSelectedTaskForAssignment] = useState<string | null>(null)
   const [selectedMemberForAssignment, setSelectedMemberForAssignment] = useState<string>("")
 
-  const unassignedTasks = tasks.filter((task) => !task.assignee_id)
-  const selectedMemberData = teamMembers.find((m) => m.id === selectedMember)
-  const memberTasks = selectedMember ? tasks.filter((task) => task.assignee_id === selectedMember) : []
+  const unassignedTasks = tasks.filter((task: Task) => !task.assignee_id)
+  const selectedMemberData = teamMembers.find((m: TeamMember) => m.id === selectedMember)
+  const memberTasks = selectedMember ? tasks.filter((task: Task) => task.assignee_id === selectedMember) : []
 
   const handleAssignTask = () => {
     if (selectedTaskForAssignment && selectedMemberForAssignment) {
@@ -36,23 +61,6 @@ export default function AssignmentsPage() {
     }
   }
 
-  const handleDragStart = (e: React.DragEvent, taskId: string) => {
-    e.dataTransfer.setData("taskId", taskId)
-  }
-
-  const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault()
-  }
-
-  const handleDrop = (e: React.DragEvent, memberId: string) => {
-    e.preventDefault()
-    const taskId = e.dataTransfer.getData("taskId")
-    if (taskId) {
-      assignTask(taskId, memberId)
-      toast.success("Task assigned via drag & drop!")
-    }
-  }
-
   return (
     <div className="p-6 space-y-6">
       {/* Header */}
@@ -61,73 +69,86 @@ export default function AssignmentsPage() {
           <h1 className="text-3xl font-bold text-white">Team Assignments</h1>
           <p className="text-gray-400 mt-2">Manage task assignments and team workload</p>
         </div>
-        <Dialog open={assignDialogOpen} onOpenChange={setAssignDialogOpen}>
-          <DialogTrigger asChild>
-            <Button className="bg-blue-600 hover:bg-blue-700">
-              <Plus className="w-4 h-4 mr-2" />
-              Assign Task
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="bg-gray-800 border-gray-700">
-            <DialogHeader>
-              <DialogTitle className="text-white">Assign Task to Team Member</DialogTitle>
-            </DialogHeader>
-            <div className="space-y-4">
-              <div>
-                <label className="text-gray-300 text-sm font-medium">Select Task</label>
-                <Select value={selectedTaskForAssignment || ""} onValueChange={setSelectedTaskForAssignment}>
-                  <SelectTrigger className="bg-gray-700 border-gray-600">
-                    <SelectValue placeholder="Choose a task to assign" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {unassignedTasks.map((task) => (
-                      <SelectItem key={task.id} value={task.id}>
-                        {task.title}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              <div>
-                <label className="text-gray-300 text-sm font-medium">Select Team Member</label>
-                <Select value={selectedMemberForAssignment} onValueChange={setSelectedMemberForAssignment}>
-                  <SelectTrigger className="bg-gray-700 border-gray-600">
-                    <SelectValue placeholder="Choose team member" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {teamMembers.map((member) => (
-                      <SelectItem key={member.id} value={member.id}>
-                        <div className="flex items-center">
-                          <Avatar className="w-6 h-6 mr-2">
-                            <AvatarImage src={member.avatar || "/placeholder.svg"} />
-                            <AvatarFallback>
-                              {member.name
-                                .split(" ")
-                                .map((n) => n[0])
-                                .join("")}
-                            </AvatarFallback>
-                          </Avatar>
-                          {member.name} - {member.role}
-                        </div>
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="flex justify-end space-x-2">
-                <Button variant="outline" onClick={() => setAssignDialogOpen(false)}>
-                  Cancel
-                </Button>
-                <Button onClick={handleAssignTask} className="bg-blue-600 hover:bg-blue-700">
-                  <UserPlus className="w-4 h-4 mr-2" />
+        <div className="flex items-center space-x-4"> 
+          <Button 
+            onClick={() => router.back()} 
+            variant="outline" 
+            className="text-gray border-gray-600 hover:bg-gray-700"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Go Back
+          </Button>
+          <Dialog open={assignDialogOpen} onOpenChange={setAssignDialogOpen}>
+            <DialogTrigger asChild>
+              <Button className="bg-blue-600 hover:bg-blue-700">
+                <span className="flex items-center">
+                  <Plus className="w-4 h-4 mr-2" />
                   Assign Task
-                </Button>
+                </span>
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="bg-gray-800 border-gray-700">
+              <DialogHeader>
+                <DialogTitle className="text-white">Assign Task to Team Member</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4">
+                <div>
+                  <label className="text-gray-300 text-sm font-medium">Select Task</label>
+                  <Select value={selectedTaskForAssignment || ""} onValueChange={setSelectedTaskForAssignment}>
+                    <SelectTrigger className="bg-gray-700 border-gray-600">
+                      <SelectValue placeholder="Choose a task to assign" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {unassignedTasks.map((task: Task) => (
+                        <SelectItem key={task.id} value={task.id}>
+                          {task.title}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <label className="text-gray-300 text-sm font-medium">Select Team Member</label>
+                  <Select value={selectedMemberForAssignment} onValueChange={setSelectedMemberForAssignment}>
+                    <SelectTrigger className="bg-gray-700 border-gray-600">
+                      <SelectValue placeholder="Choose team member" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {teamMembers.map((member: TeamMember) => (
+                        <SelectItem key={member.id} value={member.id}>
+                          <div className="flex items-center">
+                            <Avatar className="w-6 h-6 mr-2">
+                              <AvatarImage src={member.avatar || "/placeholder.svg"} />
+                              <AvatarFallback>
+                                {member.name
+                                  .split(" ")
+                                  .map((n) => n[0])
+                                  .join("")}
+                              </AvatarFallback>
+                            </Avatar>
+                            {member.name} - {member.role}
+                          </div>
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="flex justify-end space-x-2">
+                  <Button variant="outline" onClick={() => setAssignDialogOpen(false)}>
+                    Cancel
+                  </Button>
+                  <Button onClick={handleAssignTask} className="bg-blue-600 hover:bg-blue-700">
+                    <UserPlus className="w-4 h-4 mr-2" />
+                    Assign Task
+                  </Button>
+                </div>
               </div>
-            </div>
-          </DialogContent>
-        </Dialog>
+            </DialogContent>
+          </Dialog>
+        </div>
       </div>
 
+      {/* Team Assignments */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Team Members */}
         <div className="lg:col-span-2 space-y-4">
@@ -139,7 +160,7 @@ export default function AssignmentsPage() {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              {teamMembers.map((member) => (
+              {teamMembers.map((member: TeamMember) => (
                 <motion.div
                   key={member.id}
                   whileHover={{ scale: 1.02 }}
@@ -149,8 +170,6 @@ export default function AssignmentsPage() {
                       : "bg-gray-700 border-gray-600 hover:bg-gray-600"
                   }`}
                   onClick={() => setSelectedMember(member.id)}
-                  onDragOver={handleDragOver}
-                  onDrop={(e) => handleDrop(e, member.id)}
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
@@ -189,13 +208,14 @@ export default function AssignmentsPage() {
           {selectedMemberData && (
             <Card className="bg-gray-800 border-gray-700">
               <CardHeader>
-                <CardTitle className="text-white">{selectedMemberData.name}'s Tasks</CardTitle>
+              
+                <CardTitle className="text-white">{selectedMemberData.name}&apos;s Tasks</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 {memberTasks.length === 0 ? (
                   <p className="text-gray-400 text-center py-4">No tasks assigned</p>
                 ) : (
-                  memberTasks.map((task) => (
+                  memberTasks.map((task: Task) => (
                     <motion.div
                       key={task.id}
                       whileHover={{ scale: 1.02 }}
@@ -211,8 +231,8 @@ export default function AssignmentsPage() {
                             task.status === "completed"
                               ? "bg-green-600"
                               : task.status === "in_progress"
-                                ? "bg-yellow-600"
-                                : "bg-gray-600"
+                              ? "bg-yellow-600"
+                              : "bg-gray-600"
                           }`}
                         >
                           {task.status.replace("_", " ")}
@@ -236,14 +256,11 @@ export default function AssignmentsPage() {
               {unassignedTasks.length === 0 ? (
                 <p className="text-gray-400 text-center py-4">All tasks are assigned!</p>
               ) : (
-                unassignedTasks.map((task) => (
+                unassignedTasks.map((task: Task) => (
                   <motion.div
                     key={task.id}
-                    draggable
-                    onDragStart={(e) => handleDragStart(e, task.id)}
                     whileHover={{ scale: 1.02 }}
-                    whileDrag={{ scale: 1.05 }}
-                    className="p-3 bg-gray-700 rounded-lg border border-gray-600 hover:bg-gray-600 cursor-move"
+                    className="p-3 bg-gray-700 rounded-lg border border-gray-600 hover:bg-gray-600 cursor-pointer"
                   >
                     <h4 className="text-white font-medium text-sm mb-1">{task.title}</h4>
                     <div className="flex items-center justify-between">
@@ -280,7 +297,7 @@ export default function AssignmentsPage() {
                 <div className="flex justify-between">
                   <span className="text-gray-400">Team Efficiency</span>
                   <span className="text-green-400 font-medium">
-                    {Math.round(((tasks.length - unassignedTasks.length) / tasks.length) * 100)}%
+                    {tasks.length > 0 ? Math.round(((tasks.length - unassignedTasks.length) / tasks.length) * 100) : 0}%
                   </span>
                 </div>
               </div>

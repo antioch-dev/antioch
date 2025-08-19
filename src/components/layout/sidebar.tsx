@@ -20,14 +20,14 @@ import { useStore } from "@/lib/store"
 import { Button } from "@/components/ui/button"
 
 const navigation = [
-  { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  { name: "Task CRUD", href: "/tasks", icon: CheckSquare },
-  { name: "Assignments", href: "/assignments", icon: Users },
-  { name: "Recurring Tasks", href: "/recurring", icon: RotateCcw },
-  { name: "Check-in", href: "/checkin", icon: LogIn },
-  { name: "Check-out", href: "/checkout", icon: LogOut },
-  { name: "Long Term Tasks", href: "/long-term", icon: Calendar },
-  { name: "Settings", href: "/settings", icon: Settings },
+  { name: "Dashboard", href: "/task-manager/dashboard", icon: LayoutDashboard },
+  { name: "Task CRUD", href: "/task-manager/tasks", icon: CheckSquare },
+  { name: "Assignments", href: "/task-manager/assignments", icon: Users },
+  { name: "Recurring Tasks", href: "/task-manager/recurring", icon: RotateCcw },
+  { name: "Check-in", href: "/task-manager/checkin", icon: LogIn },
+  { name: "Check-out", href: "/task-manager/checkout", icon: LogOut },
+  { name: "Long Term Tasks", href: "/task-manager/long-term", icon: Calendar },
+  { name: "Settings", href: "/task-manager/settings", icon: Settings },
 ]
 
 export function Sidebar() {

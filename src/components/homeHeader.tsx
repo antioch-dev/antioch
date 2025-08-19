@@ -10,11 +10,11 @@ export function HomeHeader() {
   const [isScrolled, setIsScrolled] = useState(false)
 
   const navigation = [
-    { name: "Home", href: "/" },
-    { name: "Search", href: "/search" },
-    { name: "Register", href: "/register" },
-    { name: "About", href: "/about" },
-    { name: "Download", href: "/download" },
+    { name: "Home", href: "/homepage" },
+    { name: "Search", href: "/homepage/search" },
+    { name: "Register", href: "/homepage/register" },
+    { name: "About", href: "/homepage/about" },
+    { name: "Download", href: "/homepage/download" },
   ]
 
   useEffect(() => {
