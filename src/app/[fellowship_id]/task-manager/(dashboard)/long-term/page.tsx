@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import { motion } from "framer-motion"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -88,7 +87,7 @@ export default function LongTermTasksPage() {
       description: task.description,
       priority: task.priority,
       assignees: task.assignees,
-      dueDate: dueDate.toISOString().split("T")[0],
+      dueDate: dueDate?.toISOString().split("T")[0] ?? "",
       tags: task.tags,
       progress: task.progress,
     })
@@ -214,7 +213,7 @@ export default function LongTermTasksPage() {
                   </Label>
                   <Select
                     value={formData.priority}
-                    onValueChange={(value: any) => setFormData({ ...formData, priority: value })}
+                    onValueChange={(value: LongTermTask["priority"]) => setFormData({ ...formData, priority: value })}
                   >
                     <SelectTrigger className="bg-gray-700 border-gray-600">
                       <SelectValue />
@@ -228,7 +227,6 @@ export default function LongTermTasksPage() {
                   </Select>
                 </div>
               </div>
-
               <div>
                 <Label htmlFor="description" className="text-gray-300">
                   Description
@@ -240,7 +238,6 @@ export default function LongTermTasksPage() {
                   className="bg-gray-700 border-gray-600"
                 />
               </div>
-
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="dueDate" className="text-gray-300">
@@ -269,7 +266,6 @@ export default function LongTermTasksPage() {
                   />
                 </div>
               </div>
-
               <div>
                 <Label className="text-gray-300">Tags (comma-separated)</Label>
                 <Input
@@ -279,7 +275,6 @@ export default function LongTermTasksPage() {
                   className="bg-gray-700 border-gray-600"
                 />
               </div>
-
               <div>
                 <Label className="text-gray-300">Assignees</Label>
                 <div className="grid grid-cols-2 gap-2 mt-2">
@@ -296,7 +291,6 @@ export default function LongTermTasksPage() {
                   ))}
                 </div>
               </div>
-
               <div className="flex justify-end space-x-2">
                 <Button variant="outline" onClick={() => setShowCreateDialog(false)}>
                   Cancel
@@ -309,7 +303,6 @@ export default function LongTermTasksPage() {
           </DialogContent>
         </Dialog>
       </div>
-
       {/* Kanban Board */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 min-h-[600px]">
         {kanbanColumns.map((column) => (
@@ -363,14 +356,11 @@ export default function LongTermTasksPage() {
                         </Button>
                       </div>
                     </div>
-
                     <div className="flex items-center space-x-2">
                       <Badge className={`${getPriorityColor(task.priority)} text-white text-xs`}>{task.priority}</Badge>
                     </div>
-
                     {/* Description */}
                     <p className="text-gray-400 text-xs line-clamp-2">{task.description}</p>
-
                     {/* Progress Bar */}
                     {task.progress > 0 && (
                       <div className="space-y-1">
@@ -386,7 +376,6 @@ export default function LongTermTasksPage() {
                         </div>
                       </div>
                     )}
-
                     {/* Tags */}
                     <div className="flex flex-wrap gap-1">
                       {task.tags.slice(0, 2).map((tag) => (
@@ -400,7 +389,6 @@ export default function LongTermTasksPage() {
                         </Badge>
                       )}
                     </div>
-
                     {/* Footer */}
                     <div className="flex items-center justify-between pt-2 border-t border-gray-600">
                       <div className="flex items-center space-x-2">
@@ -429,7 +417,6 @@ export default function LongTermTasksPage() {
                   </div>
                 </motion.div>
               ))}
-
               {/* Add Task Button */}
               <Button
                 variant="ghost"
@@ -443,7 +430,6 @@ export default function LongTermTasksPage() {
           </Card>
         ))}
       </div>
-
       {/* Project Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card className="bg-gray-800 border-gray-700">
@@ -457,7 +443,6 @@ export default function LongTermTasksPage() {
             </div>
           </CardContent>
         </Card>
-
         <Card className="bg-gray-800 border-gray-700">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
@@ -469,7 +454,6 @@ export default function LongTermTasksPage() {
             </div>
           </CardContent>
         </Card>
-
         <Card className="bg-gray-800 border-gray-700">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
@@ -481,7 +465,6 @@ export default function LongTermTasksPage() {
             </div>
           </CardContent>
         </Card>
-
         <Card className="bg-gray-800 border-gray-700">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">

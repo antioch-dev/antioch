@@ -8,6 +8,14 @@ import { TaskDetailPanel } from "@/components/tasks/task-detail-panel"
 import { useStore } from "@/lib/store"
 import { mockUser, mockTasks } from "@/lib/mock-data"
 
+interface MockRecurrencePattern {
+  type: string
+  frequency?: "weekly" | "daily" | "biweekly" | "monthly" | "yearly"
+  interval?: number
+  day?: string
+  time?: string
+}
+
 export default function DashboardLayout({
   children,
 }: {
@@ -17,14 +25,27 @@ export default function DashboardLayout({
   const { setUser, setTasks } = useStore()
 
   useEffect(() => {
-    // Initialize with mock data
     const initializeApp = async () => {
       try {
         console.log("Initializing app with mock data...")
         setUser(mockUser)
-        setTasks(mockTasks)
-
-        // Simulate loading delay
+        setTasks(
+          mockTasks.map((task) => {
+            const recurrencePattern = task.recurrence_pattern as MockRecurrencePattern
+            return {
+              ...task,
+              recurrence_pattern: recurrencePattern
+                ? {
+                    frequency: recurrencePattern.frequency ?? "weekly",
+                    interval: recurrencePattern.interval ?? 1,
+                    type: recurrencePattern.type,
+                    day: recurrencePattern.day,
+                    time: recurrencePattern.time,
+                  }
+                : null,
+            }
+          })
+        )
         await new Promise((resolve) => setTimeout(resolve, 500))
       } catch (error) {
         console.error("Initialization error:", error)
@@ -32,8 +53,7 @@ export default function DashboardLayout({
         setLoading(false)
       }
     }
-
-    initializeApp()
+    void initializeApp()
   }, [setUser, setTasks])
 
   if (loading) {

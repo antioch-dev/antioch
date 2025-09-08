@@ -33,10 +33,16 @@ export default function SignInPage() {
         description: "You have been signed in successfully.",
       })
       router.push("/dashboard")
-    } catch (error: any) {
+    } catch (error) {
+      let errorMessage = "Please check your credentials and try again."
+      if (error instanceof Error) {
+        errorMessage = error.message
+      } else if (typeof error === 'object' && error !== null && 'message' in error) {
+        errorMessage = (error as { message: string }).message
+      }
       toast({
         title: "Sign in failed",
-        description: error.message || "Please check your credentials and try again.",
+        description: errorMessage,
         variant: "destructive",
       })
     } finally {
@@ -117,7 +123,7 @@ export default function SignInPage() {
 
             <div className="mt-6 text-center">
               <p className="text-gray-400 text-sm">
-                Don't have an account?{" "}
+                Don&apos;t have an account?{" "}
                 <Link href="/auth/signup" className="text-blue-400 hover:text-blue-300 font-medium">
                   Sign up
                 </Link>

@@ -31,7 +31,7 @@ export default function LandingPage() {
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
-              <Link href="/task-manager/auth/signin">
+              <Link href="/fellowship1/task-manager/auth/signin">
                 <Button
                   variant="outline"
                   size="lg"
