@@ -20,9 +20,9 @@ interface TaskFormProps {
   onSuccess?: () => void
 }
 
-type TaskStatus = 'not_started' | 'in_progress' | 'completed' | 'blocked';
-type TaskPriority = 'low' | 'medium' | 'high' | 'urgent';
-type TaskCategory = 'general' | 'assignment' | 'recurring' | 'long_term';
+type TaskStatus = "not_started" | "in_progress" | "completed" | "blocked"
+type TaskPriority = "low" | "medium" | "high" | "urgent"
+type TaskCategory = "general" | "assignment" | "recurring" | "long_term"
 
 export function TaskForm({ trigger, onSuccess }: TaskFormProps) {
   const [open, setOpen] = useState(false)

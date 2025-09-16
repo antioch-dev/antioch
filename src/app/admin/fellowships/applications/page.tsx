@@ -1,68 +1,88 @@
 "use client"
 
-import { DashboardLayout } from "@/app/_components/dashboard-layout"
+import { DashboardLayout } from "@/components/dashboard-layout"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { mockFellowshipApplications, approveFellowshipApplication, rejectFellowshipApplication, type FellowshipApplication } from "@/lib/mock-data" // Corrected import: 'type' keyword is used for type-only import
+import {
+  mockFellowshipApplications,
+  approveFellowshipApplication,
+  rejectFellowshipApplication,
+  type FellowshipApplication,
+} from "@/lib/mock-data" // Corrected import: 'type' keyword is used for type-only import
 import { Search, Check, X, Eye, Clock, Mail, Phone, MapPin, Filter, Download, AlertCircle } from "lucide-react"
 import { useState, useCallback } from "react"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog"
 
 export default function FellowshipApplicationsPage() {
   // State to manage the list of applications, allowing for updates
-  const [applications, setApplications] = useState(mockFellowshipApplications);
-  const [selectedApplication, setSelectedApplication] = useState<FellowshipApplication | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [reviewNotes, setReviewNotes] = useState("");
+  const [applications, setApplications] = useState(mockFellowshipApplications)
+  const [selectedApplication, setSelectedApplication] = useState<FellowshipApplication | null>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [reviewNotes, setReviewNotes] = useState("")
 
   // Filter applications based on their status
-  const pendingApplications = applications.filter((app) => app.status === "pending");
-  const approvedApplications = applications.filter((app) => app.status === "approved");
-  const rejectedApplications = applications.filter((app) => app.status === "rejected");
+  const pendingApplications = applications.filter((app) => app.status === "pending")
+  const approvedApplications = applications.filter((app) => app.status === "approved")
+  const rejectedApplications = applications.filter((app) => app.status === "rejected")
 
   // Function to determine the badge style based on application status
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "approved":
-        return <Badge className="bg-green-100 text-green-800 border-green-200">Approved</Badge>;
+        return <Badge className="bg-green-100 text-green-800 border-green-200">Approved</Badge>
       case "rejected":
-        return <Badge className="bg-red-100 text-red-800 border-red-200">Rejected</Badge>;
+        return <Badge className="bg-red-100 text-red-800 border-red-200">Rejected</Badge>
       default:
-        return <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200">Pending</Badge>;
+        return <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200">Pending</Badge>
     }
-  };
+  }
 
   // Handle viewing application details in a modal
   const handleViewDetails = useCallback((application: FellowshipApplication) => {
-    setSelectedApplication(application);
-    setReviewNotes(application.notes || ""); // Load existing notes
-    setIsModalOpen(true);
-  }, []);
+    setSelectedApplication(application)
+    setReviewNotes(application.notes || "") // Load existing notes
+    setIsModalOpen(true)
+  }, [])
 
   // Handle approving an application
-  const handleApprove = useCallback((id: string) => {
-    approveFellowshipApplication(id, reviewNotes);
-    // Update local state to reflect the change
-    setApplications([...mockFellowshipApplications]); // Re-fetch or re-filter
-    setIsModalOpen(false); // Close modal after action
-    setReviewNotes(""); // Clear notes
-  }, [reviewNotes]);
+  const handleApprove = useCallback(
+    (id: string) => {
+      approveFellowshipApplication(id, reviewNotes)
+      // Update local state to reflect the change
+      setApplications([...mockFellowshipApplications]) // Re-fetch or re-filter
+      setIsModalOpen(false) // Close modal after action
+      setReviewNotes("") // Clear notes
+    },
+    [reviewNotes],
+  )
 
   // Handle rejecting an application
-  const handleReject = useCallback((id: string) => {
-    rejectFellowshipApplication(id, reviewNotes);
-    // Update local state to reflect the change
-    setApplications([...mockFellowshipApplications]); // Re-fetch or re-filter
-    setIsModalOpen(false); // Close modal after action
-    setReviewNotes(""); // Clear notes
-  }, [reviewNotes]);
+  const handleReject = useCallback(
+    (id: string) => {
+      rejectFellowshipApplication(id, reviewNotes)
+      // Update local state to reflect the change
+      setApplications([...mockFellowshipApplications]) // Re-fetch or re-filter
+      setIsModalOpen(false) // Close modal after action
+      setReviewNotes("") // Clear notes
+    },
+    [reviewNotes],
+  )
 
   return (
     <DashboardLayout userRole="admin">
-      <div className="p-6 bg-gray-50 min-h-screen"> {/* Changed bg-white to bg-gray-50 for consistency */}
+      <div className="p-6 bg-gray-50 min-h-screen">
+        {" "}
+        {/* Changed bg-white to bg-gray-50 for consistency */}
         <div className="flex justify-between items-center mb-6">
           <div>
             <h1 className="text-3xl font-bold text-gray-900">Fellowship Applications</h1>
@@ -75,7 +95,6 @@ export default function FellowshipApplicationsPage() {
             </Button>
           </div>
         </div>
-
         {/* Stats Cards */}
         <div className="grid gap-4 md:grid-cols-4 mb-6">
           <Card className="bg-white border-gray-200 shadow-sm">
@@ -122,7 +141,6 @@ export default function FellowshipApplicationsPage() {
             </CardContent>
           </Card>
         </div>
-
         {/* Search */}
         <Card className="mb-6 bg-white border-gray-200 shadow-sm">
           <CardContent className="pt-6">
@@ -138,7 +156,6 @@ export default function FellowshipApplicationsPage() {
             </div>
           </CardContent>
         </Card>
-
         {/* Pending Applications */}
         {pendingApplications.length > 0 && (
           <Card className="mb-6 bg-white border-gray-200 shadow-sm">
@@ -213,7 +230,6 @@ export default function FellowshipApplicationsPage() {
             </CardContent>
           </Card>
         )}
-
         {/* All Applications */}
         <Card className="bg-white border-gray-200 shadow-sm">
           <CardHeader>
@@ -290,7 +306,6 @@ export default function FellowshipApplicationsPage() {
             </div>
           </CardContent>
         </Card>
-
         {/* Application Details Modal */}
         {selectedApplication && (
           <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
@@ -309,19 +324,37 @@ export default function FellowshipApplicationsPage() {
                 <p className="text-gray-700">{selectedApplication.description}</p>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-700">
-                  <p><span className="font-medium">Applicant Name:</span> {selectedApplication.applicantName}</p>
-                  <p><span className="font-medium">Pastor:</span> {selectedApplication.pastorName}</p>
-                  <p className="flex items-center"><Mail className="mr-2 h-4 w-4 text-gray-500" /> {selectedApplication.email}</p>
-                  <p className="flex items-center"><Phone className="mr-2 h-4 w-4 text-gray-500" /> {selectedApplication.phone}</p>
-                  <p className="flex items-center col-span-2"><MapPin className="mr-2 h-4 w-4 text-gray-500" /> {selectedApplication.address}</p>
-                  <p><span className="font-medium">Submitted Date:</span> {new Date(selectedApplication.submittedDate).toLocaleDateString()}</p>
+                  <p>
+                    <span className="font-medium">Applicant Name:</span> {selectedApplication.applicantName}
+                  </p>
+                  <p>
+                    <span className="font-medium">Pastor:</span> {selectedApplication.pastorName}
+                  </p>
+                  <p className="flex items-center">
+                    <Mail className="mr-2 h-4 w-4 text-gray-500" /> {selectedApplication.email}
+                  </p>
+                  <p className="flex items-center">
+                    <Phone className="mr-2 h-4 w-4 text-gray-500" /> {selectedApplication.phone}
+                  </p>
+                  <p className="flex items-center col-span-2">
+                    <MapPin className="mr-2 h-4 w-4 text-gray-500" /> {selectedApplication.address}
+                  </p>
+                  <p>
+                    <span className="font-medium">Submitted Date:</span>{" "}
+                    {new Date(selectedApplication.submittedDate).toLocaleDateString()}
+                  </p>
                   {selectedApplication.reviewedDate && (
-                    <p><span className="font-medium">Reviewed Date:</span> {new Date(selectedApplication.reviewedDate).toLocaleDateString()}</p>
+                    <p>
+                      <span className="font-medium">Reviewed Date:</span>{" "}
+                      {new Date(selectedApplication.reviewedDate).toLocaleDateString()}
+                    </p>
                   )}
                 </div>
 
                 <div className="mt-4">
-                  <label htmlFor="review-notes" className="block text-sm font-medium text-gray-900 mb-2">Review Notes</label>
+                  <label htmlFor="review-notes" className="block text-sm font-medium text-gray-900 mb-2">
+                    Review Notes
+                  </label>
                   <Textarea
                     id="review-notes"
                     placeholder="Add your review notes here..."
@@ -365,5 +398,5 @@ export default function FellowshipApplicationsPage() {
         )}
       </div>
     </DashboardLayout>
-  );
+  )
 }

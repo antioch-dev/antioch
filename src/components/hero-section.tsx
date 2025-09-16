@@ -38,7 +38,7 @@ export function HeroSection() {
       setIsLoaded(true)
     }
 
-   void fetchHeroData()
+    void fetchHeroData()
   }, [])
 
   if (!heroData) {
@@ -95,8 +95,6 @@ export function HeroSection() {
                   {heroData.description}
                 </p>
               </ScrollAnimation>
-
-
             </div>
 
             {/* Visual element */}

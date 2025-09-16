@@ -1,4 +1,4 @@
-import { DashboardLayout } from "@/app/_components/dashboard-layout"
+import { DashboardLayout } from "@/components/dashboard-layout"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -150,11 +150,10 @@ export default function AdminDashboard() {
                   <div key={fellowship.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                     <div>
                       <p className="font-medium text-gray-900">{fellowship.name}</p>
-                    
+
                       <p className="text-sm text-gray-500">
                         {fellowship.location.city}, {fellowship.location.state}
                       </p>
-                     
                     </div>
                     <div className="text-right">
                       <Badge

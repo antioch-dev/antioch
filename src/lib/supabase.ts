@@ -95,10 +95,10 @@ export type Database = {
           pastor: string
           status: "active" | "inactive"
           permissions: {
-            canCreateEvents: boolean;
-            canManageMembers: boolean;
-            canViewAnalytics: boolean;
-            canEditInfo: boolean;
+            canCreateEvents: boolean
+            canManageMembers: boolean
+            canViewAnalytics: boolean
+            canEditInfo: boolean
           }
           created_at: string
           updated_at: string
@@ -109,10 +109,10 @@ export type Database = {
           pastor: string
           status?: "active" | "inactive"
           permissions?: {
-            canCreateEvents: boolean;
-            canManageMembers: boolean;
-            canViewAnalytics: boolean;
-            canEditInfo: boolean;
+            canCreateEvents: boolean
+            canManageMembers: boolean
+            canViewAnalytics: boolean
+            canEditInfo: boolean
           }
           created_at?: string
           updated_at?: string
@@ -123,10 +123,10 @@ export type Database = {
           pastor?: string
           status?: "active" | "inactive"
           permissions?: {
-            canCreateEvents: boolean;
-            canManageMembers: boolean;
-            canViewAnalytics: boolean;
-            canEditInfo: boolean;
+            canCreateEvents: boolean
+            canManageMembers: boolean
+            canViewAnalytics: boolean
+            canEditInfo: boolean
           }
           created_at?: string
           updated_at?: string
@@ -188,11 +188,11 @@ export type Database = {
 
 // Defining a more specific type for recurrence patterns
 export type RecurrencePattern = {
-  frequency: "daily" | "weekly" | "biweekly" | "monthly" | "yearly";
-  interval: number;
-  daysOfWeek?: number[]; // For weekly/biweekly
-  dayOfMonth?: number; // For monthly
-  monthOfYear?: number; // For yearly
+  frequency: "daily" | "weekly" | "biweekly" | "monthly" | "yearly"
+  interval: number
+  daysOfWeek?: number[] // For weekly/biweekly
+  dayOfMonth?: number // For monthly
+  monthOfYear?: number // For yearly
 }
 
 // Mock client - no external dependencies

@@ -7,14 +7,14 @@
  * need to use are documented accordingly near the end.
  */
 
-import { initTRPC, TRPCError } from '@trpc/server'
-import superjson from 'superjson'
-import { ZodError } from 'zod'
-import type { Session } from 'next-auth' // Changed to 'import type'
-import type { PrismaClient } from '@prisma/client' // Keep as 'import' if you instantiate it, otherwise change to 'import type'
+import { initTRPC, TRPCError } from "@trpc/server"
+import superjson from "superjson"
+import { ZodError } from "zod"
+import type { Session } from "next-auth" // Changed to 'import type'
+import type { PrismaClient } from "@prisma/client" // Keep as 'import' if you instantiate it, otherwise change to 'import type'
 
-import { auth } from '@/server/auth'
-import { db } from '@/server/db' // Assuming 'db' is an already instantiated PrismaClient instance
+import { auth } from "@/server/auth"
+import { db } from "@/server/db" // Assuming 'db' is an already instantiated PrismaClient instance
 
 /**
  * Define the interface for your tRPC context.
@@ -135,7 +135,7 @@ export const publicProcedure = t.procedure.use(timingMiddleware)
  */
 export const protectedProcedure = t.procedure.use(timingMiddleware).use(({ ctx, next }) => {
   if (!ctx.session?.user) {
-    throw new TRPCError({ code: 'UNAUTHORIZED' })
+    throw new TRPCError({ code: "UNAUTHORIZED" })
   }
   return next({
     ctx: {

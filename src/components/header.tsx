@@ -1,6 +1,6 @@
-import { Button } from '@/components/ui/button'
-import Link from 'next/link'
-import { User } from 'lucide-react'
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
+import { User } from "lucide-react"
 
 export function Header() {
   return (
@@ -25,19 +25,13 @@ export function Header() {
           <Link href="#donate" className="text-sm font-medium transition-colors hover:text-primary">
             Donate
           </Link>*/}
-          <Link href="/fellowships/fellowship1/task-manager" className="text-sm font-medium transition-colors hover:text-primary">
-            task manager
-          </Link> 
-          <Link
-            href="/fellowships/fellowship1/forms"
-            className="text-sm font-medium transition-colors hover:text-primary"
-          >
+          <Link href="/fellowship1/task-manager" className="text-sm font-medium transition-colors hover:text-primary">
+            Task Manager
+          </Link>
+          <Link href="/fellowship1/forms" className="text-sm font-medium transition-colors hover:text-primary">
             Forms
           </Link>
-          <Link
-            href="/fellowships/fellowship1/shared_music"
-            className="text-sm font-medium transition-colors hover:text-primary"
-          >
+          <Link href="/fellowship1/shared_music" className="text-sm font-medium transition-colors hover:text-primary">
             Shared Music
           </Link>
         </nav>

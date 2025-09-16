@@ -1,4 +1,4 @@
-import { DashboardLayout } from "@/app/_components/dashboard-layout"
+import { DashboardLayout } from "@/components/dashboard-layout"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -54,7 +54,6 @@ export default function AdminFellowshipsPage() {
                 Pending Applications ({pendingApplications.length})
               </Link>
             </Button>
-           
           </div>
         </div>
 

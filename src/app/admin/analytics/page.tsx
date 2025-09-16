@@ -1,18 +1,17 @@
 "use client"
 
-import { DashboardLayout } from "@/app/_components/dashboard-layout"
+import { DashboardLayout } from "@/components/dashboard-layout"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
 import { mockFellowships } from "@/lib/mock-data"
 import { TrendingUp, TrendingDown, Users, Church, Calendar, Activity, Download, Filter, BarChart3 } from "lucide-react"
-import jsPDF from 'jspdf'; 
-import html2canvas from 'html2canvas'; 
-import { useCallback } from "react" ;
+import jsPDF from "jspdf"
+import html2canvas from "html2canvas"
+import { useCallback } from "react"
 
 export default function AdminAnalytics() {
-  
   const analyticsData = {
     totalMembers: mockFellowships.reduce((acc, f) => acc + f.memberCount, 0),
     memberGrowth: 12.5,
@@ -29,48 +28,50 @@ export default function AdminAnalytics() {
 
   const fellowshipStats = mockFellowships.map((fellowship) => ({
     ...fellowship,
-    growth: Math.floor(Math.random() * 20) - 5, 
-    engagement: Math.floor(Math.random() * 30) + 70, 
-    events: Math.floor(Math.random() * 10) + 5, 
+    growth: Math.floor(Math.random() * 20) - 5,
+    engagement: Math.floor(Math.random() * 30) + 70,
+    events: Math.floor(Math.random() * 10) + 5,
   }))
 
   const handleExportPdf = useCallback(async () => {
-    const input = document.getElementById('analytics-content'); // Get the main content div by ID
+    const input = document.getElementById("analytics-content") // Get the main content div by ID
     if (input) {
       // Use html2canvas to render the HTML content into a canvas
-      const canvas = await html2canvas(input, { scale: 2 }); // Increase scale for better quality
+      const canvas = await html2canvas(input, { scale: 2 }) // Increase scale for better quality
 
-      const imgData = canvas.toDataURL('image/png');
+      const imgData = canvas.toDataURL("image/png")
       const pdf = new jsPDF({
-        orientation: 'portrait', // Set orientation to portrait
-        unit: 'pt', // Unit in points
-        format: 'a4', // A4 size
-      });
+        orientation: "portrait", // Set orientation to portrait
+        unit: "pt", // Unit in points
+        format: "a4", // A4 size
+      })
 
-      const imgWidth = 595; // A4 width in points (approx)
-      const pageHeight = 842; // A4 height in points (approx)
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
-      let heightLeft = imgHeight;
-      let position = 0;
+      const imgWidth = 595 // A4 width in points (approx)
+      const pageHeight = 842 // A4 height in points (approx)
+      const imgHeight = (canvas.height * imgWidth) / canvas.width
+      let heightLeft = imgHeight
+      let position = 0
 
-      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
+      pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight)
+      heightLeft -= pageHeight
 
       // Add new pages if content overflows
       while (heightLeft >= 0) {
-        position = heightLeft - imgHeight;
-        pdf.addPage();
-        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-        heightLeft -= pageHeight;
+        position = heightLeft - imgHeight
+        pdf.addPage()
+        pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight)
+        heightLeft -= pageHeight
       }
 
-      pdf.save('platform_analytics_report.pdf'); // Save the PDF with a filename
+      pdf.save("platform_analytics_report.pdf") // Save the PDF with a filename
     }
-  }, []);
+  }, [])
 
   return (
     <DashboardLayout userRole="admin">
-      <div id="analytics-content" className="p-6 bg-gray-50 min-h-screen"> {/* Added ID for PDF export */}
+      <div id="analytics-content" className="p-6 bg-gray-50 min-h-screen">
+        {" "}
+        {/* Added ID for PDF export */}
         <div className="flex justify-between items-center mb-6">
           <div>
             <h1 className="text-3xl font-bold text-gray-900">Platform Analytics</h1>
@@ -91,7 +92,6 @@ export default function AdminAnalytics() {
             </Button>
           </div>
         </div>
-
         {/* Key Metrics */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-6">
           <Card className="bg-white border-gray-200">
@@ -150,7 +150,6 @@ export default function AdminAnalytics() {
             </CardContent>
           </Card>
         </div>
-
         {/* Additional Metrics */}
         <div className="grid gap-4 md:grid-cols-3 mb-6">
           <Card className="bg-white border-gray-200">
@@ -191,7 +190,6 @@ export default function AdminAnalytics() {
             </CardContent>
           </Card>
         </div>
-
         {/* Fellowship Performance */}
         <Card className="mb-6 bg-white border-gray-200">
           <CardHeader>
@@ -209,7 +207,6 @@ export default function AdminAnalytics() {
                       <p className="text-sm text-gray-600">
                         {fellowship.location.city}, {fellowship.location.state}
                       </p>
-
                     </div>
                     <Badge variant={fellowship.status === "active" ? "default" : "secondary"}>
                       {fellowship.status}
@@ -256,7 +253,6 @@ export default function AdminAnalytics() {
             </div>
           </CardContent>
         </Card>
-
         {/* Quick Insights */}
         <div className="grid gap-6 md:grid-cols-2">
           <Card className="bg-white border-gray-200">
@@ -332,5 +328,5 @@ export default function AdminAnalytics() {
         </div>
       </div>
     </DashboardLayout>
-  );
+  )
 }
