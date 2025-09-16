@@ -1,20 +1,21 @@
-import type React from 'react'
-import { SidebarProvider } from '@/components/ui/sidebar'
-import { FormsSidebar } from './components/forms-sidebar'
-import { Toaster } from 'sonner'
+import type React from "react"
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
+import { FormsSidebar } from "./components/forms-sidebar"
+import { Toaster } from "sonner"
 
 export default function FormsLayout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
-      <div
+      {/* <div
         className="flex min-h-screen w-full"
         // style={{
         //   paddingTop: 30,
         // }}
-      >
-        <FormsSidebar />
-        <main className="flex-1 overflow-auto">{children}</main>
-      </div>
+      > */}
+      <FormsSidebar />
+      <SidebarInset className="container mx-auto py-8">{children}</SidebarInset>
+      {/* <main className="container mx-auto">{children}</main> */}
+      {/* </div> */}
       <Toaster />
     </SidebarProvider>
   )
