@@ -1,11 +1,11 @@
-import { DashboardLayout } from "@/app/_components/dashboard-layout"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { getUserById, getEventsByFellowshipId, getFellowshipById } from "@/lib/mock-data"
-import { MapPin, Users, Calendar, Clock, Church, Mail, Phone, Globe, ArrowRight } from "lucide-react"
-import Link from "next/link"
-import { notFound } from "next/navigation"
+import { DashboardLayout } from '@/components/dashboard-layout'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import { getUserById, getEventsByFellowshipId, getFellowshipById } from '@/lib/mock-data'
+import { MapPin, Users, Calendar, Clock, Church, Mail, Phone, Globe, ArrowRight } from 'lucide-react'
+import Link from 'next/link'
+import { notFound } from 'next/navigation'
 
 interface UserFellowshipProps {
   params: Promise<{ user_id: string }>
@@ -63,7 +63,7 @@ export default async function UserFellowship({ params }: UserFellowshipProps) {
               <div>
                 <h2 className="text-2xl font-bold text-gray-900">{fellowship.name}</h2>
                 <p className="text-gray-600">{fellowship.description}</p>
-                <Badge variant={fellowship.status === "active" ? "default" : "secondary"} className="mt-2">
+                <Badge variant={fellowship.status === 'active' ? 'default' : 'secondary'} className="mt-2">
                   {fellowship.status}
                 </Badge>
               </div>
@@ -240,7 +240,7 @@ export default async function UserFellowship({ params }: UserFellowshipProps) {
                 <div className="space-y-1">
                   <p className="text-sm text-gray-900">• Regular attendee</p>
                   <p className="text-sm text-gray-900">• Event participant</p>
-                  {user.role === "leader" && <p className="text-sm text-gray-900">• Ministry leader</p>}
+                  {user.role === 'leader' && <p className="text-sm text-gray-900">• Ministry leader</p>}
                 </div>
               </div>
             </div>

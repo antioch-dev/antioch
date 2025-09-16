@@ -31,13 +31,13 @@ export default function HomePage() {
         </p>
         <div className="flex gap-4 justify-center animate-slide-in-left">
           <Button asChild size="lg" className="hover-lift transition-all-smooth group">
-            <Link href="/fellowships/fellowship1/shared_music/songs">
+            <Link href="/fellowship1/shared_music/songs">
               <Music className="h-5 w-5 mr-2 group-hover:rotate-12 transition-transform duration-300" />
               Browse Songs
             </Link>
           </Button>
           <Button asChild variant="outline" size="lg" className="hover-lift transition-all-smooth group bg-transparent">
-            <Link href="/fellowships/fellowship1/shared_music/playlists/create">
+            <Link href="/fellowship1/shared_music/playlists/create">
               <Heart className="h-5 w-5 mr-2 group-hover:scale-110 transition-transform duration-300" />
               Create Playlist
             </Link>
@@ -124,7 +124,7 @@ export default function HomePage() {
                 >
                   <div className="flex-1">
                     <Link
-                      href={`/fellowships/fellowship1/shared_music/songs/${song.id}`}
+                      href={`/fellowship1/shared_music/songs/${song.id}`}
                       className="font-medium hover:underline group-hover:text-blue-600 transition-colors"
                     >
                       {song.title}
@@ -148,7 +148,7 @@ export default function HomePage() {
               variant="outline"
               className="w-full mt-4 bg-transparent hover-lift transition-all-smooth group"
             >
-              <Link href="/fellowships/fellowship1/shared_music/songs">
+              <Link href="/fellowship1/shared_music/songs">
                 <Music className="h-4 w-4 mr-2 group-hover:rotate-12 transition-transform duration-300" />
                 View All Songs
               </Link>
@@ -175,7 +175,7 @@ export default function HomePage() {
                 >
                   <div className="flex-1">
                     <Link
-                      href={`/fellowships/fellowship1/shared_music/services/${service.id}`}
+                      href={`/fellowship1/shared_music/services/${service.id}`}
                       className="font-medium hover:underline group-hover:text-blue-600 transition-colors"
                     >
                       {service.title}
@@ -196,7 +196,7 @@ export default function HomePage() {
               variant="outline"
               className="w-full mt-4 bg-transparent hover-lift transition-all-smooth group"
             >
-              <Link href="/fellowships/fellowship1/shared_music/services">
+              <Link href="/fellowship1/shared_music/services">
                 <Calendar className="h-4 w-4 mr-2 group-hover:bounce-gentle transition-transform duration-300" />
                 View All Services
               </Link>

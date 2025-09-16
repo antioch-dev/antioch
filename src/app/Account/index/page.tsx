@@ -1,13 +1,13 @@
-import { DashboardLayout } from "@/app/_components/dashboard-layout"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { getUserById } from "@/lib/mock-data"
-import { Mail, Phone, User, Shield, AlertTriangle, Check, X, Edit, Trash2 } from "lucide-react"
-import { notFound } from "next/navigation"
+import { DashboardLayout } from '@/components/dashboard-layout'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { getUserById } from '@/lib/mock-data'
+import { Mail, Phone, User, Shield, AlertTriangle, Check, X, Edit, Trash2 } from 'lucide-react'
+import { notFound } from 'next/navigation'
 
 interface UserAccountProps {
   params: Promise<{ user_id: string }>
@@ -46,9 +46,9 @@ export default async function UserAccount({ params }: UserAccountProps) {
                 <Avatar className="h-20 w-20">
                   <AvatarFallback className="bg-blue-100 text-blue-600 text-2xl">
                     {user.name
-                      .split(" ")
+                      .split(' ')
                       .map((n: string) => n[0])
-                      .join("")}
+                      .join('')}
                   </AvatarFallback>
                 </Avatar>
                 <div>
@@ -103,7 +103,7 @@ export default async function UserAccount({ params }: UserAccountProps) {
                   <Input
                     id="phone"
                     type="tel"
-                    defaultValue={user.phone || ""}
+                    defaultValue={user.phone || ''}
                     placeholder="Enter your phone number"
                     className="bg-white border-gray-300 text-gray-900"
                   />
@@ -171,7 +171,7 @@ export default async function UserAccount({ params }: UserAccountProps) {
                       </Badge>
                     )}
                   </div>
-                  <p className="text-sm text-gray-600 mb-3">{user.phone || "No phone number added"}</p>
+                  <p className="text-sm text-gray-600 mb-3">{user.phone || 'No phone number added'}</p>
                   {user.phone && !user.isPhoneVerified && (
                     <Button size="sm" className="bg-blue-600 hover:bg-blue-700 text-white">
                       Send Verification Code
@@ -195,13 +195,13 @@ export default async function UserAccount({ params }: UserAccountProps) {
                       <Shield className="mr-2 h-5 w-5 text-gray-600" />
                       <span className="font-medium text-gray-900">Account Status</span>
                     </div>
-                    <Badge variant={user.accountStatus === "active" ? "default" : "secondary"}>
-                      {user.accountStatus.replace("_", " ").charAt(0).toUpperCase() +
-                        user.accountStatus.replace("_", " ").slice(1)}
+                    <Badge variant={user.accountStatus === 'active' ? 'default' : 'secondary'}>
+                      {user.accountStatus.replace('_', ' ').charAt(0).toUpperCase() +
+                        user.accountStatus.replace('_', ' ').slice(1)}
                     </Badge>
                   </div>
                   <p className="text-sm text-gray-600">
-                    Last login: {new Date(user.lastLogin).toLocaleDateString()} at{" "}
+                    Last login: {new Date(user.lastLogin).toLocaleDateString()} at{' '}
                     {new Date(user.lastLogin).toLocaleTimeString()}
                   </p>
                 </div>
@@ -296,6 +296,5 @@ export default async function UserAccount({ params }: UserAccountProps) {
         </div>
       </div>
     </DashboardLayout>
- 
-)
+  )
 }

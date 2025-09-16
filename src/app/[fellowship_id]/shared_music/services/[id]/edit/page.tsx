@@ -243,7 +243,7 @@ export default function EditServicePage() {
       // Show confirmation dialog
       return
     }
-    router.push(`/fellowships/fellowship1/shared_music/services/${params.id}`)
+    router.push(`/fellowship1/shared_music/services/${params.id}`)
   }
 
   return (

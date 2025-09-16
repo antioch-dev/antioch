@@ -1,15 +1,15 @@
-import { DashboardLayout } from "@/app/_components/dashboard-layout"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Progress } from "@/components/ui/progress"
-import { mockFellowships, mockUsers } from "@/lib/mock-data"
-import { Church, Users, TrendingUp, AlertCircle, Plus, Activity, DollarSign, Calendar } from "lucide-react"
-import Link from "next/link"
+import { DashboardLayout } from '@/components/dashboard-layout'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import { Progress } from '@/components/ui/progress'
+import { mockFellowships, mockUsers } from '@/lib/mock-data'
+import { Church, Users, TrendingUp, AlertCircle, Plus, Activity, DollarSign, Calendar } from 'lucide-react'
+import Link from 'next/link'
 
 export default function AdminDashboard() {
   const totalFellowships = mockFellowships.length
-  const activeFellowships = mockFellowships.filter((f) => f.status === "active").length
+  const activeFellowships = mockFellowships.filter((f) => f.status === 'active').length
   const totalMembers = mockFellowships.reduce((acc, f) => acc + f.memberCount, 0)
   const totalUsers = mockUsers.length
 
@@ -150,16 +150,15 @@ export default function AdminDashboard() {
                   <div key={fellowship.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                     <div>
                       <p className="font-medium text-gray-900">{fellowship.name}</p>
-                    
+
                       <p className="text-sm text-gray-500">
                         {fellowship.location.city}, {fellowship.location.state}
                       </p>
-                     
                     </div>
                     <div className="text-right">
                       <Badge
-                        variant={fellowship.status === "active" ? "default" : "secondary"}
-                        className={fellowship.status === "active" ? "bg-green-100 text-green-800" : ""}
+                        variant={fellowship.status === 'active' ? 'default' : 'secondary'}
+                        className={fellowship.status === 'active' ? 'bg-green-100 text-green-800' : ''}
                       >
                         {fellowship.status}
                       </Badge>

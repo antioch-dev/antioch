@@ -1,12 +1,12 @@
-import { DashboardLayout } from "@/app/_components/dashboard-layout"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Switch } from "@/components/ui/switch"
-import { Textarea } from "@/components/ui/textarea"
-import { Badge } from "@/components/ui/badge"
-import { Settings, Shield, Bell, Mail, Database, Globe, Save, RefreshCw, Server, Zap } from "lucide-react"
+import { DashboardLayout } from '@/components/dashboard-layout'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Switch } from '@/components/ui/switch'
+import { Textarea } from '@/components/ui/textarea'
+import { Badge } from '@/components/ui/badge'
+import { Settings, Shield, Bell, Mail, Database, Globe, Save, RefreshCw, Server, Zap } from 'lucide-react'
 
 export default function AdminSettings() {
   return (

@@ -1,14 +1,14 @@
 'use client'
 
-import { useState, useCallback, useMemo } from "react"
-import { DashboardLayout } from "@/app/_components/dashboard-layout"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { mockUsers, mockFellowships, type User } from "@/lib/mock-data"
+import { useState, useCallback, useMemo } from 'react'
+import { DashboardLayout } from '@/components/dashboard-layout'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { mockUsers, mockFellowships, type User } from '@/lib/mock-data'
 import {
   Search,
   Plus,
@@ -22,100 +22,107 @@ import {
   Trash2,
   MoreHorizontal,
   AlertCircle,
-} from "lucide-react"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Checkbox } from "@/components/ui/checkbox"
+} from 'lucide-react'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from '@/components/ui/dialog'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Checkbox } from '@/components/ui/checkbox'
 
 // In a real application, this would be fetched from a database or API
 // and managed by a state management solution (e.g., React Query, Redux, Zustand)
-let currentMockUsers = [...mockUsers];
+let currentMockUsers = [...mockUsers]
 
 export default function AdminUsers() {
-  const [users, setUsers] = useState<User[]>(currentMockUsers);
-  const [isAddUserModalOpen, setIsAddUserModalOpen] = useState(false);
+  const [users, setUsers] = useState<User[]>(currentMockUsers)
+  const [isAddUserModalOpen, setIsAddUserModalOpen] = useState(false)
   const [newUserData, setNewUserData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    role: "member",
-    fellowshipId: "",
-    username: "",
-  });
+    name: '',
+    email: '',
+    phone: '',
+    role: 'member',
+    fellowshipId: '',
+    username: '',
+  })
 
   // State for managing permissions modal
-  const [isPermissionsModalOpen, setIsPermissionsModalOpen] = useState(false);
-  const [selectedUserForPermissions, setSelectedUserForPermissions] = useState<User | null>(null);
+  const [isPermissionsModalOpen, setIsPermissionsModalOpen] = useState(false)
+  const [selectedUserForPermissions, setSelectedUserForPermissions] = useState<User | null>(null)
   const [currentPermissions, setCurrentPermissions] = useState({
     canManageFellowships: false,
     canManageUsers: false,
     canViewAnalytics: false,
     canManagePermissions: false,
-  });
+  })
 
   // State for suspend/delete confirmation modal
-  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
-  const [actionType, setActionType] = useState<"suspend" | "delete" | null>(null);
-  const [userToActOn, setUserToActOn] = useState<User | null>(null);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false)
+  const [actionType, setActionType] = useState<'suspend' | 'delete' | null>(null)
+  const [userToActOn, setUserToActOn] = useState<User | null>(null)
 
   // State for filtering
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filterRole, setFilterRole] = useState("all");
-  const [filterFellowshipId, setFilterFellowshipId] = useState("all");
+  const [searchTerm, setSearchTerm] = useState('')
+  const [filterRole, setFilterRole] = useState('all')
+  const [filterFellowshipId, setFilterFellowshipId] = useState('all')
 
   const totalUsers = users.length
-  const adminUsers = users.filter((u) => u.role === "admin").length
-  const pastorUsers = users.filter((u) => u.role === "pastor").length
-  const activeUsers = users.filter((u) => u.accountStatus === "active").length
+  const adminUsers = users.filter((u) => u.role === 'admin').length
+  const pastorUsers = users.filter((u) => u.role === 'pastor').length
+  const activeUsers = users.filter((u) => u.accountStatus === 'active').length
 
   const getFellowshipName = (fellowshipId?: string) => {
-    if (!fellowshipId) return "No Fellowship"
+    if (!fellowshipId) return 'No Fellowship'
     // Fix: Removed unnecessary ! assertion
     const fellowship = mockFellowships.find((f) => f.id === fellowshipId)
-    return fellowship?.name || "Unknown Fellowship"
+    return fellowship?.name || 'Unknown Fellowship'
   }
 
   const getRoleBadgeColor = (role: string) => {
     switch (role) {
-      case "admin":
-        return "bg-red-100 text-red-800 border-red-200"
-      case "pastor":
-        return "bg-purple-100 text-purple-800 border-purple-200"
-      case "leader":
-        return "bg-blue-100 text-blue-800 border-blue-200"
+      case 'admin':
+        return 'bg-red-100 text-red-800 border-red-200'
+      case 'pastor':
+        return 'bg-purple-100 text-purple-800 border-purple-200'
+      case 'leader':
+        return 'bg-blue-100 text-blue-800 border-blue-200'
       default:
-        return "bg-gray-100 text-gray-800 border-gray-200"
+        return 'bg-gray-100 text-gray-800 border-gray-200'
     }
   }
 
   const getStatusBadgeColor = (status: string) => {
     switch (status) {
-      case "active":
-        return "bg-green-100 text-green-800 border-green-200"
-      case "suspended":
-        return "bg-red-100 text-red-800 border-red-200"
+      case 'active':
+        return 'bg-green-100 text-green-800 border-green-200'
+      case 'suspended':
+        return 'bg-red-100 text-red-800 border-red-200'
       default:
-        return "bg-yellow-100 text-yellow-800 border-yellow-200"
+        return 'bg-yellow-100 text-yellow-800 border-yellow-200'
     }
   }
 
   // Handle input changes for the new user form
   const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { id, value } = e.target;
-    setNewUserData((prev) => ({ ...prev, [id]: value }));
-  }, []);
+    const { id, value } = e.target
+    setNewUserData((prev) => ({ ...prev, [id]: value }))
+  }, [])
 
   // Handle select changes for role and fellowship
   const handleSelectChange = useCallback((value: string, field: string) => {
-    setNewUserData((prev) => ({ ...prev, [field]: value }));
-  }, []);
+    setNewUserData((prev) => ({ ...prev, [field]: value }))
+  }, [])
 
   // Handle adding a new user
   const handleAddUser = useCallback(() => {
     if (!newUserData.name || !newUserData.email || !newUserData.role || !newUserData.username) {
-      alert("Please fill in all required fields: Name, Email, Role, Username.");
-      return;
+      alert('Please fill in all required fields: Name, Email, Role, Username.')
+      return
     }
 
     const newUser: User = {
@@ -123,7 +130,7 @@ export default function AdminUsers() {
       name: newUserData.name,
       email: newUserData.email,
       phone: newUserData.phone || undefined,
-      role: newUserData.role as "admin" | "pastor" | "leader" | "member",
+      role: newUserData.role as 'admin' | 'pastor' | 'leader' | 'member',
       fellowshipId: newUserData.fellowshipId || undefined,
       // Fix: Use ! assertion to remove null/undefined from type more succinctly
       joinDate: new Date().toISOString().split('T')[0]!,
@@ -131,116 +138,112 @@ export default function AdminUsers() {
       isEmailVerified: false,
       isPhoneVerified: false,
       username: newUserData.username,
-      accountStatus: "active" as const,
+      accountStatus: 'active' as const,
       lastLogin: new Date().toISOString(),
       permissions: {
-        canManageFellowships: newUserData.role === "admin",
-        canManageUsers: newUserData.role === "admin",
-        canViewAnalytics: newUserData.role === "admin" || newUserData.role === "pastor" || newUserData.role === "leader",
-        canManagePermissions: newUserData.role === "admin",
+        canManageFellowships: newUserData.role === 'admin',
+        canManageUsers: newUserData.role === 'admin',
+        canViewAnalytics:
+          newUserData.role === 'admin' || newUserData.role === 'pastor' || newUserData.role === 'leader',
+        canManagePermissions: newUserData.role === 'admin',
       },
-    };
+    }
 
-    currentMockUsers.push(newUser);
-    setUsers([...currentMockUsers]);
-    setIsAddUserModalOpen(false);
+    currentMockUsers.push(newUser)
+    setUsers([...currentMockUsers])
+    setIsAddUserModalOpen(false)
     setNewUserData({
-      name: "",
-      email: "",
-      phone: "",
-      role: "member",
-      fellowshipId: "",
-      username: "",
-    });
-  }, [newUserData]);
+      name: '',
+      email: '',
+      phone: '',
+      role: 'member',
+      fellowshipId: '',
+      username: '',
+    })
+  }, [newUserData])
 
   // Handle opening the permissions modal
   const handleManagePermissions = useCallback((user: User) => {
-    setSelectedUserForPermissions(user);
-    setCurrentPermissions({ ...user.permissions }); // Load current permissions
-    setIsPermissionsModalOpen(true);
-  }, []);
+    setSelectedUserForPermissions(user)
+    setCurrentPermissions({ ...user.permissions }) // Load current permissions
+    setIsPermissionsModalOpen(true)
+  }, [])
 
   // Handle changes to permissions in the modal
   const handlePermissionChange = useCallback((permission: keyof User['permissions']) => {
     setCurrentPermissions((prev) => ({
       ...prev,
       [permission]: !prev[permission],
-    }));
-  }, []);
+    }))
+  }, [])
 
   // Handle saving permissions
   const handleSavePermissions = useCallback(() => {
     if (selectedUserForPermissions) {
       const updatedUsers = users.map((user) =>
-        user.id === selectedUserForPermissions.id
-          ? { ...user, permissions: { ...currentPermissions } }
-          : user
-      );
-      currentMockUsers = updatedUsers;
-      setUsers(updatedUsers);
-      setIsPermissionsModalOpen(false);
-      setSelectedUserForPermissions(null);
+        user.id === selectedUserForPermissions.id ? { ...user, permissions: { ...currentPermissions } } : user,
+      )
+      currentMockUsers = updatedUsers
+      setUsers(updatedUsers)
+      setIsPermissionsModalOpen(false)
+      setSelectedUserForPermissions(null)
     }
-  }, [selectedUserForPermissions, currentPermissions, users]);
+  }, [selectedUserForPermissions, currentPermissions, users])
 
   // Handle initiating suspend action
   const confirmSuspendUser = useCallback((user: User) => {
-    setUserToActOn(user);
-    setActionType("suspend");
-    setIsConfirmModalOpen(true);
-  }, []);
+    setUserToActOn(user)
+    setActionType('suspend')
+    setIsConfirmModalOpen(true)
+  }, [])
 
   // Handle initiating delete action
   const confirmDeleteUser = useCallback((user: User) => {
-    setUserToActOn(user);
-    setActionType("delete");
-    setIsConfirmModalOpen(true);
-  }, []);
+    setUserToActOn(user)
+    setActionType('delete')
+    setIsConfirmModalOpen(true)
+  }, [])
 
   // Execute suspend action
   const handleSuspendUser = useCallback(() => {
     if (userToActOn) {
       const updatedUsers = users.map((user) =>
-        user.id === userToActOn.id ? { ...user, accountStatus: "suspended" as const } : user
-      );
-      currentMockUsers = updatedUsers;
-      setUsers(updatedUsers);
-      setIsConfirmModalOpen(false);
-      setUserToActOn(null);
-      setActionType(null);
+        user.id === userToActOn.id ? { ...user, accountStatus: 'suspended' as const } : user,
+      )
+      currentMockUsers = updatedUsers
+      setUsers(updatedUsers)
+      setIsConfirmModalOpen(false)
+      setUserToActOn(null)
+      setActionType(null)
     }
-  }, [userToActOn, users]);
+  }, [userToActOn, users])
 
   // Execute delete action
   const handleDeleteUser = useCallback(() => {
     if (userToActOn) {
-      const updatedUsers = users.filter((user) => user.id !== userToActOn.id);
-      currentMockUsers = updatedUsers;
-      setUsers(updatedUsers);
-      setIsConfirmModalOpen(false);
-      setUserToActOn(null);
-      setActionType(null);
+      const updatedUsers = users.filter((user) => user.id !== userToActOn.id)
+      currentMockUsers = updatedUsers
+      setUsers(updatedUsers)
+      setIsConfirmModalOpen(false)
+      setUserToActOn(null)
+      setActionType(null)
     }
-  }, [userToActOn, users]);
+  }, [userToActOn, users])
 
   // Memoized filtered users list
   const filteredUsers = useMemo(() => {
     return users.filter((user) => {
       const matchesSearch =
         user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.email.toLowerCase().includes(searchTerm.toLowerCase());
+        user.email.toLowerCase().includes(searchTerm.toLowerCase())
 
-      const matchesRole =
-        filterRole === "all" || user.role === filterRole;
+      const matchesRole = filterRole === 'all' || user.role === filterRole
 
-      const matchesFellowship =
-        filterFellowshipId === "all" || user.fellowshipId === filterFellowshipId;
+      const matchesFellowship = filterFellowshipId === 'all' || user.fellowshipId === filterFellowshipId
 
-      return matchesSearch && matchesRole && matchesFellowship;
-    });
-  }, [users, searchTerm, filterRole, filterFellowshipId]);
-
+      return matchesSearch && matchesRole && matchesFellowship
+    })
+  }, [users, searchTerm, filterRole, filterFellowshipId])
 
   return (
     <DashboardLayout userRole="admin">
@@ -255,10 +258,7 @@ export default function AdminUsers() {
               <Download className="mr-2 h-4 w-4" />
               Export Users
             </Button>
-            <Button
-              className="bg-blue-600 hover:bg-blue-700 text-white"
-              onClick={() => setIsAddUserModalOpen(true)}
-            >
+            <Button className="bg-blue-600 hover:bg-blue-700 text-white" onClick={() => setIsAddUserModalOpen(true)}>
               <Plus className="mr-2 h-4 w-4" />
               Add User
             </Button>
@@ -374,9 +374,9 @@ export default function AdminUsers() {
                       <Avatar className="h-12 w-12">
                         <AvatarFallback className="bg-blue-100 text-blue-600 text-lg">
                           {user.name
-                            .split(" ")
+                            .split(' ')
                             .map((n) => n[0])
-                            .join("")}
+                            .join('')}
                         </AvatarFallback>
                       </Avatar>
                       <div>
@@ -404,8 +404,8 @@ export default function AdminUsers() {
                             {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
                           </Badge>
                           <Badge className={getStatusBadgeColor(user.accountStatus)}>
-                            {user.accountStatus.replace("_", " ").charAt(0).toUpperCase() +
-                              user.accountStatus.replace("_", " ").slice(1)}
+                            {user.accountStatus.replace('_', ' ').charAt(0).toUpperCase() +
+                              user.accountStatus.replace('_', ' ').slice(1)}
                           </Badge>
                         </div>
                         <p className="text-xs text-gray-600">Joined {new Date(user.joinDate).toLocaleDateString()}</p>
@@ -434,7 +434,7 @@ export default function AdminUsers() {
                             <Mail className="mr-2 h-4 w-4" />
                             Send Message
                           </DropdownMenuItem>
-                          {user.role !== "admin" && (
+                          {user.role !== 'admin' && (
                             <DropdownMenuItem className="text-orange-600" onClick={() => confirmSuspendUser(user)}>
                               <Trash2 className="mr-2 h-4 w-4" />
                               Suspend User
@@ -532,7 +532,7 @@ export default function AdminUsers() {
               <Label htmlFor="role" className="text-right text-gray-700">
                 Role
               </Label>
-              <Select onValueChange={(value) => handleSelectChange(value, "role")} value={newUserData.role}>
+              <Select onValueChange={(value) => handleSelectChange(value, 'role')} value={newUserData.role}>
                 <SelectTrigger className="col-span-3 bg-gray-50 border-gray-300 text-gray-900">
                   <SelectValue placeholder="Select a role" />
                 </SelectTrigger>
@@ -544,12 +544,15 @@ export default function AdminUsers() {
                 </SelectContent>
               </Select>
             </div>
-            {newUserData.role !== "admin" && ( // Only show fellowship selection if not an admin
+            {newUserData.role !== 'admin' && ( // Only show fellowship selection if not an admin
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="fellowshipId" className="text-right text-gray-700">
                   Fellowship
                 </Label>
-                <Select onValueChange={(value) => handleSelectChange(value, "fellowshipId")} value={newUserData.fellowshipId}>
+                <Select
+                  onValueChange={(value) => handleSelectChange(value, 'fellowshipId')}
+                  value={newUserData.fellowshipId}
+                >
                   <SelectTrigger className="col-span-3 bg-gray-50 border-gray-300 text-gray-900">
                     <SelectValue placeholder="Select a fellowship" />
                   </SelectTrigger>
@@ -565,7 +568,11 @@ export default function AdminUsers() {
             )}
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsAddUserModalOpen(false)} className="bg-gray-50 text-gray-900 border-gray-300 hover:bg-gray-100">
+            <Button
+              variant="outline"
+              onClick={() => setIsAddUserModalOpen(false)}
+              className="bg-gray-50 text-gray-900 border-gray-300 hover:bg-gray-100"
+            >
               Cancel
             </Button>
             <Button onClick={handleAddUser} className="bg-blue-600 hover:bg-blue-700 text-white">
@@ -580,31 +587,35 @@ export default function AdminUsers() {
         <Dialog open={isPermissionsModalOpen} onOpenChange={setIsPermissionsModalOpen}>
           <DialogContent className="sm:max-w-[425px] bg-white p-6 rounded-lg shadow-lg">
             <DialogHeader>
-              <DialogTitle className="text-2xl font-bold text-gray-900">Manage Permissions for {selectedUserForPermissions.name}</DialogTitle>
-              <DialogDescription className="text-gray-600">
-                Adjust the permissions for this user.
-              </DialogDescription>
+              <DialogTitle className="text-2xl font-bold text-gray-900">
+                Manage Permissions for {selectedUserForPermissions.name}
+              </DialogTitle>
+              <DialogDescription className="text-gray-600">Adjust the permissions for this user.</DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
               {Object.keys(currentPermissions).map((key) => {
-                const permissionKey = key as keyof User['permissions'];
+                const permissionKey = key as keyof User['permissions']
                 return (
                   <div key={permissionKey} className="flex items-center space-x-2">
                     <Checkbox
                       id={permissionKey}
                       checked={currentPermissions[permissionKey]}
                       onCheckedChange={() => handlePermissionChange(permissionKey)}
-                      disabled={selectedUserForPermissions.role === "admin" && permissionKey === "canManagePermissions"}
+                      disabled={selectedUserForPermissions.role === 'admin' && permissionKey === 'canManagePermissions'}
                     />
                     <Label htmlFor={permissionKey} className="text-gray-900">
                       {permissionKey.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase())}
                     </Label>
                   </div>
-                );
+                )
               })}
             </div>
             <DialogFooter>
-              <Button variant="outline" onClick={() => setIsPermissionsModalOpen(false)} className="bg-gray-50 text-gray-900 border-gray-300 hover:bg-gray-100">
+              <Button
+                variant="outline"
+                onClick={() => setIsPermissionsModalOpen(false)}
+                className="bg-gray-50 text-gray-900 border-gray-300 hover:bg-gray-100"
+              >
                 Cancel
               </Button>
               <Button onClick={handleSavePermissions} className="bg-blue-600 hover:bg-blue-700 text-white">
@@ -621,7 +632,7 @@ export default function AdminUsers() {
           <DialogContent className="sm:max-w-[425px] bg-white p-6 rounded-lg shadow-lg">
             <DialogHeader>
               <DialogTitle className="text-2xl font-bold text-gray-900">
-                {actionType === "suspend" ? "Confirm Suspension" : "Confirm Deletion"}
+                {actionType === 'suspend' ? 'Confirm Suspension' : 'Confirm Deletion'}
               </DialogTitle>
               {/* Changed DialogDescription to render as a div to avoid hydration error */}
               <DialogDescription asChild>
@@ -629,7 +640,7 @@ export default function AdminUsers() {
                   <div className="flex items-center gap-2 text-red-500 mb-2">
                     <AlertCircle className="h-5 w-5" />
                     <span>
-                      Are you sure you want to {actionType === "suspend" ? "suspend" : "delete"}
+                      Are you sure you want to {actionType === 'suspend' ? 'suspend' : 'delete'}
                       <span className="font-semibold"> {userToActOn.name}</span>?
                     </span>
                   </div>
@@ -638,14 +649,22 @@ export default function AdminUsers() {
               </DialogDescription>
             </DialogHeader>
             <DialogFooter>
-              <Button variant="outline" onClick={() => setIsConfirmModalOpen(false)} className="bg-gray-50 text-gray-900 border-gray-300 hover:bg-gray-100">
+              <Button
+                variant="outline"
+                onClick={() => setIsConfirmModalOpen(false)}
+                className="bg-gray-50 text-gray-900 border-gray-300 hover:bg-gray-100"
+              >
                 Cancel
               </Button>
               <Button
-                className={actionType === "suspend" ? "bg-orange-600 hover:bg-orange-700 text-white" : "bg-red-600 hover:bg-red-700 text-white"}
-                onClick={actionType === "suspend" ? handleSuspendUser : handleDeleteUser}
+                className={
+                  actionType === 'suspend'
+                    ? 'bg-orange-600 hover:bg-orange-700 text-white'
+                    : 'bg-red-600 hover:bg-red-700 text-white'
+                }
+                onClick={actionType === 'suspend' ? handleSuspendUser : handleDeleteUser}
               >
-                {actionType === "suspend" ? "Confirm Suspend" : "Confirm Delete"}
+                {actionType === 'suspend' ? 'Confirm Suspend' : 'Confirm Delete'}
               </Button>
             </DialogFooter>
           </DialogContent>

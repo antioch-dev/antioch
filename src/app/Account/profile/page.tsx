@@ -1,18 +1,18 @@
-"use client"
+'use client'
 
-import type React from "react"
-import { useState } from "react"
-import { DashboardLayout } from "@/app/_components/dashboard-layout"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { getUserById, getFellowshipById, updateUser as mockUpdateUser } from "@/lib/mock-data"
-import { User, Mail, Phone, Church, MapPin, Edit, Save, Camera } from "lucide-react"
-import { useParams } from "next/navigation"
+import type React from 'react'
+import { useState } from 'react'
+import { DashboardLayout } from '@/components/dashboard-layout'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { getUserById, getFellowshipById, updateUser as mockUpdateUser } from '@/lib/mock-data'
+import { User, Mail, Phone, Church, MapPin, Edit, Save, Camera } from 'lucide-react'
+import { useParams } from 'next/navigation'
 
 export default function UserProfile() {
   const params = useParams()
@@ -25,14 +25,14 @@ export default function UserProfile() {
   const [isSaving, setIsSaving] = useState(false)
   const [saveSuccess, setSaveSuccess] = useState<boolean | null>(null)
 
-  const [firstName, setFirstName] = useState(user?.name.split(" ")[0] || "")
-  const [lastName, setLastName] = useState(user?.name.split(" ").slice(1).join(" ") || "")
-  const [username, setUsername] = useState(user?.username || "")
-  const [phone, setPhone] = useState(user?.phone || "")
-  const [bio, setBio] = useState(user?.bio || "")
+  const [firstName, setFirstName] = useState(user?.name.split(' ')[0] || '')
+  const [lastName, setLastName] = useState(user?.name.split(' ').slice(1).join(' ') || '')
+  const [username, setUsername] = useState(user?.username || '')
+  const [phone, setPhone] = useState(user?.phone || '')
+  const [bio, setBio] = useState(user?.bio || '')
 
   // Destructure fellowship directly for use in JSX
-  const fellowship = initialFellowship;
+  const fellowship = initialFellowship
 
   if (!user) {
     return (
@@ -59,17 +59,18 @@ export default function UserProfile() {
     }
 
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000))
+      await new Promise((resolve) => setTimeout(resolve, 1000))
 
       mockUpdateUser(user_id, updatedUser)
 
       setUser(updatedUser)
       setSaveSuccess(true)
-    } catch { // Removed 'error' from here
+    } catch {
+      // Removed 'error' from here
       setSaveSuccess(false)
     } finally {
       setIsSaving(false)
-      setTimeout(() => setSaveSuccess(null), 3000);
+      setTimeout(() => setSaveSuccess(null), 3000)
     }
   }
 
@@ -81,17 +82,22 @@ export default function UserProfile() {
             <h1 className="text-3xl font-bold text-gray-900">My Profile</h1>
             <p className="text-gray-600">Manage your personal information and preferences</p>
           </div>
-          <Button
-            className="bg-blue-600 hover:bg-blue-700 text-white"
-            onClick={handleSaveChanges}
-            disabled={isSaving}
-          >
-            {isSaving ? "Saving..." : <><Save className="mr-2 h-4 w-4" /> Save Changes</>}
+          <Button className="bg-blue-600 hover:bg-blue-700 text-white" onClick={handleSaveChanges} disabled={isSaving}>
+            {isSaving ? (
+              'Saving...'
+            ) : (
+              <>
+                <Save className="mr-2 h-4 w-4" /> Save Changes
+              </>
+            )}
           </Button>
         </div>
 
         {saveSuccess === true && (
-          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+          <div
+            className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4"
+            role="alert"
+          >
             <span className="block sm:inline">Profile saved successfully!</span>
           </div>
         )}
@@ -115,9 +121,9 @@ export default function UserProfile() {
                 <Avatar className="h-32 w-32">
                   <AvatarFallback className="bg-blue-100 text-blue-600 text-4xl">
                     {user.name
-                      .split(" ")
+                      .split(' ')
                       .map((n) => n[0])
-                      .join("")}
+                      .join('')}
                   </AvatarFallback>
                 </Avatar>
                 <Button variant="outline" className="bg-white text-gray-900 border-gray-300 hover:bg-gray-50">
@@ -286,9 +292,9 @@ export default function UserProfile() {
                       </div>
                       <div className="flex justify-between items-center">
                         <span className="text-sm text-gray-600">Status</span>
-                        <Badge variant={user.accountStatus === "active" ? "default" : "secondary"}>
-                          {user.accountStatus.replace("_", " ").charAt(0).toUpperCase() +
-                            user.accountStatus.replace("_", " ").slice(1)}
+                        <Badge variant={user.accountStatus === 'active' ? 'default' : 'secondary'}>
+                          {user.accountStatus.replace('_', ' ').charAt(0).toUpperCase() +
+                            user.accountStatus.replace('_', ' ').slice(1)}
                         </Badge>
                       </div>
                       <div className="flex justify-between items-center">

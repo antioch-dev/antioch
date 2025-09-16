@@ -1,53 +1,55 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Textarea } from "@/components/ui/textarea"
-import { Badge } from "@/components/ui/badge"
-import { Calendar } from "@/components/ui/calendar"
-import { LogIn, Save, CalendarIcon, ArrowLeft } from "lucide-react"
-import { useStore } from "@/lib/store"
-import { toast } from "sonner"
+import { useState } from 'react'
+import { motion } from 'framer-motion'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Textarea } from '@/components/ui/textarea'
+import { Badge } from '@/components/ui/badge'
+import { Calendar } from '@/components/ui/calendar'
+import { LogIn, Save, CalendarIcon, ArrowLeft } from 'lucide-react'
+import { useStore } from '@/lib/store'
+import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 
-
 interface Checkin {
-  id: string;
-  date: Date | string;
-  type: "daily" | "weekly";
-  content: string;
-  mood: string;
-  responses: Record<string, string>;
+  id: string
+  date: Date | string
+  type: 'daily' | 'weekly'
+  content: string
+  mood: string
+  responses: Record<string, string>
 }
 
 const checkinPrompts = [
-  "What did you accomplish today?",
-  "What challenges did you face?",
-  "What are your priorities for tomorrow?",
-  "How are you feeling about your progress?",
-  "Any blockers or help needed?",
+  'What did you accomplish today?',
+  'What challenges did you face?',
+  'What are your priorities for tomorrow?',
+  'How are you feeling about your progress?',
+  'Any blockers or help needed?',
 ]
 
 const moodOptions = [
-  "Productive",
-  "Collaborative",
-  "Accomplished",
-  "Focused",
-  "Challenged",
-  "Motivated",
-  "Tired",
-  "Excited",
+  'Productive',
+  'Collaborative',
+  'Accomplished',
+  'Focused',
+  'Challenged',
+  'Motivated',
+  'Tired',
+  'Excited',
 ]
 
 export default function CheckinPage() {
-  const { checkins, addCheckin } = useStore() as { checkins: Checkin[]; addCheckin: (data: Omit<Checkin, 'id'>) => void };
+  const { checkins, addCheckin } = useStore() as {
+    checkins: Checkin[]
+    addCheckin: (data: Omit<Checkin, 'id'>) => void
+  }
   const router = useRouter()
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date())
-  const [checkinType, setCheckinType] = useState<"daily" | "weekly">("daily")
+  const [checkinType, setCheckinType] = useState<'daily' | 'weekly'>('daily')
   const [responses, setResponses] = useState<Record<string, string>>({})
-  const [selectedMood, setSelectedMood] = useState<string>("")
+  const [selectedMood, setSelectedMood] = useState<string>('')
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleResponseChange = (prompt: string, value: string) => {
@@ -58,12 +60,12 @@ export default function CheckinPage() {
     const hasResponses = Object.values(responses).some((response) => response.trim().length > 0)
 
     if (!hasResponses) {
-      toast.error("Please fill out at least one response")
+      toast.error('Please fill out at least one response')
       return
     }
 
     if (!selectedMood) {
-      toast.error("Please select your mood")
+      toast.error('Please select your mood')
       return
     }
 
@@ -78,18 +80,20 @@ export default function CheckinPage() {
         content: Object.entries(responses)
           .filter(([_, value]) => value.trim())
           .map(([prompt, value]) => `${prompt}: ${value}`)
-          .join("\n\n"),
+          .join('\n\n'),
         mood: selectedMood,
         responses,
       }
 
       addCheckin(checkinData)
-      toast.success(`${checkinType === "daily" ? "Daily" : "Weekly"} check-in saved successfully!`)
+      toast.success(`${checkinType === 'daily' ? 'Daily' : 'Weekly'} check-in saved successfully!`)
 
       setResponses({})
-      setSelectedMood("")
-    } catch (_error) { // Removed the ': any' type annotation
-      toast.error("Failed to save check-in. Please try again.")
+      setSelectedMood('')
+    } catch (_error) {
+      // Removed the ': any' type annotation
+      console.log(_error)
+      toast.error('Failed to save check-in. Please try again.')
     } finally {
       setIsSubmitting(false)
     }
@@ -97,20 +101,20 @@ export default function CheckinPage() {
 
   const getMoodColor = (mood: string): string => {
     const moodColors: Record<string, string> = {
-      Productive: "bg-green-600",
-      Collaborative: "bg-blue-600",
-      Accomplished: "bg-purple-600",
-      Focused: "bg-indigo-600",
-      Challenged: "bg-orange-600",
-      Motivated: "bg-pink-600",
-      Tired: "bg-gray-600",
-      Excited: "bg-yellow-600",
+      Productive: 'bg-green-600',
+      Collaborative: 'bg-blue-600',
+      Accomplished: 'bg-purple-600',
+      Focused: 'bg-indigo-600',
+      Challenged: 'bg-orange-600',
+      Motivated: 'bg-pink-600',
+      Tired: 'bg-gray-600',
+      Excited: 'bg-yellow-600',
     }
-    return moodColors[mood] || "bg-gray-600"
+    return moodColors[mood] || 'bg-gray-600'
   }
 
   const getDisplayDate = (dateInput: Date | string): Date => {
-    return typeof dateInput === "string" ? new Date(dateInput) : dateInput;
+    return typeof dateInput === 'string' ? new Date(dateInput) : dateInput
   }
 
   const todaysCheckin = checkins.find((checkin: Checkin) => {
@@ -123,7 +127,12 @@ export default function CheckinPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center">
-          <Button variant="ghost" size="icon" onClick={() => router.back()} className="mr-2 text-gray-400 hover:text-white">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => router.back()}
+            className="mr-2 text-gray-400 hover:text-white"
+          >
             <ArrowLeft className="w-6 h-6" />
           </Button>
           <div>
@@ -132,10 +141,10 @@ export default function CheckinPage() {
           </div>
         </div>
         <div className="flex space-x-2">
-          <Button variant={checkinType === "daily" ? "default" : "outline"} onClick={() => setCheckinType("daily")}>
+          <Button variant={checkinType === 'daily' ? 'default' : 'outline'} onClick={() => setCheckinType('daily')}>
             Daily
           </Button>
-          <Button variant={checkinType === "weekly" ? "default" : "outline"} onClick={() => setCheckinType("weekly")}>
+          <Button variant={checkinType === 'weekly' ? 'default' : 'outline'} onClick={() => setCheckinType('weekly')}>
             Weekly
           </Button>
         </div>
@@ -146,7 +155,9 @@ export default function CheckinPage() {
           <CardContent className="p-4">
             <div className="flex items-center space-x-2">
               <Badge className="bg-green-600">Completed</Badge>
-              <span className="text-green-400">You&apos;ve already completed your {checkinType} check-in for today!</span>
+              <span className="text-green-400">
+                You&apos;ve already completed your {checkinType} check-in for today!
+              </span>
             </div>
           </CardContent>
         </Card>
@@ -159,7 +170,7 @@ export default function CheckinPage() {
             <CardHeader>
               <CardTitle className="text-white flex items-center">
                 <LogIn className="w-5 h-5 mr-2" />
-                {checkinType === "daily" ? "Daily" : "Weekly"} Check-in
+                {checkinType === 'daily' ? 'Daily' : 'Weekly'} Check-in
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -170,10 +181,10 @@ export default function CheckinPage() {
                   {moodOptions.map((mood) => (
                     <Button
                       key={mood}
-                      variant={selectedMood === mood ? "default" : "outline"}
+                      variant={selectedMood === mood ? 'default' : 'outline'}
                       size="sm"
                       onClick={() => setSelectedMood(mood)}
-                      className={selectedMood === mood ? getMoodColor(mood) : ""}
+                      className={selectedMood === mood ? getMoodColor(mood) : ''}
                     >
                       {mood}
                     </Button>
@@ -186,7 +197,7 @@ export default function CheckinPage() {
                   <label className="text-gray-300 font-medium">{prompt}</label>
                   <Textarea
                     placeholder="Share your thoughts..."
-                    value={responses[prompt] || ""}
+                    value={responses[prompt] || ''}
                     onChange={(e) => handleResponseChange(prompt, e.target.value)}
                     className="bg-gray-700 border-gray-600 text-white min-h-[100px] resize-none"
                   />
@@ -196,7 +207,7 @@ export default function CheckinPage() {
               <div className="flex justify-end">
                 <Button onClick={handleSaveCheckin} disabled={isSubmitting} className="bg-blue-600 hover:bg-blue-700">
                   <Save className="w-4 h-4 mr-2" />
-                  {isSubmitting ? "Saving..." : "Save Check-in"}
+                  {isSubmitting ? 'Saving...' : 'Save Check-in'}
                 </Button>
               </div>
             </CardContent>
@@ -266,7 +277,7 @@ export default function CheckinPage() {
                     checkins.filter((c: Checkin) => {
                       const checkinDate = getDisplayDate(c.date)
                       const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
-                      return checkinDate >= weekAgo && c.type === "daily"
+                      return checkinDate >= weekAgo && c.type === 'daily'
                     }).length
                   }
                   /7 days
@@ -279,7 +290,7 @@ export default function CheckinPage() {
                     checkins.filter((c: Checkin) => {
                       const checkinDate = getDisplayDate(c.date)
                       const monthAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
-                      return checkinDate >= monthAgo && c.type === "daily"
+                      return checkinDate >= monthAgo && c.type === 'daily'
                     }).length
                   }
                   /30 days

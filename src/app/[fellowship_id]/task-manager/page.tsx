@@ -1,10 +1,10 @@
-"use client"
+'use client'
 
-import { motion } from "framer-motion"
-import { ArrowRight, CheckCircle, Clock, Users, Zap } from "lucide-react"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { motion } from 'framer-motion'
+import { ArrowRight, CheckCircle, Clock, Users, Zap } from 'lucide-react'
+import Link from 'next/link'
+import { Button } from '@/components/ui/button'
+import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
 export default function LandingPage() {
   return (
@@ -25,13 +25,13 @@ export default function LandingPage() {
               matters most.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/task-manager/dashboard">
+              <Link href="/fellowship1/task-manager/dashboard">
                 <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3">
                   Get Started
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
-              <Link href="/fellowship1/task-manager/auth/signin">
+              <Link href="/auth/login">
                 <Button
                   variant="outline"
                   size="lg"
@@ -96,7 +96,7 @@ export default function LandingPage() {
             <p className="text-xl text-gray-400 mb-8">
               Join thousands of teams already using Taskify to streamline their workflow.
             </p>
-            <Link href="/task-manager/dashboard">
+            <Link href="/fellowship1/task-manager/dashboard">
               <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3">
                 Start Managing Tasks
                 <ArrowRight className="ml-2 h-5 w-5" />
@@ -120,23 +120,23 @@ export default function LandingPage() {
 
 const features = [
   {
-    title: "Task Management",
-    description: "Create, organize, and track tasks with powerful filtering and search capabilities.",
+    title: 'Task Management',
+    description: 'Create, organize, and track tasks with powerful filtering and search capabilities.',
     icon: CheckCircle,
   },
   {
-    title: "Team Collaboration",
-    description: "Assign tasks, track progress, and collaborate seamlessly with your team.",
+    title: 'Team Collaboration',
+    description: 'Assign tasks, track progress, and collaborate seamlessly with your team.',
     icon: Users,
   },
   {
-    title: "Time Tracking",
-    description: "Monitor time spent on tasks and projects with built-in time tracking tools.",
+    title: 'Time Tracking',
+    description: 'Monitor time spent on tasks and projects with built-in time tracking tools.',
     icon: Clock,
   },
   {
-    title: "Automation",
-    description: "Set up recurring tasks and automated workflows to save time and effort.",
+    title: 'Automation',
+    description: 'Set up recurring tasks and automated workflows to save time and effort.',
     icon: Zap,
   },
 ]

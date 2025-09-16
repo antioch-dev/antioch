@@ -1,29 +1,29 @@
-import { DashboardLayout } from "@/app/_components/dashboard-layout"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Switch } from "@/components/ui/switch"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { mockUsers, mockFellowships } from "@/lib/mock-data"
-import { Search, Shield, Users, Settings, Save, RefreshCw, Edit, MoreHorizontal } from "lucide-react"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { DashboardLayout } from '@/components/dashboard-layout'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import { Switch } from '@/components/ui/switch'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { mockUsers, mockFellowships } from '@/lib/mock-data'
+import { Search, Shield, Users, Settings, Save, RefreshCw, Edit, MoreHorizontal } from 'lucide-react'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 
 export default function AdminPermissionsPage() {
-  const adminUsers = mockUsers.filter((u) => u.role === "admin")
-  const pastorUsers = mockUsers.filter((u) => u.role === "pastor")
-  const leaderUsers = mockUsers.filter((u) => u.role === "leader")
+  const adminUsers = mockUsers.filter((u) => u.role === 'admin')
+  const pastorUsers = mockUsers.filter((u) => u.role === 'pastor')
+  const leaderUsers = mockUsers.filter((u) => u.role === 'leader')
 
   const getRoleBadgeColor = (role: string) => {
     switch (role) {
-      case "admin":
-        return "bg-red-100 text-red-800 border-red-200"
-      case "pastor":
-        return "bg-purple-100 text-purple-800 border-purple-200"
-      case "leader":
-        return "bg-blue-100 text-blue-800 border-blue-200"
+      case 'admin':
+        return 'bg-red-100 text-red-800 border-red-200'
+      case 'pastor':
+        return 'bg-purple-100 text-purple-800 border-purple-200'
+      case 'leader':
+        return 'bg-blue-100 text-blue-800 border-blue-200'
       default:
-        return "bg-gray-100 text-gray-800 border-gray-200"
+        return 'bg-gray-100 text-gray-800 border-gray-200'
     }
   }
 
@@ -188,9 +188,9 @@ export default function AdminPermissionsPage() {
                       </div>
                       <div className="flex items-center gap-2">
                         <Badge
-                          variant={fellowship.status === "active" ? "default" : "secondary"}
+                          variant={fellowship.status === 'active' ? 'default' : 'secondary'}
                           className={
-                            fellowship.status === "active" ? "bg-green-100 text-green-800 border-green-200" : ""
+                            fellowship.status === 'active' ? 'bg-green-100 text-green-800 border-green-200' : ''
                           }
                         >
                           {fellowship.status}

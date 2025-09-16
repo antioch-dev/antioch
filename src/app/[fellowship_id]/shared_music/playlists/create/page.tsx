@@ -93,7 +93,7 @@ export default function CreatePlaylistPage() {
 
     await new Promise((resolve) => setTimeout(resolve, 1000))
 
-    router.push('/fellowships/fellowship1/shared_music/playlists/1')
+    router.push('/fellowship1/shared_music/playlists/1')
   }
 
   return (

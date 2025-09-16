@@ -223,7 +223,7 @@ export default function ServicesPage() {
             style={{ animationDelay: `${index * 0.1 + 0.6}s` }}
           >
             <Link
-              href={`/fellowships/fellowship1/shared_music/playlists/${service.playlistId}`}
+              href={`/fellowship1/shared_music/playlists/${service.playlistId}`}
               className="text-sm font-medium hover:underline flex items-center gap-2 transition-all-smooth hover:text-primary group/playlist"
             >
               <Music className="h-4 w-4 group-hover/playlist:scale-110 transition-transform duration-300" />
