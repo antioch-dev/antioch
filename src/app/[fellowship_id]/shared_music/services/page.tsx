@@ -1,106 +1,106 @@
-'use client'
+"use client"
 
-import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Badge } from '@/components/ui/badge'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import Link from 'next/link'
-import { Search, Plus, Calendar, Clock, Users, Music, Play, Eye } from 'lucide-react'
-import { useToast } from '@/hooks/use-toast'
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Badge } from "@/components/ui/badge"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import Link from "next/link"
+import { Search, Plus, Calendar, Clock, Users, Music, Play, Eye } from "lucide-react"
+import { useToast } from "@/hooks/use-toast"
 
 // Mock services data
 const upcomingServices = [
   {
     id: 1,
-    title: 'Sunday Morning Worship',
-    date: '2024-12-15',
-    time: '10:00 AM',
-    duration: '90 minutes',
-    location: 'Main Sanctuary',
-    organizer: 'Pastor John',
-    organizerAvatar: '/placeholder-user.jpg',
+    title: "Sunday Morning Worship",
+    date: "2024-12-15",
+    time: "10:00 AM",
+    duration: "90 minutes",
+    location: "Main Sanctuary",
+    organizer: "Pastor John",
+    organizerAvatar: "/placeholder-user.jpg",
     playlistId: 1,
-    playlistTitle: 'Sunday Morning Worship',
+    playlistTitle: "Sunday Morning Worship",
     songCount: 8,
     attendees: 150,
-    status: 'scheduled',
-    description: 'Regular Sunday morning worship service with communion',
+    status: "scheduled",
+    description: "Regular Sunday morning worship service with communion",
   },
   {
     id: 2,
-    title: 'Christmas Eve Service',
-    date: '2024-12-24',
-    time: '7:00 PM',
-    duration: '75 minutes',
-    location: 'Main Sanctuary',
-    organizer: 'Music Team',
-    organizerAvatar: '/placeholder-user.jpg',
+    title: "Christmas Eve Service",
+    date: "2024-12-24",
+    time: "7:00 PM",
+    duration: "75 minutes",
+    location: "Main Sanctuary",
+    organizer: "Music Team",
+    organizerAvatar: "/placeholder-user.jpg",
     playlistId: 2,
-    playlistTitle: 'Christmas Celebration',
+    playlistTitle: "Christmas Celebration",
     songCount: 12,
     attendees: 200,
-    status: 'scheduled',
-    description: 'Special Christmas Eve candlelight service',
+    status: "scheduled",
+    description: "Special Christmas Eve candlelight service",
   },
   {
     id: 3,
-    title: 'Youth Service',
-    date: '2024-12-16',
-    time: '6:00 PM',
-    duration: '60 minutes',
-    location: 'Youth Hall',
-    organizer: 'Sarah Wilson',
-    organizerAvatar: '/placeholder-user.jpg',
+    title: "Youth Service",
+    date: "2024-12-16",
+    time: "6:00 PM",
+    duration: "60 minutes",
+    location: "Youth Hall",
+    organizer: "Sarah Wilson",
+    organizerAvatar: "/placeholder-user.jpg",
     playlistId: 3,
-    playlistTitle: 'Youth Service Favorites',
+    playlistTitle: "Youth Service Favorites",
     songCount: 10,
     attendees: 45,
-    status: 'scheduled',
-    description: 'Weekly youth gathering with contemporary worship',
+    status: "scheduled",
+    description: "Weekly youth gathering with contemporary worship",
   },
 ]
 
 const pastServices = [
   {
     id: 4,
-    title: 'Sunday Morning Worship',
-    date: '2024-12-08',
-    time: '10:00 AM',
-    duration: '85 minutes',
-    location: 'Main Sanctuary',
-    organizer: 'Pastor John',
-    organizerAvatar: '/placeholder-user.jpg',
+    title: "Sunday Morning Worship",
+    date: "2024-12-08",
+    time: "10:00 AM",
+    duration: "85 minutes",
+    location: "Main Sanctuary",
+    organizer: "Pastor John",
+    organizerAvatar: "/placeholder-user.jpg",
     playlistId: 1,
-    playlistTitle: 'Sunday Morning Worship',
+    playlistTitle: "Sunday Morning Worship",
     songCount: 7,
     attendees: 145,
-    status: 'completed',
-    description: 'Regular Sunday morning worship service',
+    status: "completed",
+    description: "Regular Sunday morning worship service",
   },
   {
     id: 5,
-    title: 'Thanksgiving Service',
-    date: '2024-11-28',
-    time: '7:00 PM',
-    duration: '60 minutes',
-    location: 'Main Sanctuary',
-    organizer: 'Pastor John',
-    organizerAvatar: '/placeholder-user.jpg',
+    title: "Thanksgiving Service",
+    date: "2024-11-28",
+    time: "7:00 PM",
+    duration: "60 minutes",
+    location: "Main Sanctuary",
+    organizer: "Pastor John",
+    organizerAvatar: "/placeholder-user.jpg",
     playlistId: 4,
-    playlistTitle: 'Thanksgiving Praise',
+    playlistTitle: "Thanksgiving Praise",
     songCount: 6,
     attendees: 120,
-    status: 'completed',
-    description: 'Special Thanksgiving evening service',
+    status: "completed",
+    description: "Special Thanksgiving evening service",
   },
 ]
 
 export default function ServicesPage() {
-  const [searchTerm, setSearchTerm] = useState('')
-  const [activeTab, setActiveTab] = useState('upcoming')
+  const [searchTerm, setSearchTerm] = useState("")
+  const [activeTab, setActiveTab] = useState("upcoming")
   const { toast } = useToast()
 
   const filterServices = (services: typeof upcomingServices) => {
@@ -117,14 +117,14 @@ export default function ServicesPage() {
 
   const handleStartService = (serviceId: number, serviceTitle: string) => {
     toast({
-      title: 'Service Started',
+      title: "Service Started",
       description: `"${serviceTitle}" presentation mode is now active.`,
     })
   }
 
   const handleViewDetails = (serviceId: number, serviceTitle: string) => {
     toast({
-      title: 'Loading Service Details',
+      title: "Loading Service Details",
       description: `Opening details for "${serviceTitle}".`,
     })
   }
@@ -149,10 +149,10 @@ export default function ServicesPage() {
             <CardDescription className="mt-1">{service.description}</CardDescription>
           </div>
           <Badge
-            variant={service.status === 'scheduled' ? 'default' : 'secondary'}
+            variant={service.status === "scheduled" ? "default" : "secondary"}
             className="transition-all-smooth hover:scale-105"
           >
-            {service.status === 'scheduled' ? 'Upcoming' : 'Completed'}
+            {service.status === "scheduled" ? "Upcoming" : "Completed"}
           </Badge>
         </div>
       </CardHeader>
@@ -189,12 +189,12 @@ export default function ServicesPage() {
             style={{ animationDelay: `${index * 0.1 + 0.4}s` }}
           >
             <Avatar className="h-6 w-6 transition-transform duration-300 hover:scale-110">
-              <AvatarImage src={service.organizerAvatar || '/placeholder.svg'} alt={service.organizer} />
+              <AvatarImage src={service.organizerAvatar || "/placeholder.svg"} alt={service.organizer} />
               <AvatarFallback>
                 {service.organizer
-                  .split(' ')
+                  .split(" ")
                   .map((n) => n[0])
-                  .join('')}
+                  .join("")}
               </AvatarFallback>
             </Avatar>
             <span className="text-sm text-muted-foreground">Organized by {service.organizer}</span>
@@ -212,7 +212,7 @@ export default function ServicesPage() {
             <div className="flex items-center gap-1 group/users">
               <Users className="h-4 w-4 text-muted-foreground group-hover/users:scale-110 transition-transform duration-300" />
               <span>
-                {service.attendees} {service.status === 'scheduled' ? 'expected' : 'attended'}
+                {service.attendees} {service.status === "scheduled" ? "expected" : "attended"}
               </span>
             </div>
           </div>
@@ -244,7 +244,7 @@ export default function ServicesPage() {
                 View Details
               </Link>
             </Button>
-            {service.status === 'scheduled' && (
+            {service.status === "scheduled" && (
               <Button
                 asChild
                 variant="outline"
@@ -252,7 +252,7 @@ export default function ServicesPage() {
                 className="hover-lift transition-all-smooth group/start bg-transparent"
                 onClick={() => handleStartService(service.id, service.title)}
               >
-                <Link href={`/services/${service.id}/present`}>
+                <Link href={`/fellowship1/shared_music/services/${service.id}/present`}>
                   <Play className="h-4 w-4 mr-2 group-hover/start:scale-110 transition-transform duration-300" />
                   Start Service
                 </Link>
