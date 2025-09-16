@@ -1,108 +1,108 @@
-'use client'
+"use client"
 
-import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Separator } from '@/components/ui/separator'
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Separator } from "@/components/ui/separator"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import Link from 'next/link'
-import { ArrowLeft, Heart, Share2, MoreHorizontal, Play, Edit, Copy, Calendar, Users, Eye } from 'lucide-react'
-import { useParams, useRouter } from 'next/navigation'
+} from "@/components/ui/dropdown-menu"
+import Link from "next/link"
+import { ArrowLeft, Heart, Share2, MoreHorizontal, Play, Edit, Copy, Calendar, Users, Eye } from "lucide-react"
+import { useParams, useRouter } from "next/navigation"
 
 // Mock playlist data
 const playlistData = {
   id: 1,
-  title: 'Sunday Morning Worship',
+  title: "Sunday Morning Worship",
   description:
-    'Our regular Sunday morning service playlist with a mix of traditional hymns and contemporary worship songs',
-  creator: 'Pastor John',
-  creatorAvatar: '/placeholder-user.jpg',
-  createdDate: '2024-01-15',
-  lastUpdated: '2024-12-10',
+    "Our regular Sunday morning service playlist with a mix of traditional hymns and contemporary worship songs",
+  creator: "Pastor John",
+  creatorAvatar: "/placeholder-user.jpg",
+  createdDate: "2024-01-15",
+  lastUpdated: "2024-12-10",
   isPublic: true,
-  category: 'Service',
+  category: "Service",
   plays: 45,
   followers: 23,
   songs: [
     {
       id: 1,
-      title: 'Amazing Grace',
-      artist: 'Traditional',
-      duration: '4:32',
-      key: 'G',
-      tempo: 'Slow',
-      addedDate: '2024-01-15',
+      title: "Amazing Grace",
+      artist: "Traditional",
+      duration: "4:32",
+      key: "G",
+      tempo: "Slow",
+      addedDate: "2024-01-15",
     },
     {
       id: 2,
-      title: 'How Great Thou Art',
-      artist: 'Carl Boberg',
-      duration: '3:45',
-      key: 'C',
-      tempo: 'Medium',
-      addedDate: '2024-01-20',
+      title: "How Great Thou Art",
+      artist: "Carl Boberg",
+      duration: "3:45",
+      key: "C",
+      tempo: "Medium",
+      addedDate: "2024-01-20",
     },
     {
       id: 3,
-      title: '10,000 Reasons',
-      artist: 'Matt Redman',
-      duration: '4:03',
-      key: 'G',
-      tempo: 'Medium',
-      addedDate: '2024-02-01',
+      title: "10,000 Reasons",
+      artist: "Matt Redman",
+      duration: "4:03",
+      key: "G",
+      tempo: "Medium",
+      addedDate: "2024-02-01",
     },
     {
       id: 4,
-      title: 'Blessed Be Your Name',
-      artist: 'Matt Redman',
-      duration: '4:12',
-      key: 'D',
-      tempo: 'Medium',
-      addedDate: '2024-02-05',
+      title: "Blessed Be Your Name",
+      artist: "Matt Redman",
+      duration: "4:12",
+      key: "D",
+      tempo: "Medium",
+      addedDate: "2024-02-05",
     },
     {
       id: 5,
-      title: 'Holy, Holy, Holy',
-      artist: 'Reginald Heber',
-      duration: '3:28',
-      key: 'F',
-      tempo: 'Slow',
-      addedDate: '2024-02-10',
+      title: "Holy, Holy, Holy",
+      artist: "Reginald Heber",
+      duration: "3:28",
+      key: "F",
+      tempo: "Slow",
+      addedDate: "2024-02-10",
     },
     {
       id: 6,
-      title: 'Cornerstone',
-      artist: 'Hillsong',
-      duration: '5:02',
-      key: 'E',
-      tempo: 'Medium',
-      addedDate: '2024-02-15',
+      title: "Cornerstone",
+      artist: "Hillsong",
+      duration: "5:02",
+      key: "E",
+      tempo: "Medium",
+      addedDate: "2024-02-15",
     },
     {
       id: 7,
-      title: 'Great Is Thy Faithfulness',
-      artist: 'Thomas Chisholm',
-      duration: '4:15',
-      key: 'Bb',
-      tempo: 'Slow',
-      addedDate: '2024-02-20',
+      title: "Great Is Thy Faithfulness",
+      artist: "Thomas Chisholm",
+      duration: "4:15",
+      key: "Bb",
+      tempo: "Slow",
+      addedDate: "2024-02-20",
     },
     {
       id: 8,
-      title: 'Be Thou My Vision',
-      artist: 'Traditional Irish',
-      duration: '3:52',
-      key: 'D',
-      tempo: 'Slow',
-      addedDate: '2024-02-25',
+      title: "Be Thou My Vision",
+      artist: "Traditional Irish",
+      duration: "3:52",
+      key: "D",
+      tempo: "Slow",
+      addedDate: "2024-02-25",
     },
   ],
 }
@@ -120,35 +120,35 @@ export default function PlaylistDetailPage() {
           url: window.location.href,
         })
       } catch (error) {
-        console.log('Error sharing:', error)
+        console.log("Error sharing:", error)
       }
     } else {
       navigator.clipboard
         .writeText(window.location.href)
         .then(() => {
-          console.log('Link copied to clipboard')
+          console.log("Link copied to clipboard")
         })
         .catch((error) => {
-          console.error('Failed to copy link:', error)
+          console.error("Failed to copy link:", error)
         })
     }
   }
 
   const handleDuplicate = () => {
-    console.log('Duplicating playlist...')
-    
+    console.log("Duplicating playlist...")
+
     router.push(`/fellowship1/shared_music/playlists/create?duplicate=${params.id}`)
   }
 
   const handleScheduleService = () => {
-    console.log('Scheduling service...')
+    console.log("Scheduling service...")
 
     router.push(`/fellowship1/shared_music/services/create?playlist=${params.id}`)
   }
 
   const handleViewAnalytics = () => {
-    console.log('Viewing analytics...')
-   
+    console.log("Viewing analytics...")
+
     router.push(`/fellowship1/shared_music/playlists/${params.id}/analytics`)
   }
 
@@ -166,7 +166,7 @@ export default function PlaylistDetailPage() {
     router.push(`/fellowship1/shared_music/playlists/${params.id}/present`)
   }
   const totalDuration = playlistData.songs.reduce((total, song) => {
-    const parts = song.duration.split(':')
+    const parts = song.duration.split(":")
 
     const minutes = Number(parts[0]) || 0
     const seconds = Number(parts[1]) || 0
@@ -174,7 +174,6 @@ export default function PlaylistDetailPage() {
     return total + minutes * 60 + seconds
   }, 0)
 
-  
   const formatTotalDuration = (seconds: number) => {
     const hours = Math.floor(seconds / 3600)
     const mins = Math.floor((seconds % 3600) / 60)
@@ -202,12 +201,12 @@ export default function PlaylistDetailPage() {
             <CardHeader>
               <div className="flex items-center gap-3 mb-4">
                 <Avatar className="h-12 w-12">
-                  <AvatarImage src={playlistData.creatorAvatar || '/placeholder.svg'} alt={playlistData.creator} />
+                  <AvatarImage src={playlistData.creatorAvatar || "/placeholder.svg"} alt={playlistData.creator} />
                   <AvatarFallback>
                     {playlistData.creator
-                      .split(' ')
+                      .split(" ")
                       .map((n) => n[0])
-                      .join('')}
+                      .join("")}
                   </AvatarFallback>
                 </Avatar>
                 <div>
@@ -272,8 +271,8 @@ export default function PlaylistDetailPage() {
                     className="flex-1 bg-transparent hover-lift transition-all-smooth"
                     onClick={() => setIsFollowing(!isFollowing)}
                   >
-                    <Heart className={`h-4 w-4 mr-2 ${isFollowing ? 'fill-current' : ''}`} />
-                    {isFollowing ? 'Following' : 'Follow'}
+                    <Heart className={`h-4 w-4 mr-2 ${isFollowing ? "fill-current" : ""}`} />
+                    {isFollowing ? "Following" : "Follow"}
                   </Button>
                   <Button
                     variant="outline"

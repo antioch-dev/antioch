@@ -1,15 +1,15 @@
-'use client'
+"use client"
 
-import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Textarea } from '@/components/ui/textarea'
-import { Badge } from '@/components/ui/badge'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
+import { Badge } from "@/components/ui/badge"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import {
   Dialog,
   DialogContent,
@@ -17,7 +17,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog'
+} from "@/components/ui/dialog"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -28,9 +28,9 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/components/ui/alert-dialog'
-import Link from 'next/link'
-import { useParams, useRouter } from 'next/navigation'
+} from "@/components/ui/alert-dialog"
+import Link from "next/link"
+import { useParams, useRouter } from "next/navigation"
 import {
   ArrowLeft,
   Save,
@@ -44,8 +44,8 @@ import {
   Search,
   UserPlus,
   AlertTriangle,
-} from 'lucide-react'
-import { useToast } from '@/hooks/use-toast'
+} from "lucide-react"
+import { useToast } from "@/hooks/use-toast"
 
 interface Song {
   id: number
@@ -58,55 +58,55 @@ interface Song {
 // Mock data
 const mockService = {
   id: 1,
-  title: 'Sunday Morning Worship',
-  description: 'Regular Sunday morning worship service with communion',
-  date: '2024-12-15',
-  time: '10:00',
+  title: "Sunday Morning Worship",
+  description: "Regular Sunday morning worship service with communion",
+  date: "2024-12-15",
+  time: "10:00",
   duration: 90,
-  location: 'Main Sanctuary',
+  location: "Main Sanctuary",
   expectedAttendees: 150,
-  notes: 'Remember to prepare communion elements. Sound check at 9:30 AM.',
+  notes: "Remember to prepare communion elements. Sound check at 9:30 AM.",
   songs: [
-    { id: 1, title: 'Amazing Grace', artist: 'Traditional', type: 'Opening', order: 1 },
-    { id: 2, title: 'How Great Thou Art', artist: 'Carl Boberg', type: 'Worship', order: 2 },
-    { id: 3, title: '10,000 Reasons', artist: 'Matt Redman', type: 'Praise', order: 3 },
-    { id: 4, title: 'Holy, Holy, Holy', artist: 'Reginald Heber', type: 'Worship', order: 4 },
+    { id: 1, title: "Amazing Grace", artist: "Traditional", type: "Opening", order: 1 },
+    { id: 2, title: "How Great Thou Art", artist: "Carl Boberg", type: "Worship", order: 2 },
+    { id: 3, title: "10,000 Reasons", artist: "Matt Redman", type: "Praise", order: 3 },
+    { id: 4, title: "Holy, Holy, Holy", artist: "Reginald Heber", type: "Worship", order: 4 },
   ],
   team: [
-    { id: 1, name: 'Pastor John', role: 'Lead Pastor', email: 'john@church.com', avatar: '/placeholder-user.jpg' },
-    { id: 2, name: 'Sarah Wilson', role: 'Worship Leader', email: 'sarah@church.com', avatar: '/placeholder-user.jpg' },
-    { id: 3, name: 'Mike Chen', role: 'Sound Tech', email: 'mike@church.com', avatar: '/placeholder-user.jpg' },
+    { id: 1, name: "Pastor John", role: "Lead Pastor", email: "john@church.com", avatar: "/placeholder-user.jpg" },
+    { id: 2, name: "Sarah Wilson", role: "Worship Leader", email: "sarah@church.com", avatar: "/placeholder-user.jpg" },
+    { id: 3, name: "Mike Chen", role: "Sound Tech", email: "mike@church.com", avatar: "/placeholder-user.jpg" },
   ],
 }
 
 const availableSongs = [
-  { id: 5, title: 'Blessed Be Your Name', artist: 'Matt Redman' },
-  { id: 6, title: 'Cornerstone', artist: 'Hillsong' },
-  { id: 7, title: 'Great Is Thy Faithfulness', artist: 'Thomas Chisholm' },
-  { id: 8, title: 'In Christ Alone', artist: 'Keith Getty' },
-  { id: 9, title: 'Mighty to Save', artist: 'Hillsong' },
+  { id: 5, title: "Blessed Be Your Name", artist: "Matt Redman" },
+  { id: 6, title: "Cornerstone", artist: "Hillsong" },
+  { id: 7, title: "Great Is Thy Faithfulness", artist: "Thomas Chisholm" },
+  { id: 8, title: "In Christ Alone", artist: "Keith Getty" },
+  { id: 9, title: "Mighty to Save", artist: "Hillsong" },
 ]
 
 const availableTeam = [
-  { id: 4, name: 'David Chen', role: 'Pianist', email: 'david@church.com', avatar: '/placeholder-user.jpg' },
-  { id: 5, name: 'Lisa Park', role: 'Vocalist', email: 'lisa@church.com', avatar: '/placeholder-user.jpg' },
-  { id: 6, name: 'Tom Wilson', role: 'Guitarist', email: 'tom@church.com', avatar: '/placeholder-user.jpg' },
+  { id: 4, name: "David Chen", role: "Pianist", email: "david@church.com", avatar: "/placeholder-user.jpg" },
+  { id: 5, name: "Lisa Park", role: "Vocalist", email: "lisa@church.com", avatar: "/placeholder-user.jpg" },
+  { id: 6, name: "Tom Wilson", role: "Guitarist", email: "tom@church.com", avatar: "/placeholder-user.jpg" },
 ]
 
-const songTypes = ['Opening', 'Worship', 'Praise', 'Offering', 'Communion', 'Closing', 'Special']
+const songTypes = ["Opening", "Worship", "Praise", "Offering", "Communion", "Closing", "Special"]
 
 export default function EditServicePage() {
   const params = useParams<{ id: string }>()
   const router = useRouter()
   const { toast } = useToast()
-  const [activeTab, setActiveTab] = useState('details')
+  const [activeTab, setActiveTab] = useState("details")
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
   // Service details state
   const [serviceData, setServiceData] = useState(mockService)
-  const [songSearch, setSongSearch] = useState('')
-  const [teamSearch, setTeamSearch] = useState('')
+  const [songSearch, setSongSearch] = useState("")
+  const [teamSearch, setTeamSearch] = useState("")
   const [showAddSongDialog, setShowAddSongDialog] = useState(false)
   const [showAddTeamDialog, setShowAddTeamDialog] = useState(false)
 
@@ -127,7 +127,7 @@ export default function EditServicePage() {
     setHasUnsavedChanges(true)
   }
 
-  const handleAddSong = (song: (typeof availableSongs)[0], type = 'Worship') => {
+  const handleAddSong = (song: (typeof availableSongs)[0], type = "Worship") => {
     const newSong = {
       ...song,
       type,
@@ -140,7 +140,7 @@ export default function EditServicePage() {
     setHasUnsavedChanges(true)
     setShowAddSongDialog(false)
     toast({
-      title: 'Song Added',
+      title: "Song Added",
       description: `"${song.title}" has been added to the service.`,
     })
   }
@@ -157,17 +157,17 @@ export default function EditServicePage() {
     }))
     setHasUnsavedChanges(true)
     toast({
-      title: 'Song Removed',
-      description: 'Song has been removed from the service.',
+      title: "Song Removed",
+      description: "Song has been removed from the service.",
     })
   }
 
-  const handleMoveSong = (songId: number, direction: 'up' | 'down') => {
+  const handleMoveSong = (songId: number, direction: "up" | "down") => {
     const songs = [...serviceData.songs]
     const currentIndex = songs.findIndex((s) => s.id === songId)
 
     if (
-      direction === 'up' &&
+      direction === "up" &&
       currentIndex > 0 &&
       songs[currentIndex] !== undefined &&
       songs[currentIndex - 1] !== undefined
@@ -176,7 +176,7 @@ export default function EditServicePage() {
       songs[currentIndex] = songs[currentIndex - 1] as Song
       songs[currentIndex - 1] = temp
     } else if (
-      direction === 'down' &&
+      direction === "down" &&
       currentIndex < songs.length - 1 &&
       songs[currentIndex] !== undefined &&
       songs[currentIndex + 1] !== undefined
@@ -209,7 +209,7 @@ export default function EditServicePage() {
     setHasUnsavedChanges(true)
     setShowAddTeamDialog(false)
     toast({
-      title: 'Team Member Added',
+      title: "Team Member Added",
       description: `${member.name} has been added to the service team.`,
     })
   }
@@ -221,8 +221,8 @@ export default function EditServicePage() {
     }))
     setHasUnsavedChanges(true)
     toast({
-      title: 'Team Member Removed',
-      description: 'Team member has been removed from the service.',
+      title: "Team Member Removed",
+      description: "Team member has been removed from the service.",
     })
   }
 
@@ -233,8 +233,8 @@ export default function EditServicePage() {
     setHasUnsavedChanges(false)
     setIsLoading(false)
     toast({
-      title: 'Service Updated',
-      description: 'Your changes have been saved successfully.',
+      title: "Service Updated",
+      description: "Your changes have been saved successfully.",
     })
   }
 
@@ -278,7 +278,7 @@ export default function EditServicePage() {
             className="hover-lift transition-all-smooth"
           >
             <Save className="h-4 w-4 mr-2" />
-            {isLoading ? 'Saving...' : 'Save Changes'}
+            {isLoading ? "Saving..." : "Save Changes"}
           </Button>
         </div>
       </div>
@@ -314,7 +314,7 @@ export default function EditServicePage() {
                   <Input
                     id="title"
                     value={serviceData.title}
-                    onChange={(e) => handleServiceDataChange('title', e.target.value)}
+                    onChange={(e) => handleServiceDataChange("title", e.target.value)}
                     className="transition-all-smooth focus:scale-[1.02]"
                   />
                 </div>
@@ -323,73 +323,73 @@ export default function EditServicePage() {
                   <Input
                     id="location"
                     value={serviceData.location}
-                    onChange={(e) => handleServiceDataChange('location', e.target.value)}
+                    onChange={(e) => handleServiceDataChange("location", e.target.value)}
                     className="transition-all-smooth focus:scale-[1.02]"
                   />
                 </div>
               </div>
 
-              <div className="space-y-2 animate-fade-in" style={{ animationDelay: '0.2s' }}>
+              <div className="space-y-2 animate-fade-in" style={{ animationDelay: "0.2s" }}>
                 <Label htmlFor="description">Description</Label>
                 <Textarea
                   id="description"
                   value={serviceData.description}
-                  onChange={(e) => handleServiceDataChange('description', e.target.value)}
+                  onChange={(e) => handleServiceDataChange("description", e.target.value)}
                   className="transition-all-smooth focus:scale-[1.01]"
                   rows={3}
                 />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="space-y-2 animate-slide-in-left" style={{ animationDelay: '0.3s' }}>
+                <div className="space-y-2 animate-slide-in-left" style={{ animationDelay: "0.3s" }}>
                   <Label htmlFor="date">Date</Label>
                   <Input
                     id="date"
                     type="date"
                     value={serviceData.date}
-                    onChange={(e) => handleServiceDataChange('date', e.target.value)}
+                    onChange={(e) => handleServiceDataChange("date", e.target.value)}
                     className="transition-all-smooth focus:scale-[1.02]"
                   />
                 </div>
-                <div className="space-y-2 animate-fade-in" style={{ animationDelay: '0.4s' }}>
+                <div className="space-y-2 animate-fade-in" style={{ animationDelay: "0.4s" }}>
                   <Label htmlFor="time">Time</Label>
                   <Input
                     id="time"
                     type="time"
                     value={serviceData.time}
-                    onChange={(e) => handleServiceDataChange('time', e.target.value)}
+                    onChange={(e) => handleServiceDataChange("time", e.target.value)}
                     className="transition-all-smooth focus:scale-[1.02]"
                   />
                 </div>
-                <div className="space-y-2 animate-slide-in-right" style={{ animationDelay: '0.5s' }}>
+                <div className="space-y-2 animate-slide-in-right" style={{ animationDelay: "0.5s" }}>
                   <Label htmlFor="duration">Duration (minutes)</Label>
                   <Input
                     id="duration"
                     type="number"
                     value={serviceData.duration}
-                    onChange={(e) => handleServiceDataChange('duration', Number.parseInt(e.target.value))}
+                    onChange={(e) => handleServiceDataChange("duration", Number.parseInt(e.target.value))}
                     className="transition-all-smooth focus:scale-[1.02]"
                   />
                 </div>
               </div>
 
-              <div className="space-y-2 animate-slide-in-up" style={{ animationDelay: '0.6s' }}>
+              <div className="space-y-2 animate-slide-in-up" style={{ animationDelay: "0.6s" }}>
                 <Label htmlFor="attendees">Expected Attendees</Label>
                 <Input
                   id="attendees"
                   type="number"
                   value={serviceData.expectedAttendees}
-                  onChange={(e) => handleServiceDataChange('expectedAttendees', Number.parseInt(e.target.value))}
+                  onChange={(e) => handleServiceDataChange("expectedAttendees", Number.parseInt(e.target.value))}
                   className="transition-all-smooth focus:scale-[1.02]"
                 />
               </div>
 
-              <div className="space-y-2 animate-fade-in" style={{ animationDelay: '0.7s' }}>
+              <div className="space-y-2 animate-fade-in" style={{ animationDelay: "0.7s" }}>
                 <Label htmlFor="notes">Service Notes</Label>
                 <Textarea
                   id="notes"
                   value={serviceData.notes}
-                  onChange={(e) => handleServiceDataChange('notes', e.target.value)}
+                  onChange={(e) => handleServiceDataChange("notes", e.target.value)}
                   placeholder="Add any special notes or reminders for this service..."
                   className="transition-all-smooth focus:scale-[1.01]"
                   rows={4}
@@ -470,7 +470,7 @@ export default function EditServicePage() {
                             <Button
                               variant="ghost"
                               size="icon"
-                              onClick={() => handleMoveSong(song.id, 'up')}
+                              onClick={() => handleMoveSong(song.id, "up")}
                               disabled={index === 0}
                               className="h-6 w-6 hover-lift transition-all-smooth"
                             >
@@ -479,7 +479,7 @@ export default function EditServicePage() {
                             <Button
                               variant="ghost"
                               size="icon"
-                              onClick={() => handleMoveSong(song.id, 'down')}
+                              onClick={() => handleMoveSong(song.id, "down")}
                               disabled={index === serviceData.songs.length - 1}
                               className="h-6 w-6 hover-lift transition-all-smooth"
                             >
@@ -594,12 +594,12 @@ export default function EditServicePage() {
                             <div className="flex justify-between items-center">
                               <div className="flex items-center gap-3">
                                 <Avatar className="h-10 w-10 transition-transform duration-300 hover:scale-110">
-                                  <AvatarImage src={member.avatar || '/placeholder.svg'} alt={member.name} />
+                                  <AvatarImage src={member.avatar || "/placeholder.svg"} alt={member.name} />
                                   <AvatarFallback>
                                     {member.name
-                                      .split(' ')
+                                      .split(" ")
                                       .map((n) => n[0])
-                                      .join('')}
+                                      .join("")}
                                   </AvatarFallback>
                                 </Avatar>
                                 <div>
@@ -630,12 +630,12 @@ export default function EditServicePage() {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-4">
                         <Avatar className="h-12 w-12 transition-transform duration-300 hover:scale-110">
-                          <AvatarImage src={member.avatar || '/placeholder.svg'} alt={member.name} />
+                          <AvatarImage src={member.avatar || "/placeholder.svg"} alt={member.name} />
                           <AvatarFallback>
                             {member.name
-                              .split(' ')
+                              .split(" ")
                               .map((n) => n[0])
-                              .join('')}
+                              .join("")}
                           </AvatarFallback>
                         </Avatar>
                         <div>
@@ -736,7 +736,7 @@ export default function EditServicePage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2 animate-slide-in-left" style={{ animationDelay: '0.2s' }}>
+                  <div className="space-y-2 animate-slide-in-left" style={{ animationDelay: "0.2s" }}>
                     <Label>Auto-advance slides (seconds)</Label>
                     <Input
                       type="number"
@@ -745,7 +745,7 @@ export default function EditServicePage() {
                       className="transition-all-smooth focus:scale-[1.02]"
                     />
                   </div>
-                  <div className="space-y-2 animate-slide-in-right" style={{ animationDelay: '0.3s' }}>
+                  <div className="space-y-2 animate-slide-in-right" style={{ animationDelay: "0.3s" }}>
                     <Label>Transition Duration (ms)</Label>
                     <Input type="number" defaultValue="300" className="transition-all-smooth focus:scale-[1.02]" />
                   </div>
@@ -760,21 +760,21 @@ export default function EditServicePage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between animate-fade-in" style={{ animationDelay: '0.4s' }}>
+                  <div className="flex items-center justify-between animate-fade-in" style={{ animationDelay: "0.4s" }}>
                     <div>
                       <Label className="text-base">Enable Recording</Label>
                       <p className="text-sm text-muted-foreground">Record this service for later viewing</p>
                     </div>
                     <input type="checkbox" className="toggle" />
                   </div>
-                  <div className="flex items-center justify-between animate-fade-in" style={{ animationDelay: '0.5s' }}>
+                  <div className="flex items-center justify-between animate-fade-in" style={{ animationDelay: "0.5s" }}>
                     <div>
                       <Label className="text-base">Live Streaming</Label>
                       <p className="text-sm text-muted-foreground">Stream this service live online</p>
                     </div>
                     <input type="checkbox" className="toggle" />
                   </div>
-                  <div className="flex items-center justify-between animate-fade-in" style={{ animationDelay: '0.6s' }}>
+                  <div className="flex items-center justify-between animate-fade-in" style={{ animationDelay: "0.6s" }}>
                     <div>
                       <Label className="text-base">Show Song Credits</Label>
                       <p className="text-sm text-muted-foreground">Display artist and copyright information</p>

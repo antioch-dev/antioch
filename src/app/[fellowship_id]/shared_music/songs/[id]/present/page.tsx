@@ -1,10 +1,10 @@
-'use client'
+"use client"
 
-import { useState, useEffect, useCallback } from 'react'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { Progress } from '@/components/ui/progress'
-import { useParams, useRouter } from 'next/navigation'
+import { useState, useEffect, useCallback } from "react"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { Progress } from "@/components/ui/progress"
+import { useParams, useRouter } from "next/navigation"
 import {
   ArrowLeft,
   ArrowRight,
@@ -18,35 +18,35 @@ import {
   VolumeX,
   Type,
   Palette,
-} from 'lucide-react'
+} from "lucide-react"
 
 // Mock song data
 const mockSong = {
   id: 1,
-  title: 'Amazing Grace',
-  artist: 'Traditional',
-  category: 'Hymn',
-  key: 'G',
-  youtubeId: 'CDdvReNKKuk',
+  title: "Amazing Grace",
+  artist: "Traditional",
+  category: "Hymn",
+  key: "G",
+  youtubeId: "CDdvReNKKuk",
   lyrics: [
     {
-      section: 'Verse 1',
-      text: 'Amazing grace! How sweet the sound\nThat saved a wretch like me!\nI once was lost, but now am found;\nWas blind, but now I see.',
+      section: "Verse 1",
+      text: "Amazing grace! How sweet the sound\nThat saved a wretch like me!\nI once was lost, but now am found;\nWas blind, but now I see.",
     },
     {
-      section: 'Verse 2',
+      section: "Verse 2",
       text: "'Twas grace that taught my heart to fear,\nAnd grace my fears relieved;\nHow precious did that grace appear\nThe hour I first believed.",
     },
     {
-      section: 'Verse 3',
+      section: "Verse 3",
       text: "Through many dangers, toils, and snares,\nI have already come;\n'Tis grace hath brought me safe thus far,\nAnd grace will lead me home.",
     },
     {
-      section: 'Verse 4',
-      text: 'The Lord has promised good to me,\nHis Word my hope secures;\nHe will my Shield and Portion be,\nAs long as life endures.',
+      section: "Verse 4",
+      text: "The Lord has promised good to me,\nHis Word my hope secures;\nHe will my Shield and Portion be,\nAs long as life endures.",
     },
     {
-      section: 'Verse 5',
+      section: "Verse 5",
       text: "When we've been there ten thousand years,\nBright shining as the sun,\nWe've no less days to sing God's praise\nThan when we'd first begun.",
     },
   ],
@@ -61,7 +61,7 @@ export default function SongPresentPage() {
   const [isPlaying, setIsPlaying] = useState(false)
   const [isMuted, setIsMuted] = useState(false)
   const [fontSize, setFontSize] = useState(48)
-  const [theme, setTheme] = useState('dark')
+  const [theme, setTheme] = useState("dark")
 
   const totalSlides = mockSong.lyrics.length
 
@@ -92,7 +92,7 @@ export default function SongPresentPage() {
           setIsFullscreen(true)
         })
         .catch((error) => {
-          console.error('Error entering fullscreen mode:', error)
+          console.error("Error entering fullscreen mode:", error)
         })
     } else {
       document
@@ -101,87 +101,87 @@ export default function SongPresentPage() {
           setIsFullscreen(false)
         })
         .catch((error) => {
-          console.error('Error exiting fullscreen mode:', error)
+          console.error("Error exiting fullscreen mode:", error)
         })
     }
   }
 
   const getThemeClasses = () => {
     switch (theme) {
-      case 'light':
-        return 'bg-white text-black'
-      case 'sepia':
-        return 'bg-amber-50 text-amber-900'
-      case 'blue':
-        return 'bg-blue-900 text-blue-50'
-      case 'green':
-        return 'bg-green-900 text-green-50'
+      case "light":
+        return "bg-white text-black"
+      case "sepia":
+        return "bg-amber-50 text-amber-900"
+      case "blue":
+        return "bg-blue-900 text-blue-50"
+      case "green":
+        return "bg-green-900 text-green-50"
       default:
-        return 'bg-gray-900 text-white'
+        return "bg-gray-900 text-white"
     }
   }
 
   const getControlsTheme = () => {
     switch (theme) {
-      case 'light':
-        return 'bg-black/20 text-black'
-      case 'sepia':
-        return 'bg-amber-900/20 text-amber-900'
-      case 'blue':
-        return 'bg-blue-950/40 text-blue-100'
-      case 'green':
-        return 'bg-green-950/40 text-green-100'
+      case "light":
+        return "bg-black/20 text-black"
+      case "sepia":
+        return "bg-amber-900/20 text-amber-900"
+      case "blue":
+        return "bg-blue-950/40 text-blue-100"
+      case "green":
+        return "bg-green-950/40 text-green-100"
       default:
-        return 'bg-white/20 text-white'
+        return "bg-white/20 text-white"
     }
   }
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
       switch (e.key) {
-        case 'ArrowRight':
-        case ' ':
+        case "ArrowRight":
+        case " ":
           e.preventDefault()
           nextSlide()
           break
-        case 'ArrowLeft':
+        case "ArrowLeft":
           e.preventDefault()
           prevSlide()
           break
-        case 'f':
-        case 'F':
+        case "f":
+        case "F":
           e.preventDefault()
           toggleFullscreen()
           break
-        case 'Escape':
+        case "Escape":
           e.preventDefault()
           exitPresentation()
           break
-        case 'p':
-        case 'P':
+        case "p":
+        case "P":
           e.preventDefault()
           setIsPlaying(!isPlaying)
           break
-        case 'm':
-        case 'M':
+        case "m":
+        case "M":
           e.preventDefault()
           setIsMuted(!isMuted)
           break
-        case '+':
-        case '=':
+        case "+":
+        case "=":
           e.preventDefault()
           setFontSize((prev) => Math.min(prev + 4, 72))
           break
-        case '-':
+        case "-":
           e.preventDefault()
           setFontSize((prev) => Math.max(prev - 4, 24))
           break
-        case 't':
-        case 'T':
+        case "t":
+        case "T":
           e.preventDefault()
-          const themes = ['dark', 'light', 'sepia', 'blue', 'green']
+          const themes = ["dark", "light", "sepia", "blue", "green"]
           const currentIndex = themes.indexOf(theme)
-          setTheme(themes[(currentIndex + 1) % themes.length] ?? 'dark')
+          setTheme(themes[(currentIndex + 1) % themes.length] ?? "dark")
           break
       }
     }
@@ -190,12 +190,12 @@ export default function SongPresentPage() {
       setIsFullscreen(!!document.fullscreenElement)
     }
 
-    document.addEventListener('keydown', handleKeyPress)
-    document.addEventListener('fullscreenchange', handleFullscreenChange)
+    document.addEventListener("keydown", handleKeyPress)
+    document.addEventListener("fullscreenchange", handleFullscreenChange)
 
     return () => {
-      document.removeEventListener('keydown', handleKeyPress)
-      document.removeEventListener('fullscreenchange', handleFullscreenChange)
+      document.removeEventListener("keydown", handleKeyPress)
+      document.removeEventListener("fullscreenchange", handleFullscreenChange)
     }
   }, [nextSlide, prevSlide, exitPresentation, isPlaying, isMuted, theme])
 
@@ -222,7 +222,7 @@ export default function SongPresentPage() {
 
       {/* Header Controls */}
       <div
-        className={`relative z-10 p-6 transition-all duration-500 ${getControlsTheme()} backdrop-blur-sm ${showControls ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full'}`}
+        className={`relative z-10 p-6 transition-all duration-500 ${getControlsTheme()} backdrop-blur-sm ${showControls ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full"}`}
       >
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-4">
@@ -284,9 +284,9 @@ export default function SongPresentPage() {
               variant="ghost"
               size="sm"
               onClick={() => {
-                const themes = ['dark', 'light', 'sepia', 'blue', 'green']
+                const themes = ["dark", "light", "sepia", "blue", "green"]
                 const currentIndex = themes.indexOf(theme)
-                setTheme(themes[(currentIndex + 1) % themes.length] ?? 'dark')
+                setTheme(themes[(currentIndex + 1) % themes.length] ?? "dark")
               }}
               className="hover:bg-current/20 transition-all-smooth group"
             >
@@ -308,7 +308,7 @@ export default function SongPresentPage() {
           onClick={prevSlide}
           disabled={currentSlide === 0}
           className={`absolute left-8 hover:bg-current/20 transition-all duration-500 group ${
-            showControls ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-full'
+            showControls ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-full"
           }`}
         >
           <ArrowLeft className="h-8 w-8 group-hover:scale-110 group-hover:-translate-x-1 transition-all duration-300" />
@@ -320,7 +320,7 @@ export default function SongPresentPage() {
           onClick={nextSlide}
           disabled={currentSlide === totalSlides - 1}
           className={`absolute right-8 hover:bg-current/20 transition-all duration-500 group ${
-            showControls ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-full'
+            showControls ? "opacity-100 translate-x-0" : "opacity-0 translate-x-full"
           }`}
         >
           <ArrowRight className="h-8 w-8 group-hover:scale-110 group-hover:translate-x-1 transition-all duration-300" />
@@ -334,7 +334,7 @@ export default function SongPresentPage() {
               className="leading-relaxed font-light tracking-wide drop-shadow-lg"
               style={{ fontSize: `${fontSize}px` }}
             >
-              {mockSong.lyrics?.[currentSlide]?.text?.split('\n').map((line, index) => (
+              {mockSong.lyrics?.[currentSlide]?.text?.split("\n").map((line, index) => (
                 <div key={index} className="mb-4 animate-slide-in-up" style={{ animationDelay: `${index * 0.2}s` }}>
                   {line}
                 </div>
@@ -346,7 +346,7 @@ export default function SongPresentPage() {
 
       {/* Footer Controls */}
       <div
-        className={`relative z-10 p-6 transition-all duration-500 ${getControlsTheme()} backdrop-blur-sm ${showControls ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-full'}`}
+        className={`relative z-10 p-6 transition-all duration-500 ${getControlsTheme()} backdrop-blur-sm ${showControls ? "opacity-100 translate-y-0" : "opacity-0 translate-y-full"}`}
       >
         <div className="flex flex-col items-center gap-4">
           {/* Progress */}
@@ -365,7 +365,7 @@ export default function SongPresentPage() {
                 key={index}
                 onClick={() => goToSlide(index)}
                 className={`w-3 h-3 rounded-full transition-all duration-300 hover:scale-125 ${
-                  index === currentSlide ? 'bg-current shadow-lg' : 'bg-current/40 hover:bg-current/60'
+                  index === currentSlide ? "bg-current shadow-lg" : "bg-current/40 hover:bg-current/60"
                 }`}
               />
             ))}

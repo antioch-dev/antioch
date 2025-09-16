@@ -1,29 +1,29 @@
-'use client'
+"use client"
 
-import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Textarea } from '@/components/ui/textarea'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Badge } from '@/components/ui/badge'
-import { Separator } from '@/components/ui/separator'
-import Link from 'next/link'
-import { ArrowLeft, Save, Eye, Music, Tag, Clock, Key, Youtube } from 'lucide-react'
-import { useParams, useRouter } from 'next/navigation'
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Badge } from "@/components/ui/badge"
+import { Separator } from "@/components/ui/separator"
+import Link from "next/link"
+import { ArrowLeft, Save, Eye, Music, Tag, Clock, Key, Youtube } from "lucide-react"
+import { useParams, useRouter } from "next/navigation"
 
 // Mock song data with YouTube
 const initialSongData = {
   id: 1,
-  title: 'Amazing Grace',
-  artist: 'Traditional',
-  category: 'Hymn',
-  key: 'G',
-  tempo: 'Slow',
-  duration: '4:32',
-  youtubeUrl: 'https://www.youtube.com/watch?v=CDdvReNKKuk',
-  tags: ['Classic', 'Traditional', 'Grace'],
+  title: "Amazing Grace",
+  artist: "Traditional",
+  category: "Hymn",
+  key: "G",
+  tempo: "Slow",
+  duration: "4:32",
+  youtubeUrl: "https://www.youtube.com/watch?v=CDdvReNKKuk",
+  tags: ["Classic", "Traditional", "Grace"],
   lyrics: `Amazing grace! How sweet the sound
 That saved a wretch like me!
 I once was lost, but now am found;
@@ -59,7 +59,7 @@ export default function EditSongPage() {
   const params = useParams<{ id: string }>()
   const router = useRouter()
   const [songData, setSongData] = useState(initialSongData)
-  const [newTag, setNewTag] = useState('')
+  const [newTag, setNewTag] = useState("")
   const [isSaving, setIsSaving] = useState(false)
 
   const extractYouTubeId = (url: string) => {
@@ -82,7 +82,7 @@ export default function EditSongPage() {
         ...prev,
         tags: [...prev.tags, newTag.trim()],
       }))
-      setNewTag('')
+      setNewTag("")
     }
   }
 
@@ -122,7 +122,7 @@ export default function EditSongPage() {
           </Button>
           <Button onClick={handleSave} disabled={isSaving} className="hover-scale transition-all-smooth">
             <Save className="h-4 w-4 mr-2" />
-            {isSaving ? 'Saving...' : 'Save Changes'}
+            {isSaving ? "Saving..." : "Save Changes"}
           </Button>
         </div>
       </div>
@@ -146,7 +146,7 @@ export default function EditSongPage() {
                   <Input
                     id="title"
                     value={songData.title}
-                    onChange={(e) => handleInputChange('title', e.target.value)}
+                    onChange={(e) => handleInputChange("title", e.target.value)}
                     className="transition-all-smooth focus:ring-2"
                   />
                 </div>
@@ -155,7 +155,7 @@ export default function EditSongPage() {
                   <Input
                     id="artist"
                     value={songData.artist}
-                    onChange={(e) => handleInputChange('artist', e.target.value)}
+                    onChange={(e) => handleInputChange("artist", e.target.value)}
                     className="transition-all-smooth focus:ring-2"
                   />
                 </div>
@@ -169,7 +169,7 @@ export default function EditSongPage() {
                 <Input
                   id="youtube-url"
                   value={songData.youtubeUrl}
-                  onChange={(e) => handleInputChange('youtubeUrl', e.target.value)}
+                  onChange={(e) => handleInputChange("youtubeUrl", e.target.value)}
                   placeholder="https://www.youtube.com/watch?v=..."
                   className="transition-all-smooth focus:ring-2"
                 />
@@ -181,7 +181,7 @@ export default function EditSongPage() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="category">Category</Label>
-                  <Select value={songData.category} onValueChange={(value) => handleInputChange('category', value)}>
+                  <Select value={songData.category} onValueChange={(value) => handleInputChange("category", value)}>
                     <SelectTrigger className="transition-all-smooth">
                       <SelectValue />
                     </SelectTrigger>
@@ -196,7 +196,7 @@ export default function EditSongPage() {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="key">Key</Label>
-                  <Select value={songData.key} onValueChange={(value) => handleInputChange('key', value)}>
+                  <Select value={songData.key} onValueChange={(value) => handleInputChange("key", value)}>
                     <SelectTrigger className="transition-all-smooth">
                       <SelectValue />
                     </SelectTrigger>
@@ -219,7 +219,7 @@ export default function EditSongPage() {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="tempo">Tempo</Label>
-                  <Select value={songData.tempo} onValueChange={(value) => handleInputChange('tempo', value)}>
+                  <Select value={songData.tempo} onValueChange={(value) => handleInputChange("tempo", value)}>
                     <SelectTrigger className="transition-all-smooth">
                       <SelectValue />
                     </SelectTrigger>
@@ -243,7 +243,7 @@ export default function EditSongPage() {
             <CardContent>
               <Textarea
                 value={songData.lyrics}
-                onChange={(e) => handleInputChange('lyrics', e.target.value)}
+                onChange={(e) => handleInputChange("lyrics", e.target.value)}
                 placeholder="Enter song lyrics here..."
                 className="min-h-[400px] font-mono transition-all-smooth focus:ring-2"
               />
@@ -294,7 +294,7 @@ export default function EditSongPage() {
                   value={newTag}
                   onChange={(e) => setNewTag(e.target.value)}
                   placeholder="Add tag..."
-                  onKeyPress={(e) => e.key === 'Enter' && addTag()}
+                  onKeyPress={(e) => e.key === "Enter" && addTag()}
                   className="transition-all-smooth focus:ring-2"
                 />
                 <Button onClick={addTag} size="sm" className="hover-scale transition-all-smooth">
@@ -329,7 +329,7 @@ export default function EditSongPage() {
                 <span className="text-sm text-muted-foreground">Duration:</span>
                 <Input
                   value={songData.duration}
-                  onChange={(e) => handleInputChange('duration', e.target.value)}
+                  onChange={(e) => handleInputChange("duration", e.target.value)}
                   className="w-20 text-sm transition-all-smooth focus:ring-2"
                 />
               </div>

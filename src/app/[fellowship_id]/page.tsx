@@ -1,18 +1,16 @@
-import Image from 'next/image'
+import Image from "next/image"
 
-import { Header } from '@/components/header' 
-import { Heart, Calendar } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
-import TestimonialCarousel from '@/components/testimonial-carousel'
-import AnnouncementCarousel from '@/components/announcement-carousel'
-
+import { Header } from "@/components/header"
+import { Heart, Calendar } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+import TestimonialCarousel from "@/components/testimonial-carousel"
+import AnnouncementCarousel from "@/components/announcement-carousel"
 
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col items-center">
-     
-      <Header /> 
+      <Header />
 
       <main className="flex-1 w-full">
         {/* Hero Section */}
@@ -282,9 +280,6 @@ export default function Home() {
           </div>
         </section>
       </main>
-
-   
-    
     </div>
   )
 }

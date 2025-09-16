@@ -44,15 +44,16 @@ export default function SignUpPage() {
         description: "Please check your email to verify your account.",
       })
       router.push("/auth/signin")
-    } catch (error) { // The 'error' variable is now implicitly 'unknown'
+    } catch (error) {
+      // The 'error' variable is now implicitly 'unknown'
       let errorMessage = "Something went wrong. Please try again."
 
       // Safely check if the error is a standard JavaScript Error object
       if (error instanceof Error) {
         errorMessage = error.message
-      } else if (typeof error === 'object' && error !== null && 'message' in error) {
+      } else if (typeof error === "object" && error !== null && "message" in error) {
         // Handle cases where the error might be a plain object with a 'message' property
-        errorMessage = (error as { message: string }).message;
+        errorMessage = (error as { message: string }).message
       }
 
       toast({

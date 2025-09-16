@@ -10,38 +10,38 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Progress } from "@/components/ui/progress"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Users, Plus, ArrowRight, UserPlus, ArrowLeft } from "lucide-react" 
+import { Users, Plus, ArrowRight, UserPlus, ArrowLeft } from "lucide-react"
 import { useStore } from "@/lib/store"
-import { useRouter } from "next/navigation" 
+import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 
 interface Task {
-  id: string;
-  title: string;
-  assignee_id?: string | null;
-  priority: "low" | "medium" | "high";
-  status: "todo" | "in_progress" | "completed";
+  id: string
+  title: string
+  assignee_id?: string | null
+  priority: "low" | "medium" | "high"
+  status: "todo" | "in_progress" | "completed"
 }
 
 interface TeamMember {
-  id: string;
-  name: string;
-  role: string;
-  avatar?: string;
-  tasksCompleted: number;
-  tasksAssigned: number;
-  workload: number;
+  id: string
+  name: string
+  role: string
+  avatar?: string
+  tasksCompleted: number
+  tasksAssigned: number
+  workload: number
 }
 
 export default function AssignmentsPage() {
   // `updateTeamMember` has been removed from the destructuring
-  const { tasks, teamMembers, assignTask } = useStore() as { 
-    tasks: Task[]; 
-    teamMembers: TeamMember[]; 
-    assignTask: (taskId: string, memberId: string) => void;
-    updateTeamMember: (memberId: string, data: Partial<TeamMember>) => void;
-  };
-  const router = useRouter() 
+  const { tasks, teamMembers, assignTask } = useStore() as {
+    tasks: Task[]
+    teamMembers: TeamMember[]
+    assignTask: (taskId: string, memberId: string) => void
+    updateTeamMember: (memberId: string, data: Partial<TeamMember>) => void
+  }
+  const router = useRouter()
   const [selectedMember, setSelectedMember] = useState<string | null>(null)
   const [assignDialogOpen, setAssignDialogOpen] = useState(false)
   const [selectedTaskForAssignment, setSelectedTaskForAssignment] = useState<string | null>(null)
@@ -69,10 +69,10 @@ export default function AssignmentsPage() {
           <h1 className="text-3xl font-bold text-white">Team Assignments</h1>
           <p className="text-gray-400 mt-2">Manage task assignments and team workload</p>
         </div>
-        <div className="flex items-center space-x-4"> 
-          <Button 
-            onClick={() => router.back()} 
-            variant="outline" 
+        <div className="flex items-center space-x-4">
+          <Button
+            onClick={() => router.back()}
+            variant="outline"
             className="text-gray border-gray-600 hover:bg-gray-700"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
@@ -208,7 +208,6 @@ export default function AssignmentsPage() {
           {selectedMemberData && (
             <Card className="bg-gray-800 border-gray-700">
               <CardHeader>
-              
                 <CardTitle className="text-white">{selectedMemberData.name}&apos;s Tasks</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
@@ -231,8 +230,8 @@ export default function AssignmentsPage() {
                             task.status === "completed"
                               ? "bg-green-600"
                               : task.status === "in_progress"
-                              ? "bg-yellow-600"
-                              : "bg-gray-600"
+                                ? "bg-yellow-600"
+                                : "bg-gray-600"
                           }`}
                         >
                           {task.status.replace("_", " ")}

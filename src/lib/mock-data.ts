@@ -1,84 +1,84 @@
 export interface User {
-  id: string;
-  name: string;
-  email: string;
-  phone?: string;
-  role: "admin" | "pastor" | "leader" | "member";
-  fellowshipId?: string;
-  joinDate: string;
-  avatar?: string;
-  isEmailVerified: boolean;
-  isPhoneVerified: boolean;
-  username: string;
-  accountStatus: "active" | "suspended" | "pending_verification";
-  lastLogin: string;
+  id: string
+  name: string
+  email: string
+  phone?: string
+  role: "admin" | "pastor" | "leader" | "member"
+  fellowshipId?: string
+  joinDate: string
+  avatar?: string
+  isEmailVerified: boolean
+  isPhoneVerified: boolean
+  username: string
+  accountStatus: "active" | "suspended" | "pending_verification"
+  lastLogin: string
   permissions: {
-    canManageFellowships: boolean;
-    canManageUsers: boolean;
-    canViewAnalytics: boolean;
-    canManagePermissions: boolean;
-  };
-  bio?: string;
+    canManageFellowships: boolean
+    canManageUsers: boolean
+    canViewAnalytics: boolean
+    canManagePermissions: boolean
+  }
+  bio?: string
 }
 
 export interface Fellowship {
-  id: string;
-  name: string;
-  description: string;
+  id: string
+  name: string
+  description: string
   location: {
-    address: string;
-    city: string;
-    state: string;
-    zipCode: string;
-    coordinates?: { lat: number; lng: number };
-  };
-  memberCount: number;
-  pastor: string;
-  established: string;
-  status: "active" | "inactive" | "banned" | "pending";
-  image?: string;
-  contactEmail: string;
-  contactPhone: string;
-  website?: string;
-  adminIds: string[];
-  applicationStatus: "approved" | "pending" | "rejected";
-  applicationDate: string;
+    address: string
+    city: string
+    state: string
+    zipCode: string
+    coordinates?: { lat: number; lng: number }
+  }
+  memberCount: number
+  pastor: string
+  established: string
+  status: "active" | "inactive" | "banned" | "pending"
+  image?: string
+  contactEmail: string
+  contactPhone: string
+  website?: string
+  adminIds: string[]
+  applicationStatus: "approved" | "pending" | "rejected"
+  applicationDate: string
   permissions: {
-    canCreateEvents: boolean;
-    canManageMembers: boolean;
-    canViewAnalytics: boolean;
-    canEditInfo: boolean;
-  };
+    canCreateEvents: boolean
+    canManageMembers: boolean
+    canViewAnalytics: boolean
+    canEditInfo: boolean
+  }
 }
 
 export interface Event {
-  id: string;
-  title: string;
-  description: string;
-  date: string;
-  time: string;
-  location: string;
-  fellowshipId: string;
-  attendees: number;
-  maxAttendees?: number;
-  type: "service" | "bible-study" | "fellowship" | "outreach" | "prayer";
+  id: string
+  title: string
+  description: string
+  date: string
+  time: string
+  location: string
+  fellowshipId: string
+  attendees: number
+  maxAttendees?: number
+  type: "service" | "bible-study" | "fellowship" | "outreach" | "prayer"
 }
 
 export interface FellowshipApplication {
-  id: string;
-  applicantName: string;
-  fellowshipId: string;
-  fellowshipName: string;
-  pastorName: string;
-  email: string;
-  phone: string;
-  address: string;
-  description: string;
-  status: "pending" | "approved" | "rejected";
-  submittedDate: string;
-  reviewedDate?: string;
-  reviewedBy?: string;
-  notes?: string;
+  id: string
+  applicantName: string
+  fellowshipId: string
+  fellowshipName: string
+  pastorName: string
+  email: string
+  phone: string
+  address: string
+  description: string
+  status: "pending" | "approved" | "rejected"
+  submittedDate: string
+  reviewedDate?: string
+  reviewedBy?: string
+  notes?: string
 }
 
 export const mockFellowships: Fellowship[] = [
@@ -267,7 +267,7 @@ export const mockFellowships: Fellowship[] = [
       canEditInfo: true,
     },
   },
-];
+]
 
 export const mockUsers: User[] = [
   {
@@ -289,7 +289,7 @@ export const mockUsers: User[] = [
       canViewAnalytics: false,
       canManagePermissions: false,
     },
-    bio: "Passionate about community service and outreach."
+    bio: "Passionate about community service and outreach.",
   },
   {
     id: "user-2",
@@ -310,7 +310,7 @@ export const mockUsers: User[] = [
       canViewAnalytics: true,
       canManagePermissions: false,
     },
-    bio: "Leads the youth ministry and loves teaching."
+    bio: "Leads the youth ministry and loves teaching.",
   },
   {
     id: "admin-1",
@@ -330,7 +330,7 @@ export const mockUsers: User[] = [
       canViewAnalytics: true,
       canManagePermissions: true,
     },
-    bio: "Platform administrator with full access."
+    bio: "Platform administrator with full access.",
   },
   {
     id: "user-3",
@@ -351,7 +351,7 @@ export const mockUsers: User[] = [
       canViewAnalytics: true,
       canManagePermissions: false,
     },
-    bio: "Head pastor of Hope Baptist Fellowship."
+    bio: "Head pastor of Hope Baptist Fellowship.",
   },
   {
     id: "user-4",
@@ -371,9 +371,9 @@ export const mockUsers: User[] = [
       canViewAnalytics: false,
       canManagePermissions: false,
     },
-    bio: "New member, eager to get involved."
+    bio: "New member, eager to get involved.",
   },
-];
+]
 
 export const mockFellowshipApplications: FellowshipApplication[] = [
   {
@@ -418,7 +418,7 @@ export const mockFellowshipApplications: FellowshipApplication[] = [
     reviewedBy: "admin-1",
     notes: "Excellent application with strong community references",
   },
-];
+]
 
 export const mockEvents: Event[] = [
   {
@@ -457,82 +457,80 @@ export const mockEvents: Event[] = [
     maxAttendees: 40,
     type: "fellowship",
   },
-];
+]
 
 export const getFellowshipById = (id: string): Fellowship | undefined => {
-  return mockFellowships.find((f) => f.id === id);
-};
+  return mockFellowships.find((f) => f.id === id)
+}
 
 export const getUserById = (id: string): User | undefined => {
-  return mockUsers.find((u) => u.id === id);
-};
+  return mockUsers.find((u) => u.id === id)
+}
 
 export const getEventsByFellowshipId = (fellowshipId: string): Event[] => {
-  return mockEvents.filter((e) => e.fellowshipId === fellowshipId);
-};
+  return mockEvents.filter((e) => e.fellowshipId === fellowshipId)
+}
 
 export const getApprovedFellowshipApplications = (fellowshipId: string): FellowshipApplication[] => {
-  return mockFellowshipApplications.filter(
-    (app) => app.fellowshipId === fellowshipId && app.status === "approved"
-  );
-};
+  return mockFellowshipApplications.filter((app) => app.fellowshipId === fellowshipId && app.status === "approved")
+}
 
 export const approveFellowshipApplication = (id: string, notes = "", reviewedBy = "admin-1") => {
-  const application = mockFellowshipApplications.find((app) => app.id === id);
+  const application = mockFellowshipApplications.find((app) => app.id === id)
   if (application) {
-    application.status = "approved";
-    application.reviewedDate = new Date().toISOString().split('T')[0];
-    application.notes = notes;
-    application.reviewedBy = reviewedBy;
+    application.status = "approved"
+    application.reviewedDate = new Date().toISOString().split("T")[0]
+    application.notes = notes
+    application.reviewedBy = reviewedBy
   }
-};
+}
 
 export const rejectFellowshipApplication = (id: string, notes = "", reviewedBy = "admin-1") => {
-  const application = mockFellowshipApplications.find((app) => app.id === id);
+  const application = mockFellowshipApplications.find((app) => app.id === id)
   if (application) {
-    application.status = "rejected";
-    application.reviewedDate = new Date().toISOString().split('T')[0];
-    application.notes = notes;
-    application.reviewedBy = reviewedBy;
+    application.status = "rejected"
+    application.reviewedDate = new Date().toISOString().split("T")[0]
+    application.notes = notes
+    application.reviewedBy = reviewedBy
   }
-};
+}
 
 export const getFellowshipApplications = () => {
-  return mockFellowshipApplications;
-};
+  return mockFellowshipApplications
+}
 
 export const getPendingApplications = () => {
-  return mockFellowshipApplications.filter((app) => app.status === "pending");
-};
+  return mockFellowshipApplications.filter((app) => app.status === "pending")
+}
 
 export const getFellowshipStats = (fellowshipId: string) => {
-  const fellowship = getFellowshipById(fellowshipId);
-  const events = getEventsByFellowshipId(fellowshipId);
+  const fellowship = getFellowshipById(fellowshipId)
+  const events = getEventsByFellowshipId(fellowshipId)
 
   return {
     totalMembers: fellowship?.memberCount || 0,
     activeEvents: events.length,
     avgAttendance: events.reduce((acc, e) => acc + e.attendees, 0) / events.length || 0,
     upcomingEvents: events.filter((e) => new Date(e.date) > new Date()).length,
-  };
-};
+  }
+}
 
 export function updateUser(id: string, updatedFields: Partial<User>): User | undefined {
-  const userIndex = mockUsers.findIndex(user => user.id === id);
+  const userIndex = mockUsers.findIndex((user) => user.id === id)
   if (userIndex > -1) {
-    const userToUpdate: User = mockUsers[userIndex]!;
-    Object.assign(userToUpdate, updatedFields);
-    userToUpdate.lastLogin = new Date().toISOString();
-    return userToUpdate;
+    const userToUpdate: User = mockUsers[userIndex]!
+    Object.assign(userToUpdate, updatedFields)
+    userToUpdate.lastLogin = new Date().toISOString()
+    return userToUpdate
   }
-  return undefined;
+  return undefined
 }
 
 export function deleteUser(id: string): boolean {
-  const initialLength = mockUsers.length;
-  const newMockUsers = mockUsers.filter(user => user.id !== id);
-  mockUsers.splice(0, mockUsers.length, ...newMockUsers);
-  return mockUsers.length < initialLength;
+  const initialLength = mockUsers.length
+  const newMockUsers = mockUsers.filter((user) => user.id !== id)
+  mockUsers.splice(0, mockUsers.length, ...newMockUsers)
+  return mockUsers.length < initialLength
 }
 import type { Database } from "./supabase"
 
@@ -541,12 +539,12 @@ export type RecurrencePattern =
   | { type: "weekly"; day: string; time: string }
   | { type: "daily"; time: string }
   | { type: "monthly"; day: number; time: string }
-  | { type: "yearly"; date: string; time: string };
+  | { type: "yearly"; date: string; time: string }
 
 // Update the Task type to use the new RecurrencePattern
 type Task = Omit<Database["public"]["Tables"]["tasks"]["Row"], "recurrence_pattern"> & {
-  recurrence_pattern: RecurrencePattern | null;
-};
+  recurrence_pattern: RecurrencePattern | null
+}
 type Profile = Database["public"]["Tables"]["profiles"]["Row"]
 
 export const mockUser: Profile = {

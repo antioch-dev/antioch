@@ -164,7 +164,7 @@ export default function TermsPage() {
           <section className="mb-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">Indemnification</h2>
             <p className="text-gray-700">
-             {` You agree to defend, indemnify, and hold harmless Antioch Platform and its licensee and licensors, and
+              {` You agree to defend, indemnify, and hold harmless Antioch Platform and its licensee and licensors, and
               their employees, contractors, agents, officers and directors, from and against any and all claims,
               damages, obligations, losses, liabilities, costs or debt, and expenses (including but not limited to
               attorney's fees).`}

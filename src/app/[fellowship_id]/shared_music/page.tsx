@@ -1,21 +1,21 @@
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import Link from 'next/link'
-import { Music, Users, Calendar, Heart, TrendingUp, Clock, Star } from 'lucide-react'
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import Link from "next/link"
+import { Music, Users, Calendar, Heart, TrendingUp, Clock, Star } from "lucide-react"
 
 // Mock data for recent songs and upcoming services
 const recentSongs = [
-  { id: 1, title: 'Amazing Grace', artist: 'Traditional', category: 'Hymn', plays: 1250 },
-  { id: 2, title: 'How Great Thou Art', artist: 'Carl Boberg', category: 'Worship', plays: 980 },
-  { id: 3, title: 'Blessed Be Your Name', artist: 'Matt Redman', category: 'Contemporary', plays: 756 },
-  { id: 4, title: 'Holy, Holy, Holy', artist: 'Reginald Heber', category: 'Hymn', plays: 654 },
+  { id: 1, title: "Amazing Grace", artist: "Traditional", category: "Hymn", plays: 1250 },
+  { id: 2, title: "How Great Thou Art", artist: "Carl Boberg", category: "Worship", plays: 980 },
+  { id: 3, title: "Blessed Be Your Name", artist: "Matt Redman", category: "Contemporary", plays: 756 },
+  { id: 4, title: "Holy, Holy, Holy", artist: "Reginald Heber", category: "Hymn", plays: 654 },
 ]
 
 const upcomingServices = [
-  { id: 1, title: 'Sunday Morning Worship', date: 'Dec 15, 2024', time: '10:00 AM', songsCount: 8 },
-  { id: 2, title: 'Christmas Eve Service', date: 'Dec 24, 2024', time: '7:00 PM', songsCount: 12 },
-  { id: 3, title: 'New Year Service', date: 'Dec 31, 2024', time: '11:00 PM', songsCount: 6 },
+  { id: 1, title: "Sunday Morning Worship", date: "Dec 15, 2024", time: "10:00 AM", songsCount: 8 },
+  { id: 2, title: "Christmas Eve Service", date: "Dec 24, 2024", time: "7:00 PM", songsCount: 12 },
+  { id: 3, title: "New Year Service", date: "Dec 31, 2024", time: "11:00 PM", songsCount: 6 },
 ]
 
 export default function HomePage() {

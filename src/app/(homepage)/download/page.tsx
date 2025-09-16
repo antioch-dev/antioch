@@ -140,7 +140,7 @@ const ministryTools = [
   },
 ]
 
-function ToolCard({ tool, category }: { tool: typeof mobileApps[0]; category: string }) {
+function ToolCard({ tool, category }: { tool: (typeof mobileApps)[0]; category: string }) {
   return (
     <Card className="group bg-white/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-2xl transition-all duration-500 rounded-2xl hover:scale-105">
       <CardHeader>

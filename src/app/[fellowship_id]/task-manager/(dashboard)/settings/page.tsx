@@ -1,19 +1,19 @@
-'use client'
+"use client"
 
-import { useState } from 'react'
-import { motion } from 'framer-motion'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Switch } from '@/components/ui/switch'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Textarea } from '@/components/ui/textarea'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { User, Bell, Shield, Palette, Save, Upload } from 'lucide-react'
-import { useStore } from '@/lib/store'
-import { toast } from 'sonner'
+import { useState } from "react"
+import { motion } from "framer-motion"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Switch } from "@/components/ui/switch"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Textarea } from "@/components/ui/textarea"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { User, Bell, Shield, Palette, Save, Upload } from "lucide-react"
+import { useStore } from "@/lib/store"
+import { toast } from "sonner"
 
 export default function SettingsPage() {
   const { notifications, profile, updateNotifications, updateProfile, setTheme, theme } = useStore()
@@ -21,7 +21,7 @@ export default function SettingsPage() {
   const [localProfile, setLocalProfile] = useState(profile)
   const [localNotifications, setLocalNotifications] = useState(notifications)
   const [selectedTheme, setSelectedTheme] = useState(theme)
-  const [selectedAccent, setSelectedAccent] = useState('blue')
+  const [selectedAccent, setSelectedAccent] = useState("blue")
 
   const handleNotificationChange = (key: string, value: boolean) => {
     setLocalNotifications((prev) => ({ ...prev, [key]: value }))
@@ -36,10 +36,10 @@ export default function SettingsPage() {
     try {
       await new Promise((resolve) => setTimeout(resolve, 1000))
       updateProfile(localProfile)
-      toast.success('Profile updated successfully!')
+      toast.success("Profile updated successfully!")
     } catch (error) {
       console.error(error)
-      toast.error('Failed to update profile')
+      toast.error("Failed to update profile")
     } finally {
       setIsSubmitting(false)
     }
@@ -50,10 +50,10 @@ export default function SettingsPage() {
     try {
       await new Promise((resolve) => setTimeout(resolve, 1000))
       updateNotifications(localNotifications)
-      toast.success('Notification preferences saved!')
+      toast.success("Notification preferences saved!")
     } catch (error) {
       console.error(error)
-      toast.error('Failed to save preferences')
+      toast.error("Failed to save preferences")
     } finally {
       setIsSubmitting(false)
     }
@@ -64,10 +64,10 @@ export default function SettingsPage() {
     try {
       await new Promise((resolve) => setTimeout(resolve, 1000))
       setTheme(selectedTheme)
-      toast.success('Appearance settings saved!')
+      toast.success("Appearance settings saved!")
     } catch (error) {
       console.error(error)
-      toast.error('Failed to save appearance')
+      toast.error("Failed to save appearance")
     } finally {
       setIsSubmitting(false)
     }
@@ -75,7 +75,7 @@ export default function SettingsPage() {
 
   const handleAvatarUpload = () => {
     // Simulate avatar upload
-    toast.success('Avatar upload feature coming soon!')
+    toast.success("Avatar upload feature coming soon!")
   }
 
   return (
@@ -116,12 +116,12 @@ export default function SettingsPage() {
             <CardContent className="space-y-6">
               <div className="flex items-center space-x-4">
                 <Avatar className="w-20 h-20">
-                  <AvatarImage src={localProfile.avatar || '/placeholder-user.jpg'} />
+                  <AvatarImage src={localProfile.avatar || "/placeholder-user.jpg"} />
                   <AvatarFallback>
                     {localProfile.name
-                      .split(' ')
+                      .split(" ")
                       .map((n) => n[0])
-                      .join('')}
+                      .join("")}
                   </AvatarFallback>
                 </Avatar>
                 <div>
@@ -141,7 +141,7 @@ export default function SettingsPage() {
                   <Input
                     id="name"
                     value={localProfile.name}
-                    onChange={(e) => handleProfileChange('name', e.target.value)}
+                    onChange={(e) => handleProfileChange("name", e.target.value)}
                     className="bg-gray-700 border-gray-600"
                   />
                 </div>
@@ -153,7 +153,7 @@ export default function SettingsPage() {
                     id="email"
                     type="email"
                     value={localProfile.email}
-                    onChange={(e) => handleProfileChange('email', e.target.value)}
+                    onChange={(e) => handleProfileChange("email", e.target.value)}
                     className="bg-gray-700 border-gray-600"
                   />
                 </div>
@@ -166,7 +166,7 @@ export default function SettingsPage() {
                 <Textarea
                   id="bio"
                   value={localProfile.bio}
-                  onChange={(e) => handleProfileChange('bio', e.target.value)}
+                  onChange={(e) => handleProfileChange("bio", e.target.value)}
                   className="bg-gray-700 border-gray-600"
                   rows={3}
                 />
@@ -179,7 +179,7 @@ export default function SettingsPage() {
                   </Label>
                   <Select
                     value={localProfile.timezone}
-                    onValueChange={(value) => handleProfileChange('timezone', value)}
+                    onValueChange={(value) => handleProfileChange("timezone", value)}
                   >
                     <SelectTrigger className="bg-gray-700 border-gray-600">
                       <SelectValue />
@@ -198,7 +198,7 @@ export default function SettingsPage() {
                   </Label>
                   <Select
                     value={localProfile.language}
-                    onValueChange={(value) => handleProfileChange('language', value)}
+                    onValueChange={(value) => handleProfileChange("language", value)}
                   >
                     <SelectTrigger className="bg-gray-700 border-gray-600">
                       <SelectValue />
@@ -216,7 +216,7 @@ export default function SettingsPage() {
               <div className="flex justify-end">
                 <Button onClick={handleSaveProfile} disabled={isSubmitting} className="bg-blue-600 hover:bg-blue-700">
                   <Save className="w-4 h-4 mr-2" />
-                  {isSubmitting ? 'Saving...' : 'Save Changes'}
+                  {isSubmitting ? "Saving..." : "Save Changes"}
                 </Button>
               </div>
             </CardContent>
@@ -237,7 +237,7 @@ export default function SettingsPage() {
                   </div>
                   <Switch
                     checked={localNotifications.email}
-                    onCheckedChange={(checked) => handleNotificationChange('email', checked)}
+                    onCheckedChange={(checked) => handleNotificationChange("email", checked)}
                   />
                 </div>
 
@@ -248,7 +248,7 @@ export default function SettingsPage() {
                   </div>
                   <Switch
                     checked={localNotifications.push}
-                    onCheckedChange={(checked) => handleNotificationChange('push', checked)}
+                    onCheckedChange={(checked) => handleNotificationChange("push", checked)}
                   />
                 </div>
 
@@ -259,7 +259,7 @@ export default function SettingsPage() {
                   </div>
                   <Switch
                     checked={localNotifications.desktop}
-                    onCheckedChange={(checked) => handleNotificationChange('desktop', checked)}
+                    onCheckedChange={(checked) => handleNotificationChange("desktop", checked)}
                   />
                 </div>
 
@@ -270,7 +270,7 @@ export default function SettingsPage() {
                   </div>
                   <Switch
                     checked={localNotifications.taskReminders}
-                    onCheckedChange={(checked) => handleNotificationChange('taskReminders', checked)}
+                    onCheckedChange={(checked) => handleNotificationChange("taskReminders", checked)}
                   />
                 </div>
 
@@ -281,7 +281,7 @@ export default function SettingsPage() {
                   </div>
                   <Switch
                     checked={localNotifications.weeklyReports}
-                    onCheckedChange={(checked) => handleNotificationChange('weeklyReports', checked)}
+                    onCheckedChange={(checked) => handleNotificationChange("weeklyReports", checked)}
                   />
                 </div>
               </div>
@@ -293,7 +293,7 @@ export default function SettingsPage() {
                   className="bg-blue-600 hover:bg-blue-700"
                 >
                   <Save className="w-4 h-4 mr-2" />
-                  {isSubmitting ? 'Saving...' : 'Save Preferences'}
+                  {isSubmitting ? "Saving..." : "Save Preferences"}
                 </Button>
               </div>
             </CardContent>
@@ -313,9 +313,9 @@ export default function SettingsPage() {
                   <div className="grid grid-cols-3 gap-3">
                     <motion.div
                       whileHover={{ scale: 1.02 }}
-                      onClick={() => setSelectedTheme('dark')}
+                      onClick={() => setSelectedTheme("dark")}
                       className={`p-4 bg-gray-700 rounded-lg border-2 cursor-pointer ${
-                        selectedTheme === 'dark' ? 'border-blue-600' : 'border-gray-600'
+                        selectedTheme === "dark" ? "border-blue-600" : "border-gray-600"
                       }`}
                     >
                       <div className="w-full h-12 bg-gray-900 rounded mb-2"></div>
@@ -323,9 +323,9 @@ export default function SettingsPage() {
                     </motion.div>
                     <motion.div
                       whileHover={{ scale: 1.02 }}
-                      onClick={() => setSelectedTheme('light')}
+                      onClick={() => setSelectedTheme("light")}
                       className={`p-4 bg-gray-700 rounded-lg border-2 cursor-pointer ${
-                        selectedTheme === 'light' ? 'border-blue-600' : 'border-gray-600'
+                        selectedTheme === "light" ? "border-blue-600" : "border-gray-600"
                       }`}
                     >
                       <div className="w-full h-12 bg-white rounded mb-2"></div>
@@ -346,18 +346,18 @@ export default function SettingsPage() {
                   <p className="text-gray-400 text-sm mb-3">Choose your accent color</p>
                   <div className="flex space-x-2">
                     {[
-                      { name: 'blue', color: 'bg-blue-600' },
-                      { name: 'purple', color: 'bg-purple-600' },
-                      { name: 'green', color: 'bg-green-600' },
-                      { name: 'red', color: 'bg-red-600' },
-                      { name: 'yellow', color: 'bg-yellow-600' },
+                      { name: "blue", color: "bg-blue-600" },
+                      { name: "purple", color: "bg-purple-600" },
+                      { name: "green", color: "bg-green-600" },
+                      { name: "red", color: "bg-red-600" },
+                      { name: "yellow", color: "bg-yellow-600" },
                     ].map((accent) => (
                       <motion.div
                         key={accent.name}
                         whileHover={{ scale: 1.1 }}
                         onClick={() => setSelectedAccent(accent.name)}
                         className={`w-8 h-8 rounded-full cursor-pointer ${accent.color} ${
-                          selectedAccent === accent.name ? 'ring-2 ring-white' : ''
+                          selectedAccent === accent.name ? "ring-2 ring-white" : ""
                         }`}
                       />
                     ))}
@@ -388,7 +388,7 @@ export default function SettingsPage() {
                   className="bg-blue-600 hover:bg-blue-700"
                 >
                   <Save className="w-4 h-4 mr-2" />
-                  {isSubmitting ? 'Saving...' : 'Save Appearance'}
+                  {isSubmitting ? "Saving..." : "Save Appearance"}
                 </Button>
               </div>
             </CardContent>
@@ -428,7 +428,7 @@ export default function SettingsPage() {
                     <h4 className="text-white font-medium">Two-Factor Authentication</h4>
                     <p className="text-gray-400 text-sm">Add an extra layer of security</p>
                   </div>
-                  <Button variant="outline" onClick={() => toast.success('2FA setup coming soon!')}>
+                  <Button variant="outline" onClick={() => toast.success("2FA setup coming soon!")}>
                     Enable 2FA
                   </Button>
                 </div>
@@ -463,7 +463,7 @@ export default function SettingsPage() {
               <div className="flex justify-end space-x-2">
                 <Button variant="outline">Cancel</Button>
                 <Button
-                  onClick={() => toast.success('Security settings updated!')}
+                  onClick={() => toast.success("Security settings updated!")}
                   className="bg-blue-600 hover:bg-blue-700"
                 >
                   <Save className="w-4 h-4 mr-2" />

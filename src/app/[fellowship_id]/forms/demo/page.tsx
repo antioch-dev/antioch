@@ -1,57 +1,57 @@
-'use client'
+"use client"
 
-import { useState } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Badge } from '@/components/ui/badge'
-import type { FormField, TypedFormResponses, FormResponseData } from '../types'
+import { useState } from "react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Badge } from "@/components/ui/badge"
+import type { FormField, TypedFormResponses, FormResponseData } from "../types"
 import {
   initializeTypedResponses,
   updateFieldValue,
   convertToBackendFormat,
   convertFromBackendFormat,
   formatFieldValueForDisplay,
-} from '../utils/form-data-helpers'
+} from "../utils/form-data-helpers"
 
 // Demo form fields
 const demoFields: FormField[] = [
   {
-    id: '1',
-    type: 'text',
-    title: 'Full Name',
+    id: "1",
+    type: "text",
+    title: "Full Name",
     required: true,
   },
   {
-    id: '2',
-    type: 'number',
-    title: 'Age',
+    id: "2",
+    type: "number",
+    title: "Age",
     required: true,
   },
   {
-    id: '3',
-    type: 'date',
-    title: 'Birth Date',
+    id: "3",
+    type: "date",
+    title: "Birth Date",
     required: true,
   },
   {
-    id: '4',
-    type: 'select',
-    title: 'Favorite Color',
+    id: "4",
+    type: "select",
+    title: "Favorite Color",
     required: true,
-    options: ['Red', 'Blue', 'Green', 'Yellow', 'Purple'],
+    options: ["Red", "Blue", "Green", "Yellow", "Purple"],
   },
   {
-    id: '5',
-    type: 'multiselect',
-    title: 'Hobbies',
+    id: "5",
+    type: "multiselect",
+    title: "Hobbies",
     required: false,
-    options: ['Reading', 'Sports', 'Music', 'Gaming', 'Cooking'],
+    options: ["Reading", "Sports", "Music", "Gaming", "Cooking"],
   },
   {
-    id: '6',
-    type: 'boolean',
-    title: 'Subscribe to newsletter',
+    id: "6",
+    type: "boolean",
+    title: "Subscribe to newsletter",
     required: false,
   },
 ]
@@ -64,11 +64,11 @@ export default function DataTypesDemo() {
     let updatedResponses = typedResponses
 
     // Add sample data
-    updatedResponses = updateFieldValue(updatedResponses, demoFields[0]!, 'John Doe')
+    updatedResponses = updateFieldValue(updatedResponses, demoFields[0]!, "John Doe")
     updatedResponses = updateFieldValue(updatedResponses, demoFields[1]!, 25)
-    updatedResponses = updateFieldValue(updatedResponses, demoFields[2]!, new Date('1999-05-15'))
-    updatedResponses = updateFieldValue(updatedResponses, demoFields[3]!, 'Blue')
-    updatedResponses = updateFieldValue(updatedResponses, demoFields[4]!, ['Reading', 'Music'])
+    updatedResponses = updateFieldValue(updatedResponses, demoFields[2]!, new Date("1999-05-15"))
+    updatedResponses = updateFieldValue(updatedResponses, demoFields[3]!, "Blue")
+    updatedResponses = updateFieldValue(updatedResponses, demoFields[4]!, ["Reading", "Music"])
     updatedResponses = updateFieldValue(updatedResponses, demoFields[5]!, true)
 
     setTypedResponses(updatedResponses)

@@ -1,9 +1,9 @@
-'use client'
+"use client"
 
-import type React from 'react'
+import type React from "react"
 
-import { useState } from 'react'
-import { Button } from '@/components/ui/button'
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
 import {
   Dialog,
   DialogContent,
@@ -11,15 +11,15 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Badge } from '@/components/ui/badge'
-import { Switch } from '@/components/ui/switch'
-import { Copy, Mail, QrCode, Users } from 'lucide-react'
-import { toast } from 'sonner'
-import type { Form } from '../types'
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Badge } from "@/components/ui/badge"
+import { Switch } from "@/components/ui/switch"
+import { Copy, Mail, QrCode, Users } from "lucide-react"
+import { toast } from "sonner"
+import type { Form } from "../types"
 
 interface ShareFormDialogProps {
   form: Form
@@ -28,7 +28,7 @@ interface ShareFormDialogProps {
 
 export function ShareFormDialog({ form, children }: ShareFormDialogProps) {
   const [isOpen, setIsOpen] = useState(false)
-  const formUrl = `${typeof window !== 'undefined' ? window.location.origin : ''}/forms/fill/${form.id}`
+  const formUrl = `${typeof window !== "undefined" ? window.location.origin : ""}/forms/fill/${form.id}`
   const embedCode = `<iframe src="${formUrl}" width="100%" height="600" frameborder="0"></iframe>`
 
   const copyToClipboard = async (text: string, message: string) => {
@@ -38,8 +38,8 @@ export function ShareFormDialog({ form, children }: ShareFormDialogProps) {
         toast.success(message)
       })
       .catch((err) => {
-        console.error('Failed to copy text: ', err)
-        toast.error('Failed to copy text')
+        console.error("Failed to copy text: ", err)
+        toast.error("Failed to copy text")
       })
   }
 
@@ -73,24 +73,24 @@ ${form.description}`)
               <Label>Form URL</Label>
               <div className="flex gap-2">
                 <Input value={formUrl} readOnly />
-                <Button variant="outline" onClick={() => copyToClipboard(formUrl, 'Form link copied to clipboard!')}>
+                <Button variant="outline" onClick={() => copyToClipboard(formUrl, "Form link copied to clipboard!")}>
                   <Copy className="w-4 h-4" />
                 </Button>
               </div>
             </div>
 
             <div className="flex gap-2">
-              <Badge variant={form.settings.isPublic ? 'default' : 'secondary'}>
-                {form.settings.isPublic ? 'Public' : 'Private'}
+              <Badge variant={form.settings.isPublic ? "default" : "secondary"}>
+                {form.settings.isPublic ? "Public" : "Private"}
               </Badge>
-              <Badge variant={form.settings.isOpen ? 'default' : 'destructive'}>
-                {form.settings.isOpen ? 'Accepting Responses' : 'Closed'}
+              <Badge variant={form.settings.isOpen ? "default" : "destructive"}>
+                {form.settings.isOpen ? "Accepting Responses" : "Closed"}
               </Badge>
               {form.settings.requireLogin && <Badge variant="outline">Login Required</Badge>}
             </div>
 
             <div className="grid grid-cols-2 gap-2">
-              <Button variant="outline" onClick={() => window.open(formUrl, '_blank')}>
+              <Button variant="outline" onClick={() => window.open(formUrl, "_blank")}>
                 Preview Form
               </Button>
               <Button variant="outline">
@@ -107,7 +107,7 @@ ${form.description}`)
                 <textarea className="w-full h-24 p-2 border rounded-md font-mono text-sm" value={embedCode} readOnly />
                 <Button
                   variant="outline"
-                  onClick={() => copyToClipboard(embedCode, 'Embed code copied to clipboard!')}
+                  onClick={() => copyToClipboard(embedCode, "Embed code copied to clipboard!")}
                   className="w-full"
                 >
                   <Copy className="w-4 h-4 mr-2" />

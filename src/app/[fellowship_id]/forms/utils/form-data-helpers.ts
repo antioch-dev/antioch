@@ -1,5 +1,4 @@
-import type { FormField, FormResponseData, TypedFormResponses, FileData } from '../types'
-
+import type { FormField, FormResponseData, TypedFormResponses, FileData } from "../types"
 
 export function initializeTypedResponses(fields: FormField[]): TypedFormResponses {
   const responses: TypedFormResponses = {
@@ -14,27 +13,27 @@ export function initializeTypedResponses(fields: FormField[]): TypedFormResponse
 
   fields.forEach((field) => {
     switch (field.type) {
-      case 'text':
-      case 'email':
-      case 'textarea':
-        responses.textFields[field.id] = ''
+      case "text":
+      case "email":
+      case "textarea":
+        responses.textFields[field.id] = ""
         break
-      case 'number':
+      case "number":
         responses.numberFields[field.id] = 0
         break
-      case 'date':
+      case "date":
         responses.dateFields[field.id] = new Date()
         break
-      case 'boolean':
+      case "boolean":
         responses.booleanFields[field.id] = false
         break
-      case 'select':
-        responses.selectFields[field.id] = ''
+      case "select":
+        responses.selectFields[field.id] = ""
         break
-      case 'multiselect':
+      case "multiselect":
         responses.multiselectFields[field.id] = []
         break
-      case 'file':
+      case "file":
         responses.fileFields[field.id] = null
         break
     }
@@ -49,24 +48,24 @@ export function getFieldValue(
   field: FormField,
 ): string | number | Date | boolean | string[] | FileData | null {
   switch (field.type) {
-    case 'text':
-    case 'email':
-    case 'textarea':
-      return responses.textFields[field.id] || ''
-    case 'number':
+    case "text":
+    case "email":
+    case "textarea":
+      return responses.textFields[field.id] || ""
+    case "number":
       return responses.numberFields[field.id] || 0
-    case 'date':
+    case "date":
       return responses.dateFields[field.id] || new Date()
-    case 'boolean':
+    case "boolean":
       return responses.booleanFields[field.id] || false
-    case 'select':
-      return responses.selectFields[field.id] || ''
-    case 'multiselect':
+    case "select":
+      return responses.selectFields[field.id] || ""
+    case "multiselect":
       return responses.multiselectFields[field.id] || []
-    case 'file':
+    case "file":
       return responses.fileFields[field.id] || null
     default:
-      return ''
+      return ""
   }
 }
 
@@ -79,13 +78,13 @@ export function updateFieldValue(
   const newResponses = { ...responses }
 
   switch (field.type) {
-    case 'text':
-    case 'email':
-    case 'textarea':
-      let stringValue = ''
-      if (typeof value === 'string') {
+    case "text":
+    case "email":
+    case "textarea":
+      let stringValue = ""
+      if (typeof value === "string") {
         stringValue = value
-      } else if (typeof value === 'number' || typeof value === 'boolean') {
+      } else if (typeof value === "number" || typeof value === "boolean") {
         stringValue = String(value)
       }
       newResponses.textFields = {
@@ -93,17 +92,17 @@ export function updateFieldValue(
         [field.id]: stringValue,
       }
       break
-    case 'number':
+    case "number":
       newResponses.numberFields = {
         ...responses.numberFields,
-        [field.id]: typeof value === 'number' ? value : Number(value || 0),
+        [field.id]: typeof value === "number" ? value : Number(value || 0),
       }
       break
-    case 'date':
+    case "date":
       let dateValue: Date
       if (value instanceof Date) {
         dateValue = value
-      } else if (typeof value === 'string') {
+      } else if (typeof value === "string") {
         dateValue = new Date(value)
       } else {
         dateValue = new Date()
@@ -113,17 +112,17 @@ export function updateFieldValue(
         [field.id]: dateValue,
       }
       break
-    case 'boolean':
+    case "boolean":
       newResponses.booleanFields = {
         ...responses.booleanFields,
-        [field.id]: typeof value === 'boolean' ? value : Boolean(value),
+        [field.id]: typeof value === "boolean" ? value : Boolean(value),
       }
       break
-    case 'select':
-      let selectValue = ''
-      if (typeof value === 'string') {
+    case "select":
+      let selectValue = ""
+      if (typeof value === "string") {
         selectValue = value
-      } else if (typeof value === 'number' || typeof value === 'boolean') {
+      } else if (typeof value === "number" || typeof value === "boolean") {
         selectValue = String(value)
       }
       newResponses.selectFields = {
@@ -131,17 +130,17 @@ export function updateFieldValue(
         [field.id]: selectValue,
       }
       break
-    case 'multiselect':
+    case "multiselect":
       newResponses.multiselectFields = {
         ...responses.multiselectFields,
         [field.id]: Array.isArray(value) ? value : [],
       }
       break
-    case 'file':
+    case "file":
       let fileValue: FileData | null = null
       if (value instanceof File) {
         fileValue = fileToFileData(value)
-      } else if (value && typeof value === 'object' && 'name' in value) {
+      } else if (value && typeof value === "object" && "name" in value) {
         fileValue = value
       }
       newResponses.fileFields = { ...responses.fileFields, [field.id]: fileValue }
@@ -159,31 +158,31 @@ export function convertToBackendFormat(responses: TypedFormResponses, fields: Fo
     let value: string
 
     switch (field.type) {
-      case 'text':
-      case 'email':
-      case 'textarea':
-        value = responses.textFields[field.id] || ''
+      case "text":
+      case "email":
+      case "textarea":
+        value = responses.textFields[field.id] || ""
         break
-      case 'number':
+      case "number":
         value = String(responses.numberFields[field.id] || 0)
         break
-      case 'date':
+      case "date":
         value = responses.dateFields[field.id]?.toISOString() || new Date().toISOString()
         break
-      case 'boolean':
+      case "boolean":
         value = String(responses.booleanFields[field.id] || false)
         break
-      case 'select':
-        value = responses.selectFields[field.id] || ''
+      case "select":
+        value = responses.selectFields[field.id] || ""
         break
-      case 'multiselect':
+      case "multiselect":
         value = JSON.stringify(responses.multiselectFields[field.id] || [])
         break
-      case 'file':
+      case "file":
         value = JSON.stringify(responses.fileFields[field.id] || null)
         break
       default:
-        value = ''
+        value = ""
     }
 
     backendData.push({
@@ -207,37 +206,37 @@ export function convertFromBackendFormat(backendData: FormResponseData[], fields
 
     try {
       switch (data.fieldType) {
-        case 'text':
-        case 'email':
-        case 'textarea':
+        case "text":
+        case "email":
+        case "textarea":
           responses.textFields[data.fieldId] = data.value
           break
-        case 'number':
+        case "number":
           responses.numberFields[data.fieldId] = Number(data.value) || 0
           break
-        case 'date':
+        case "date":
           responses.dateFields[data.fieldId] = new Date(data.value)
           break
-        case 'boolean':
-          responses.booleanFields[data.fieldId] = data.value === 'true'
+        case "boolean":
+          responses.booleanFields[data.fieldId] = data.value === "true"
           break
-        case 'select':
+        case "select":
           responses.selectFields[data.fieldId] = data.value
           break
-        case 'multiselect':
+        case "multiselect":
           try {
-            const parsed: unknown = JSON.parse(data.value || '[]')
+            const parsed: unknown = JSON.parse(data.value || "[]")
             responses.multiselectFields[data.fieldId] =
-              Array.isArray(parsed) && parsed.every((item) => typeof item === 'string') ? parsed : []
+              Array.isArray(parsed) && parsed.every((item) => typeof item === "string") ? parsed : []
           } catch {
             responses.multiselectFields[data.fieldId] = []
           }
           break
-        case 'file':
+        case "file":
           try {
-            const parsed: unknown = JSON.parse(data.value || 'null')
+            const parsed: unknown = JSON.parse(data.value || "null")
             responses.fileFields[data.fieldId] =
-              parsed && typeof parsed === 'object' && parsed !== null && 'name' in parsed ? (parsed as FileData) : null
+              parsed && typeof parsed === "object" && parsed !== null && "name" in parsed ? (parsed as FileData) : null
           } catch {
             responses.fileFields[data.fieldId] = null
           }
@@ -262,33 +261,33 @@ export function validateTypedResponses(responses: TypedFormResponses, fields: Fo
     let isEmpty = false
 
     switch (field.type) {
-      case 'text':
-      case 'email':
-      case 'textarea':
+      case "text":
+      case "email":
+      case "textarea":
         const textValue = responses.textFields[field.id]
-        isEmpty = !textValue || textValue.trim() === ''
+        isEmpty = !textValue || textValue.trim() === ""
         break
-      case 'number':
+      case "number":
         const numberValue = responses.numberFields[field.id]
         isEmpty = numberValue === undefined || numberValue === null || isNaN(numberValue)
         break
-      case 'date':
+      case "date":
         const dateValue = responses.dateFields[field.id]
         isEmpty = !dateValue || isNaN(dateValue.getTime())
         break
-      case 'boolean':
+      case "boolean":
         // Boolean fields are never "empty" - they're either true or false
         isEmpty = false
         break
-      case 'select':
+      case "select":
         const selectValue = responses.selectFields[field.id]
-        isEmpty = !selectValue || selectValue === ''
+        isEmpty = !selectValue || selectValue === ""
         break
-      case 'multiselect':
+      case "multiselect":
         const multiselectValue = responses.multiselectFields[field.id]
         isEmpty = !multiselectValue || multiselectValue.length === 0
         break
-      case 'file':
+      case "file":
         const fileValue = responses.fileFields[field.id]
         isEmpty = !fileValue
         break
@@ -300,7 +299,7 @@ export function validateTypedResponses(responses: TypedFormResponses, fields: Fo
 
     // Additional validation
     if (field.validation && !isEmpty) {
-      if (field.type === 'text' || field.type === 'email' || field.type === 'textarea') {
+      if (field.type === "text" || field.type === "email" || field.type === "textarea") {
         const textValue = responses.textFields[field.id]
         if (textValue && field.validation.min && textValue.length < field.validation.min) {
           errors[field.id] = `Minimum ${field.validation.min} characters required`
@@ -311,7 +310,7 @@ export function validateTypedResponses(responses: TypedFormResponses, fields: Fo
         if (textValue && field.validation.pattern) {
           const regex = new RegExp(field.validation.pattern)
           if (!regex.test(textValue)) {
-            errors[field.id] = field.errorMessage || 'Invalid format'
+            errors[field.id] = field.errorMessage || "Invalid format"
           }
         }
       }
@@ -323,44 +322,44 @@ export function validateTypedResponses(responses: TypedFormResponses, fields: Fo
 
 // Format value for display in responses table
 export function formatFieldValueForDisplay(data: FormResponseData, maxLength = 50): string {
-  if (!data.value) return '-'
+  if (!data.value) return "-"
 
   try {
     switch (data.fieldType) {
-      case 'text':
-      case 'email':
-      case 'textarea':
+      case "text":
+      case "email":
+      case "textarea":
         return data.value.length > maxLength ? `${data.value.substring(0, maxLength)}...` : data.value
-      case 'number':
+      case "number":
         return data.value
-      case 'date':
+      case "date":
         return new Date(data.value).toLocaleDateString()
-      case 'boolean':
-        return data.value === 'true' ? 'Yes' : 'No'
-      case 'select':
+      case "boolean":
+        return data.value === "true" ? "Yes" : "No"
+      case "select":
         return data.value
-      case 'multiselect':
+      case "multiselect":
         try {
-          const parsed: unknown = JSON.parse(data.value || '[]')
+          const parsed: unknown = JSON.parse(data.value || "[]")
           const options = Array.isArray(parsed) ? (parsed as string[]) : []
-          return options.join(', ') || '-'
+          return options.join(", ") || "-"
         } catch {
-          return '-'
+          return "-"
         }
-      case 'file':
+      case "file":
         try {
-          const parsed: unknown = JSON.parse(data.value || 'null')
-          const fileData = parsed && typeof parsed === 'object' && 'name' in parsed ? (parsed as FileData) : null
-          return fileData ? `📎 ${fileData.name}` : '-'
+          const parsed: unknown = JSON.parse(data.value || "null")
+          const fileData = parsed && typeof parsed === "object" && "name" in parsed ? (parsed as FileData) : null
+          return fileData ? `📎 ${fileData.name}` : "-"
         } catch {
-          return '-'
+          return "-"
         }
       default:
         return data.value
     }
   } catch (error) {
     console.error(`Error formatting value for field ${data.fieldId}:`, error)
-    return '-'
+    return "-"
   }
 }
 
@@ -370,7 +369,6 @@ export function fileToFileData(file: File): FileData {
     name: file.name,
     size: file.size,
     type: file.type,
-   
   }
 }
 
@@ -379,33 +377,32 @@ export function getDisplayValue(
   field: FormField,
 ): string | number | boolean | string[] | FileData | null {
   switch (field.type) {
-    case 'text':
-    case 'email':
-    case 'textarea':
-      return responses.textFields[field.id] || ''
-    case 'number':
+    case "text":
+    case "email":
+    case "textarea":
+      return responses.textFields[field.id] || ""
+    case "number":
       const numberValue = responses.numberFields[field.id]
-      return numberValue !== undefined && numberValue !== null ? numberValue : ''
-    case 'date':
-
+      return numberValue !== undefined && numberValue !== null ? numberValue : ""
+    case "date":
       const date = responses.dateFields[field.id]
       if (date) {
         const isoString = date.toISOString()
-        const datePart = isoString.split('T')[0]
+        const datePart = isoString.split("T")[0]
         if (datePart) {
           return datePart
         }
       }
-      return ''
-    case 'boolean':
+      return ""
+    case "boolean":
       return responses.booleanFields[field.id] || false
-    case 'select':
-      return responses.selectFields[field.id] || ''
-    case 'multiselect':
+    case "select":
+      return responses.selectFields[field.id] || ""
+    case "multiselect":
       return responses.multiselectFields[field.id] || []
-    case 'file':
+    case "file":
       return responses.fileFields[field.id] || null
     default:
-      return ''
+      return ""
   }
 }

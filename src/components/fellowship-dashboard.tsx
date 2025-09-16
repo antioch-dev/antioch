@@ -958,8 +958,8 @@ export function FellowshipDashboard() {
                 <div>
                   <CardTitle>Home Page Content</CardTitle>
                   <CardDescription>
-                    Customize the welcome message, announcements, and events displayed on your fellowship&apos;s public home
-                    page.
+                    Customize the welcome message, announcements, and events displayed on your fellowship&apos;s public
+                    home page.
                   </CardDescription>
                 </div>
                 <Button variant="outline" onClick={() => setIsEditingHomePage(!isEditingHomePage)}>

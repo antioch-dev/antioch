@@ -83,7 +83,6 @@ export interface Notifications {
   weeklyReports: boolean
 }
 
-
 interface AppState {
   user: Profile | null
   tasks: Task[]
@@ -146,7 +145,48 @@ interface AppState {
   updateProfile: (profile: Partial<SettingsProfile>) => void
 }
 
-const initialState: Omit<AppState, keyof AppState> & Omit<AppState, keyof Omit<AppState, "user" | "tasks" | "selectedTask" | "sidebarOpen" | "theme" | "teamMembers" | "recurringTasks" | "checkins" | "checkouts" | "longTermTasks" | "notifications" | "profile" | "setUser" | "setTasks" | "setSelectedTask" | "setSidebarOpen" | "setTheme" | "addTask" | "updateTask" | "deleteTask" | "assignTask" | "updateTeamMember" | "addRecurringTask" | "updateRecurringTask" | "toggleRecurringTask" | "deleteRecurringTask" | "addCheckin" | "updateCheckin" | "addCheckout" | "addLongTermTask" | "updateLongTermTask" | "moveLongTermTask" | "deleteLongTermTask" | "updateNotifications" | "updateProfile">> = {
+const initialState: Omit<AppState, keyof AppState> &
+  Omit<
+    AppState,
+    keyof Omit<
+      AppState,
+      | "user"
+      | "tasks"
+      | "selectedTask"
+      | "sidebarOpen"
+      | "theme"
+      | "teamMembers"
+      | "recurringTasks"
+      | "checkins"
+      | "checkouts"
+      | "longTermTasks"
+      | "notifications"
+      | "profile"
+      | "setUser"
+      | "setTasks"
+      | "setSelectedTask"
+      | "setSidebarOpen"
+      | "setTheme"
+      | "addTask"
+      | "updateTask"
+      | "deleteTask"
+      | "assignTask"
+      | "updateTeamMember"
+      | "addRecurringTask"
+      | "updateRecurringTask"
+      | "toggleRecurringTask"
+      | "deleteRecurringTask"
+      | "addCheckin"
+      | "updateCheckin"
+      | "addCheckout"
+      | "addLongTermTask"
+      | "updateLongTermTask"
+      | "moveLongTermTask"
+      | "deleteLongTermTask"
+      | "updateNotifications"
+      | "updateProfile"
+    >
+  > = {
   user: null,
   tasks: [],
   selectedTask: null,
@@ -272,7 +312,7 @@ const initialState: Omit<AppState, keyof AppState> & Omit<AppState, keyof Omit<A
     language: "en",
     avatar: "/placeholder-user.jpg",
   },
-} as unknown as AppState;
+} as unknown as AppState
 
 export const useStore = create<AppState>()(
   persist(
@@ -650,7 +690,7 @@ export const mockFellowships: Fellowship[] = [
       canEditInfo: true,
     },
   },
-];
+]
 
 export const mockUsers: User[] = [
   {
@@ -672,7 +712,7 @@ export const mockUsers: User[] = [
       canViewAnalytics: false,
       canManagePermissions: false,
     },
-    bio: "Passionate about community service and outreach."
+    bio: "Passionate about community service and outreach.",
   },
   {
     id: "user-2",
@@ -693,7 +733,7 @@ export const mockUsers: User[] = [
       canViewAnalytics: true,
       canManagePermissions: false,
     },
-    bio: "Leads the youth ministry and loves teaching."
+    bio: "Leads the youth ministry and loves teaching.",
   },
   {
     id: "admin-1",
@@ -713,7 +753,7 @@ export const mockUsers: User[] = [
       canViewAnalytics: true,
       canManagePermissions: true,
     },
-    bio: "Platform administrator with full access."
+    bio: "Platform administrator with full access.",
   },
   {
     id: "user-3",
@@ -734,7 +774,7 @@ export const mockUsers: User[] = [
       canViewAnalytics: true,
       canManagePermissions: false,
     },
-    bio: "Head pastor of Hope Baptist Fellowship."
+    bio: "Head pastor of Hope Baptist Fellowship.",
   },
   {
     id: "user-4",
@@ -754,9 +794,9 @@ export const mockUsers: User[] = [
       canViewAnalytics: false,
       canManagePermissions: false,
     },
-    bio: "New member, eager to get involved."
+    bio: "New member, eager to get involved.",
   },
-];
+]
 
 export const mockFellowshipApplications: FellowshipApplication[] = [
   {
@@ -801,7 +841,7 @@ export const mockFellowshipApplications: FellowshipApplication[] = [
     reviewedBy: "admin-1",
     notes: "Excellent application with strong community references",
   },
-];
+]
 
 export const mockEvents: Event[] = [
   {
@@ -840,84 +880,81 @@ export const mockEvents: Event[] = [
     maxAttendees: 40,
     type: "fellowship",
   },
-];
+]
 
 export const getFellowshipById = (id: string): Fellowship | undefined => {
-  return mockFellowships.find((f) => f.id === id);
-};
+  return mockFellowships.find((f) => f.id === id)
+}
 
 export const getUserById = (id: string): User | undefined => {
-  return mockUsers.find((u) => u.id === id);
-};
+  return mockUsers.find((u) => u.id === id)
+}
 
 export const getEventsByFellowshipId = (fellowshipId: string): Event[] => {
-  return mockEvents.filter((e) => e.fellowshipId === fellowshipId);
-};
+  return mockEvents.filter((e) => e.fellowshipId === fellowshipId)
+}
 
 export const getApprovedFellowshipApplications = (fellowshipId: string): FellowshipApplication[] => {
-  return mockFellowshipApplications.filter(
-    (app) => app.fellowshipId === fellowshipId && app.status === "approved"
-  );
-};
+  return mockFellowshipApplications.filter((app) => app.fellowshipId === fellowshipId && app.status === "approved")
+}
 
 export const approveFellowshipApplication = (id: string, notes = "", reviewedBy = "admin-1") => {
-  const application = mockFellowshipApplications.find((app) => app.id === id);
+  const application = mockFellowshipApplications.find((app) => app.id === id)
   if (application) {
-    application.status = "approved";
-    application.reviewedDate = new Date().toISOString().split('T')[0];
-    application.notes = notes;
-    application.reviewedBy = reviewedBy;
+    application.status = "approved"
+    application.reviewedDate = new Date().toISOString().split("T")[0]
+    application.notes = notes
+    application.reviewedBy = reviewedBy
   }
-};
+}
 
 export const rejectFellowshipApplication = (id: string, notes = "", reviewedBy = "admin-1") => {
-  const application = mockFellowshipApplications.find((app) => app.id === id);
+  const application = mockFellowshipApplications.find((app) => app.id === id)
   if (application) {
-    application.status = "rejected";
-    application.reviewedDate = new Date().toISOString().split('T')[0];
-    application.notes = notes;
-    application.reviewedBy = reviewedBy;
+    application.status = "rejected"
+    application.reviewedDate = new Date().toISOString().split("T")[0]
+    application.notes = notes
+    application.reviewedBy = reviewedBy
   }
-};
+}
 
 export const getFellowshipApplications = () => {
-  return mockFellowshipApplications;
-};
+  return mockFellowshipApplications
+}
 
 export const getPendingApplications = () => {
-  return mockFellowshipApplications.filter((app) => app.status === "pending");
-};
+  return mockFellowshipApplications.filter((app) => app.status === "pending")
+}
 
 export const getFellowshipStats = (fellowshipId: string) => {
-  const fellowship = getFellowshipById(fellowshipId);
-  const events = getEventsByFellowshipId(fellowshipId);
+  const fellowship = getFellowshipById(fellowshipId)
+  const events = getEventsByFellowshipId(fellowshipId)
 
   return {
     totalMembers: fellowship?.memberCount || 0,
     activeEvents: events.length,
     avgAttendance: events.reduce((acc, e) => acc + e.attendees, 0) / events.length || 0,
     upcomingEvents: events.filter((e) => new Date(e.date) > new Date()).length,
-  };
-};
+  }
+}
 
 export function updateUser(id: string, updatedFields: Partial<User>): User | undefined {
-  const userIndex = mockUsers.findIndex(user => user.id === id);
+  const userIndex = mockUsers.findIndex((user) => user.id === id)
   if (userIndex > -1) {
-    const userToUpdate: User = mockUsers[userIndex]!;
-    Object.assign(userToUpdate, updatedFields);
-    userToUpdate.lastLogin = new Date().toISOString();
-    return userToUpdate;
+    const userToUpdate: User = mockUsers[userIndex]!
+    Object.assign(userToUpdate, updatedFields)
+    userToUpdate.lastLogin = new Date().toISOString()
+    return userToUpdate
   }
-  return undefined;
+  return undefined
 }
 
 export function deleteUser(id: string): boolean {
-  const initialLength = mockUsers.length;
-  const newMockUsers = mockUsers.filter(user => user.id !== id);
-  mockUsers.splice(0, mockUsers.length, ...newMockUsers);
-  return mockUsers.length < initialLength;
+  const initialLength = mockUsers.length
+  const newMockUsers = mockUsers.filter((user) => user.id !== id)
+  mockUsers.splice(0, mockUsers.length, ...newMockUsers)
+  return mockUsers.length < initialLength
 }
 
-
-export type TaskStatus = "not_started" | "in_progress" | "completed" | "blocked";
-export type TaskPriority = "low" | "medium" | "high" | "urgent";
+export type TaskStatus = "not_started" | "in_progress" | "completed" | "blocked"
+export type TaskPriority = "low" | "medium" | "high" | "urgent"

@@ -1,11 +1,11 @@
-import { DashboardLayout } from '@/components/dashboard-layout'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { getUserById, getEventsByFellowshipId, getFellowshipById } from '@/lib/mock-data'
-import { Calendar, Church, Users, Clock, MapPin } from 'lucide-react'
-import Link from 'next/link'
-import { notFound } from 'next/navigation'
+import { DashboardLayout } from "@/components/dashboard-layout"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { getUserById, getEventsByFellowshipId, getFellowshipById } from "@/lib/mock-data"
+import { Calendar, Church, Users, Clock, MapPin } from "lucide-react"
+import Link from "next/link"
+import { notFound } from "next/navigation"
 
 interface UserDashboardProps {
   params: Promise<{ user_id: string }>
@@ -38,9 +38,9 @@ export default async function UserDashboard({ params }: UserDashboardProps) {
               <Church className="h-4 w-4 text-gray-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-gray-900">{fellowship?.name || 'Not Assigned'}</div>
+              <div className="text-2xl font-bold text-gray-900">{fellowship?.name || "Not Assigned"}</div>
               <p className="text-xs text-gray-500">
-                {fellowship ? `${fellowship.memberCount} members` : 'Contact admin to join'}
+                {fellowship ? `${fellowship.memberCount} members` : "Contact admin to join"}
               </p>
             </CardContent>
           </Card>
@@ -85,7 +85,7 @@ export default async function UserDashboard({ params }: UserDashboardProps) {
                   <div className="space-y-2">
                     <div className="flex items-center text-sm text-gray-500">
                       <MapPin className="mr-2 h-4 w-4 text-gray-500" />
-                      {fellowship.location.address}, {fellowship.location.city}, {fellowship.location.state}{' '}
+                      {fellowship.location.address}, {fellowship.location.city}, {fellowship.location.state}{" "}
                       {fellowship.location.zipCode}
                     </div>
                     <div className="flex items-center text-sm text-gray-500">
