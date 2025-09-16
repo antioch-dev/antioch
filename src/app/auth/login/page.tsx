@@ -43,20 +43,20 @@ export default function LoginPage() {
       <BackgroundGallery images={galleryImages} />
 
       <div className="container py-8 z-10">
-        <Link href="/" className="inline-flex items-center text-white hover:text-gray-200">
+        <Link href="/" className="inline-flex items-center">
           <ChevronLeft className="mr-1 h-4 w-4" />
           Back to home
         </Link>
       </div>
 
       <div className="flex-1 flex items-center justify-center px-4 py-12 z-10">
-        <Card className="w-full max-w-md border-gray-200 shadow-lg bg-white/95">
+        <Card className="w-full max-w-md shadow-lg bg-black/75 dark:bg-black/75">
           <CardHeader className="space-y-1 text-center">
             <div className="flex justify-center mb-2">
-              <Cross className="h-10 w-10 text-black" />
+              <Cross className="h-10 w-10" />
             </div>
             {/* Dynamically welcome the user by their email, if entered */}
-            <CardTitle className="text-2xl font-bold text-black">
+            <CardTitle className="text-2xl font-bold">
               {email ? `Welcome back, ${email.split("@")[0]}!` : "Welcome back"}
             </CardTitle>
             <CardDescription>Sign in to your Antioch fellowship account</CardDescription>
@@ -88,7 +88,7 @@ export default function LoginPage() {
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <Label htmlFor="password">Password</Label>
-                  <Link href="/auth/forgot-password" className="text-black hover:text-gray-600 text-sm">
+                  <Link href="/auth/forgot-password" className="hover:opacity-70 text-sm">
                     Forgot password?
                   </Link>
                 </div>
@@ -113,7 +113,7 @@ export default function LoginPage() {
                   Remember me
                 </label>
               </div>
-              <Button type="submit" className="w-full bg-black hover:bg-gray-800 text-white" disabled={isLoading}>
+              <Button type="submit" className="w-full" disabled={isLoading}>
                 {isLoading ? "Signing in..." : "Sign In"}
               </Button>
             </form>
@@ -135,7 +135,7 @@ export default function LoginPage() {
           <CardFooter className="flex flex-col space-y-4">
             <div className="text-center text-sm">
               Not yet part of our fellowship?{" "}
-              <Link href="/auth/register" className="text-black hover:text-gray-600 font-medium">
+              <Link href="/auth/register" className="hover:opacity-70 font-medium">
                 Join us
               </Link>
             </div>

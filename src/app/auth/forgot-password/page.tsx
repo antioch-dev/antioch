@@ -40,18 +40,18 @@ export default function ForgotPasswordPage() {
       <BackgroundGallery images={galleryImages} />
 
       <div className="container py-8 z-10">
-        <Link href="/login" className="inline-flex items-center text-white hover:text-gray-200">
+        <Link href="/login" className="inline-flex items-center hover:opacity-70">
           <ChevronLeft className="mr-1 h-4 w-4" />
           Back to login
         </Link>
       </div>
       <div className="flex-1 flex items-center justify-center px-4 py-12 z-10">
-        <Card className="w-full max-w-md border-gray-200 shadow-lg bg-white/95">
+        <Card className="w-full max-w-md border-gray-200 shadow-lg bg-white/75 dark:bg-black/75">
           <CardHeader className="space-y-1 text-center">
             <div className="flex justify-center mb-2">
-              <Cross className="h-10 w-10 text-black" />
+              <Cross className="h-10 w-10" />
             </div>
-            <CardTitle className="text-2xl font-bold text-black">Forgot your password?</CardTitle>
+            <CardTitle className="text-2xl font-bold">Forgot your password?</CardTitle>
             <CardDescription>
               {!isSubmitted
                 ? "Enter your email and we&apos;ll send you a reset link" // FIX 2: Escaped ' in "we'll"
@@ -81,7 +81,7 @@ export default function ForgotPasswordPage() {
                     />
                   </div>
                 </div>
-                <Button type="submit" className="w-full bg-black hover:bg-gray-800 text-white" disabled={isLoading}>
+                <Button type="submit" className="w-full" disabled={isLoading}>
                   {isLoading ? "Sending..." : "Send Reset Link"}
                 </Button>
               </form>
@@ -97,7 +97,7 @@ export default function ForgotPasswordPage() {
                 <p className="text-sm text-gray-500">
                   If you don&apos;t see the email, check your spam folder or try again.
                 </p>
-                <Button onClick={() => setIsSubmitted(false)} className="mt-4 bg-black hover:bg-gray-800 text-white">
+                <Button onClick={() => setIsSubmitted(false)} className="mt-4">
                   Try Again
                 </Button>
               </div>
@@ -106,7 +106,7 @@ export default function ForgotPasswordPage() {
           <CardFooter className="flex flex-col space-y-4">
             <div className="text-center text-sm">
               Remember your password?{" "}
-              <Link href="/login" className="text-black hover:text-gray-600 font-medium">
+              <Link href="/login" className="hover:opacity-70 font-medium">
                 Sign in
               </Link>
             </div>
