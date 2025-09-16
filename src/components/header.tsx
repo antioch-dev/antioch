@@ -26,18 +26,12 @@ export function Header() {
             Donate
           </Link>*/}
           <Link href="/fellowship1/task-manager" className="text-sm font-medium transition-colors hover:text-primary">
-            task manager
-          </Link> 
-          <Link
-            href="/fellowship1/forms"
-            className="text-sm font-medium transition-colors hover:text-primary"
-          >
+            Task Manager
+          </Link>
+          <Link href="/fellowship1/forms" className="text-sm font-medium transition-colors hover:text-primary">
             Forms
           </Link>
-          <Link
-            href="/fellowship1/shared_music"
-            className="text-sm font-medium transition-colors hover:text-primary"
-          >
+          <Link href="/fellowship1/shared_music" className="text-sm font-medium transition-colors hover:text-primary">
             Shared Music
           </Link>
         </nav>
