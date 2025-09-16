@@ -30,12 +30,12 @@ export default function LoginPage() {
   }
 
   const galleryImages = [
-    "https://maravianwebservices.com/images/wicf/20241231_crossover/thumbnails/tn_Cross%20over004.jpg",
-    "https://maravianwebservices.com/images/wicf/20250222_relationship_conference/thumbnails/tn_IMG_0090.jpg",
-    "https://maravianwebservices.com/images/wicf/20241130_worship_experience_1/thumbnails/tn_IMG_2925.JPG",
-    "https://files.maravianwebservices.com/wicf/20250405_sof_championship_1/thumbnails/tn_IMG_8116.jpg",
-    "https://maravianwebservices.com/images/wicf/20241130_worship_experience_2/thumbnails/tn_WICF-35.jpg",
-    "https://maravianwebservices.com/images/wicf/20241130_worship_experience_2/thumbnails/tn_IMG_2941.JPG",
+    "https://maravianwebservices.com/images/hafh/20241231_crossover/thumbnails/tn_Cross%20over004.jpg",
+    "https://maravianwebservices.com/images/hafh/20250222_relationship_conference/thumbnails/tn_IMG_0090.jpg",
+    "https://maravianwebservices.com/images/hafh/20241130_worship_experience_1/thumbnails/tn_IMG_2925.JPG",
+    "https://files.maravianwebservices.com/hafh/20250405_sof_championship_1/thumbnails/tn_IMG_8116.jpg",
+    "https://maravianwebservices.com/images/hafh/20241130_worship_experience_2/thumbnails/tn_WICF-35.jpg",
+    "https://maravianwebservices.com/images/hafh/20241130_worship_experience_2/thumbnails/tn_IMG_2941.JPG",
   ]
 
   return (
@@ -57,12 +57,13 @@ export default function LoginPage() {
             </div>
             {/* Dynamically welcome the user by their email, if entered */}
             <CardTitle className="text-2xl font-bold text-black">
-              {email ? `Welcome back, ${email.split('@')[0]}!` : "Welcome back"}
+              {email ? `Welcome back, ${email.split("@")[0]}!` : "Welcome back"}
             </CardTitle>
             <CardDescription>Sign in to your Antioch fellowship account</CardDescription>
             <div className="pt-2">
               <p className="text-xs text-gray-500 italic">
-                &quot;I am the vine; you are the branches. If you remain in me and I in you, you will bear much fruit.&quot;
+                &quot;I am the vine; you are the branches. If you remain in me and I in you, you will bear much
+                fruit.&quot;
                 <span className="block mt-1">— John 15:5</span>
               </p>
             </div>

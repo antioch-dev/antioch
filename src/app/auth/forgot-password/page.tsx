@@ -27,12 +27,12 @@ export default function ForgotPasswordPage() {
   }
 
   const galleryImages = [
-    "https://maravianwebservices.com/images/wicf/20241231_crossover/thumbnails/tn_Cross%20over004.jpg",
-    "https://maravianwebservices.com/images/wicf/20250222_relationship_conference/thumbnails/tn_IMG_0090.jpg",
-    "https://maravianwebservices.com/images/wicf/20241130_worship_experience_1/thumbnails/tn_IMG_2925.JPG",
-    "https://files.maravianwebservices.com/wicf/20250405_sof_championship_1/thumbnails/tn_IMG_8116.jpg",
-    "https://maravianwebservices.com/images/wicf/20241130_worship_experience_2/thumbnails/tn_WICF-35.jpg",
-    "https://maravianwebservices.com/images/wicf/20241130_worship_experience_2/thumbnails/tn_IMG_2941.JPG",
+    "https://maravianwebservices.com/images/hafh/20241231_crossover/thumbnails/tn_Cross%20over004.jpg",
+    "https://maravianwebservices.com/images/hafh/20250222_relationship_conference/thumbnails/tn_IMG_0090.jpg",
+    "https://maravianwebservices.com/images/hafh/20241130_worship_experience_1/thumbnails/tn_IMG_2925.JPG",
+    "https://files.maravianwebservices.com/hafh/20250405_sof_championship_1/thumbnails/tn_IMG_8116.jpg",
+    "https://maravianwebservices.com/images/hafh/20241130_worship_experience_2/thumbnails/tn_WICF-35.jpg",
+    "https://maravianwebservices.com/images/hafh/20241130_worship_experience_2/thumbnails/tn_IMG_2941.JPG",
   ]
 
   return (
@@ -59,7 +59,8 @@ export default function ForgotPasswordPage() {
             </CardDescription>
             <div className="pt-2">
               <p className="text-xs text-gray-500 italic">
-                &quot;Ask and it will be given to you; seek and you will find; knock and the door will be opened to you.&quot;
+                &quot;Ask and it will be given to you; seek and you will find; knock and the door will be opened to
+                you.&quot;
                 <span className="block mt-1">— Matthew 7:7</span>
               </p>
             </div>
@@ -90,7 +91,8 @@ export default function ForgotPasswordPage() {
                   <CheckCircle className="h-16 w-16 text-green-500" />
                 </div>
                 <p className="text-gray-600">
-                  We&apos;ve sent a password reset link to your email address. Please check your inbox and follow the instructions.
+                  We&apos;ve sent a password reset link to your email address. Please check your inbox and follow the
+                  instructions.
                 </p>
                 <p className="text-sm text-gray-500">
                   If you don&apos;t see the email, check your spam folder or try again.

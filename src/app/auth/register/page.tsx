@@ -48,9 +48,9 @@ export default function RegisterPage() {
     }
     // Client-side validation for all required fields
     if (!firstName || !lastName || !email || !country || !city || !fellowship || !password) {
-        setError("Please fill in all required fields.")
-        setIsLoading(false)
-        return
+      setError("Please fill in all required fields.")
+      setIsLoading(false)
+      return
     }
 
     // Simulate an API call for registration
@@ -129,12 +129,12 @@ export default function RegisterPage() {
 
   // Images for the background gallery
   const galleryImages = [
-    "https://maravianwebservices.com/images/wicf/20241231_crossover/thumbnails/tn_Cross%20over004.jpg",
-    "https://maravianwebservices.com/images/wicf/20250222_relationship_conference/thumbnails/tn_IMG_0090.jpg",
-    "https://maravianwebservices.com/images/wicf/20241130_worship_experience_1/thumbnails/tn_IMG_2925.JPG",
-    "https://files.maravianwebservices.com/wicf/20250405_sof_championship_1/thumbnails/tn_IMG_8116.jpg",
-    "https://maravianwebservices.com/images/wicf/20241130_worship_experience_2/thumbnails/tn_WICF-35.jpg",
-    "https://maravianwebservices.com/images/wicf/20241130_worship_experience_2/thumbnails/tn_IMG_2941.JPG",
+    "https://maravianwebservices.com/images/hafh/20241231_crossover/thumbnails/tn_Cross%20over004.jpg",
+    "https://maravianwebservices.com/images/hafh/20250222_relationship_conference/thumbnails/tn_IMG_0090.jpg",
+    "https://maravianwebservices.com/images/hafh/20241130_worship_experience_1/thumbnails/tn_IMG_2925.JPG",
+    "https://files.maravianwebservices.com/hafh/20250405_sof_championship_1/thumbnails/tn_IMG_8116.jpg",
+    "https://maravianwebservices.com/images/hafh/20241130_worship_experience_2/thumbnails/tn_WICF-35.jpg",
+    "https://maravianwebservices.com/images/hafh/20241130_worship_experience_2/thumbnails/tn_IMG_2941.JPG",
   ]
 
   return (
@@ -276,7 +276,9 @@ export default function RegisterPage() {
                 <Label htmlFor="fellowship">Fellowship</Label>
                 <div className="relative">
                   <Users className="absolute left-3 top-3 h-4 w-4 text-gray-400 pointer-events-none" />
-                  <Select onValueChange={setFellowship} value={fellowship} disabled={!city}> {/* Disable until a city is selected */}
+                  <Select onValueChange={setFellowship} value={fellowship} disabled={!city}>
+                    {" "}
+                    {/* Disable until a city is selected */}
                     <SelectTrigger id="fellowship" className="pl-10 border-gray-200 focus:ring-black">
                       <SelectValue placeholder={city ? "Select your fellowship" : "Select a city first"} />
                     </SelectTrigger>
@@ -342,9 +344,7 @@ export default function RegisterPage() {
               </div>
 
               {/* Error Message Display */}
-              {error && (
-                <p className="text-red-500 text-sm text-center">{error}</p>
-              )}
+              {error && <p className="text-red-500 text-sm text-center">{error}</p>}
 
               {/* Submit Button */}
               <Button type="submit" className="w-full bg-black hover:bg-gray-800 text-white" disabled={isLoading}>
