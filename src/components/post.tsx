@@ -1,12 +1,24 @@
 "use client"
 
 import { useState } from "react"
-
 import { api } from "@/trpc/react"
-// import { type Post } from '@prisma/client'
+
+interface Post {
+  name: string;
+  createdAt: Date;
+  updatedAt: Date;
+  id: number;
+  createdById: string;
+}
 
 export function LatestPost() {
-  const [latestPost]: [{ name: string } | undefined] = api.post.getLatest.useSuspenseQuery()
+
+  const [latestPostData] = api.post.getLatest.useSuspenseQuery() as [
+    Post | null,
+    ...unknown[]
+  ]
+  
+  const latestPost = latestPostData ? { name: latestPostData.name } : undefined
 
   const utils = api.useUtils()
   const [name, setName] = useState("")
