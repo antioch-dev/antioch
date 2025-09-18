@@ -9,7 +9,7 @@ export default function HomePage() {
  useEffect(() => {
   const initAOS = async () => {
     const AOS = (await import("aos")).default;
-    await import("aos/dist/aos.css"); // ✅ dynamic import works without typings
+    await import("aos/dist/aos.css");
     AOS.init({ duration: 600, easing: "ease-out-cubic", once: true, offset: 50 });
   };
   void initAOS();
