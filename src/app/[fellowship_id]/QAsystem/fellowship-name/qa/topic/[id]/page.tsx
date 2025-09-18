@@ -65,7 +65,7 @@ export default function TopicManagement() {
     text: "",
     author: "",
     fellowship: "",
-    status: "pending" as const,
+    status: "pending" as "pending" | "approved",
   })
   const [filterStatus, setFilterStatus] = useState<string>("all")
   const [answerFilterStatus, setAnswerFilterStatus] = useState<string>("all")

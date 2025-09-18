@@ -173,8 +173,8 @@ export default function PublicTopicView() {
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="young-adults">Young Adults</SelectItem>
-                          <SelectItem value="mens-ministry">Men's Ministry</SelectItem>
-                          <SelectItem value="womens-ministry">Women's Ministry</SelectItem>
+                          <SelectItem value="mens-ministry">{`Men's Ministry`}</SelectItem>
+                          <SelectItem value="womens-ministry">{`Women's Ministry`}</SelectItem>
                           <SelectItem value="youth">Youth Ministry</SelectItem>
                           <SelectItem value="bible-study">Bible Study Group</SelectItem>
                           <SelectItem value="other">Other</SelectItem>
@@ -210,7 +210,7 @@ export default function PublicTopicView() {
             </span>
           </div>
 
-          <Select value={sortBy} onValueChange={(value: any) => setSortBy(value)}>
+          <Select value={sortBy} onValueChange={(value: "newest" | "votes" | "answered") => setSortBy(value)}>
             <SelectTrigger className="w-48">
               <SelectValue />
             </SelectTrigger>

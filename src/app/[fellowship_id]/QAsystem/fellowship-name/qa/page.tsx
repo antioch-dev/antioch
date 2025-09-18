@@ -35,7 +35,6 @@ import {
 export default function AdminDashboard() {
   const [topics, setTopics] = useState<Topic[]>(mockTopics)
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false)
-  const [editingTopic, setEditingTopic] = useState<Topic | null>(null)
 
   const handleCreateTopic = (formData: FormData) => {
     const newTopic: Topic = {

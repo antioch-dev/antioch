@@ -6,19 +6,14 @@ import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/ca
 import { MessageSquare, Users, Presentation, Settings } from "lucide-react"
 
 export default function HomePage() {
-  useEffect(() => {
-    const initAOS = async () => {
-      const AOS = (await import("aos")).default
-      await import("aos/dist/aos.css")
-      AOS.init({
-        duration: 800,
-        easing: "ease-out-cubic",
-        once: true,
-        offset: 100,
-      })
-    }
-    initAOS()
-  }, [])
+ useEffect(() => {
+  const initAOS = async () => {
+    const AOS = (await import("aos")).default;
+    await import("aos/dist/aos.css"); // ✅ dynamic import works without typings
+    AOS.init({ duration: 600, easing: "ease-out-cubic", once: true, offset: 50 });
+  };
+  void initAOS();
+}, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-card to-muted overflow-hidden">

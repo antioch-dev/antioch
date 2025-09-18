@@ -42,7 +42,7 @@ export default function ControlPanel() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [isAutoPlay, setIsAutoPlay] = useState(false)
   const [showAnswer, setShowAnswer] = useState(false)
-  const [isProjectionLive, setIsProjectionLive] = useState(true)
+  const [isProjectionLive] = useState(true)
   const [selectedQuestionId, setSelectedQuestionId] = useState<string | null>(approvedQuestions[0]?.id || null)
 
   // Auto-advance functionality

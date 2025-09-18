@@ -829,3 +829,215 @@ export const mockCheckouts = [
     created_at: new Date(Date.now() - 172800000).toISOString(), // 2 days ago
   },
 ]
+
+// qa system mock data
+export interface Topic {
+  id: string
+  title: string
+  description: string
+  status: "open" | "closed"
+  answerSetting: "allow_all" | "require_review" | "not_allowed"
+  questionsCount: number
+  answersCount: number
+  pinnedAnswersCount: number
+  createdAt: Date
+  updatedAt: Date
+}
+
+export interface Question {
+  id: string
+  topicId: string
+  text: string
+  author?: string
+  fellowship?: string
+  status: "pending" | "approved" | "answered"
+  votes: number
+  isDisplayed: boolean
+  createdAt: Date
+  updatedAt: Date
+}
+
+export interface Answer {
+  id: string
+  questionId: string
+  text: string
+  author?: string
+  status: "pending" | "approved" | "rejected"
+  isPinned: boolean
+  isChurchOfficial: boolean
+  createdAt: Date
+  updatedAt: Date
+}
+
+export interface Stats {
+  totalQuestions: number
+  totalAnswers: number
+  displayedQuestions: number
+  pendingQuestions: number
+  answeredQuestions: number
+}
+
+// Mock Topics Data
+export const mockTopics: Topic[] = [
+  {
+    id: "1",
+    title: "Sunday Service Q&A",
+    description: "Questions and answers from today's Sunday service message",
+    status: "open",
+    answerSetting: "require_review",
+    questionsCount: 12,
+    answersCount: 8,
+    pinnedAnswersCount: 3,
+    createdAt: new Date("2024-01-15T09:00:00Z"),
+    updatedAt: new Date("2024-01-15T11:30:00Z"),
+  },
+  {
+    id: "2",
+    title: "Bible Study Discussion",
+    description: "Questions from our weekly Bible study on Romans 8",
+    status: "open",
+    answerSetting: "allow_all",
+    questionsCount: 7,
+    answersCount: 15,
+    pinnedAnswersCount: 2,
+    createdAt: new Date("2024-01-10T19:00:00Z"),
+    updatedAt: new Date("2024-01-10T21:00:00Z"),
+  },
+  {
+    id: "3",
+    title: "Youth Ministry Q&A",
+    description: "Questions from our youth about faith and life",
+    status: "closed",
+    answerSetting: "require_review",
+    questionsCount: 5,
+    answersCount: 5,
+    pinnedAnswersCount: 5,
+    createdAt: new Date("2024-01-08T18:00:00Z"),
+    updatedAt: new Date("2024-01-08T20:00:00Z"),
+  },
+]
+
+// Mock Questions Data
+export const mockQuestions: Question[] = [
+  {
+    id: "1",
+    topicId: "1",
+    text: 'How can we practically apply the concept of "walking in the Spirit" in our daily lives?',
+    author: "Sarah M.",
+    fellowship: "Young Adults",
+    status: "approved",
+    votes: 8,
+    isDisplayed: false,
+    createdAt: new Date("2024-01-15T09:15:00Z"),
+    updatedAt: new Date("2024-01-15T09:15:00Z"),
+  },
+  {
+    id: "2",
+    topicId: "1",
+    text: 'What does it mean to be "more than conquerors" in Romans 8:37?',
+    author: "Michael T.",
+    fellowship: "Men's Ministry",
+    status: "answered",
+    votes: 12,
+    isDisplayed: true,
+    createdAt: new Date("2024-01-15T09:30:00Z"),
+    updatedAt: new Date("2024-01-15T10:45:00Z"),
+  },
+  {
+    id: "3",
+    topicId: "1",
+    text: "How do we know if we're truly led by the Spirit versus our own desires?",
+    author: "Jennifer L.",
+    fellowship: "Women's Ministry",
+    status: "approved",
+    votes: 15,
+    isDisplayed: false,
+    createdAt: new Date("2024-01-15T09:45:00Z"),
+    updatedAt: new Date("2024-01-15T09:45:00Z"),
+  },
+  {
+    id: "4",
+    topicId: "1",
+    text: "Can you explain the difference between condemnation and conviction?",
+    status: "pending",
+    votes: 3,
+    isDisplayed: false,
+    createdAt: new Date("2024-01-15T10:00:00Z"),
+    updatedAt: new Date("2024-01-15T10:00:00Z"),
+  },
+  {
+    id: "5",
+    topicId: "2",
+    text: 'In Romans 8:28, does "all things work together for good" mean bad things won\'t happen to Christians?',
+    author: "David K.",
+    fellowship: "Bible Study Group",
+    status: "answered",
+    votes: 9,
+    isDisplayed: false,
+    createdAt: new Date("2024-01-10T19:15:00Z"),
+    updatedAt: new Date("2024-01-10T20:30:00Z"),
+  },
+]
+
+// Mock Answers Data
+export const mockAnswers: Answer[] = [
+  {
+    id: "1",
+    questionId: "2",
+    text: "Being \"more than conquerors\" means that through Christ's love, we don't just barely survive life's challenges - we triumph over them. It's not about avoiding difficulties, but about having victory through them because nothing can separate us from God's love.",
+    author: "Pastor Johnson",
+    status: "approved",
+    isPinned: true,
+    isChurchOfficial: true,
+    createdAt: new Date("2024-01-15T10:45:00Z"),
+    updatedAt: new Date("2024-01-15T10:45:00Z"),
+  },
+  {
+    id: "2",
+    questionId: "2",
+    text: "I think it means we have the ultimate victory because Christ has already won the battle against sin and death. We're on the winning team!",
+    author: "Lisa R.",
+    status: "approved",
+    isPinned: false,
+    isChurchOfficial: false,
+    createdAt: new Date("2024-01-15T11:00:00Z"),
+    updatedAt: new Date("2024-01-15T11:00:00Z"),
+  },
+  {
+    id: "3",
+    questionId: "5",
+    text: "Romans 8:28 doesn't promise that bad things won't happen, but that God can work even through difficult circumstances for our ultimate good and His glory. It's about God's sovereignty and His ability to bring purpose from pain.",
+    author: "Pastor Johnson",
+    status: "approved",
+    isPinned: true,
+    isChurchOfficial: true,
+    createdAt: new Date("2024-01-10T20:30:00Z"),
+    updatedAt: new Date("2024-01-10T20:30:00Z"),
+  },
+]
+
+// Mock Stats Data
+export const mockStats: Stats = {
+  totalQuestions: 24,
+  totalAnswers: 28,
+  displayedQuestions: 1,
+  pendingQuestions: 3,
+  answeredQuestions: 8,
+}
+
+// Utility functions for mock data
+export const getTopicById = (id: string): Topic | undefined => {
+  return mockTopics.find((topic) => topic.id === id)
+}
+
+export const getQuestionsByTopicId = (topicId: string): Question[] => {
+  return mockQuestions.filter((question) => question.topicId === topicId)
+}
+
+export const getAnswersByQuestionId = (questionId: string): Answer[] => {
+  return mockAnswers.filter((answer) => answer.questionId === questionId)
+}
+
+export const getQuestionById = (id: string): Question | undefined => {
+  return mockQuestions.find((question) => question.id === id)
+}

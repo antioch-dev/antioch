@@ -12,10 +12,11 @@ export default function PublicQAInterface() {
   const [searchTerm, setSearchTerm] = useState("")
   const publicTopics = mockTopics.filter((topic) => topic.status === "open")
 
-  useEffect(() => {
+ useEffect(() => {
     const initAOS = async () => {
       const AOS = (await import("aos")).default
-      await import("aos/dist/aos.css")
+      await import("aos/dist/aos.css") 
+
       AOS.init({
         duration: 600,
         easing: "ease-out-cubic",
@@ -23,7 +24,7 @@ export default function PublicQAInterface() {
         offset: 50,
       })
     }
-    initAOS()
+    void initAOS()
   }, [])
 
   const filteredTopics = publicTopics.filter(

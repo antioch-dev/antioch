@@ -86,7 +86,7 @@ export default function ProjectionView() {
   }
 
   const currentQuestion = questions[currentQuestionIndex]
-  const answers = getAnswersByQuestionId(currentQuestion.id)
+  const answers = currentQuestion ? getAnswersByQuestionId(currentQuestion.id) : []
   const pinnedAnswer = answers.find((a) => a.isPinned && a.status === "approved")
 
   return (
@@ -104,9 +104,9 @@ export default function ProjectionView() {
             </div>
             <div className="flex gap-3 mt-2">
               <Badge className="bg-blue-600/20 text-blue-300 border-blue-500/30 text-sm">
-                {currentQuestion.status}
+                {currentQuestion?.status}
               </Badge>
-              {currentQuestion.isDisplayed && (
+              {currentQuestion?.isDisplayed && (
                 <Badge className="bg-green-600/20 text-green-300 border-green-500/30 text-sm">Live</Badge>
               )}
             </div>
@@ -126,25 +126,25 @@ export default function ProjectionView() {
                   <MessageSquare className="w-8 h-8 text-blue-400" />
                   <span className="text-2xl font-semibold text-blue-300">Question</span>
                 </div>
-                <h2 className="text-4xl md:text-5xl font-bold leading-tight text-white mb-8">{currentQuestion.text}</h2>
+                <h2 className="text-4xl md:text-5xl font-bold leading-tight text-white mb-8">{currentQuestion?.text}</h2>
 
                 {/* Question Meta */}
                 <div className="flex flex-wrap gap-6 text-lg text-gray-300">
-                  {currentQuestion.author && (
+                  {currentQuestion?.author && (
                     <div className="flex items-center gap-2">
                       <User className="w-5 h-5" />
-                      <span>{currentQuestion.author}</span>
+                      <span>{currentQuestion?.author}</span>
                     </div>
                   )}
-                  {currentQuestion.fellowship && (
+                  {currentQuestion?.fellowship && (
                     <div className="flex items-center gap-2">
                       <Users className="w-5 h-5" />
-                      <span>{currentQuestion.fellowship}</span>
+                      <span>{currentQuestion?.fellowship}</span>
                     </div>
                   )}
                   <div className="flex items-center gap-2">
                     <Clock className="w-5 h-5" />
-                    <span>{new Date(currentQuestion.createdAt).toLocaleDateString()}</span>
+                    <span>{currentQuestion?.createdAt ? new Date(currentQuestion.createdAt).toLocaleDateString() : "N/A"}</span>
                   </div>
                 </div>
               </div>

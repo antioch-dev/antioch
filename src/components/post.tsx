@@ -6,7 +6,7 @@ import { api } from "@/trpc/react"
 // import { type Post } from '@prisma/client'
 
 export function LatestPost() {
-  const [latestPost] = api.post.getLatest.useSuspenseQuery()
+  const [latestPost]: [{ name: string } | undefined] = api.post.getLatest.useSuspenseQuery()
 
   const utils = api.useUtils()
   const [name, setName] = useState("")
