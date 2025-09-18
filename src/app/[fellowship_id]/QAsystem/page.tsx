@@ -31,7 +31,7 @@ export default function HomePage() {
         {/* Navigation Cards */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           <div data-aos="zoom-in" data-aos-delay="100">
-            <Link href="/fellowship-name/qa">
+            <Link href="QAsystem/fellowship-name/qa">
               <Card className="group hover:shadow-2xl transition-all duration-500 hover:scale-105 cursor-pointer border-2 hover:border-primary/30 bg-gradient-to-br from-card to-card/50 backdrop-blur-sm relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <CardHeader className="text-center relative z-10">
@@ -50,7 +50,7 @@ export default function HomePage() {
           </div>
 
           <div data-aos="zoom-in" data-aos-delay="200">
-            <Link href="/fellowship-name/qa/public">
+            <Link href="QAsystem/fellowship-name/qa/public">
               <Card className="group hover:shadow-2xl transition-all duration-500 hover:scale-105 cursor-pointer border-2 hover:border-accent/30 bg-gradient-to-br from-card to-card/50 backdrop-blur-sm relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-r from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <CardHeader className="text-center relative z-10">
@@ -69,7 +69,7 @@ export default function HomePage() {
           </div>
 
           <div data-aos="zoom-in" data-aos-delay="300">
-            <Link href="/fellowship-name/qa/projection/1">
+            <Link href="QAsystem/fellowship-name/qa/projection/1">
               <Card className="group hover:shadow-2xl transition-all duration-500 hover:scale-105 cursor-pointer border-2 hover:border-secondary/30 bg-gradient-to-br from-card to-card/50 backdrop-blur-sm relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-r from-secondary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <CardHeader className="text-center relative z-10">
@@ -88,7 +88,7 @@ export default function HomePage() {
           </div>
 
           <div data-aos="zoom-in" data-aos-delay="400">
-            <Link href="/fellowship-name/qa/control/1">
+            <Link href="QAsystem/fellowship-name/qa/control/1">
               <Card className="group hover:shadow-2xl transition-all duration-500 hover:scale-105 cursor-pointer border-2 hover:border-chart-1/30 bg-gradient-to-br from-card to-card/50 backdrop-blur-sm relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-r from-chart-1/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <CardHeader className="text-center relative z-10">
