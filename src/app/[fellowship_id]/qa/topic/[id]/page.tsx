@@ -163,7 +163,7 @@ export default function TopicManagement() {
         {/* Header */}
         <div className="flex items-center gap-4 mb-6">
           <Button variant="outline" size="sm" asChild>
-            <Link href="/fellowship_1/QAsystem/fellowship-name/qa">
+            <Link href="/fellowship1/qa">
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Dashboard
             </Link>
@@ -278,7 +278,7 @@ export default function TopicManagement() {
               </DialogContent>
             </Dialog>
             <Button asChild>
-              <Link href={`/fellowship_1/QAsystem/fellowship-name/qa/projection/${topicId}`}>
+              <Link href={`/fellowship1/qa/projection/${topicId}`}>
                 <MessageSquare className="w-4 h-4 mr-2" />
                 Start Projection
               </Link>

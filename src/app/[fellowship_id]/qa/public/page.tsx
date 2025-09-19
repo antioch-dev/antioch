@@ -102,7 +102,7 @@ export default function PublicQAInterface() {
                 <div key={topic.id} data-aos="zoom-in" data-aos-delay={index * 100}>
                   <Card className="group hover:shadow-2xl transition-all duration-500 hover:scale-105 cursor-pointer bg-gradient-to-br from-card to-card/80 backdrop-blur-sm border-2 hover:border-primary/20 relative overflow-hidden">
                     <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    <Link href={`/fellowship_1/QAsystem/fellowship-name/qa/public/topic/${topic.id}`}>
+                    <Link href={`/fellowship1/qa/public/topic/${topic.id}`}>
                       <CardHeader className="pb-3 relative z-10">
                         <div className="flex justify-between items-start mb-2">
                           <CardTitle className="text-lg group-hover:text-primary transition-colors duration-300">

@@ -34,7 +34,7 @@ export function Header() {
           <Link href="/fellowship1/shared_music" className="text-sm font-medium transition-colors hover:text-primary">
             Shared Music
           </Link>
-          <Link href="/fellowship1/QAsystem" className="text-sm font-medium transition-colors hover:text-primary">
+          <Link href="/fellowship1/qa" className="text-sm font-medium transition-colors hover:text-primary">
             QAsystem
           </Link>
         </nav>

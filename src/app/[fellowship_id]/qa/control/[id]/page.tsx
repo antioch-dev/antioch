@@ -132,7 +132,7 @@ export default function ControlPanel() {
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-4">
             <Button variant="outline" size="sm" asChild>
-              <Link href="/fellowship_1/QAsystem/fellowship-name/qa">
+              <Link href="/fellowship1/qa">
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Dashboard
               </Link>
@@ -148,7 +148,7 @@ export default function ControlPanel() {
               <span className="text-sm font-medium">{isProjectionLive ? "Projection Live" : "Projection Offline"}</span>
             </div>
             <Button variant="outline" size="sm" asChild>
-              <Link href={`/fellowship_1/QAsystem/fellowship-name/qa/projection/${topicId}`} target="_blank">
+              <Link href={`/fellowship1/qa/projection/${topicId}`} target="_blank">
                 <Monitor className="w-4 h-4 mr-2" />
                 Open Projection
               </Link>
@@ -395,13 +395,13 @@ export default function ControlPanel() {
               </CardHeader>
               <CardContent className="space-y-2">
                 <Button variant="outline" size="sm" className="w-full justify-start bg-transparent" asChild>
-                  <Link href={`/fellowship_1/QAsystem/fellowship-name/qa/topic/${topicId}`}>
+                  <Link href={`/fellowship1/qa/topic/${topicId}`}>
                     <Settings className="w-4 h-4 mr-2" />
                     Manage Questions
                   </Link>
                 </Button>
                 <Button variant="outline" size="sm" className="w-full justify-start bg-transparent" asChild>
-                  <Link href={`/fellowship_1/QAsystem/fellowship-name/qa/public`}>
+                  <Link href={`/fellowship1/qa/public`}>
                     <MessageSquare className="w-4 h-4 mr-2" />
                     Public Interface
                   </Link>
