@@ -34,6 +34,9 @@ export function Header() {
           <Link href="/fellowship1/shared_music" className="text-sm font-medium transition-colors hover:text-primary">
             Shared Music
           </Link>
+          <Link href="/fellowship1/qa" className="text-sm font-medium transition-colors hover:text-primary">
+            QAsystem
+          </Link>
         </nav>
         <div className="flex items-center gap-4">
           <Link href="/auth/login" className="flex items-center gap-1 text-sm font-medium">
