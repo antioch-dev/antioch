@@ -84,7 +84,7 @@ export default function AdminDashboard() {
             <p className="text-muted-foreground">Manage topics, questions, and answers for your fellowship</p>
           </div>
           <div className="flex gap-3 mt-4 md:mt-0">
-            <Link href="/fellowship-name/qa/public">
+            <Link href="/fellowship_1/QAsystem/fellowship-name/qa/public">
               <Button variant="outline" className="gap-2 bg-transparent">
                 <Users className="w-4 h-4" />
                 Public View
@@ -236,7 +236,7 @@ export default function AdminDashboard() {
                   </div>
                   <div className="flex gap-2 ml-4">
                     <Button variant="outline" size="sm" asChild>
-                      <Link href={`/fellowship-name/qa/topic/${topic.id}`}>
+                      <Link href={`/fellowship_1/QAsystem/fellowship-name/qa/topic/${topic.id}`}>
                         <Settings className="w-4 h-4 mr-1" />
                         Manage
                       </Link>
@@ -246,7 +246,7 @@ export default function AdminDashboard() {
                       Share
                     </Button>
                     <Button variant="outline" size="sm" asChild>
-                      <Link href={`/fellowship-name/qa/projection/${topic.id}`}>
+                      <Link href={`/fellowship_1/QAsystem/fellowship-name/qa/projection/${topic.id}`}>
                         <MessageSquare className="w-4 h-4 mr-1" />
                         Project
                       </Link>

@@ -72,7 +72,7 @@ export default function ControlPanel() {
             <h2 className="text-xl font-semibold mb-2">Topic Not Found</h2>
             <p className="text-muted-foreground mb-4">The requested topic could not be found.</p>
             <Button asChild>
-              <Link href="QAsystem/fellowship-name/qa">Back to Dashboard</Link>
+              <Link href="/QAsystem/fellowship-name/qa">Back to Dashboard</Link>
             </Button>
           </CardContent>
         </Card>
@@ -132,7 +132,7 @@ export default function ControlPanel() {
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-4">
             <Button variant="outline" size="sm" asChild>
-              <Link href="QAsystem/fellowship-name/qa">
+              <Link href="/fellowship_1/QAsystem/fellowship-name/qa">
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Dashboard
               </Link>
@@ -148,7 +148,7 @@ export default function ControlPanel() {
               <span className="text-sm font-medium">{isProjectionLive ? "Projection Live" : "Projection Offline"}</span>
             </div>
             <Button variant="outline" size="sm" asChild>
-              <Link href={`QAsystem/fellowship-name/qa/projection/${topicId}`} target="_blank">
+              <Link href={`/QAsystem/fellowship-name/qa/projection/${topicId}`} target="_blank">
                 <Monitor className="w-4 h-4 mr-2" />
                 Open Projection
               </Link>
@@ -395,13 +395,13 @@ export default function ControlPanel() {
               </CardHeader>
               <CardContent className="space-y-2">
                 <Button variant="outline" size="sm" className="w-full justify-start bg-transparent" asChild>
-                  <Link href={`QAsystem/fellowship-name/qa/topic/${topicId}`}>
+                  <Link href={`/fellowship_1/QAsystem/fellowship-name/qa/topic/${topicId}`}>
                     <Settings className="w-4 h-4 mr-2" />
                     Manage Questions
                   </Link>
                 </Button>
                 <Button variant="outline" size="sm" className="w-full justify-start bg-transparent" asChild>
-                  <Link href={`QAsystem/fellowship-name/qa/public`}>
+                  <Link href={`/QAsystem/fellowship-name/qa/public`}>
                     <MessageSquare className="w-4 h-4 mr-2" />
                     Public Interface
                   </Link>

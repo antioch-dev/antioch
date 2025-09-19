@@ -52,7 +52,7 @@ export default function PublicTopicView() {
             <h2 className="text-xl font-semibold mb-2">Topic Not Found</h2>
             <p className="text-muted-foreground mb-4">The requested topic could not be found.</p>
             <Button asChild>
-              <Link href="QAsystem/fellowship-name/qa/public">Back to Topics</Link>
+              <Link href="/fellowship_1/QAsystem/fellowship-name/qa/public">Back to Topics</Link>
             </Button>
           </CardContent>
         </Card>
@@ -114,7 +114,7 @@ export default function PublicTopicView() {
         {/* Header */}
         <div className="mb-8">
           <Button variant="outline" size="sm" className="mb-4 bg-transparent" asChild>
-            <Link href="QAsystem/fellowship-name/qa/public">
+            <Link href="/fellowship_1/QAsystem/fellowship-name/qa/public">
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Topics
             </Link>

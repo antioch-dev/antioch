@@ -78,7 +78,7 @@ export default function TopicManagement() {
             <h2 className="text-xl font-semibold mb-2">Topic Not Found</h2>
             <p className="text-muted-foreground mb-4">The requested topic could not be found.</p>
             <Button asChild>
-              <Link href="QAsystem/fellowship-name/qa">Back to Dashboard</Link>
+              <Link href="../fellowship-name/qa">Back to Dashboard</Link>
             </Button>
           </CardContent>
         </Card>
@@ -163,7 +163,7 @@ export default function TopicManagement() {
         {/* Header */}
         <div className="flex items-center gap-4 mb-6">
           <Button variant="outline" size="sm" asChild>
-            <Link href="QAsystem/fellowship-name/qa">
+            <Link href="/fellowship_1/QAsystem/fellowship-name/qa">
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Dashboard
             </Link>
@@ -278,7 +278,7 @@ export default function TopicManagement() {
               </DialogContent>
             </Dialog>
             <Button asChild>
-              <Link href={`QAsystem/fellowship-name/qa/projection/${topicId}`}>
+              <Link href={`/fellowship_1/QAsystem/fellowship-name/qa/projection/${topicId}`}>
                 <MessageSquare className="w-4 h-4 mr-2" />
                 Start Projection
               </Link>
