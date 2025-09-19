@@ -148,7 +148,7 @@ export default function ControlPanel() {
               <span className="text-sm font-medium">{isProjectionLive ? "Projection Live" : "Projection Offline"}</span>
             </div>
             <Button variant="outline" size="sm" asChild>
-              <Link href={`/QAsystem/fellowship-name/qa/projection/${topicId}`} target="_blank">
+              <Link href={`/fellowship_1/QAsystem/fellowship-name/qa/projection/${topicId}`} target="_blank">
                 <Monitor className="w-4 h-4 mr-2" />
                 Open Projection
               </Link>
@@ -401,7 +401,7 @@ export default function ControlPanel() {
                   </Link>
                 </Button>
                 <Button variant="outline" size="sm" className="w-full justify-start bg-transparent" asChild>
-                  <Link href={`/QAsystem/fellowship-name/qa/public`}>
+                  <Link href={`/fellowship_1/QAsystem/fellowship-name/qa/public`}>
                     <MessageSquare className="w-4 h-4 mr-2" />
                     Public Interface
                   </Link>
