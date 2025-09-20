@@ -225,6 +225,7 @@ export default function AppointmentsPage({ params }: AppointmentsPageProps) {
       </Card>
 
       {/* Appointments Table */}
+      
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
