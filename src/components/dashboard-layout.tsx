@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils"
 
 interface DashboardLayoutProps {
   children: React.ReactNode
-  userRole?: "admin" | "pastor" | "leader" | "member" | "user"
+  userRole?: "user" | "admin" | "pastor" | "leader" | "member" | "super_admin" | "tenure_manager" | "department_head";
   fellowshipId?: string
   userId?: string
 }
