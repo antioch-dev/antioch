@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { use, useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -19,14 +19,15 @@ import {
 } from "@/components/ui/dialog"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { getPermissions } from "@/lib/data-utils"
-import type { Permission } from "@/lib/types"
+import type { Permission } from "@/lib/mock-data"
 import { Shield, Plus, Search, MoreHorizontal, Edit, Trash2, UserCheck } from "lucide-react"
 
 interface PermissionsPageProps {
-  params: { fellowship_id: string }
+  params: Promise<{ fellowship_id: string }>
 }
 
 export default function PermissionsPage({ params }: PermissionsPageProps) {
+  const resolvedParams = use(params)
   const [searchTerm, setSearchTerm] = useState("")
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
   const [newPermission, setNewPermission] = useState({
@@ -35,7 +36,7 @@ export default function PermissionsPage({ params }: PermissionsPageProps) {
     role: "department_head" as Permission["role"],
   })
 
-  const permissions = getPermissions(params.fellowship_id)
+  const permissions = getPermissions(resolvedParams.fellowship_id)
 
   const filteredPermissions = permissions.filter((permission) =>
     permission.userId.toLowerCase().includes(searchTerm.toLowerCase()),
@@ -83,7 +84,6 @@ export default function PermissionsPage({ params }: PermissionsPageProps) {
   }
 
   const handleAddPermission = () => {
-    // Mock add permission - in real app, this would call an API
     console.log("Adding permission:", newPermission)
     setIsAddDialogOpen(false)
     setNewPermission({
@@ -271,7 +271,7 @@ export default function PermissionsPage({ params }: PermissionsPageProps) {
                   <TableHead>Role</TableHead>
                   <TableHead>Permissions</TableHead>
                   <TableHead>Granted</TableHead>
-                  <TableHead className="w-[50px]"></TableHead>
+                  <TableHead className="w-[50px]">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>

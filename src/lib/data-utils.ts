@@ -23,7 +23,7 @@ import type {
   User,
   DepartmentWithMembers,
   PersonWithDepartments,
-} from "./types"
+} from "./mock-data"
 
 // Utility functions for working with mock data
 
@@ -190,7 +190,7 @@ export function getPersonWithDepartments(fellowshipId: string, personId: string)
   }
 }
 
-export function getUsers(fellowshipId: string = MOCK_FELLOWSHIP_ID): User[] {
+export function getUsers(_fellowshipId: string = MOCK_FELLOWSHIP_ID): User[] {
   return mockUsers
 }
 

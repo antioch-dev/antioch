@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { use, useState } from "react" // Add 'use' import
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -8,15 +8,17 @@ import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { mockTenures } from "@/lib/mock-data"
-import type { Tenure } from "@/lib/types"
+import type { Tenure } from "@/lib/mock-data"
 import Link from "next/link"
 import { Plus, Search, MoreHorizontal, Calendar, Edit, Archive, Trash2 } from "lucide-react"
 
 interface TenuresPageProps {
-  params: { fellowship_id: string }
+  params: Promise<{ fellowship_id: string }> // Change to Promise
 }
 
 export default function TenuresPage({ params }: TenuresPageProps) {
+  // Use the 'use' hook to unwrap the Promise
+  const resolvedParams = use(params)
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState<"all" | "active" | "past" | "upcoming">("all")
 
@@ -58,7 +60,7 @@ export default function TenuresPage({ params }: TenuresPageProps) {
           <h2 className="text-2xl font-bold text-foreground">Tenure Management</h2>
           <p className="text-muted-foreground">Manage leadership tenure periods</p>
         </div>
-        <Link href={`/${params.fellowship_id}/leadership/tenures/new`}>
+        <Link href={`/${resolvedParams.fellowship_id}/leadership/tenures/new`}> {/* Use resolvedParams */}
           <Button>
             <Plus className="h-4 w-4 mr-2" />
             Create Tenure
@@ -142,7 +144,7 @@ export default function TenuresPage({ params }: TenuresPageProps) {
                   : "Get started by creating your first tenure period"}
               </p>
               {!searchTerm && statusFilter === "all" && (
-                <Link href={`/${params.fellowship_id}/leadership/tenures/new`}>
+                <Link href={`/${resolvedParams.fellowship_id}/leadership/tenures/new`}> {/* Use resolvedParams */}
                   <Button>
                     <Plus className="h-4 w-4 mr-2" />
                     Create First Tenure
@@ -159,7 +161,7 @@ export default function TenuresPage({ params }: TenuresPageProps) {
                   <TableHead>End Date</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead>Duration</TableHead>
-                  <TableHead className="w-[50px]"></TableHead>
+                  <TableHead className="w-[50px]">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -197,7 +199,7 @@ export default function TenuresPage({ params }: TenuresPageProps) {
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
                             <DropdownMenuItem asChild>
-                              <Link href={`/${params.fellowship_id}/leadership/tenures/${tenure.id}/edit`}>
+                              <Link href={`/${resolvedParams.fellowship_id}/leadership/tenures/${tenure.id}/edit`}> {/* Use resolvedParams */}
                                 <Edit className="h-4 w-4 mr-2" />
                                 Edit
                               </Link>

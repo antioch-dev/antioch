@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { use, useState } from "react" // Add 'use' import
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -12,10 +12,12 @@ import Link from "next/link"
 import { Plus, Search, MoreHorizontal, Users, Edit, ToggleLeft, ToggleRight, Trash2 } from "lucide-react"
 
 interface PositionsPageProps {
-  params: { fellowship_id: string }
+  params: Promise<{ fellowship_id: string }> // Change to Promise
 }
 
 export default function PositionsPage({ params }: PositionsPageProps) {
+  // Use the 'use' hook to unwrap the Promise
+  const resolvedParams = use(params)
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState<"all" | "active" | "inactive">("all")
   const [typeFilter, setTypeFilter] = useState<"all" | "standalone" | "department">("all")
@@ -61,10 +63,10 @@ export default function PositionsPage({ params }: PositionsPageProps) {
           <p className="text-muted-foreground">Manage leadership positions and roles</p>
         </div>
         <div className="flex items-center gap-3">
-          <Link href={`/${params.fellowship_id}/leadership/departments`}>
+          <Link href={`/${resolvedParams.fellowship_id}/leadership/departments`}> {/* Use resolvedParams */}
             <Button variant="outline">Manage Departments</Button>
           </Link>
-          <Link href={`/${params.fellowship_id}/leadership/positions/new`}>
+          <Link href={`/${resolvedParams.fellowship_id}/leadership/positions/new`}> {/* Use resolvedParams */}
             <Button>
               <Plus className="h-4 w-4 mr-2" />
               Create Position
@@ -161,7 +163,7 @@ export default function PositionsPage({ params }: PositionsPageProps) {
                   : "Get started by creating your first leadership position"}
               </p>
               {!searchTerm && statusFilter === "all" && typeFilter === "all" && (
-                <Link href={`/${params.fellowship_id}/leadership/positions/new`}>
+                <Link href={`/${resolvedParams.fellowship_id}/leadership/positions/new`}> {/* Use resolvedParams */}
                   <Button>
                     <Plus className="h-4 w-4 mr-2" />
                     Create First Position
@@ -178,7 +180,7 @@ export default function PositionsPage({ params }: PositionsPageProps) {
                   <TableHead>Type</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead>Created</TableHead>
-                  <TableHead className="w-[50px]"></TableHead>
+                  <TableHead className="w-[50px]">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -228,7 +230,7 @@ export default function PositionsPage({ params }: PositionsPageProps) {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                           <DropdownMenuItem asChild>
-                            <Link href={`/${params.fellowship_id}/leadership/positions/${position.id}/edit`}>
+                            <Link href={`/${resolvedParams.fellowship_id}/leadership/positions/${position.id}/edit`}> {/* Use resolvedParams */}
                               <Edit className="h-4 w-4 mr-2" />
                               Edit
                             </Link>

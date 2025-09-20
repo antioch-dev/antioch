@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { use, useState } from "react" // Add 'use' import
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import {
@@ -12,20 +12,22 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { getActiveTenure, getAppointmentsWithDetails, getDepartments } from "@/lib/data-utils"
-import type { AppointmentWithDetails } from "@/lib/types"
+import type { AppointmentWithDetails } from "@/lib/mock-data"
 import { Calendar, User, Building2, Mail, Phone, Clock } from "lucide-react"
 import Image from "next/image"
 
 interface PublicLeadershipPageProps {
-  params: { fellowship_id: string }
+  params: Promise<{ fellowship_id: string }> // Change to Promise
 }
 
 export default function PublicLeadershipPage({ params }: PublicLeadershipPageProps) {
+  // Use the 'use' hook to unwrap the Promise
+  const resolvedParams = use(params)
   const [selectedLeader, setSelectedLeader] = useState<AppointmentWithDetails | null>(null)
 
-  const activeTenure = getActiveTenure(params.fellowship_id)
-  const allAppointments = getAppointmentsWithDetails(params.fellowship_id)
-  const departments = getDepartments(params.fellowship_id)
+  const activeTenure = getActiveTenure(resolvedParams.fellowship_id) // Use resolvedParams
+  const allAppointments = getAppointmentsWithDetails(resolvedParams.fellowship_id) // Use resolvedParams
+  const departments = getDepartments(resolvedParams.fellowship_id) // Use resolvedParams
 
   // Filter to only accepted appointments for the active tenure
   const activeAppointments = allAppointments.filter(
@@ -254,7 +256,7 @@ export default function PublicLeadershipPage({ params }: PublicLeadershipPagePro
                     <LeaderCard key={appointment.id} appointment={appointment} size="large" />
                   ))}
                 </div>
-              </section>
+            </section>
             )}
 
             {/* Ministry Departments */}
@@ -272,7 +274,7 @@ export default function PublicLeadershipPage({ params }: PublicLeadershipPagePro
                     <p className="text-muted-foreground max-w-2xl mx-auto">{department.description}</p>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {deptAppointments.map((appointment) => (
+                    {deptAppointments.map((appointment: AppointmentWithDetails) => (
                       <LeaderCard key={appointment.id} appointment={appointment} />
                     ))}
                   </div>

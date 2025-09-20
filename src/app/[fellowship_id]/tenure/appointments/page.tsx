@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { use, useState } from "react" // Add 'use' import
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -9,7 +9,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { getAppointmentsWithDetails, getTenures } from "@/lib/data-utils"
-import type { Appointment } from "@/lib/types"
+import type { Appointment } from "@/lib/mock-data"
 import Link from "next/link"
 import {
   Plus,
@@ -27,16 +27,18 @@ import {
 } from "lucide-react"
 
 interface AppointmentsPageProps {
-  params: { fellowship_id: string }
+  params: Promise<{ fellowship_id: string }> // Change to Promise
 }
 
 export default function AppointmentsPage({ params }: AppointmentsPageProps) {
+  // Use the 'use' hook to unwrap the Promise
+  const resolvedParams = use(params)
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState<"all" | "pending" | "accepted" | "declined" | "revoked">("all")
   const [tenureFilter, setTenureFilter] = useState<string>("all")
 
-  const allAppointments = getAppointmentsWithDetails(params.fellowship_id)
-  const tenures = getTenures(params.fellowship_id)
+  const allAppointments = getAppointmentsWithDetails(resolvedParams.fellowship_id) // Use resolvedParams
+  const tenures = getTenures(resolvedParams.fellowship_id) // Use resolvedParams
 
   const filteredAppointments = allAppointments.filter((appointment) => {
     const matchesSearch =
@@ -113,7 +115,7 @@ export default function AppointmentsPage({ params }: AppointmentsPageProps) {
           <h2 className="text-2xl font-bold text-foreground">Appointment Management</h2>
           <p className="text-muted-foreground">Manage leadership appointments and invitations</p>
         </div>
-        <Link href={`/${params.fellowship_id}/leadership/appointments/new`}>
+        <Link href={`/${resolvedParams.fellowship_id}/leadership/appointments/new`}> {/* Use resolvedParams */}
           <Button>
             <Plus className="h-4 w-4 mr-2" />
             Create Appointment
@@ -192,7 +194,7 @@ export default function AppointmentsPage({ params }: AppointmentsPageProps) {
               </div>
             </div>
             <div className="flex gap-2">
-              <Select value={statusFilter} onValueChange={(value: any) => setStatusFilter(value)}>
+              <Select value={statusFilter} onValueChange={(value: "all" | "pending" | "accepted" | "declined" | "revoked") => setStatusFilter(value)}>
                 <SelectTrigger className="w-[140px]">
                   <SelectValue placeholder="All Status" />
                 </SelectTrigger>
@@ -242,7 +244,7 @@ export default function AppointmentsPage({ params }: AppointmentsPageProps) {
                   : "Get started by creating your first appointment"}
               </p>
               {!searchTerm && statusFilter === "all" && tenureFilter === "all" && (
-                <Link href={`/${params.fellowship_id}/leadership/appointments/new`}>
+                <Link href={`/${resolvedParams.fellowship_id}/leadership/appointments/new`}> {/* Use resolvedParams */}
                   <Button>
                     <Plus className="h-4 w-4 mr-2" />
                     Create First Appointment
@@ -271,7 +273,7 @@ export default function AppointmentsPage({ params }: AppointmentsPageProps) {
                           <span className="text-sm font-medium">
                             {appointment.person.name
                               .split(" ")
-                              .map((n) => n[0])
+                              .map((n: string) => n[0])
                               .join("")}
                           </span>
                         </div>

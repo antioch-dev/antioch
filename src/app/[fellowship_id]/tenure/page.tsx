@@ -1,3 +1,6 @@
+"use client"
+
+import { use } from "react" // Add 'use' import
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -18,12 +21,14 @@ import {
 } from "lucide-react"
 
 interface LeadershipDashboardProps {
-  params: { fellowship_id: string }
+  params: Promise<{ fellowship_id: string }> // Change to Promise
 }
 
 export default function LeadershipDashboard({ params }: LeadershipDashboardProps) {
-  const stats = getTenureStats(params.fellowship_id)
-  const activeTenure = getActiveTenure(params.fellowship_id)
+  // Use the 'use' hook to unwrap the Promise
+  const resolvedParams = use(params)
+  const stats = getTenureStats(resolvedParams.fellowship_id) // Use resolvedParams
+  const activeTenure = getActiveTenure(resolvedParams.fellowship_id) // Use resolvedParams
 
   return (
     <div className="space-y-10">
@@ -35,17 +40,17 @@ export default function LeadershipDashboard({ params }: LeadershipDashboardProps
           <div className="max-w-3xl">
             <h1 className="text-4xl font-bold tracking-tight mb-4 text-white">Leadership Management System</h1>
             <p className="text-xl text-slate-200 mb-8 leading-relaxed">
-              Streamline your fellowship's leadership structure with comprehensive tenure management, position
-              assignments, and appointment tracking.
+           {`   Streamline your fellowship's leadership structure with comprehensive tenure management, position
+              assignments, and appointment tracking.`}
             </p>
             <div className="flex flex-wrap gap-4">
-              <Link href={`/${params.fellowship_id}/leadership/public`}>
+              <Link href={`/${resolvedParams.fellowship_id}/leadership/public`}> {/* Use resolvedParams */}
                 <Button size="lg" variant="secondary" className="bg-white text-slate-900 hover:bg-slate-100">
                   <Eye className="mr-2 h-5 w-5" />
                   View Public Directory
                 </Button>
               </Link>
-              <Link href={`/${params.fellowship_id}/leadership/tenures/new`}>
+              <Link href={`/${resolvedParams.fellowship_id}/leadership/tenures/new`}> {/* Use resolvedParams */}
                 <Button
                   size="lg"
                   variant="outline"
@@ -151,7 +156,7 @@ export default function LeadershipDashboard({ params }: LeadershipDashboardProps
                   })}
                 </CardDescription>
               </div>
-              <Link href={`/${params.fellowship_id}/leadership/public`}>
+              <Link href={`/${resolvedParams.fellowship_id}/leadership/public`}> {/* Use resolvedParams */}
                 <Button
                   size="lg"
                   variant="outline"
@@ -200,7 +205,7 @@ export default function LeadershipDashboard({ params }: LeadershipDashboardProps
                 </div>
               </CardHeader>
               <CardContent className="pt-0">
-                <Link href={`/${params.fellowship_id}/leadership/tenures`}>
+                <Link href={`/${resolvedParams.fellowship_id}/leadership/tenures`}> {/* Use resolvedParams */}
                   <Button size="lg" className="w-full bg-blue-600 hover:bg-blue-700">
                     Manage Tenures
                     <ArrowRight className="ml-2 h-4 w-4" />
@@ -227,7 +232,7 @@ export default function LeadershipDashboard({ params }: LeadershipDashboardProps
                 </div>
               </CardHeader>
               <CardContent className="pt-0">
-                <Link href={`/${params.fellowship_id}/leadership/appointments`}>
+                <Link href={`/${resolvedParams.fellowship_id}/leadership/appointments`}> {/* Use resolvedParams */}
                   <Button size="lg" className="w-full bg-emerald-600 hover:bg-emerald-700">
                     Manage Appointments
                     <ArrowRight className="ml-2 h-4 w-4" />
@@ -262,7 +267,7 @@ export default function LeadershipDashboard({ params }: LeadershipDashboardProps
                 </div>
               </CardHeader>
               <CardContent className="pt-0 space-y-3">
-                <Link href={`/${params.fellowship_id}/leadership/positions`}>
+                <Link href={`/${resolvedParams.fellowship_id}/leadership/positions`}> {/* Use resolvedParams */}
                   <Button
                     variant="outline"
                     size="lg"
@@ -272,7 +277,7 @@ export default function LeadershipDashboard({ params }: LeadershipDashboardProps
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>
-                <Link href={`/${params.fellowship_id}/leadership/departments`}>
+                <Link href={`/${resolvedParams.fellowship_id}/leadership/departments`}> {/* Use resolvedParams */}
                   <Button
                     variant="outline"
                     size="lg"
@@ -301,7 +306,7 @@ export default function LeadershipDashboard({ params }: LeadershipDashboardProps
                 </div>
               </CardHeader>
               <CardContent className="pt-0">
-                <Link href={`/${params.fellowship_id}/leadership/permissions`}>
+                <Link href={`/${resolvedParams.fellowship_id}/leadership/permissions`}> {/* Use resolvedParams */}
                   <Button
                     variant="outline"
                     size="lg"

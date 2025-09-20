@@ -1,8 +1,7 @@
 "use client"
 
 import type React from "react"
-
-import { useState } from "react"
+import { use, useState } from "react" // Add the 'use' hook import
 import { useRouter } from "next/navigation"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -13,10 +12,12 @@ import { ArrowLeft, UserCheck, Send } from "lucide-react"
 import Link from "next/link"
 
 interface NewAppointmentPageProps {
-  params: { fellowship_id: string }
+  params: Promise<{ fellowship_id: string }> // Change to Promise
 }
 
 export default function NewAppointmentPage({ params }: NewAppointmentPageProps) {
+  // Use the 'use' hook to unwrap the Promise
+  const resolvedParams = use(params)
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [formData, setFormData] = useState({
@@ -25,9 +26,9 @@ export default function NewAppointmentPage({ params }: NewAppointmentPageProps) 
     personId: "",
   })
 
-  const tenures = getTenures(params.fellowship_id)
-  const positions = getPositionsWithDepartments(params.fellowship_id).filter((p) => p.isActive)
-  const persons = getPersons(params.fellowship_id)
+  const tenures = getTenures(resolvedParams.fellowship_id) // Use resolvedParams
+  const positions = getPositionsWithDepartments(resolvedParams.fellowship_id).filter((p) => p.isActive) // Use resolvedParams
+  const persons = getPersons(resolvedParams.fellowship_id) // Use resolvedParams
 
   const selectedTenure = tenures.find((t) => t.id === formData.tenureId)
   const selectedPosition = positions.find((p) => p.id === formData.positionId)
@@ -42,9 +43,9 @@ export default function NewAppointmentPage({ params }: NewAppointmentPageProps) 
       const inviteToken = `token_${Date.now()}`
       const appointment = {
         ...formData,
-        fellowshipId: params.fellowship_id,
+        fellowshipId: resolvedParams.fellowship_id, // Use resolvedParams
         status: "pending",
-        inviteLink: `/${params.fellowship_id}/leadership/invite/${inviteToken}`,
+        inviteLink: `/${resolvedParams.fellowship_id}/leadership/invite/${inviteToken}`, // Use resolvedParams
         inviteToken,
         appointedBy: "admin_1", // Mock admin ID
         appointedAt: new Date().toISOString(),
@@ -52,7 +53,7 @@ export default function NewAppointmentPage({ params }: NewAppointmentPageProps) 
 
       console.log("Creating appointment:", appointment)
 
-      router.push(`/${params.fellowship_id}/leadership/appointments`)
+      router.push(`/${resolvedParams.fellowship_id}/leadership/appointments`) // Use resolvedParams
     } catch (error) {
       console.error("Failed to create appointment:", error)
     } finally {
@@ -70,7 +71,7 @@ export default function NewAppointmentPage({ params }: NewAppointmentPageProps) 
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center gap-4">
-        <Link href={`/${params.fellowship_id}/leadership/appointments`}>
+        <Link href={`/${resolvedParams.fellowship_id}/leadership/appointments`}> {/* Use resolvedParams */}
           <Button variant="ghost" size="sm">
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Appointments
@@ -195,7 +196,7 @@ export default function NewAppointmentPage({ params }: NewAppointmentPageProps) 
 
             {/* Actions */}
             <div className="flex items-center justify-end gap-4 pt-6 border-t">
-              <Link href={`/${params.fellowship_id}/leadership/appointments`}>
+              <Link href={`/${resolvedParams.fellowship_id}/leadership/appointments`}> {/* Use resolvedParams */}
                 <Button variant="outline" type="button">
                   Cancel
                 </Button>

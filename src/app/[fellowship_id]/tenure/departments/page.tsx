@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { use, useState } from "react" // Add 'use' import
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -11,14 +11,16 @@ import Link from "next/link"
 import { Plus, Search, MoreHorizontal, Building2, Edit, Trash2, Users } from "lucide-react"
 
 interface DepartmentsPageProps {
-  params: { fellowship_id: string }
+  params: Promise<{ fellowship_id: string }> // Change to Promise
 }
 
 export default function DepartmentsPage({ params }: DepartmentsPageProps) {
+  // Use the 'use' hook to unwrap the Promise
+  const resolvedParams = use(params)
   const [searchTerm, setSearchTerm] = useState("")
 
-  const allDepartments = getDepartments(params.fellowship_id)
-  const allPositions = getPositionsWithDepartments(params.fellowship_id)
+  const allDepartments = getDepartments(resolvedParams.fellowship_id) // Use resolvedParams
+  const allPositions = getPositionsWithDepartments(resolvedParams.fellowship_id) // Use resolvedParams
 
   const filteredDepartments = allDepartments.filter((department) => {
     const matchesSearch =
@@ -48,10 +50,10 @@ export default function DepartmentsPage({ params }: DepartmentsPageProps) {
           <p className="text-muted-foreground">Manage ministry departments and their structure</p>
         </div>
         <div className="flex items-center gap-3">
-          <Link href={`/${params.fellowship_id}/leadership/positions`}>
+          <Link href={`/${resolvedParams.fellowship_id}/leadership/positions`}> {/* Use resolvedParams */}
             <Button variant="outline">Manage Positions</Button>
           </Link>
-          <Link href={`/${params.fellowship_id}/leadership/departments/new`}>
+          <Link href={`/${resolvedParams.fellowship_id}/leadership/departments/new`}> {/* Use resolvedParams */}
             <Button>
               <Plus className="h-4 w-4 mr-2" />
               Create Department
@@ -92,7 +94,7 @@ export default function DepartmentsPage({ params }: DepartmentsPageProps) {
                     : "Get started by creating your first ministry department"}
                 </p>
                 {!searchTerm && (
-                  <Link href={`/${params.fellowship_id}/leadership/departments/new`}>
+                  <Link href={`/${resolvedParams.fellowship_id}/leadership/departments/new`}> {/* Use resolvedParams */}
                     <Button>
                       <Plus className="h-4 w-4 mr-2" />
                       Create First Department
@@ -122,13 +124,13 @@ export default function DepartmentsPage({ params }: DepartmentsPageProps) {
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
                         <DropdownMenuItem asChild>
-                          <Link href={`/${params.fellowship_id}/leadership/departments/${department.id}/members`}>
+                          <Link href={`/${resolvedParams.fellowship_id}/leadership/departments/${department.id}/members`}> {/* Use resolvedParams */}
                             <Users className="h-4 w-4 mr-2" />
                             Manage Members
                           </Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild>
-                          <Link href={`/${params.fellowship_id}/leadership/departments/${department.id}/edit`}>
+                          <Link href={`/${resolvedParams.fellowship_id}/leadership/departments/${department.id}/edit`}> {/* Use resolvedParams */}
                             <Edit className="h-4 w-4 mr-2" />
                             Edit
                           </Link>
@@ -158,7 +160,7 @@ export default function DepartmentsPage({ params }: DepartmentsPageProps) {
 
                     {positionCount > 0 && (
                       <div className="pt-2 border-t">
-                        <Link href={`/${params.fellowship_id}/leadership/positions?department=${department.id}`}>
+                        <Link href={`/${resolvedParams.fellowship_id}/leadership/positions?department=${department.id}`}> {/* Use resolvedParams */}
                           <Button variant="outline" size="sm" className="w-full bg-transparent">
                             <Users className="h-4 w-4 mr-2" />
                             View Positions

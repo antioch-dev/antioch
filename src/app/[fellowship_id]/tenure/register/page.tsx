@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { use, useState } from "react" // Add 'use' import
 import { useRouter } from "next/navigation"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -12,10 +12,12 @@ import { Textarea } from "@/components/ui/textarea"
 import { UserPlus, Save, User } from "lucide-react"
 
 interface RegisterPageProps {
-  params: { fellowship_id: string }
+  params: Promise<{ fellowship_id: string }> // Change to Promise
 }
 
 export default function RegisterPage({ params }: RegisterPageProps) {
+  // Use the 'use' hook to unwrap the Promise
+  const resolvedParams = use(params)
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [formData, setFormData] = useState({
@@ -33,7 +35,7 @@ export default function RegisterPage({ params }: RegisterPageProps) {
       // Mock registration - in real app, this would call an API
       const newPerson = {
         ...formData,
-        fellowshipId: params.fellowship_id,
+        fellowshipId: resolvedParams.fellowship_id, // Use resolvedParams
         photoUrl: null,
         id: `person_${Date.now()}`,
         createdAt: new Date().toISOString(),
@@ -43,7 +45,7 @@ export default function RegisterPage({ params }: RegisterPageProps) {
       console.log("Registering new person:", newPerson)
 
       // Redirect to a success page or back to the appointment if there's a token
-      router.push(`/${params.fellowship_id}/leadership/register/success`)
+      router.push(`/${resolvedParams.fellowship_id}/leadership/register/success`) // Use resolvedParams
     } catch (error) {
       console.error("Failed to register:", error)
     } finally {
@@ -207,7 +209,7 @@ export default function RegisterPage({ params }: RegisterPageProps) {
 
         {/* Footer */}
         <div className="text-center text-sm text-muted-foreground">
-          <p>Registration for Fellowship {params.fellowship_id} Leadership Team</p>
+          <p>Registration for Fellowship {resolvedParams.fellowship_id} Leadership Team</p> {/* Use resolvedParams */}
         </div>
       </div>
     </div>

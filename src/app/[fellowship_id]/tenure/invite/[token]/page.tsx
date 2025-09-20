@@ -2,28 +2,30 @@
 
 import type React from "react"
 
-import { useState, useEffect } from "react"
+import { use, useState, useEffect } from "react" // Add 'use' import
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { getAppointmentByToken, updateAppointmentStatus } from "@/lib/data-utils"
-import type { AppointmentWithDetails } from "@/lib/types"
+import type { AppointmentWithDetails } from "@/lib/mock-data"
 import { CheckCircle, XCircle, Calendar, User, Building2, Clock } from "lucide-react"
 
 interface InvitePageProps {
-  params: { fellowship_id: string; token: string }
+  params: Promise<{ fellowship_id: string; token: string }> // Change to Promise
 }
 
 export default function InvitePage({ params }: InvitePageProps) {
+  // Use the 'use' hook to unwrap the Promise
+  const resolvedParams = use(params)
   const [appointment, setAppointment] = useState<AppointmentWithDetails | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [hasResponded, setHasResponded] = useState(false)
 
   useEffect(() => {
-    const appointmentData = getAppointmentByToken(params.token)
+    const appointmentData = getAppointmentByToken(resolvedParams.token) // Use resolvedParams
     setAppointment(appointmentData || null)
     setHasResponded(appointmentData?.status !== "pending")
-  }, [params.token])
+  }, [resolvedParams.token]) // Use resolvedParams.token
 
   const handleResponse = async (response: "accepted" | "declined") => {
     if (!appointment) return
@@ -201,7 +203,7 @@ export default function InvitePage({ params }: InvitePageProps) {
 
         {/* Footer */}
         <div className="text-center text-sm text-muted-foreground">
-          <p>This invitation was sent by the leadership team of Fellowship {params.fellowship_id}</p>
+          <p>This invitation was sent by the leadership team of Fellowship {resolvedParams.fellowship_id}</p> {/* Use resolvedParams */}
         </div>
       </div>
     </div>

@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState, useEffect } from "react"
+import { use, useState, useEffect } from "react" // Add 'use' import
 import { useRouter } from "next/navigation"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -22,15 +22,17 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { getTenureById, getAppointmentsByTenure } from "@/lib/data-utils"
-import type { Tenure } from "@/lib/types"
+import type { Tenure } from "@/lib/mock-data"
 import { ArrowLeft, Calendar, Save, Trash2, Users } from "lucide-react"
 import Link from "next/link"
 
 interface EditTenurePageProps {
-  params: { fellowship_id: string; tenure_id: string }
+  params: Promise<{ fellowship_id: string; tenure_id: string }> // Change to Promise
 }
 
 export default function EditTenurePage({ params }: EditTenurePageProps) {
+  // Use the 'use' hook to unwrap the Promise
+  const resolvedParams = use(params)
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [tenure, setTenure] = useState<Tenure | null>(null)
@@ -42,7 +44,7 @@ export default function EditTenurePage({ params }: EditTenurePageProps) {
   })
 
   useEffect(() => {
-    const tenureData = getTenureById(params.tenure_id)
+    const tenureData = getTenureById(resolvedParams.tenure_id) // Use resolvedParams
     if (tenureData) {
       setTenure(tenureData)
       setFormData({
@@ -52,7 +54,7 @@ export default function EditTenurePage({ params }: EditTenurePageProps) {
         status: tenureData.status,
       })
     }
-  }, [params.tenure_id])
+  }, [resolvedParams.tenure_id]) // Use resolvedParams.tenure_id
 
   const appointments = tenure ? getAppointmentsByTenure(tenure.id) : []
 
@@ -62,9 +64,9 @@ export default function EditTenurePage({ params }: EditTenurePageProps) {
 
     try {
       // Mock update - in real app, this would call an API
-      console.log("Updating tenure:", { ...formData, id: params.tenure_id })
+      console.log("Updating tenure:", { ...formData, id: resolvedParams.tenure_id }) // Use resolvedParams
 
-      router.push(`/${params.fellowship_id}/leadership/tenures`)
+      router.push(`/${resolvedParams.fellowship_id}/leadership/tenures`) // Use resolvedParams
     } catch (error) {
       console.error("Failed to update tenure:", error)
     } finally {
@@ -76,9 +78,9 @@ export default function EditTenurePage({ params }: EditTenurePageProps) {
     setIsLoading(true)
     try {
       // Mock delete - in real app, this would call an API
-      console.log("Deleting tenure:", params.tenure_id)
+      console.log("Deleting tenure:", resolvedParams.tenure_id) // Use resolvedParams
 
-      router.push(`/${params.fellowship_id}/leadership/tenures`)
+      router.push(`/${resolvedParams.fellowship_id}/leadership/tenures`) // Use resolvedParams
     } catch (error) {
       console.error("Failed to delete tenure:", error)
     } finally {
@@ -109,7 +111,7 @@ export default function EditTenurePage({ params }: EditTenurePageProps) {
         <div className="text-center py-8">
           <h3 className="text-lg font-medium text-foreground mb-2">Tenure not found</h3>
           <p className="text-muted-foreground mb-4">The requested tenure could not be found.</p>
-          <Link href={`/${params.fellowship_id}/leadership/tenures`}>
+          <Link href={`/${resolvedParams.fellowship_id}/leadership/tenures`}> {/* Use resolvedParams */}
             <Button>Back to Tenures</Button>
           </Link>
         </div>
@@ -121,7 +123,7 @@ export default function EditTenurePage({ params }: EditTenurePageProps) {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center gap-4">
-        <Link href={`/${params.fellowship_id}/leadership/tenures`}>
+        <Link href={`/${resolvedParams.fellowship_id}/leadership/tenures`}> {/* Use resolvedParams */}
           <Button variant="ghost" size="sm">
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Tenures
@@ -262,7 +264,7 @@ export default function EditTenurePage({ params }: EditTenurePageProps) {
               </AlertDialog>
 
               <div className="flex items-center gap-4">
-                <Link href={`/${params.fellowship_id}/leadership/tenures`}>
+                <Link href={`/${resolvedParams.fellowship_id}/leadership/tenures`}> {/* Use resolvedParams */}
                   <Button variant="outline" type="button">
                     Cancel
                   </Button>

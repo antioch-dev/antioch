@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { use, useState } from "react" // Add 'use' import
 import { useRouter } from "next/navigation"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -16,20 +16,22 @@ import { ArrowLeft, Users, Save } from "lucide-react"
 import Link from "next/link"
 
 interface NewPositionPageProps {
-  params: { fellowship_id: string }
+  params: Promise<{ fellowship_id: string }> // Change to Promise
 }
 
 export default function NewPositionPage({ params }: NewPositionPageProps) {
+  // Use the 'use' hook to unwrap the Promise
+  const resolvedParams = use(params)
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [formData, setFormData] = useState({
     name: "",
     description: "",
-    departmentId: "none", // Updated default value to be a non-empty string
+    departmentId: "none",
     isActive: true,
   })
 
-  const departments = getDepartments(params.fellowship_id)
+  const departments = getDepartments(resolvedParams.fellowship_id) // Use resolvedParams
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -40,10 +42,10 @@ export default function NewPositionPage({ params }: NewPositionPageProps) {
       console.log("Creating position:", {
         ...formData,
         departmentId: formData.departmentId === "none" ? null : formData.departmentId,
-        fellowshipId: params.fellowship_id,
+        fellowshipId: resolvedParams.fellowship_id, // Use resolvedParams
       })
 
-      router.push(`/${params.fellowship_id}/leadership/positions`)
+      router.push(`/${resolvedParams.fellowship_id}/leadership/positions`) // Use resolvedParams
     } catch (error) {
       console.error("Failed to create position:", error)
     } finally {
@@ -59,7 +61,7 @@ export default function NewPositionPage({ params }: NewPositionPageProps) {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center gap-4">
-        <Link href={`/${params.fellowship_id}/leadership/positions`}>
+        <Link href={`/${resolvedParams.fellowship_id}/leadership/positions`}> {/* Use resolvedParams */}
           <Button variant="ghost" size="sm">
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Positions
@@ -168,7 +170,7 @@ export default function NewPositionPage({ params }: NewPositionPageProps) {
 
             {/* Actions */}
             <div className="flex items-center justify-end gap-4 pt-6 border-t">
-              <Link href={`/${params.fellowship_id}/leadership/positions`}>
+              <Link href={`/${resolvedParams.fellowship_id}/leadership/positions`}> {/* Use resolvedParams */}
                 <Button variant="outline" type="button">
                   Cancel
                 </Button>

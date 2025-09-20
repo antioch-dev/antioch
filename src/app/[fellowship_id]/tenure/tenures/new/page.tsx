@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { use, useState } from "react" // Add 'use' import
 import { useRouter } from "next/navigation"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -14,10 +14,12 @@ import { ArrowLeft, Calendar, Save } from "lucide-react"
 import Link from "next/link"
 
 interface NewTenurePageProps {
-  params: { fellowship_id: string }
+  params: Promise<{ fellowship_id: string }> // Change to Promise
 }
 
 export default function NewTenurePage({ params }: NewTenurePageProps) {
+  // Use the 'use' hook to unwrap the Promise
+  const resolvedParams = use(params)
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [formData, setFormData] = useState({
@@ -34,10 +36,10 @@ export default function NewTenurePage({ params }: NewTenurePageProps) {
     try {
       await createTenure({
         ...formData,
-        fellowshipId: params.fellowship_id,
+        fellowshipId: resolvedParams.fellowship_id, // Use resolvedParams
       })
 
-      router.push(`/${params.fellowship_id}/leadership/tenures`)
+      router.push(`/${resolvedParams.fellowship_id}/leadership/tenures`) // Use resolvedParams
     } catch (error) {
       console.error("Failed to create tenure:", error)
     } finally {
@@ -63,7 +65,7 @@ export default function NewTenurePage({ params }: NewTenurePageProps) {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center gap-4">
-        <Link href={`/${params.fellowship_id}/leadership/tenures`}>
+        <Link href={`/${resolvedParams.fellowship_id}/leadership/tenures`}> {/* Use resolvedParams */}
           <Button variant="ghost" size="sm">
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Tenures
@@ -160,7 +162,7 @@ export default function NewTenurePage({ params }: NewTenurePageProps) {
 
             {/* Actions */}
             <div className="flex items-center justify-end gap-4 pt-6 border-t">
-              <Link href={`/${params.fellowship_id}/leadership/tenures`}>
+              <Link href={`/${resolvedParams.fellowship_id}/leadership/tenures`}> {/* Use resolvedParams */}
                 <Button variant="outline" type="button">
                   Cancel
                 </Button>

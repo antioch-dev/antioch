@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { use, useState } from "react" // Add 'use' import
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -26,13 +26,14 @@ import {
 import { mockPersons, mockPositions } from "@/lib/mock-data"
 import Link from "next/link"
 import { ArrowLeft, Users, Plus, Search, MoreHorizontal, UserPlus, Crown, Trash2, Mail, Phone } from "lucide-react"
-import Image from "next/image"
 
 interface DepartmentMembersPageProps {
-  params: { fellowship_id: string; department_id: string }
+  params: Promise<{ fellowship_id: string; department_id: string }> // Change to Promise
 }
 
 export default function DepartmentMembersPage({ params }: DepartmentMembersPageProps) {
+  // Use the 'use' hook to unwrap the Promise
+  const resolvedParams = use(params)
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedPersonId, setSelectedPersonId] = useState("")
   const [selectedPositionId, setSelectedPositionId] = useState("")
@@ -40,12 +41,12 @@ export default function DepartmentMembersPage({ params }: DepartmentMembersPageP
   const [isElevateOpen, setIsElevateOpen] = useState(false)
   const [selectedMemberId, setSelectedMemberId] = useState("")
 
-  const department = getDepartmentById(params.fellowship_id, params.department_id)
-  const allPersons = getPersons(params.fellowship_id)
-  const departmentPositions = getPositionsWithDepartments(params.fellowship_id).filter(
-    (p) => p.departmentId === params.department_id && p.isActive,
+  const department = getDepartmentById(resolvedParams.fellowship_id, resolvedParams.department_id) // Use resolvedParams
+  const allPersons = getPersons(resolvedParams.fellowship_id) // Use resolvedParams
+  const departmentPositions = getPositionsWithDepartments(resolvedParams.fellowship_id).filter(
+    (p) => p.departmentId === resolvedParams.department_id && p.isActive, // Use resolvedParams
   )
-  const departmentAppointments = getAppointmentsByDepartment(params.fellowship_id, params.department_id)
+  const departmentAppointments = getAppointmentsByDepartment(resolvedParams.fellowship_id, resolvedParams.department_id) // Use resolvedParams
 
   console.log("[v0] Department:", department)
   console.log("[v0] All Persons Count:", allPersons?.length || 0)
@@ -85,7 +86,7 @@ export default function DepartmentMembersPage({ params }: DepartmentMembersPageP
 
     try {
       // Create a new appointment using the mock API
-      const activeTenure = mockPositions.find((p) => p.fellowshipId === params.fellowship_id)
+      const activeTenure = mockPositions.find((p) => p.fellowshipId === resolvedParams.fellowship_id) // Use resolvedParams
       if (activeTenure) {
         await createAppointment(
           "tenure_2024_2026", // Use the active tenure ID from mock data
@@ -127,7 +128,7 @@ export default function DepartmentMembersPage({ params }: DepartmentMembersPageP
           <CardContent className="text-center py-8">
             <h3 className="text-lg font-medium text-foreground mb-2">Department not found</h3>
             <p className="text-muted-foreground mb-4">The requested department could not be found.</p>
-            <Link href={`/${params.fellowship_id}/leadership/departments`}>
+            <Link href={`/${resolvedParams.fellowship_id}/leadership/departments`}> {/* Use resolvedParams */}
               <Button>Back to Departments</Button>
             </Link>
           </CardContent>
@@ -141,7 +142,7 @@ export default function DepartmentMembersPage({ params }: DepartmentMembersPageP
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <Link href={`/${params.fellowship_id}/leadership/departments`}>
+          <Link href={`/${resolvedParams.fellowship_id}/leadership/departments`}> {/* Use resolvedParams */}
             <Button variant="ghost" size="sm">
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back to Departments
@@ -325,7 +326,7 @@ export default function DepartmentMembersPage({ params }: DepartmentMembersPageP
                   <div className="flex items-center gap-3">
                     <div className="relative">
                       {/* Using 'photoUrl' field from mock data */}
-                      <Image
+                      <img
                         src={member.photoUrl || "/placeholder.svg?height=40&width=40"}
                         alt={member.name}
                         width={40}

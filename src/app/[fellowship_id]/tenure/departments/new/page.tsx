@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { use, useState } from "react" // Add 'use' import
 import { useRouter } from "next/navigation"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -13,10 +13,12 @@ import { ArrowLeft, Building2, Save } from "lucide-react"
 import Link from "next/link"
 
 interface NewDepartmentPageProps {
-  params: { fellowship_id: string }
+  params: Promise<{ fellowship_id: string }> // Change to Promise
 }
 
 export default function NewDepartmentPage({ params }: NewDepartmentPageProps) {
+  // Use the 'use' hook to unwrap the Promise
+  const resolvedParams = use(params)
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [formData, setFormData] = useState({
@@ -32,10 +34,10 @@ export default function NewDepartmentPage({ params }: NewDepartmentPageProps) {
       // Mock create - in real app, this would call an API
       console.log("Creating department:", {
         ...formData,
-        fellowshipId: params.fellowship_id,
+        fellowshipId: resolvedParams.fellowship_id, // Use resolvedParams
       })
 
-      router.push(`/${params.fellowship_id}/leadership/departments`)
+      router.push(`/${resolvedParams.fellowship_id}/leadership/departments`) // Use resolvedParams
     } catch (error) {
       console.error("Failed to create department:", error)
     } finally {
@@ -51,7 +53,7 @@ export default function NewDepartmentPage({ params }: NewDepartmentPageProps) {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center gap-4">
-        <Link href={`/${params.fellowship_id}/leadership/departments`}>
+        <Link href={`/${resolvedParams.fellowship_id}/leadership/departments`}> {/* Use resolvedParams */}
           <Button variant="ghost" size="sm">
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Departments
@@ -97,7 +99,7 @@ export default function NewDepartmentPage({ params }: NewDepartmentPageProps) {
                 required
               />
               <p className="text-sm text-muted-foreground">
-                Detailed description of the department's mission and activities
+               {` Detailed description of the department's mission and activities`}
               </p>
             </div>
 
@@ -118,7 +120,7 @@ export default function NewDepartmentPage({ params }: NewDepartmentPageProps) {
 
             {/* Actions */}
             <div className="flex items-center justify-end gap-4 pt-6 border-t">
-              <Link href={`/${params.fellowship_id}/leadership/departments`}>
+              <Link href={`/${resolvedParams.fellowship_id}/leadership/departments`}> {/* Use resolvedParams */}
                 <Button variant="outline" type="button">
                   Cancel
                 </Button>
