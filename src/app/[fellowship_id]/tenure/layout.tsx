@@ -1,4 +1,5 @@
 import type { ReactNode } from "react"
+import { use } from "react" // Add 'use' import
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
@@ -6,10 +7,13 @@ import { Home, Users, Calendar, UserCheck, Settings, Eye } from "lucide-react"
 
 interface LeadershipLayoutProps {
   children: ReactNode
-  params: { fellowship_id: string }
+  params: Promise<{ fellowship_id: string }> // Change to Promise
 }
 
 export default function LeadershipLayout({ children, params }: LeadershipLayoutProps) {
+  // Use the 'use' hook to unwrap the Promise
+  const resolvedParams = use(params)
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
       <header className="border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm sticky top-0 z-50">
@@ -24,14 +28,14 @@ export default function LeadershipLayout({ children, params }: LeadershipLayoutP
                   <h1 className="text-xl font-bold text-slate-900 dark:text-slate-100">Leadership Portal</h1>
                   <div className="flex items-center space-x-2">
                     <Badge variant="outline" className="text-xs">
-                      Fellowship {params.fellowship_id}
+                      Fellowship {resolvedParams.fellowship_id} {/* Use resolvedParams */}
                     </Badge>
                   </div>
                 </div>
               </div>
 
               <nav className="hidden md:flex items-center space-x-1 text-sm">
-                <Link href={`/${params.fellowship_id}/leadership`}>
+                <Link href={`/${resolvedParams.fellowship_id}/leadership`}> {/* Use resolvedParams */}
                   <Button
                     variant="ghost"
                     size="sm"
@@ -42,7 +46,7 @@ export default function LeadershipLayout({ children, params }: LeadershipLayoutP
                   </Button>
                 </Link>
                 <span className="text-slate-400">/</span>
-                <Link href={`/${params.fellowship_id}/leadership/tenures`}>
+                <Link href={`/${resolvedParams.fellowship_id}/leadership/tenures`}> {/* Use resolvedParams */}
                   <Button
                     variant="ghost"
                     size="sm"
@@ -53,7 +57,7 @@ export default function LeadershipLayout({ children, params }: LeadershipLayoutP
                   </Button>
                 </Link>
                 <span className="text-slate-400">/</span>
-                <Link href={`/${params.fellowship_id}/leadership/appointments`}>
+                <Link href={`/${resolvedParams.fellowship_id}/leadership/appointments`}> {/* Use resolvedParams */}
                   <Button
                     variant="ghost"
                     size="sm"
@@ -67,13 +71,13 @@ export default function LeadershipLayout({ children, params }: LeadershipLayoutP
             </div>
 
             <div className="flex items-center space-x-3">
-              <Link href={`/${params.fellowship_id}/leadership/public`}>
+              <Link href={`/${resolvedParams.fellowship_id}/leadership/public`}> {/* Use resolvedParams */}
                 <Button variant="outline" size="sm">
                   <Eye className="mr-2 h-4 w-4" />
                   Public View
                 </Button>
               </Link>
-              <Link href={`/${params.fellowship_id}/leadership/permissions`}>
+              <Link href={`/${resolvedParams.fellowship_id}/leadership/permissions`}> {/* Use resolvedParams */}
                 <Button variant="ghost" size="sm">
                   <Settings className="h-4 w-4" />
                 </Button>
