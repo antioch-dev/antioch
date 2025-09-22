@@ -13,7 +13,7 @@ interface PrayerHomeProps {
 }
 
 export default function PrayerHome({ params }: PrayerHomeProps) {
-  // Fix: Add a fallback value for `fellowship` in case it's undefined
+  
   const fellowship = params?.fellowship || 'default-fellowship';
 
   // Calculate stats
