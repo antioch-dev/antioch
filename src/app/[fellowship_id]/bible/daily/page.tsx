@@ -27,9 +27,9 @@ export default function DailyVersePage() {
     }
   }
 
-  const handleShare = () => {
-    const shareText = `"${currentVerse.text}" - ${currentVerse.verseRef} (${currentVerse.translation})`
-    navigator.clipboard.writeText(shareText)
+  const handleShare = async () => {
+    const shareText = `"${currentVerse?.text}" - ${currentVerse?.verseRef} (${currentVerse?.translation})`
+    await navigator.clipboard.writeText(shareText)
     toast({
       title: "Verse copied!",
       description: "Daily verse copied to clipboard",
@@ -58,7 +58,7 @@ export default function DailyVersePage() {
       {/* Page Header */}
       <div className="text-center space-y-2">
         <h1 className="text-3xl font-bold">Daily Verses</h1>
-        <p className="text-muted-foreground">Discover God's Word through daily inspiration</p>
+        <p className="text-muted-foreground">{`Discover God's Word through daily inspiration`}</p>
       </div>
 
       {/* Current Daily Verse */}
@@ -66,20 +66,20 @@ export default function DailyVersePage() {
         <CardHeader className="text-center">
           <div className="flex items-center justify-center gap-2 mb-2">
             <Calendar className="h-5 w-5 text-primary" />
-            <Badge variant="secondary">{currentIndex === 0 ? "Today" : formatDate(currentVerse.date)}</Badge>
+            <Badge variant="secondary">{currentIndex === 0 ? "Today" : formatDate(currentVerse?.date ?? "")}</Badge>
           </div>
-          <CardTitle className="text-2xl">{currentVerse.verseRef}</CardTitle>
-          <CardDescription>{currentVerse.translation}</CardDescription>
+          <CardTitle className="text-2xl">{currentVerse?.verseRef}</CardTitle>
+          <CardDescription>{currentVerse?.translation}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <blockquote className="text-xl leading-relaxed text-center italic font-medium px-4">
-            "{currentVerse.text}"
+            `{currentVerse?.text}`
           </blockquote>
 
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Button variant="default" asChild>
-              <Link href={`/bible/read?ref=${encodeURIComponent(currentVerse.verseRef)}`}>
+              <Link href={`/bible/read?ref=${encodeURIComponent(currentVerse?.verseRef ?? "")}`}>
                 <BookOpen className="h-4 w-4 mr-2" />
                 Read Chapter
               </Link>
@@ -149,7 +149,7 @@ export default function DailyVersePage() {
                         {verse.verseRef}
                       </Badge>
                     </div>
-                    <p className="text-sm text-muted-foreground line-clamp-2">"{verse.text}"</p>
+                    <p className="text-sm text-muted-foreground line-clamp-2">`{verse.text}`</p>
                   </div>
                   <Button variant="ghost" size="sm" asChild>
                     <Link href={`/bible/read?ref=${encodeURIComponent(verse.verseRef)}`}>
@@ -167,26 +167,26 @@ export default function DailyVersePage() {
       <Card>
         <CardHeader>
           <CardTitle>Daily Reflection</CardTitle>
-          <CardDescription>Thoughts on today's verse</CardDescription>
+          <CardDescription>{`Thoughts on today's verse`}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="prose prose-sm max-w-none dark:prose-invert">
             <p>
-              Today's verse reminds us of the incredible depth of God's love for humanity. The word "world" in this
-              passage encompasses all of creation, showing that God's love knows no boundaries or limitations.
+             {` Today's verse reminds us of the incredible depth of God's love for humanity. The word "world" in this
+              passage encompasses all of creation, showing that God's love knows no boundaries or limitations.`}
             </p>
             <p>
-              Consider how this verse speaks to both God's character and His plan for salvation. The gift of His Son
-              represents the ultimate sacrifice, demonstrating love in action rather than just words.
+              {`Consider how this verse speaks to both God's character and His plan for salvation. The gift of His Son
+              represents the ultimate sacrifice, demonstrating love in action rather than just words.`}
             </p>
           </div>
 
           <div className="pt-4 border-t">
             <h4 className="font-medium mb-2">Reflection Questions:</h4>
             <ul className="text-sm text-muted-foreground space-y-1">
-              <li>• How does knowing about God's love change your perspective today?</li>
-              <li>• In what ways can you share this love with others?</li>
-              <li>• What does "eternal life" mean to you personally?</li>
+              <li>• {`How does knowing about God's love change your perspective today?`}</li>
+              <li>• {`In what ways can you share this love with others?`}</li>
+              <li>• {`What does "eternal life" mean to you personally?`}</li>
             </ul>
           </div>
         </CardContent>
