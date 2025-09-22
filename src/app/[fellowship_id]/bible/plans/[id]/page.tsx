@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useParams, useRouter } from "next/navigation"
+import { useParams } from "next/navigation"
 import Link from "next/link"
 import { Calendar, BookOpen, CheckCircle, Play, ArrowLeft, Target, Clock, Award } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -20,15 +20,32 @@ import {
   initializeMockProgress,
 } from "@/lib/reading-plan-storage"
 
+interface PlanProgress {
+  completedDays: number
+  percentage: number
+  streak: number
+  daysRemaining: number
+}
+
+interface UserProgress {
+  startDate: string
+  lastReadDate?: string
+  completedDays: number[]
+}
+
 export default function ReadingPlanDetailPage() {
   const params = useParams()
-  const router = useRouter()
   const { toast } = useToast()
   const planId = params.id as string
 
-  const [plan, setPlan] = useState(readingPlans.find((p) => p.id === planId))
-  const [progress, setProgress] = useState<any>({})
-  const [userProgress, setUserProgress] = useState<any>(null)
+  const [plan] = useState(readingPlans.find((p) => p.id === planId))
+  const [progress, setProgress] = useState<PlanProgress>({
+    completedDays: 0,
+    percentage: 0,
+    streak: 0,
+    daysRemaining: 0
+  })
+  const [userProgress, setUserProgress] = useState<UserProgress | null>(null)
   const [currentWeek, setCurrentWeek] = useState(1)
 
   useEffect(() => {
@@ -37,14 +54,14 @@ export default function ReadingPlanDetailPage() {
       const stats = calculateProgress(planId, plan.totalDays)
       const userProg = getPlanProgress(planId)
       setProgress(stats)
-      setUserProgress(userProg)
+      setUserProgress(userProg?? null)
     }
   }, [planId, plan])
 
   const handleStartPlan = () => {
     startPlan(planId)
     const userProg = getPlanProgress(planId)
-    setUserProgress(userProg)
+    setUserProgress(userProg ?? null)
     toast({
       title: "Plan started!",
       description: "Your reading journey begins now. Happy reading!",
@@ -59,7 +76,7 @@ export default function ReadingPlanDetailPage() {
       const stats = calculateProgress(planId, plan.totalDays)
       const userProg = getPlanProgress(planId)
       setProgress(stats)
-      setUserProgress(userProg)
+      setUserProgress(userProg ?? null)
     }
 
     toast({
@@ -100,9 +117,9 @@ export default function ReadingPlanDetailPage() {
     return (
       <div className="max-w-4xl mx-auto py-12 text-center">
         <h1 className="text-2xl font-bold mb-4">Plan Not Found</h1>
-        <p className="text-muted-foreground mb-6">The reading plan you're looking for doesn't exist.</p>
+        <p className="text-muted-foreground mb-6">The reading plan you&apos;re looking for doesn&apos;t exist.</p>
         <Button asChild>
-          <Link href="/bible/plans">
+          <Link href="/fellowship1/bible/plans">
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Plans
           </Link>
@@ -116,7 +133,7 @@ export default function ReadingPlanDetailPage() {
       {/* Header */}
       <div className="flex items-center gap-4">
         <Button variant="ghost" size="sm" asChild>
-          <Link href="/bible/plans">
+          <Link href="/fellowship1/bible/plans">
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Plans
           </Link>
@@ -284,11 +301,11 @@ export default function ReadingPlanDetailPage() {
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <h4 className="font-medium mb-2">What You'll Gain</h4>
+              <h4 className="font-medium mb-2">What You&apos;ll Gain</h4>
               <ul className="text-sm text-muted-foreground space-y-1">
                 <li>• Systematic Bible knowledge</li>
                 <li>• Daily spiritual discipline</li>
-                <li>• Deeper understanding of God's Word</li>
+                <li>• Deeper understanding of God&apos;s Word</li>
                 <li>• Consistent reading habits</li>
               </ul>
             </div>
@@ -312,7 +329,7 @@ export default function ReadingPlanDetailPage() {
                 {progress.percentage === 100 && (
                   <div className="flex items-center gap-2 text-primary font-medium">
                     <Award className="h-4 w-4" />
-                    Congratulations! You've completed this reading plan!
+                    Congratulations! You&apos;ve completed this reading plan!
                   </div>
                 )}
               </div>

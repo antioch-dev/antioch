@@ -17,7 +17,7 @@ export default function BibleHomePage() {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
     if (searchQuery.trim()) {
-      window.location.href = `/bible/search?q=${encodeURIComponent(searchQuery)}`
+      window.location.href = `/fellowship1/bible/search?q=${encodeURIComponent(searchQuery)}`
     }
   }
 
@@ -27,7 +27,7 @@ export default function BibleHomePage() {
       <div className="text-center space-y-4">
         <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">Welcome to the Bible</h1>
         <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-          Read, study, and grow in God's Word. Access multiple translations, take notes, and follow reading plans.
+         {` Read, study, and grow in God's Word. Access multiple translations, take notes, and follow reading plans.`}
         </p>
       </div>
 
@@ -59,20 +59,20 @@ export default function BibleHomePage() {
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <blockquote className="text-lg italic leading-relaxed">"{todayVerse.text}"</blockquote>
+          <blockquote className="text-lg italic leading-relaxed">`{todayVerse?.text}`</blockquote>
           <div className="flex items-center justify-between">
             <cite className="text-sm font-medium text-muted-foreground">
-              — {todayVerse.verseRef} ({todayVerse.translation})
+              — {todayVerse?.verseRef} ({todayVerse?.translation})
             </cite>
             <div className="flex gap-2">
               <Button variant="outline" size="sm" asChild>
-                <Link href="/bible/daily">
+                <Link href="/fellowship1/bible/daily">
                   <Sun className="h-4 w-4 mr-2" />
                   View Daily
                 </Link>
               </Button>
               <Button variant="outline" size="sm" asChild>
-                <Link href={`/bible/read?ref=${encodeURIComponent(todayVerse.verseRef)}`}>Read Chapter</Link>
+                <Link href={`/fellowship1/bible/read?ref=${encodeURIComponent(todayVerse?.verseRef ?? "")}`}>Read Chapter</Link>
               </Button>
             </div>
           </div>
@@ -81,8 +81,8 @@ export default function BibleHomePage() {
 
       {/* Quick Actions */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="hover:shadow-md transition-shadow cursor-pointer" asChild>
-          <Link href="/bible/read">
+        <Card className="hover:shadow-md transition-shadow cursor-pointer">
+          <Link href="/fellowship1/bible/read">
             <CardContent className="flex flex-col items-center text-center p-6 space-y-3">
               <div className="p-3 rounded-full bg-primary/10">
                 <BookOpen className="h-6 w-6 text-primary" />
@@ -96,8 +96,8 @@ export default function BibleHomePage() {
           </Link>
         </Card>
 
-        <Card className="hover:shadow-md transition-shadow cursor-pointer" asChild>
-          <Link href="/bible/plans">
+        <Card className="hover:shadow-md transition-shadow cursor-pointer">
+          <Link href="/fellowship1/bible/plans">
             <CardContent className="flex flex-col items-center text-center p-6 space-y-3">
               <div className="p-3 rounded-full bg-primary/10">
                 <Calendar className="h-6 w-6 text-primary" />
@@ -111,8 +111,8 @@ export default function BibleHomePage() {
           </Link>
         </Card>
 
-        <Card className="hover:shadow-md transition-shadow cursor-pointer" asChild>
-          <Link href="/bible/notes">
+        <Card className="hover:shadow-md transition-shadow cursor-pointer" >
+          <Link href="/fellowship1/bible/notes">
             <CardContent className="flex flex-col items-center text-center p-6 space-y-3">
               <div className="p-3 rounded-full bg-primary/10">
                 <Heart className="h-6 w-6 text-primary" />
@@ -126,8 +126,8 @@ export default function BibleHomePage() {
           </Link>
         </Card>
 
-        <Card className="hover:shadow-md transition-shadow cursor-pointer" asChild>
-          <Link href="/bible/search">
+        <Card className="hover:shadow-md transition-shadow cursor-pointer">
+          <Link href="/fellowship1/bible/search">
             <CardContent className="flex flex-col items-center text-center p-6 space-y-3">
               <div className="p-3 rounded-full bg-primary/10">
                 <Search className="h-6 w-6 text-primary" />
@@ -159,7 +159,7 @@ export default function BibleHomePage() {
               { ref: "Jeremiah 29:11", title: "Plans to Prosper" },
             ].map((passage) => (
               <Button key={passage.ref} variant="outline" className="justify-start h-auto p-3 bg-transparent" asChild>
-                <Link href={`/bible/read?ref=${encodeURIComponent(passage.ref)}`}>
+                <Link href={`/fellowship1/bible/read?ref=${encodeURIComponent(passage.ref)}`}>
                   <div className="text-left">
                     <div className="font-medium">{passage.ref}</div>
                     <div className="text-sm text-muted-foreground">{passage.title}</div>

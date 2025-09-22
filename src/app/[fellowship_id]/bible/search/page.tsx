@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 import { Search, BookOpen } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -20,28 +20,22 @@ interface SearchResult {
   ref: string
 }
 
+type SearchType = "keyword" | "phrase" | "reference"
+type TestamentType = "old" | "new" | "all"
+
 export default function BibleSearchPage() {
   const searchParams = useSearchParams()
   const router = useRouter()
 
   const [query, setQuery] = useState("")
-  const [searchType, setSearchType] = useState<"keyword" | "phrase" | "reference">("keyword")
+  const [searchType, setSearchType] = useState<SearchType>("keyword")
   const [selectedTranslation, setSelectedTranslation] = useState("KJV")
-  const [selectedTestament, setSelectedTestament] = useState<"all" | "old" | "new">("all")
+  const [selectedTestament, setSelectedTestament] = useState<TestamentType>("all")
   const [results, setResults] = useState<SearchResult[]>([])
   const [isSearching, setIsSearching] = useState(false)
   const [hasSearched, setHasSearched] = useState(false)
 
-  // Load search query from URL params
-  useEffect(() => {
-    const urlQuery = searchParams.get("q")
-    if (urlQuery) {
-      setQuery(urlQuery)
-      performSearch(urlQuery)
-    }
-  }, [searchParams])
-
-  const performSearch = async (searchQuery: string) => {
+  const performSearch = useCallback(async (searchQuery: string) => {
     if (!searchQuery.trim()) return
 
     setIsSearching(true)
@@ -54,12 +48,12 @@ export default function BibleSearchPage() {
 
     if (searchType === "reference") {
       // Handle reference search (e.g., "John 3:16")
-      const refMatch = searchQuery.match(/^(\d?\s?\w+)\s+(\d+)(?::(\d+))?$/)
+      const refMatch = /^(\d?\s?\w+)\s+(\d+)(?::(\d+))?$/.exec(searchQuery)
       if (refMatch) {
         const [, bookName, chapter, verse] = refMatch
         // In a real app, this would fetch the specific verse
-        searchResults = searchVerses(bookName).filter((result) => {
-          return result.chapter === Number.parseInt(chapter) && (!verse || result.verse === Number.parseInt(verse))
+        searchResults = searchVerses(bookName ?? "").filter((result) => {
+          return result.chapter === Number.parseInt(chapter ?? "") && (!verse || result.verse === Number.parseInt(verse))
         })
       }
     } else {
@@ -82,16 +76,25 @@ export default function BibleSearchPage() {
     if (searchType !== "keyword") params.set("type", searchType)
     if (selectedTranslation !== "KJV") params.set("translation", selectedTranslation)
     if (selectedTestament !== "all") params.set("testament", selectedTestament)
-    router.replace(`/bible/search?${params.toString()}`)
-  }
+    router.replace(`/fellowship1/bible/search?${params.toString()}`)
+  }, [searchType, selectedTestament, selectedTranslation, router])
+
+  // Load search query from URL params
+  useEffect(() => {
+    const urlQuery = searchParams.get("q")
+    if (urlQuery) {
+      setQuery(urlQuery)
+      void performSearch(urlQuery)
+    }
+  }, [searchParams, performSearch])
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
-    performSearch(query)
+    void performSearch(query)
   }
 
   const handleVerseClick = (result: SearchResult) => {
-    router.push(`/bible/read?ref=${encodeURIComponent(result.ref)}`)
+    router.push(`/fellowship1/bible/read?ref=${encodeURIComponent(result.ref)}`)
   }
 
   const highlightText = (text: string, searchQuery: string) => {
@@ -146,7 +149,7 @@ export default function BibleSearchPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t">
               <div className="space-y-2">
                 <label className="text-sm font-medium">Search Type</label>
-                <Select value={searchType} onValueChange={(value: any) => setSearchType(value)}>
+                <Select value={searchType} onValueChange={(value: SearchType) => setSearchType(value)}>
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
@@ -176,7 +179,7 @@ export default function BibleSearchPage() {
 
               <div className="space-y-2">
                 <label className="text-sm font-medium">Testament</label>
-                <Select value={selectedTestament} onValueChange={(value: any) => setSelectedTestament(value)}>
+                <Select value={selectedTestament} onValueChange={(value: TestamentType) => setSelectedTestament(value)}>
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
@@ -206,7 +209,7 @@ export default function BibleSearchPage() {
             </CardTitle>
             {query && (
               <CardDescription>
-                Results for "{query}" in {selectedTranslation}
+                Results for &ldquo;{query}&rdquo; in {selectedTranslation}
                 {selectedTestament !== "all" && ` (${selectedTestament === "old" ? "Old" : "New"} Testament)`}
               </CardDescription>
             )}
@@ -266,17 +269,17 @@ export default function BibleSearchPage() {
               <div>
                 <h4 className="font-medium mb-2">Keyword Search</h4>
                 <ul className="text-sm text-muted-foreground space-y-1">
-                  <li>• Search for "love" to find verses about love</li>
-                  <li>• Use "faith hope" to find verses with both words</li>
-                  <li>• Try "eternal life" for specific concepts</li>
+                  <li>&bull; Search for &ldquo;love&rdquo; to find verses about love</li>
+                  <li>&bull; Use &ldquo;faith hope&rdquo; to find verses with both words</li>
+                  <li>&bull; Try &ldquo;eternal life&rdquo; for specific concepts</li>
                 </ul>
               </div>
               <div>
                 <h4 className="font-medium mb-2">Reference Search</h4>
                 <ul className="text-sm text-muted-foreground space-y-1">
-                  <li>• "John 3:16" for a specific verse</li>
-                  <li>• "John 3" for an entire chapter</li>
-                  <li>• "1 John 4:8" for numbered books</li>
+                  <li>&bull; &ldquo;John 3:16&rdquo; for a specific verse</li>
+                  <li>&bull; &ldquo;John 3&rdquo; for an entire chapter</li>
+                  <li>&bull; &ldquo;1 John 4:8&rdquo; for numbered books</li>
                 </ul>
               </div>
             </div>

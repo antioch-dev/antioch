@@ -9,13 +9,13 @@ import { ThemeToggle } from "./theme-toggle"
 import { cn } from "@/lib/utils"
 
 const navigationItems = [
-  { href: "/bible", label: "Home", icon: Book },
-  { href: "/bible/read", label: "Read", icon: BookOpen },
-  { href: "/bible/search", label: "Search", icon: Search },
-  { href: "/bible/daily", label: "Daily Verse", icon: Sun },
-  { href: "/bible/notes", label: "My Notes", icon: Heart },
-  { href: "/bible/plans", label: "Reading Plans", icon: Calendar },
-  { href: "/bible/fellowship", label: "Fellowship", icon: Users },
+  { href: "/fellowship1/bible", label: "Home", icon: Book },
+  { href: "/fellowship1/bible/read", label: "Read", icon: BookOpen },
+  { href: "/fellowship1/bible/search", label: "Search", icon: Search },
+  { href: "/fellowship1/bible/daily", label: "Daily Verse", icon: Sun },
+  { href: "/fellowship1/bible/notes", label: "My Notes", icon: Heart },
+  { href: "/fellowship1/bible/plans", label: "Reading Plans", icon: Calendar },
+  { href: "/fellowship1/bible/fellowship", label: "Fellowship", icon: Users },
 ]
 
 export function BibleNavigation() {
@@ -26,7 +26,7 @@ export function BibleNavigation() {
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between px-4">
         {/* Logo */}
-        <Link href="/bible" className="flex items-center space-x-2">
+        <Link href="/fellowship1/bible" className="flex items-center space-x-2">
           <Book className="h-6 w-6 text-primary" />
           <span className="font-bold text-xl">Antioch Bible</span>
         </Link>

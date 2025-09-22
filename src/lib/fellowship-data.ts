@@ -125,7 +125,7 @@ export const sharedVerses: SharedVerse[] = [
       "For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.",
     note: "This verse always reminds me of God's incredible love for us. Perfect for our upcoming outreach event!",
     sharedBy: "Sarah Johnson",
-    sharedTo: shareDestinations[0],
+    sharedTo: shareDestinations[0]!,
     dateShared: new Date(Date.now() - 86400000).toISOString(), // 1 day ago
     likes: 12,
     comments: [
@@ -149,7 +149,7 @@ export const sharedVerses: SharedVerse[] = [
     verseText: "The LORD is my shepherd; I shall not want.",
     note: "Please pray for comfort for the Johnson family during this difficult time.",
     sharedBy: "Pastor David",
-    sharedTo: shareDestinations[1],
+    sharedTo: shareDestinations[1]!,
     dateShared: new Date(Date.now() - 172800000).toISOString(), // 2 days ago
     likes: 8,
     comments: [
@@ -168,7 +168,7 @@ export const sharedVerses: SharedVerse[] = [
       "And we know that all things work together for good to them that love God, to them who are the called according to his purpose.",
     note: "Great discussion topic for this week's Bible study on God's sovereignty.",
     sharedBy: "Jennifer Lee",
-    sharedTo: shareDestinations[2],
+    sharedTo: shareDestinations[2]!,
     dateShared: new Date(Date.now() - 259200000).toISOString(), // 3 days ago
     likes: 15,
     comments: [

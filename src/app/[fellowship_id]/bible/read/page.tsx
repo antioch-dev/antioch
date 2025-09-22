@@ -46,13 +46,13 @@ export default function BibleReadPage() {
     const ref = searchParams.get("ref")
     if (ref) {
       try {
-        const match = ref.match(/^(\d?\s?\w+)\s+(\d+)(?::(\d+))?$/)
+        const match = /^(\d?\s?\w+)\s+(\d+)(?::(\d+))?$/.exec(ref)
         if (match) {
           const [, bookName, chapter, verse] = match
-          const book = getBookByName(bookName.trim())
+          const book = getBookByName(bookName?.trim() ?? "")
           if (book) {
             setSelectedBook(book.id)
-            setSelectedChapter(Number.parseInt(chapter))
+            setSelectedChapter(Number.parseInt(chapter ?? ""))
             if (verse) {
               setHighlightedVerses(new Set([Number.parseInt(verse)]))
             }
@@ -62,7 +62,7 @@ export default function BibleReadPage() {
         console.error("Error parsing Bible reference:", error)
       }
     }
-  }, []) // Remove searchParams dependency to prevent re-runs
+  }, [searchParams]) // Remove searchParams dependency to prevent re-runs
 
   const currentBook = useMemo(() => getBook(selectedBook), [selectedBook])
   const verses = useMemo(() => {
@@ -88,7 +88,7 @@ export default function BibleReadPage() {
       }
       return prev
     })
-  }, [selectedBook, selectedChapter]) // More specific dependencies
+  }, [currentBook, selectedBook, selectedChapter, verses]) // More specific dependencies
 
   const handlePreviousChapter = () => {
     if (selectedChapter > 1) {
@@ -123,10 +123,10 @@ export default function BibleReadPage() {
     setHighlightedVerses(newHighlighted)
   }
 
-  const handleCopyVerse = (verseNumber: number, text: string) => {
+  const handleCopyVerse = async (verseNumber: number, text: string) => {
     const reference = `${currentBook?.name} ${selectedChapter}:${verseNumber}`
     const copyText = `"${text}" - ${reference} (${selectedTranslation})`
-    navigator.clipboard.writeText(copyText)
+    await navigator.clipboard.writeText(copyText)
     toast({
       title: "Verse copied!",
       description: `${reference} copied to clipboard`,
@@ -330,9 +330,9 @@ export default function BibleReadPage() {
                         variant="ghost"
                         size="icon"
                         className="h-8 w-8"
-                        onClick={(e) => {
+                        onClick={async (e) => {
                           e.stopPropagation()
-                          handleCopyVerse(verse.number, verse.text)
+                          await handleCopyVerse(verse.number, verse.text)
                         }}
                       >
                         <Copy className="h-3 w-3" />
@@ -420,7 +420,7 @@ export default function BibleReadPage() {
           </DialogHeader>
           <div className="space-y-4">
             <div className="bg-muted/50 p-3 rounded-lg">
-              <p className="text-sm italic">"{noteDialog.text}"</p>
+              <p className="text-sm italic">`{noteDialog.text}`</p>
             </div>
             <div>
               <label className="text-sm font-medium">Your Note</label>

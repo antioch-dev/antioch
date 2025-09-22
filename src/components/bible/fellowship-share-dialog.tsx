@@ -59,7 +59,7 @@ export function FellowshipShareDialog({ isOpen, onClose, verseRef, verseText }: 
       setSelectedDestination(null)
       setNote("")
       onClose()
-    } catch (error) {
+    } catch {
       toast({
         title: "Error sharing verse",
         description: "Please try again later.",
@@ -86,7 +86,7 @@ export function FellowshipShareDialog({ isOpen, onClose, verseRef, verseText }: 
       <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Share Verse with Fellowship</DialogTitle>
-          <DialogDescription>Share "{verseRef}" with your fellowship community</DialogDescription>
+          <DialogDescription>Share `{verseRef} with your fellowship community</DialogDescription>
         </DialogHeader>
 
         <div className="space-y-6">
@@ -95,7 +95,7 @@ export function FellowshipShareDialog({ isOpen, onClose, verseRef, verseText }: 
             <CardContent className="p-4">
               <div className="space-y-2">
                 <Badge variant="outline">{verseRef}</Badge>
-                <blockquote className="text-sm italic leading-relaxed">"{verseText}"</blockquote>
+                <blockquote className="text-sm italic leading-relaxed">`{verseText}`</blockquote>
               </div>
             </CardContent>
           </Card>

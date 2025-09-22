@@ -10,18 +10,26 @@ import { Progress } from "@/components/ui/progress"
 import { readingPlans } from "@/lib/bible-data"
 import { calculateProgress, initializeMockProgress, getPlanProgress, startPlan } from "@/lib/reading-plan-storage"
 
+interface PlanProgress {
+  completedDays: number
+  percentage: number
+  streak: number
+}
+
+
 export default function ReadingPlansPage() {
-  const [planProgress, setPlanProgress] = useState<Record<string, any>>({})
+ const [planProgress, setPlanProgress] = useState<Record<string, PlanProgress>>({})
+
 
   useEffect(() => {
     initializeMockProgress()
 
     // Calculate progress for all plans
-    const progress: Record<string, any> = {}
+    const progress: Record<string, unknown> = {}
     readingPlans.forEach((plan) => {
       progress[plan.id] = calculateProgress(plan.id, plan.totalDays)
     })
-    setPlanProgress(progress)
+    setPlanProgress(progress as Record<string, PlanProgress>)
   }, [])
 
   const handleStartPlan = (planId: string) => {
@@ -60,7 +68,7 @@ export default function ReadingPlansPage() {
       )
     }
 
-    if (stats?.completedDays > 0) {
+    if (stats?.completedDays ?? 0 > 0) {
       return <Badge variant="secondary">In Progress</Badge>
     }
 
@@ -84,7 +92,7 @@ export default function ReadingPlansPage() {
             </div>
             <div>
               <p className="text-2xl font-bold">
-                {Object.values(planProgress).reduce((sum: number, p: any) => sum + (p?.completedDays || 0), 0)}
+                {Object.values(planProgress).reduce((sum: number, p: PlanProgress) => sum + (p?.completedDays ?? 0), 0)}
               </p>
               <p className="text-sm text-muted-foreground">Days Completed</p>
             </div>
@@ -98,7 +106,7 @@ export default function ReadingPlansPage() {
             </div>
             <div>
               <p className="text-2xl font-bold">
-                {Math.max(...Object.values(planProgress).map((p: any) => p?.streak || 0))}
+                {Math.max(...Object.values(planProgress).map((p: PlanProgress) => p?.streak || 0))}
               </p>
               <p className="text-sm text-muted-foreground">Best Streak</p>
             </div>
@@ -178,13 +186,13 @@ export default function ReadingPlansPage() {
                     {isStarted ? (
                       <>
                         <Button asChild className="flex-1">
-                          <Link href={`/bible/plans/${plan.id}`}>
+                          <Link href={`/fellowship1/bible/plans/${plan.id}`}>
                             <BookOpen className="h-4 w-4 mr-2" />
                             Continue Reading
                           </Link>
                         </Button>
                         <Button variant="outline" asChild>
-                          <Link href={`/bible/plans/${plan.id}`}>View Details</Link>
+                          <Link href={`/fellowship1/bible/plans/${plan.id}`}>View Details</Link>
                         </Button>
                       </>
                     ) : (
@@ -194,7 +202,7 @@ export default function ReadingPlansPage() {
                           Start Plan
                         </Button>
                         <Button variant="outline" asChild>
-                          <Link href={`/bible/plans/${plan.id}`}>Learn More</Link>
+                          <Link href={`/fellowship1/bible/plans/${plan.id}`}>Learn More</Link>
                         </Button>
                       </>
                     )}
@@ -226,15 +234,15 @@ export default function ReadingPlansPage() {
               </p>
             </div>
             <div>
-              <h4 className="font-medium mb-2">Don't Rush</h4>
+              <h4 className="font-medium mb-2">{`Don't Rush`}</h4>
               <p className="text-sm text-muted-foreground">
-                It's better to read thoughtfully than to rush through passages.
+             {`   It's better to read thoughtfully than to rush through passages.`}
               </p>
             </div>
             <div>
               <h4 className="font-medium mb-2">Catch Up When Needed</h4>
               <p className="text-sm text-muted-foreground">
-                If you miss a day, don't give up. Simply continue where you left off.
+                {`If you miss a day, don't give up. Simply continue where you left off.`}
               </p>
             </div>
           </div>

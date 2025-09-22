@@ -60,7 +60,7 @@ export default function BibleNotesPage() {
   const filteredBookmarks = bookmarks.filter(
     (bookmark) =>
       bookmark.verseRef.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (bookmark.note && bookmark.note.toLowerCase().includes(searchQuery.toLowerCase())),
+      (bookmark.note?.toLowerCase().includes(searchQuery.toLowerCase())),
   )
 
   const filteredNotes = notes.filter(
@@ -215,14 +215,14 @@ export default function BibleNotesPage() {
 
                         {bookmark.note && (
                           <div className="bg-muted/50 p-3 rounded-lg">
-                            <p className="text-sm italic">"{bookmark.note}"</p>
+                            <p className="text-sm italic">`{bookmark.note}`</p>
                           </div>
                         )}
                       </div>
 
                       <div className="flex gap-2">
                         <Button variant="ghost" size="sm" asChild>
-                          <Link href={`/bible/read?ref=${encodeURIComponent(bookmark.verseRef)}`}>
+                          <Link href={`/fellowship1/bible/read?ref=${encodeURIComponent(bookmark.verseRef)}`}>
                             <BookOpen className="h-4 w-4" />
                           </Link>
                         </Button>
@@ -295,7 +295,7 @@ export default function BibleNotesPage() {
                   {searchQuery ? "No bookmarks match your search." : "Start bookmarking verses while reading!"}
                 </p>
                 <Button asChild>
-                  <Link href="/bible/read">
+                  <Link href="/fellowship1/bible/read">
                     <BookOpen className="h-4 w-4 mr-2" />
                     Start Reading
                   </Link>
@@ -329,7 +329,7 @@ export default function BibleNotesPage() {
 
                       <div className="flex gap-2">
                         <Button variant="ghost" size="sm" asChild>
-                          <Link href={`/bible/read?ref=${encodeURIComponent(note.verseRef)}`}>
+                          <Link href={`/fellowship1/bible/read?ref=${encodeURIComponent(note.verseRef)}`}>
                             <BookOpen className="h-4 w-4" />
                           </Link>
                         </Button>

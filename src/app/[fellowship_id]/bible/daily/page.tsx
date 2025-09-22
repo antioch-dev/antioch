@@ -79,7 +79,7 @@ export default function DailyVersePage() {
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Button variant="default" asChild>
-              <Link href={`/bible/read?ref=${encodeURIComponent(currentVerse?.verseRef ?? "")}`}>
+              <Link href={`/fellowship1/bible/read?ref=${encodeURIComponent(currentVerse?.verseRef ?? "")}`}>
                 <BookOpen className="h-4 w-4 mr-2" />
                 Read Chapter
               </Link>
@@ -152,7 +152,7 @@ export default function DailyVersePage() {
                     <p className="text-sm text-muted-foreground line-clamp-2">`{verse.text}`</p>
                   </div>
                   <Button variant="ghost" size="sm" asChild>
-                    <Link href={`/bible/read?ref=${encodeURIComponent(verse.verseRef)}`}>
+                    <Link href={`/fellowship1/bible/read?ref=${encodeURIComponent(verse.verseRef)}`}>
                       <BookOpen className="h-4 w-4" />
                     </Link>
                   </Button>

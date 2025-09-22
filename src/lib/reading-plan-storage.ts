@@ -11,7 +11,7 @@ export function getReadingProgress(): ReadingProgress[] {
   if (typeof window === "undefined") return []
   try {
     const stored = localStorage.getItem(READING_PROGRESS_KEY)
-    return stored ? JSON.parse(stored) : []
+    return stored ? JSON.parse(stored) as ReadingProgress[] : []
   } catch {
     return []
   }

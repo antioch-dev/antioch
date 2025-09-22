@@ -84,7 +84,7 @@ export default function FellowshipPage() {
         </div>
 
         <Button asChild>
-          <Link href="/bible/read">
+          <Link href="/fellowship1/bible/read">
             <Plus className="h-4 w-4 mr-2" />
             Share a Verse
           </Link>
@@ -180,7 +180,7 @@ export default function FellowshipPage() {
                       {/* Verse */}
                       <div className="bg-muted/50 p-4 rounded-lg space-y-2">
                         <Badge variant="outline">{share.verseRef}</Badge>
-                        <blockquote className="italic leading-relaxed">"{share.verseText}"</blockquote>
+                        <blockquote className="italic leading-relaxed">`{share.verseText}`</blockquote>
                       </div>
 
                       {/* Note */}
@@ -203,7 +203,7 @@ export default function FellowshipPage() {
                           </Button>
                         </div>
                         <Button variant="ghost" size="sm" asChild>
-                          <Link href={`/bible/read?ref=${encodeURIComponent(share.verseRef)}`}>
+                          <Link href={`/fellowship1/bible/read?ref=${encodeURIComponent(share.verseRef)}`}>
                             <BookOpen className="h-4 w-4 mr-1" />
                             Read
                           </Link>
@@ -241,7 +241,7 @@ export default function FellowshipPage() {
                 <h3 className="text-lg font-semibold mb-2">No shared verses yet</h3>
                 <p className="text-muted-foreground mb-4">Be the first to share a verse with your fellowship!</p>
                 <Button asChild>
-                  <Link href="/bible/read">
+                  <Link href="/fellowship1/bible/read">
                     <BookOpen className="h-4 w-4 mr-2" />
                     Start Reading & Sharing
                   </Link>
@@ -313,7 +313,7 @@ export default function FellowshipPage() {
                       </div>
 
                       <blockquote className="italic leading-relaxed bg-muted/50 p-4 rounded-lg">
-                        "{share.verseText}"
+                        `{share.verseText}`
                       </blockquote>
 
                       {share.note && <p className="text-sm text-muted-foreground">{share.note}</p>}

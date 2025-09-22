@@ -49,6 +49,8 @@ export interface ReadingPlanDay {
   completed: boolean
 }
 
+
+
 // Mock translations
 export const translations: Translation[] = [
   { code: "KJV", name: "King James Version" },
@@ -335,6 +337,8 @@ export const readingPlans: ReadingPlan[] = [
   },
 ]
 
+
+
 // Helper functions
 export function getBook(bookId: number): Book | undefined {
   return books.find((book) => book.id === bookId)
@@ -360,8 +364,8 @@ export function searchVerses(
     verses.forEach((verse) => {
       if (verse.text.toLowerCase().includes(query.toLowerCase())) {
         results.push({
-          book: bookName,
-          chapter: Number.parseInt(chapterNum),
+          book: bookName ?? "",
+          chapter: Number.parseInt(chapterNum ?? ""),
           verse: verse.number,
           text: verse.text,
           ref: `${bookName} ${chapterNum}:${verse.number}`,
