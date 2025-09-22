@@ -40,6 +40,12 @@ export function Header() {
           >
             Shared Music
           </Link>
+           <Link
+            href="/fellowship1/Prayer-system"
+            className="text-sm font-medium transition-colors hover:text-primary"
+          >
+            Prayer
+          </Link>
         </nav>
         <div className="flex items-center gap-4">
           <Link href="/auth/login" className="flex items-center gap-1 text-sm font-medium">

@@ -831,3 +831,265 @@ export const mockCheckouts = [
     created_at: new Date(Date.now() - 172800000).toISOString(), // 2 days ago
   },
 ]
+export interface PrayerRequest {
+  id: string
+  name: string
+  fellowship: string
+  contact?: string
+  category: "Healing" | "Guidance" | "Thanksgiving" | "Other"
+  text: string
+  isPrivate: boolean
+  status: "Pending" | "In Progress" | "Completed"
+  dateSubmitted: string
+  fileUrl?: string
+}
+
+export interface PrayerMeeting {
+  id: string
+  title: string
+  date: string
+  time: string
+  location: string
+  type: "General Fellowship Prayer" | "Ministry-specific Prayer" | "Special Event Prayer"
+  link?: string
+  description: string
+  attendees: { id: string; name: string; email: string }[]
+}
+
+export interface PrayerAssignment {
+  id: string
+  requestId: string
+  assignedMember: string
+  status: "Pending" | "Completed"
+  notes?: string
+  dateAssigned: string
+  dateCompleted?: string
+}
+
+export interface MinistryAssignment {
+  id: string
+  ministryName: string
+  members: string[]
+  description: string
+  rotationSchedule?: string
+}
+
+// Mock Prayer Requests
+export const mockPrayerRequests: PrayerRequest[] = [
+  {
+    id: "1",
+    name: "Sarah Johnson",
+    fellowship: "Sample Fellowship",
+    contact: "sarah.j@email.com",
+    category: "Healing",
+    text: "Please pray for my mother who is recovering from surgery. She needs strength and healing during this difficult time.",
+    isPrivate: false,
+    status: "Pending",
+    dateSubmitted: "2024-01-15T10:30:00Z",
+  },
+  {
+    id: "2",
+    name: "Michael Chen",
+    fellowship: "Sample Fellowship",
+    category: "Guidance",
+    text: "Seeking guidance and wisdom for a major career decision. Pray that God would open the right doors.",
+    isPrivate: false,
+    status: "In Progress",
+    dateSubmitted: "2024-01-14T14:20:00Z",
+  },
+  {
+    id: "3",
+    name: "Anonymous",
+    fellowship: "Sample Fellowship",
+    category: "Guidance",
+    text: "Marriage is going through a difficult season. Please pray for reconciliation and healing.",
+    isPrivate: true,
+    status: "Completed",
+    dateSubmitted: "2024-01-13T09:15:00Z",
+  },
+  {
+    id: "4",
+    name: "David Martinez",
+    fellowship: "Sample Fellowship",
+    contact: "david.m@email.com",
+    category: "Thanksgiving",
+    text: "Starting a new youth outreach program. Pray for wisdom, resources, and the right team members.",
+    isPrivate: false,
+    status: "Completed",
+    dateSubmitted: "2024-01-10T16:45:00Z",
+  },
+  {
+    id: "5",
+    name: "Lisa Thompson",
+    fellowship: "Sample Fellowship",
+    category: "Guidance",
+    text: "Feeling distant from God lately. Please pray for renewed passion and deeper relationship with Him.",
+    isPrivate: false,
+    status: "In Progress",
+    dateSubmitted: "2024-01-12T11:30:00Z",
+  },
+]
+
+// Mock Prayer Meetings
+export const mockPrayerMeetings: PrayerMeeting[] = [
+  {
+    id: "1",
+    title: "Weekly Fellowship Prayer",
+    date: "2024-01-20",
+    time: "19:00",
+    location: "Fellowship Hall",
+    type: "General Fellowship Prayer",
+    description: "Our weekly gathering to pray for our community, nation, and world. All are welcome.",
+    attendees: [
+      { id: "1", name: "Sarah Johnson", email: "sarah.j@email.com" },
+      { id: "2", name: "Michael Chen", email: "michael.c@email.com" },
+      { id: "3", name: "David Martinez", email: "david.m@email.com" },
+      { id: "4", name: "Lisa Thompson", email: "lisa.t@email.com" },
+      { id: "5", name: "Pastor James", email: "pastor.james@fellowship.com" },
+    ],
+  },
+  {
+    id: "2",
+    title: "Youth Ministry Prayer",
+    date: "2024-01-22",
+    time: "18:30",
+    location: "Youth Room",
+    type: "Ministry-specific Prayer",
+    description: "Focused prayer time for our youth ministry, upcoming events, and young people in our community.",
+    attendees: [
+      { id: "3", name: "David Martinez", email: "david.m@email.com" },
+      { id: "6", name: "Youth Pastor Mark", email: "mark.y@fellowship.com" },
+    ],
+  },
+  {
+    id: "3",
+    title: "Healing Prayer Service",
+    date: "2024-01-25",
+    time: "20:00",
+    location: "Online - Zoom",
+    type: "Special Event Prayer",
+    link: "https://zoom.us/j/123456789",
+    description:
+      "Special prayer service focused on healing and restoration. Join us online for this powerful time of prayer.",
+    attendees: [
+      { id: "5", name: "Pastor James", email: "pastor.james@fellowship.com" },
+      { id: "7", name: "Elder Mary", email: "mary.e@fellowship.com" },
+    ],
+  },
+  {
+    id: "4",
+    title: "Early Morning Prayer",
+    date: "2024-01-27",
+    time: "06:00",
+    location: "Sanctuary",
+    type: "General Fellowship Prayer",
+    description: "Start your day with prayer. Coffee and light breakfast provided.",
+    attendees: [{ id: "8", name: "Early Birds Group", email: "earlybirds@fellowship.com" }],
+  },
+]
+
+// Mock Prayer Assignments
+export const mockPrayerAssignments: PrayerAssignment[] = [
+  {
+    id: "1",
+    requestId: "1",
+    assignedMember: "Pastor James",
+    status: "Completed",
+    notes: "Visited Sarah's mother in the hospital. Prayed with the family. Surgery went well!",
+    dateAssigned: "2024-01-15T11:00:00Z",
+    dateCompleted: "2024-01-16T15:30:00Z",
+  },
+  {
+    id: "2",
+    requestId: "2",
+    assignedMember: "Elder Mary",
+    status: "Pending",
+    dateAssigned: "2024-01-14T15:00:00Z",
+  },
+  {
+    id: "3",
+    requestId: "3",
+    assignedMember: "Counselor Tom",
+    status: "Completed",
+    notes: "Had a counseling session and prayer time. Couple is working through their issues with professional help.",
+    dateAssigned: "2024-01-13T10:00:00Z",
+    dateCompleted: "2024-01-14T14:00:00Z",
+  },
+  {
+    id: "4",
+    requestId: "5",
+    assignedMember: "Mentor Susan",
+    status: "Pending",
+    dateAssigned: "2024-01-12T12:00:00Z",
+  },
+]
+
+// Mock Ministry Assignments
+export const mockMinistryAssignments: MinistryAssignment[] = [
+  {
+    id: "1",
+    ministryName: "Worship Team",
+    members: ["Sarah Johnson", "Michael Chen", "Grace Wilson"],
+    description: "Pray for worship services, sound equipment, and team unity",
+    rotationSchedule: "Monthly",
+  },
+  {
+    id: "2",
+    ministryName: "Youth Ministry",
+    members: ["David Martinez", "Lisa Thompson", "Youth Pastor Mark"],
+    description: "Cover youth events, camps, and individual young people in prayer",
+    rotationSchedule: "Bi-weekly",
+  },
+  {
+    id: "3",
+    ministryName: "Outreach Ministry",
+    members: ["Elder Mary", "Outreach Team", "Community Volunteers"],
+    description: "Pray for community events, evangelism efforts, and local partnerships",
+    rotationSchedule: "Weekly",
+  },
+  {
+    id: "4",
+    ministryName: "Children's Ministry",
+    members: ["Teacher Anna", "Helper Bob", "Parent Volunteers"],
+    description: "Pray for children's safety, spiritual growth, and family ministries",
+    rotationSchedule: "Monthly",
+  },
+  {
+    id: "5",
+    ministryName: "Pastoral Care",
+    members: ["Pastor James", "Counselor Tom", "Deacon Team"],
+    description: "Pray for those in crisis, hospital visits, and pastoral counseling",
+    rotationSchedule: "As needed",
+  },
+]
+
+// Mock User List
+export const NewUsers = [
+  { id: "1", name: "Sarah Johnson", email: "sarah.j@email.com" },
+  { id: "2", name: "Michael Chen", email: "michael.c@email.com" },
+  { id: "3", name: "David Martinez", email: "david.m@email.com" },
+  { id: "4", name: "Lisa Thompson", email: "lisa.t@email.com" },
+  { id: "5", name: "Pastor James", email: "pastor.james@fellowship.com" },
+  { id: "6", name: "Youth Pastor Mark", email: "mark.y@fellowship.com" },
+  { id: "7", name: "Elder Mary", email: "mary.e@fellowship.com" },
+  { id: "8", name: "Counselor Tom", email: "tom.c@fellowship.com" },
+  { id: "9", name: "Mentor Susan", email: "susan.m@fellowship.com" },
+  { id: "10", name: "Deacon John", email: "john.d@fellowship.com" },
+]
+
+// Helper functions
+export const getPrayerRequestById = (id: string): PrayerRequest | undefined => {
+  return mockPrayerRequests.find((request) => request.id === id)
+}
+
+export const getPrayerMeetingById = (id: string): PrayerMeeting | undefined => {
+  return mockPrayerMeetings.find((meeting) => meeting.id === id)
+}
+
+export const getAssignmentsByRequestId = (requestId: string): PrayerAssignment[] => {
+  return mockPrayerAssignments.filter((assignment) => assignment.requestId === requestId)
+}
+
+export const getAssignmentsByMember = (member: string): PrayerAssignment[] => {
+  return mockPrayerAssignments.filter((assignment) => assignment.assignedMember === member)
+}
