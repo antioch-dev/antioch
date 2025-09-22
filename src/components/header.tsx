@@ -37,6 +37,9 @@ export function Header() {
           <Link href="/fellowship1/qa" className="text-sm font-medium transition-colors hover:text-primary">
             QAsystem
           </Link>
+          <Link href="/fellowship1/leadership" className="text-sm font-medium transition-colors hover:text-primary">
+            Tenure
+          </Link>
         </nav>
         <div className="flex items-center gap-4">
           <Link href="/auth/login" className="flex items-center gap-1 text-sm font-medium">

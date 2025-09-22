@@ -11,6 +11,18 @@ interface UserDashboardProps {
   params: Promise<{ user_id: string }>
 }
 
+// Map the permission roles to regular user roles for the dashboard layout
+const mapRoleForDashboard = (role: string) => {
+  switch (role) {
+    case "super_admin":
+    case "tenure_manager":
+    case "department_head":
+      return "admin" 
+    default:
+      return role as "admin" | "pastor" | "leader" | "member" | "user"
+  }
+}
+
 export default async function UserDashboard({ params }: UserDashboardProps) {
   const { user_id } = await params
   const user = getUserById(user_id)
@@ -22,8 +34,11 @@ export default async function UserDashboard({ params }: UserDashboardProps) {
   const fellowship = user.fellowshipId ? getFellowshipById(user.fellowshipId) : null
   const upcomingEvents = user.fellowshipId ? getEventsByFellowshipId(user.fellowshipId).slice(0, 3) : []
 
+  // Map the user role for the dashboard layout
+  const dashboardRole = mapRoleForDashboard(user.role)
+
   return (
-    <DashboardLayout userRole={user.role} userId={user_id}>
+    <DashboardLayout userRole={dashboardRole} userId={user_id}>
       <div className="p-6 bg-gray-50 min-h-screen">
         <div className="mb-6">
           <h1 className="text-3xl font-bold text-gray-900">Welcome back, {user.name}!</h1>

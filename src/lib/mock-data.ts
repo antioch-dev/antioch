@@ -3,7 +3,7 @@ export interface User {
   name: string
   email: string
   phone?: string
-  role: "admin" | "pastor" | "leader" | "member"
+  role: "admin" | "pastor" | "leader" | "member" | "super_admin" | "tenure_manager" | "department_head"
   fellowshipId?: string
   joinDate: string
   avatar?: string
@@ -19,6 +19,7 @@ export interface User {
     canManagePermissions: boolean
   }
   bio?: string
+  personId?: string
 }
 
 export interface Fellowship {
@@ -80,6 +81,115 @@ export interface FellowshipApplication {
   reviewedBy?: string
   notes?: string
 }
+
+
+export interface Tenure {
+  id: string
+  title: string
+  startDate: string // ISO date string
+  endDate: string // ISO date string
+  status: "active" | "past" | "upcoming"
+  fellowshipId: string
+  createdAt: string
+  updatedAt: string
+}
+
+export interface Position {
+  id: string
+  name: string
+  description: string
+  departmentId: string | null // null for standalone positions
+  isActive: boolean
+  fellowshipId: string
+  createdAt: string
+  updatedAt: string
+}
+
+export interface Department {
+  id: string
+  name: string
+  description: string
+  fellowshipId: string
+  createdAt: string
+  updatedAt: string
+}
+
+export interface Person {
+  id: string
+  name: string
+  email: string
+  phone: string
+  fellowshipId: string
+  bio: string
+  photoUrl: string | null
+  createdAt: string
+  updatedAt: string
+}
+
+export interface Appointment {
+  id: string
+  tenureId: string
+  positionId: string
+  personId: string
+  status: "pending" | "accepted" | "declined" | "revoked"
+  inviteLink: string
+  inviteToken: string
+  appointedBy: string // admin user id
+  appointedAt: string
+  respondedAt: string | null
+  createdAt: string
+  updatedAt: string
+}
+
+export interface Permission {
+  id: string
+  role: "super_admin" | "tenure_manager" | "department_head"
+  actions: string[]
+  fellowshipId: string
+  userId: string
+  createdAt: string
+  updatedAt: string
+}
+
+// Extended types for UI
+export interface AppointmentWithDetails extends Appointment {
+  tenure: Tenure
+  position: Position
+  person: Person
+  department?: Department
+}
+
+export interface PositionWithDepartment extends Position {
+  department?: Department
+}
+
+export interface TenureStats {
+  totalTenures: number
+  activeTenures: number
+  totalPositions: number
+  totalAppointments: number
+  pendingAppointments: number
+}
+
+export interface DepartmentMember {
+  departmentId: string
+  personId: string
+  role: "leader" | "member"
+  joinedAt: string
+}
+
+
+export interface DepartmentWithMembers extends Department {
+  members: (DepartmentMember & { person: Person })[]
+  positionCount: number
+  leaderCount: number
+}
+
+export interface PersonWithDepartments extends Person {
+  departments: (DepartmentMember & { department: Department })[]
+  currentAppointments: AppointmentWithDetails[]
+}
+
 
 export const mockFellowships: Fellowship[] = [
   {
@@ -372,6 +482,82 @@ export const mockUsers: User[] = [
       canManagePermissions: false,
     },
     bio: "New member, eager to get involved.",
+  },
+  {
+    id: "admin_1",
+    name: "Pastor Johnson",
+    email: "pastor@antiochfellowship.org",
+    role: "super_admin",
+    personId: "person_1",
+    joinDate: "",
+    isEmailVerified: false,
+    isPhoneVerified: false,
+    username: "",
+    accountStatus: "active",
+    lastLogin: "",
+    permissions: {
+      canManageFellowships: false,
+      canManageUsers: false,
+      canViewAnalytics: false,
+      canManagePermissions: false
+    }
+  },
+  {
+    id: "admin_2",
+    name: "Elder Smith",
+    email: "elder.smith@antiochfellowship.org",
+    role: "tenure_manager",
+    personId: "person_2",
+    joinDate: "",
+    isEmailVerified: false,
+    isPhoneVerified: false,
+    username: "",
+    accountStatus: "active",
+    lastLogin: "",
+    permissions: {
+      canManageFellowships: false,
+      canManageUsers: false,
+      canViewAnalytics: false,
+      canManagePermissions: false
+    }
+  },
+  {
+    id: "admin_3",
+    name: "Deacon Brown",
+    email: "deacon.brown@antiochfellowship.org",
+    role: "department_head",
+    personId: "person_5",
+    joinDate: "",
+    isEmailVerified: false,
+    isPhoneVerified: false,
+    username: "",
+    accountStatus: "active",
+    lastLogin: "",
+    permissions: {
+      canManageFellowships: false,
+      canManageUsers: false,
+      canViewAnalytics: false,
+      canManagePermissions: false
+    }
+  },
+  {
+    id: "user_1",
+    name: "Michael Davis",
+    email: "michael.davis@email.com",
+    role: "member",
+    personId: "person_3",
+    joinDate: "",
+    isEmailVerified: false,
+    isPhoneVerified: false,
+    username: "",
+    accountStatus: "active",
+    lastLogin: "",
+    permissions: {
+      canManageFellowships: false,
+      canManageUsers: false,
+      canViewAnalytics: false,
+      canManagePermissions: false
+    }
   },
 ]
 
@@ -1041,3 +1227,515 @@ export const getAnswersByQuestionId = (questionId: string): Answer[] => {
 export const getQuestionById = (id: string): Question | undefined => {
   return mockQuestions.find((question) => question.id === id)
 }
+
+export const MOCK_FELLOWSHIP_ID = "fellowship_123"
+
+export const mockTenures: Tenure[] = [
+  {
+    id: "tenure_1",
+    title: "2024 Leadership Tenure",
+    startDate: "2024-01-01",
+    endDate: "2024-12-31",
+    status: "active",
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    createdAt: "2023-11-15T10:00:00Z",
+    updatedAt: "2023-11-15T10:00:00Z",
+  },
+  {
+    id: "tenure_2",
+    title: "2023 Leadership Tenure",
+    startDate: "2023-01-01",
+    endDate: "2023-12-31",
+    status: "past",
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    createdAt: "2022-11-15T10:00:00Z",
+    updatedAt: "2022-11-15T10:00:00Z",
+  },
+  {
+    id: "tenure_3",
+    title: "2025 Leadership Tenure",
+    startDate: "2025-01-01",
+    endDate: "2025-12-31",
+    status: "upcoming",
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    createdAt: "2024-10-15T10:00:00Z",
+    updatedAt: "2024-10-15T10:00:00Z",
+  },
+]
+
+export const mockDepartments: Department[] = [
+  {
+    id: "dept_1",
+    name: "Music Ministry",
+    description: "Worship and music coordination",
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+  {
+    id: "dept_2",
+    name: "Children Ministry",
+    description: "Children and youth programs",
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+  {
+    id: "dept_3",
+    name: "Media Ministry",
+    description: "Audio, video, and digital content",
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+  {
+    id: "dept_4",
+    name: "Outreach Ministry",
+    description: "Community outreach and evangelism",
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+]
+
+export const mockPositions: Position[] = [
+  // Standalone positions
+  {
+    id: "pos_1",
+    name: "President",
+    description: "Overall leadership and vision",
+    departmentId: null,
+    isActive: true,
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+  {
+    id: "pos_2",
+    name: "Secretary",
+    description: "Record keeping and documentation",
+    departmentId: null,
+    isActive: true,
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+  {
+    id: "pos_3",
+    name: "Treasurer",
+    description: "Financial management and oversight",
+    departmentId: null,
+    isActive: true,
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+  // Department-linked positions
+  {
+    id: "pos_4",
+    name: "Music Ministry Leader",
+    description: "Lead worship and music programs",
+    departmentId: "dept_1",
+    isActive: true,
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+  {
+    id: "pos_5",
+    name: "Children Ministry Leader",
+    description: "Oversee children and youth activities",
+    departmentId: "dept_2",
+    isActive: true,
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+  {
+    id: "pos_6",
+    name: "Media Ministry Leader",
+    description: "Manage audio/video and digital content",
+    departmentId: "dept_3",
+    isActive: true,
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+  {
+    id: "pos_7",
+    name: "Outreach Ministry Leader",
+    description: "Lead community outreach efforts",
+    departmentId: "dept_4",
+    isActive: true,
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+]
+
+export const mockPersons: Person[] = [
+  {
+    id: "person_1",
+    name: "John Smith",
+    email: "john.smith@email.com",
+    phone: "+1-555-0101",
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    bio: "Passionate about church leadership and community building. Has served in various leadership roles for over 8 years.",
+    photoUrl: "/professional-man-headshot.png",
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+  {
+    id: "person_2",
+    name: "Sarah Johnson",
+    email: "sarah.johnson@email.com",
+    phone: "+1-555-0102",
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    bio: "Experienced in financial management and church administration. CPA with 12 years of nonprofit experience.",
+    photoUrl: "/professional-woman-headshot.png",
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+  {
+    id: "person_3",
+    name: "Michael Davis",
+    email: "michael.davis@email.com",
+    phone: "+1-555-0103",
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    bio: "Music director with 10+ years of worship leading experience. Skilled in piano, guitar, and vocal coaching.",
+    photoUrl: "/professional-headshot-man-musician.png",
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+  {
+    id: "person_4",
+    name: "Emily Wilson",
+    email: "emily.wilson@email.com",
+    phone: "+1-555-0104",
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    bio: "Children ministry coordinator and early childhood educator. Passionate about nurturing young hearts for Christ.",
+    photoUrl: "/professional-headshot-woman-teacher.png",
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+  {
+    id: "person_5",
+    name: "David Brown",
+    email: "david.brown@email.com",
+    phone: "+1-555-0105",
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    bio: "Media specialist with expertise in audio/video production. Professional broadcast engineer with creative vision.",
+    photoUrl: "/professional-headshot-man-tech.png",
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+  {
+    id: "person_6",
+    name: "Lisa Anderson",
+    email: "lisa.anderson@email.com",
+    phone: "+1-555-0106",
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    bio: "Community outreach coordinator with heart for evangelism. Former missionary with global ministry experience.",
+    photoUrl: "/professional-headshot-woman-community.png",
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+  {
+    id: "person_7",
+    name: "Robert Taylor",
+    email: "robert.taylor@email.com",
+    phone: "+1-555-0107",
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    bio: "Assistant worship leader and sound technician. Brings technical expertise to enhance worship experience.",
+    photoUrl: "/professional-man-headshot.png",
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+  {
+    id: "person_8",
+    name: "Jennifer Martinez",
+    email: "jennifer.martinez@email.com",
+    phone: "+1-555-0108",
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    bio: "Children's Sunday school teacher and youth mentor. Dedicated to discipleship and spiritual growth.",
+    photoUrl: "/professional-woman-headshot.png",
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+  {
+    id: "person_9",
+    name: "Christopher Lee",
+    email: "christopher.lee@email.com",
+    phone: "+1-555-0109",
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    bio: "Video production specialist and live streaming coordinator. Helps extend our reach through digital ministry.",
+    photoUrl: "/professional-headshot-man-tech.png",
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+  {
+    id: "person_10",
+    name: "Amanda Garcia",
+    email: "amanda.garcia@email.com",
+    phone: "+1-555-0110",
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    bio: "Community volunteer coordinator and event organizer. Passionate about connecting with local neighborhoods.",
+    photoUrl: "/professional-headshot-woman-community.png",
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+  {
+    id: "person_11",
+    name: "James Thompson",
+    email: "james.thompson@email.com",
+    phone: "+1-555-0111",
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    bio: "Administrative assistant and meeting coordinator. Ensures smooth operations and effective communication.",
+    photoUrl: "/professional-man-headshot.png",
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+  {
+    id: "person_12",
+    name: "Rachel White",
+    email: "rachel.white@email.com",
+    phone: "+1-555-0112",
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    bio: "New member interested in serving. Recently completed leadership training program.",
+    photoUrl: "/professional-woman-headshot.png",
+    createdAt: "2024-11-01T10:00:00Z",
+    updatedAt: "2024-11-01T10:00:00Z",
+  },
+]
+
+export const mockAppointments: Appointment[] = [
+  // Current tenure appointments (2024)
+  {
+    id: "appt_1",
+    tenureId: "tenure_1",
+    positionId: "pos_1",
+    personId: "person_1",
+    status: "accepted",
+    inviteLink: "/fellowship_123/leadership/invite/token_abc123",
+    inviteToken: "token_abc123",
+    appointedBy: "admin_1",
+    appointedAt: "2023-12-01T10:00:00Z",
+    respondedAt: "2023-12-02T14:30:00Z",
+    createdAt: "2023-12-01T10:00:00Z",
+    updatedAt: "2023-12-02T14:30:00Z",
+  },
+  {
+    id: "appt_2",
+    tenureId: "tenure_1",
+    positionId: "pos_2",
+    personId: "person_11",
+    status: "accepted",
+    inviteLink: "/fellowship_123/leadership/invite/token_sec789",
+    inviteToken: "token_sec789",
+    appointedBy: "admin_1",
+    appointedAt: "2023-12-01T10:00:00Z",
+    respondedAt: "2023-12-02T11:20:00Z",
+    createdAt: "2023-12-01T10:00:00Z",
+    updatedAt: "2023-12-02T11:20:00Z",
+  },
+  {
+    id: "appt_3",
+    tenureId: "tenure_1",
+    positionId: "pos_3",
+    personId: "person_2",
+    status: "accepted",
+    inviteLink: "/fellowship_123/leadership/invite/token_def456",
+    inviteToken: "token_def456",
+    appointedBy: "admin_1",
+    appointedAt: "2023-12-01T10:00:00Z",
+    respondedAt: "2023-12-03T09:15:00Z",
+    createdAt: "2023-12-01T10:00:00Z",
+    updatedAt: "2023-12-03T09:15:00Z",
+  },
+  {
+    id: "appt_4",
+    tenureId: "tenure_1",
+    positionId: "pos_4",
+    personId: "person_3",
+    status: "accepted",
+    inviteLink: "/fellowship_123/leadership/invite/token_ghi789",
+    inviteToken: "token_ghi789",
+    appointedBy: "admin_1",
+    appointedAt: "2023-12-01T10:00:00Z",
+    respondedAt: "2023-12-01T16:45:00Z",
+    createdAt: "2023-12-01T10:00:00Z",
+    updatedAt: "2023-12-01T16:45:00Z",
+  },
+  {
+    id: "appt_5",
+    tenureId: "tenure_1",
+    positionId: "pos_5",
+    personId: "person_4",
+    status: "accepted",
+    inviteLink: "/fellowship_123/leadership/invite/token_jkl012",
+    inviteToken: "token_jkl012",
+    appointedBy: "admin_1",
+    appointedAt: "2023-12-05T10:00:00Z",
+    respondedAt: "2023-12-06T14:20:00Z",
+    createdAt: "2023-12-05T10:00:00Z",
+    updatedAt: "2023-12-06T14:20:00Z",
+  },
+  {
+    id: "appt_6",
+    tenureId: "tenure_1",
+    positionId: "pos_6",
+    personId: "person_5",
+    status: "accepted",
+    inviteLink: "/fellowship_123/leadership/invite/token_mno345",
+    inviteToken: "token_mno345",
+    appointedBy: "admin_1",
+    appointedAt: "2023-12-05T10:00:00Z",
+    respondedAt: "2023-12-05T18:30:00Z",
+    createdAt: "2023-12-05T10:00:00Z",
+    updatedAt: "2023-12-05T18:30:00Z",
+  },
+  {
+    id: "appt_7",
+    tenureId: "tenure_1",
+    positionId: "pos_7",
+    personId: "person_6",
+    status: "accepted",
+    inviteLink: "/fellowship_123/leadership/invite/token_pqr678",
+    inviteToken: "token_pqr678",
+    appointedBy: "admin_1",
+    appointedAt: "2023-12-05T10:00:00Z",
+    respondedAt: "2023-12-07T10:15:00Z",
+    createdAt: "2023-12-05T10:00:00Z",
+    updatedAt: "2023-12-07T10:15:00Z",
+  },
+  // Pending appointments for 2025 tenure
+  {
+    id: "appt_8",
+    tenureId: "tenure_3",
+    positionId: "pos_1",
+    personId: "person_1",
+    status: "pending",
+    inviteLink: "/fellowship_123/leadership/invite/token_2025_pres",
+    inviteToken: "token_2025_pres",
+    appointedBy: "admin_1",
+    appointedAt: "2024-11-15T10:00:00Z",
+    respondedAt: null,
+    createdAt: "2024-11-15T10:00:00Z",
+    updatedAt: "2024-11-15T10:00:00Z",
+  },
+  {
+    id: "appt_9",
+    tenureId: "tenure_3",
+    positionId: "pos_4",
+    personId: "person_12",
+    status: "pending",
+    inviteLink: "/fellowship_123/leadership/invite/token_2025_music",
+    inviteToken: "token_2025_music",
+    appointedBy: "admin_1",
+    appointedAt: "2024-11-20T10:00:00Z",
+    respondedAt: null,
+    createdAt: "2024-11-20T10:00:00Z",
+    updatedAt: "2024-11-20T10:00:00Z",
+  },
+  // Declined appointment example
+  {
+    id: "appt_10",
+    tenureId: "tenure_1",
+    positionId: "pos_2",
+    personId: "person_7",
+    status: "declined",
+    inviteLink: "/fellowship_123/leadership/invite/token_declined_sec",
+    inviteToken: "token_declined_sec",
+    appointedBy: "admin_1",
+    appointedAt: "2023-11-20T10:00:00Z",
+    respondedAt: "2023-11-22T15:45:00Z",
+    createdAt: "2023-11-20T10:00:00Z",
+    updatedAt: "2023-11-22T15:45:00Z",
+  },
+  // Past tenure appointments for history
+  {
+    id: "appt_11",
+    tenureId: "tenure_2",
+    positionId: "pos_1",
+    personId: "person_2",
+    status: "accepted",
+    inviteLink: "/fellowship_123/leadership/invite/token_2023_pres",
+    inviteToken: "token_2023_pres",
+    appointedBy: "admin_1",
+    appointedAt: "2022-12-01T10:00:00Z",
+    respondedAt: "2022-12-02T14:30:00Z",
+    createdAt: "2022-12-01T10:00:00Z",
+    updatedAt: "2022-12-02T14:30:00Z",
+  },
+  {
+    id: "appt_12",
+    tenureId: "tenure_2",
+    positionId: "pos_4",
+    personId: "person_3",
+    status: "accepted",
+    inviteLink: "/fellowship_123/leadership/invite/token_2023_music",
+    inviteToken: "token_2023_music",
+    appointedBy: "admin_1",
+    appointedAt: "2022-12-01T10:00:00Z",
+    respondedAt: "2022-12-01T16:45:00Z",
+    createdAt: "2022-12-01T10:00:00Z",
+    updatedAt: "2022-12-01T16:45:00Z",
+  },
+]
+
+export const mockDepartmentMembers: DepartmentMember[] = [
+  // Music Ministry Members
+  { departmentId: "dept_1", personId: "person_3", role: "leader", joinedAt: "2023-01-01T10:00:00Z" },
+  { departmentId: "dept_1", personId: "person_7", role: "member", joinedAt: "2023-06-15T10:00:00Z" },
+  { departmentId: "dept_1", personId: "person_12", role: "member", joinedAt: "2024-09-01T10:00:00Z" },
+
+  // Children Ministry Members
+  { departmentId: "dept_2", personId: "person_4", role: "leader", joinedAt: "2023-01-01T10:00:00Z" },
+  { departmentId: "dept_2", personId: "person_8", role: "member", joinedAt: "2023-03-20T10:00:00Z" },
+
+  // Media Ministry Members
+  { departmentId: "dept_3", personId: "person_5", role: "leader", joinedAt: "2023-01-01T10:00:00Z" },
+  { departmentId: "dept_3", personId: "person_9", role: "member", joinedAt: "2023-08-10T10:00:00Z" },
+
+  // Outreach Ministry Members
+  { departmentId: "dept_4", personId: "person_6", role: "leader", joinedAt: "2023-01-01T10:00:00Z" },
+  { departmentId: "dept_4", personId: "person_10", role: "member", joinedAt: "2023-05-12T10:00:00Z" },
+]
+
+
+export const mockPermissions: Permission[] = [
+  {
+    id: "perm_1",
+    role: "super_admin",
+    actions: [
+      "create_tenure",
+      "edit_tenure",
+      "delete_tenure",
+      "manage_positions",
+      "manage_appointments",
+      "manage_permissions",
+    ],
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    userId: "admin_1",
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+  {
+    id: "perm_2",
+    role: "tenure_manager",
+    actions: ["create_tenure", "edit_tenure", "manage_appointments"],
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    userId: "admin_2",
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+  {
+    id: "perm_3",
+    role: "department_head",
+    actions: ["view_appointments", "manage_department_positions"],
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    userId: "admin_3",
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+]

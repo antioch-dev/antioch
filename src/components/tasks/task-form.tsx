@@ -86,7 +86,7 @@ export function TaskForm({ trigger, onSuccess }: TaskFormProps) {
       setTagInput("")
       setOpen(false)
       onSuccess?.()
-    } catch (e) {
+    } catch {
       toast({
         title: "Error creating task",
         description: "Something went wrong. Please try again.",
