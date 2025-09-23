@@ -41,7 +41,7 @@ export function Header() {
             Tenure
           </Link>
           <Link href="/fellowship1/bible" className="text-sm font-medium transition-colors hover:text-primary">
-            Bible Study
+            SystemWideBible
           </Link>
         </nav>
         <div className="flex items-center gap-4">
