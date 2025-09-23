@@ -39,7 +39,7 @@ export default function PrayerHome({ params }: PrayerHomeProps) {
           </p>
           <div className="mt-6">
             <Badge variant="secondary" className="bg-purple-100 text-purple-800 px-4 py-2 text-sm font-medium">
-              Your prayer is powerful. Let's enhance your spiritual experience together.
+              Your prayer is powerful. Let&apos;s enhance your spiritual experience together.
             </Badge>
           </div>
         </div>
@@ -93,7 +93,7 @@ export default function PrayerHome({ params }: PrayerHomeProps) {
 
         {/* Quick Actions */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <Link href={`/${fellowship}/prayer/requests`}>
+          <Link href="/fellowship1/Prayer-system/prayer/requests">
             <Card className="prayer-card-glow cursor-pointer group bg-gradient-to-br from-purple-50 via-white to-purple-50 border-purple-200">
               <CardHeader className="text-center pb-4">
                 <div className="mx-auto mb-4 p-4 bg-purple-100 rounded-full w-fit group-hover:bg-purple-200 transition-colors">
@@ -187,7 +187,7 @@ export default function PrayerHome({ params }: PrayerHomeProps) {
                 <div className="h-3 w-3 bg-green-500 rounded-full animate-pulse"></div>
                 <div className="flex-1">
                   <p className="text-sm font-semibold text-green-900">Prayer Answered!</p>
-                  <p className="text-sm text-green-700">David's youth ministry request has been answered</p>
+                  <p className="text-sm text-green-700">David&apos;s youth ministry request has been answered</p>
                 </div>
                 <Badge className="bg-green-100 text-green-800 border-green-200">Answered</Badge>
               </div>
@@ -196,7 +196,7 @@ export default function PrayerHome({ params }: PrayerHomeProps) {
                 <div className="h-3 w-3 bg-purple-500 rounded-full animate-pulse"></div>
                 <div className="flex-1">
                   <p className="text-sm font-semibold text-purple-900">New Prayer Request</p>
-                  <p className="text-sm text-purple-700">Sarah submitted a request for her mother's healing</p>
+                  <p className="text-sm text-purple-700">Sarah submitted a request for her mother&apos;s healing</p>
                 </div>
                 <Badge variant="outline" className="border-purple-200 text-purple-700">
                   New

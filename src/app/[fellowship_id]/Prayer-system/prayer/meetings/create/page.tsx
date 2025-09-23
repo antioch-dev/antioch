@@ -1,8 +1,6 @@
 "use client"
 
-import type React from "react"
-
-import { useState } from "react"
+import React, { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -12,22 +10,46 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import PrayerLayout from "@/components/prayer-layout"
-import { mockUsers } from "@/lib/mock-data"
-import { Plus, X, Users, Mail, CheckCircle, Search } from "lucide-react"
+import { Plus, X, Users, Mail, CheckCircle, Search, ArrowLeft } from "lucide-react"
+
+
+const mockUsers = [
+  { id: "1", name: "John Doe", email: "john.doe@example.com" },
+  { id: "2", name: "Jane Smith", email: "jane.smith@example.com" },
+  { id: "3", name: "Alex Johnson", email: "alex.johnson@example.com" },
+  { id: "4", name: "Emily White", email: "emily.white@example.com" },
+  { id: "5", name: "Michael Brown", email: "michael.brown@example.com" },
+];
+
+interface PrayerLayoutProps {
+  children: React.ReactNode;
+  fellowshipName: string;
+}
+
+const PrayerLayout = ({ children, fellowshipName }: PrayerLayoutProps) => (
+  <div className="min-h-screen bg-gray-50 p-6 md:p-12">
+    <div className="container mx-auto max-w-4xl">
+      <div className="flex items-center justify-between mb-8">
+        <h1 className="text-2xl font-bold text-gray-800">{fellowshipName}</h1>
+      </div>
+      {children}
+    </div>
+  </div>
+);
 
 interface CreateMeetingProps {
-  params: {
-    fellowship: string
-  }
+  params: Promise<{
+    fellowship_id: string;
+  }>;
 }
 
 export default function CreateMeeting({ params }: CreateMeetingProps) {
-  const { fellowship } = params
-  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false)
-  const [searchTerm, setSearchTerm] = useState("")
-  const [externalEmails, setExternalEmails] = useState<string[]>([])
-  const [newEmail, setNewEmail] = useState("")
+
+  const { fellowship_id } = React.use(params);
+  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [externalEmails, setExternalEmails] = useState<string[]>([]);
+  const [newEmail, setNewEmail] = useState("");
 
   const [formData, setFormData] = useState({
     title: "",
@@ -38,54 +60,54 @@ export default function CreateMeeting({ params }: CreateMeetingProps) {
     link: "",
     description: "",
     selectedAttendees: [] as typeof mockUsers,
-  })
+  });
 
   const filteredUsers = mockUsers.filter(
     (user) =>
       user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.email.toLowerCase().includes(searchTerm.toLowerCase()),
-  )
+  );
 
   const handleAttendeeToggle = (user: (typeof mockUsers)[0]) => {
-    const isSelected = formData.selectedAttendees.some((a) => a.id === user.id)
+    const isSelected = formData.selectedAttendees.some((a) => a.id === user.id);
     if (isSelected) {
       setFormData({
         ...formData,
         selectedAttendees: formData.selectedAttendees.filter((a) => a.id !== user.id),
-      })
+      });
     } else {
       setFormData({
         ...formData,
         selectedAttendees: [...formData.selectedAttendees, user],
-      })
+      });
     }
-  }
+  };
 
   const handleAddExternalEmail = () => {
     if (newEmail && !externalEmails.includes(newEmail)) {
-      setExternalEmails([...externalEmails, newEmail])
-      setNewEmail("")
+      setExternalEmails([...externalEmails, newEmail]);
+      setNewEmail("");
     }
-  }
+  };
 
   const handleRemoveExternalEmail = (email: string) => {
-    setExternalEmails(externalEmails.filter((e) => e !== email))
-  }
+    setExternalEmails(externalEmails.filter((e) => e !== email));
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
     console.log("[v0] Creating prayer meeting:", {
       ...formData,
       externalEmails,
-    })
+    });
 
     const allAttendees = [
       ...formData.selectedAttendees.map((a) => ({ name: a.name, email: a.email, type: "member" })),
       ...externalEmails.map((email) => ({ name: email, email, type: "external" })),
-    ]
+    ];
 
-    console.log("[v0] Sending email invitations to:", allAttendees)
+    console.log("[v0] Sending email invitations to:", allAttendees);
 
     // Mock email content
     const emailContent = {
@@ -105,13 +127,13 @@ export default function CreateMeeting({ params }: CreateMeetingProps) {
         Please add this to your calendar and join us in prayer.
         
         Blessings,
-        ${fellowship} Prayer Team
+        ${fellowship_id} Prayer Team
       `,
-    }
+    };
 
-    console.log("[v0] Email content:", emailContent)
+    console.log("[v0] Email content:", emailContent);
 
-    setIsConfirmationOpen(true)
+    setIsConfirmationOpen(true);
 
     // Reset form
     setFormData({
@@ -123,16 +145,22 @@ export default function CreateMeeting({ params }: CreateMeetingProps) {
       link: "",
       description: "",
       selectedAttendees: [],
-    })
-    setExternalEmails([])
-  }
+    });
+    setExternalEmails([]);
+  };
 
   return (
-    <PrayerLayout fellowshipName={fellowship}>
+    <PrayerLayout fellowshipName={fellowship_id}>
       <div className="space-y-6">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Create Prayer Meeting</h1>
-          <p className="text-gray-600 mt-2">Schedule a new prayer meeting and invite attendees</p>
+        <div className="flex items-center gap-4">
+          <Button type="button" variant="outline" onClick={() => window.history.back()}>
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Back
+          </Button>
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900">Create Prayer Meeting</h1>
+            <p className="text-gray-600 mt-2">Schedule a new prayer meeting and invite attendees</p>
+          </div>
         </div>
 
         <Card className="prayer-card-glow">
@@ -322,9 +350,6 @@ export default function CreateMeeting({ params }: CreateMeetingProps) {
                 <Button type="submit" className="flex-1 prayer-button">
                   Create Meeting & Send Invitations
                 </Button>
-                <Button type="button" variant="outline" onClick={() => window.history.back()}>
-                  Cancel
-                </Button>
               </div>
             </form>
           </CardContent>
@@ -366,5 +391,5 @@ export default function CreateMeeting({ params }: CreateMeetingProps) {
         </Dialog>
       </div>
     </PrayerLayout>
-  )
+  );
 }

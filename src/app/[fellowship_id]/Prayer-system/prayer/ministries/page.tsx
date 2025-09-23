@@ -101,24 +101,26 @@ export default function MinistryAssignments({ params }: MinistryAssignmentsProps
   }
 
   const handleAddMembers = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (selectedMinistry) {
       const updatedMinistries = ministries.map((ministry) =>
         ministry.id === selectedMinistry.id
           ? {
               ...ministry,
-              members: [...new Set([...ministry.members, ...memberData.selectedMembers])],
+              members: [...new Set([...ministry.members, ...memberData.selectedMembers])].filter(
+                (m): m is string => typeof m === "string"
+              ),
             }
           : ministry,
-      )
+      );
 
-      setMinistries(updatedMinistries)
-      setMemberData({ selectedMembers: [] })
-      setSelectedMinistry(null)
-      setIsAddMemberDialogOpen(false)
+      setMinistries(updatedMinistries);
+      setMemberData({ selectedMembers: [] });
+      setSelectedMinistry(null);
+      setIsAddMemberDialogOpen(false);
     }
-  }
+  };
 
   const handleRemoveMember = (ministryId: string, memberToRemove: string) => {
     const updatedMinistries = ministries.map((ministry) =>
@@ -133,15 +135,14 @@ export default function MinistryAssignments({ params }: MinistryAssignmentsProps
     setMinistries(updatedMinistries)
   }
 
-  const handleRotateAssignments = (ministryId: string) => {
-    // Mock rotation logic - in real app this would be more sophisticated
-    const ministry = ministries.find((m) => m.id === ministryId)
-    if (ministry && ministry.members.length > 1) {
-      const rotatedMembers = [...ministry.members.slice(1), ministry.members[0]]
-      const updatedMinistries = ministries.map((m) => (m.id === ministryId ? { ...m, members: rotatedMembers } : m))
-      setMinistries(updatedMinistries)
-    }
+ const handleRotateAssignments = (ministryId: string) => {
+  const ministry = ministries.find((m) => m.id === ministryId);
+  if (ministry && ministry.members.length > 1) {
+    const rotatedMembers = [...ministry.members.slice(1), ministry.members[0]] as string[];
+    const updatedMinistries = ministries.map((m) => (m.id === ministryId ? { ...m, members: rotatedMembers } : m));
+    setMinistries(updatedMinistries);
   }
+};
 
   const getMinistryIcon = (ministryName: string) => {
     if (ministryName.toLowerCase().includes("worship")) return <Music className="h-5 w-5 text-blue-600" />

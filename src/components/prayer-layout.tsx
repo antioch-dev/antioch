@@ -16,44 +16,53 @@ interface PrayerLayoutProps {
 export default function PrayerLayout({ children, fellowshipName }: PrayerLayoutProps) {
   const pathname = usePathname()
 
+ 
+  const safeFellowshipName = fellowshipName || "fellowship-home";
+
   const navigationItems = [
     {
-      href: "/fellowship1/Prayer-system/prayer",
+      href: `/${safeFellowshipName}/Prayer-system/prayer`,
       label: "Prayer Home",
       icon: Heart,
-      active: pathname === "/fellowship1/Prayer-system/prayer/prayer",
+      active: pathname === `/${safeFellowshipName}/Prayer-system/prayer`,
     },
     {
-      href: "/fellowship1/Prayer-system/prayer/requests",
+      href: `/${safeFellowshipName}/Prayer-system/prayer/requests`,
       label: "Prayer Requests",
       icon: Heart,
-      active: pathname === "/fellowship1/Prayer-system/prayer/requests",
+      active: pathname === `/${safeFellowshipName}/Prayer-system/prayer/requests`,
     },
     {
-      href: "/fellowship1/Prayer-system/prayer/meetings",
+      href: `/${safeFellowshipName}/Prayer-system/prayer/meetings`,
       label: "Prayer Meetings",
       icon: Calendar,
-      active: pathname === "/fellowship1/Prayer-system/prayer/meetings",
+      active: pathname === `/${safeFellowshipName}/Prayer-system/prayer/meetings`,
     },
     {
-      href: "/fellowship1/Prayer-system/prayer/meetings/create",
+      href: `/${safeFellowshipName}/Prayer-system/prayer/meetings/create`,
       label: "Create Meeting",
       icon: Plus,
-      active: pathname === "/fellowship1/Prayer-system/prayer/meetings/create",
+      active: pathname === `/${safeFellowshipName}/Prayer-system/prayer/meetings/create`,
     },
     {
-      href: "/fellowship1/Prayer-system/prayer/assignments",
+      href: `/${safeFellowshipName}/Prayer-system/prayer/assignments`,
       label: "Assignments",
       icon: Users,
-      active: pathname === "/fellowship1/Prayer-system/prayer/assignments",
+      active: pathname === `/${safeFellowshipName}/Prayer-system/prayer/assignments`,
     },
     {
-      href: "/fellowship1/Prayer-system/prayer/ministries",
+      href: `/${safeFellowshipName}/Prayer-system/prayer/ministries`,
       label: "Ministry Coverage",
       icon: Building,
-      active: pathname === "/fellowship1/Prayer-system/prayerfellowshipName}/prayer/ministries",
+      active: pathname === `/${safeFellowshipName}/Prayer-system/prayer/ministries`,
     },
   ]
+
+  
+  const formattedFellowshipName = safeFellowshipName
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 
   return (
     <div className="min-h-screen spiritual-gradient relative">
@@ -77,16 +86,13 @@ export default function PrayerLayout({ children, fellowshipName }: PrayerLayoutP
               <div className="flex items-center gap-2">
                 <Sparkles className="h-5 w-5 text-purple-600" />
                 <h1 className="text-lg font-serif font-semibold text-gray-900">
-                  {fellowshipName
-                    .split("-")
-                    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-                    .join(" ")}{" "}
+                  {formattedFellowshipName}{" "}
                   - Prayer Ministry
                 </h1>
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <Link href={`/${fellowshipName}/prayer/submit`}>
+              <Link href="/fellowship-home/Prayer-system/prayer/submit">
                 <Button
                   variant="outline"
                   size="sm"
@@ -96,7 +102,7 @@ export default function PrayerLayout({ children, fellowshipName }: PrayerLayoutP
                   Public Submit
                 </Button>
               </Link>
-              <Link href={`/${fellowshipName}/prayer`}>
+              <Link href={`/${safeFellowshipName}/prayer`}>
                 <Button
                   variant="outline"
                   size="sm"
@@ -143,7 +149,7 @@ export default function PrayerLayout({ children, fellowshipName }: PrayerLayoutP
 
               <div className="mt-6 pt-6 border-t border-purple-100">
                 <h3 className="font-medium text-gray-900 text-sm mb-3">Quick Access</h3>
-                <Link href={`/${fellowshipName}/prayer/submit`}>
+                <Link href="/fellowship-home/Prayer-system/prayer/submit">
                   <Button
                     variant="outline"
                     size="sm"

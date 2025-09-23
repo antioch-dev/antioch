@@ -1,8 +1,8 @@
 "use client"
 
-import type React from "react"
-
-import { useState } from "react"
+import React, { useState, useEffect } from "react"
+// We are replacing next/link with a standard <a> tag to fix the compilation error.
+// import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -12,37 +12,52 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Heart, CheckCircle, ArrowLeft, Sparkles } from "lucide-react"
-import Link from "next/link"
 
+// Correctly type params as a Promise
 interface PublicPrayerSubmitProps {
-  params: {
-    fellowship: string
-  }
+  params: Promise<{
+    fellowship_id: string
+  }>;
 }
 
 export default function PublicPrayerSubmit({ params }: PublicPrayerSubmitProps) {
-  const { fellowship } = params
+  // Use React.use() to unwrap the params Promise, which ensures the value is the same on both the server and client
+  const { fellowship_id } = React.use(params)
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false)
+  const [shareUrl, setShareUrl] = useState("")
 
   const [formData, setFormData] = useState({
     name: "",
-    fellowshipName: fellowship,
+    fellowshipName: fellowship_id,
     contact: "",
     category: "",
     text: "",
     isPrivate: false,
   })
 
+  // Use useEffect to get the window.location.href only on the client side after hydration
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setShareUrl(window.location.href)
+    }
+  }, [])
+
+  const safeFellowshipName = fellowship_id || "fellowship"
+  const formattedFellowshipName = safeFellowshipName
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ")
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    // Mock API call - in real app would submit to backend
+
     console.log("[v0] Submitting public prayer request:", formData)
     setIsConfirmationOpen(true)
 
     // Reset form
     setFormData({
       name: "",
-      fellowshipName: fellowship,
+      fellowshipName: fellowship_id,
       contact: "",
       category: "",
       text: "",
@@ -56,17 +71,15 @@ export default function PublicPrayerSubmit({ params }: PublicPrayerSubmitProps) 
       <div className="bg-white/80 backdrop-blur-sm border-b border-purple-100 sticky top-0 z-10">
         <div className="max-w-4xl mx-auto px-4 py-4">
           <div className="flex items-center gap-4">
-            <Link href={`/${fellowship}/prayer`}>
+            <a href={`/${fellowship_id}/Prayer-system/prayer`}>
               <Button variant="ghost" size="sm" className="gap-2">
                 <ArrowLeft className="h-4 w-4" />
                 Back to Prayer System
               </Button>
-            </Link>
+            </a>
             <div className="flex items-center gap-2">
               <Sparkles className="h-6 w-6 text-purple-600" />
-              <h1 className="text-xl font-serif font-bold text-gray-900">
-                {fellowship.charAt(0).toUpperCase() + fellowship.slice(1)} Prayer Requests
-              </h1>
+              <h1 className="text-xl font-serif font-bold text-gray-900">{formattedFellowshipName} Prayer Requests</h1>
             </div>
           </div>
         </div>
@@ -182,7 +195,7 @@ export default function PublicPrayerSubmit({ params }: PublicPrayerSubmitProps) 
                 Anyone can use this link to submit prayer requests to your fellowship:
               </p>
               <div className="bg-white p-3 rounded border border-blue-200 text-sm font-mono text-blue-800">
-                {typeof window !== "undefined" ? window.location.href : `/${fellowship}/prayer/submit`}
+                {shareUrl ? shareUrl : `/${fellowship_id}/Prayer-system/prayer/submit`}
               </div>
             </div>
           </CardContent>

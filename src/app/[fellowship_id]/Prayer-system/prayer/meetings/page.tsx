@@ -1,8 +1,6 @@
 "use client"
 
-import type React from "react"
-
-import { useState } from "react"
+import React, { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -46,14 +44,8 @@ import {
 } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 
-interface PrayerMeetingsProps {
-  params: {
-    fellowship: string
-  }
-}
-
-export default function PrayerMeetings({ params }: PrayerMeetingsProps) {
-  const { fellowship } = params
+export default function PrayerMeetings({ params }: { params: { fellowship_id: string } }) {
+  const { fellowship_id } = params
   const [meetings, setMeetings] = useState<PrayerMeeting[]>(mockPrayerMeetings)
   const [selectedMeeting, setSelectedMeeting] = useState<PrayerMeeting | null>(null)
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false)
@@ -95,7 +87,7 @@ export default function PrayerMeetings({ params }: PrayerMeetingsProps) {
       type: formData.type as PrayerMeeting["type"],
       link: formData.link || undefined,
       description: formData.description,
-      attendees: ["You"],
+      attendees: [{ id: "1", name: "You", email: "you@example.com" }],
     }
 
     setMeetings([...meetings, newMeeting])
@@ -157,7 +149,7 @@ export default function PrayerMeetings({ params }: PrayerMeetingsProps) {
 
   const handleAddToCalendar = (meeting: PrayerMeeting) => {
     const startDate = new Date(`${meeting.date}T${meeting.time}`)
-    const endDate = new Date(startDate.getTime() + 60 * 60 * 1000) // 1 hour duration
+    const endDate = new Date(startDate.getTime() + 60 * 60 * 1000)
 
     const calendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
       meeting.title,
@@ -203,7 +195,7 @@ export default function PrayerMeetings({ params }: PrayerMeetingsProps) {
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 
   return (
-    <PrayerLayout fellowshipName={fellowship}>
+    <PrayerLayout fellowshipName={fellowship_id}>
       <div className="space-y-6">
         {/* Header */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -411,7 +403,7 @@ export default function PrayerMeetings({ params }: PrayerMeetingsProps) {
                                 <AlertDialogHeader>
                                   <AlertDialogTitle>Delete Prayer Meeting</AlertDialogTitle>
                                   <AlertDialogDescription>
-                                    Are you sure you want to delete "{meeting.title}"? This action cannot be undone.
+                                    Are you sure you want to delete &quot;{meeting.title}&quot;? This action cannot be undone.
                                   </AlertDialogDescription>
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>
@@ -516,7 +508,7 @@ export default function PrayerMeetings({ params }: PrayerMeetingsProps) {
         {/* Meeting Details Dialog */}
         <Dialog open={isDetailsDialogOpen} onOpenChange={setIsDetailsDialogOpen}>
           {selectedMeeting && (
-            <>
+            <DialogContent>
               <DialogHeader>
                 <DialogTitle className="flex items-center gap-2">
                   {getMeetingTypeIcon(selectedMeeting.type)}
@@ -559,7 +551,7 @@ export default function PrayerMeetings({ params }: PrayerMeetingsProps) {
                   <div className="flex flex-wrap gap-2">
                     {selectedMeeting.attendees.map((attendee, index) => (
                       <Badge key={index} variant="outline">
-                        {attendee}
+                        {attendee.name}
                       </Badge>
                     ))}
                   </div>
@@ -592,7 +584,7 @@ export default function PrayerMeetings({ params }: PrayerMeetingsProps) {
                   </Button>
                 )}
               </div>
-            </>
+            </DialogContent>
           )}
         </Dialog>
 
