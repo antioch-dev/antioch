@@ -651,121 +651,131 @@ const removeArrayItem = (
 
  
 
-  const NavigationSidebar = () => (
-    <div
-      className={`fixed inset-y-0 left-0 z-50 w-64 bg-slate-900 text-white transform transition-transform duration-300 ease-in-out ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0 lg:static lg:inset-0`}
-    >
-      <div className="flex items-center justify-between p-4 border-b border-slate-700">
-        <h2 className="text-xl font-bold">Bible Study</h2>
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => setSidebarOpen(false)}
-          className="lg:hidden text-white hover:bg-slate-800 hover:text-white"
-        >
-          <X className="h-4 w-4" />
-        </Button>
-      </div>
-
-      <nav className="p-4 space-y-2">
-        <Button
-          variant={activeSection === "dashboard" ? "secondary" : "ghost"}
-          className={cn(
-            "w-full justify-start text-white hover:bg-slate-800 hover:text-white",
-            activeSection === "dashboard" && "bg-slate-100 text-slate-900 hover:bg-slate-200 hover:text-slate-900",
-          )}
-          onClick={() => setActiveSection("dashboard")}
-        >
-          <Book className="mr-2 h-4 w-4" />
-          Dashboard
-        </Button>
-
-        <Button
-          variant={activeSection === "bible" ? "secondary" : "ghost"}
-          className={cn(
-            "w-full justify-start text-white hover:bg-slate-800 hover:text-white",
-            activeSection === "bible" && "bg-slate-100 text-slate-900 hover:bg-slate-200 hover:text-slate-900",
-          )}
-          onClick={() => setActiveSection("bible")}
-        >
-          <Book className="mr-2 h-4 w-4" />
-          Digital Bible
-        </Button>
-
-        <Button
-          variant={activeSection === "notes" ? "secondary" : "ghost"}
-          className={cn(
-            "w-full justify-start text-white hover:bg-slate-800 hover:text-white",
-            activeSection === "notes" && "bg-slate-100 text-slate-900 hover:bg-slate-200 hover:text-slate-900",
-          )}
-          onClick={() => setActiveSection("notes")}
-        >
-          <StickyNote className="mr-2 h-4 w-4" />
-          My Notes
-        </Button>
-
-        <Button
-          variant={activeSection === "guides" ? "secondary" : "ghost"}
-          className={cn(
-            "w-full justify-start text-white hover:bg-slate-800 hover:text-white",
-            activeSection === "guides" && "bg-slate-100 text-slate-900 hover:bg-slate-200 hover:text-slate-900",
-          )}
-          onClick={() => setActiveSection("guides")}
-        >
-          <FileText className="mr-2 h-4 w-4" />
-          Study Guides
-        </Button>
-
-        <Button
-          variant={activeSection === "marketplace" ? "secondary" : "ghost"}
-          className={cn(
-            "w-full justify-start text-white hover:bg-slate-800 hover:text-white",
-            activeSection === "marketplace" && "bg-slate-100 text-slate-900 hover:bg-slate-200 hover:text-slate-900",
-          )}
-          onClick={() => setActiveSection("marketplace")}
-        >
-          <ShoppingCart className="mr-2 h-4 w-4" />
-          Marketplace
-        </Button>
-
-        <Button
-          variant={activeSection === "upload" ? "secondary" : "ghost"}
-          className={cn(
-            "w-full justify-start text-white hover:bg-slate-800 hover:text-white",
-            activeSection === "upload" && "bg-slate-100 text-slate-900 hover:bg-slate-200 hover:text-slate-900",
-          )}
-          onClick={() => setActiveSection("upload")}
-        >
-          <Upload className="mr-2 h-4 w-4" />
-          Submit Guide
-        </Button>
-
-        <Button
-          variant={activeSection === "forum" ? "secondary" : "ghost"}
-          className={cn(
-            "w-full justify-start text-white hover:bg-slate-800 hover:text-white",
-            activeSection === "forum" && "bg-slate-100 text-slate-900 hover:bg-slate-200 hover:text-slate-900",
-          )}
-          onClick={() => setActiveSection("forum")}
-        >
-          <MessageSquare className="mr-2 h-4 w-4" />
-          Q&A Forum
-        </Button>
-
-        <Button
-          variant={activeSection === "live" ? "secondary" : "ghost"}
-          className={cn(
-            "w-full justify-start text-white hover:bg-slate-800 hover:text-white",
-            activeSection === "live" && "bg-slate-100 text-slate-900 hover:bg-slate-200 hover:text-slate-900",
-          )}
-          onClick={() => setActiveSection("live")}
-        >
-          <Users className="mr-2 h-4 w-4" />
-          Live Sessions
-        </Button>
-      </nav>
+ const NavigationSidebar = () => (
+  <div
+    className={`fixed inset-y-0 left-0 z-50 w-64 bg-blue-950 text-white overflow-hidden transform transition-transform duration-300 ease-in-out ${
+      sidebarOpen ? "translate-x-0" : "-translate-x-full"
+    } lg:translate-x-0 lg:static lg:inset-0`}
+  >
+    <div className="flex items-center justify-between p-4 border-b border-blue-800">
+      <h2 className="text-xl font-bold">Bible Study</h2>
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={() => setSidebarOpen(false)}
+        className="lg:hidden text-white hover:bg-blue-900 hover:text-white"
+      >
+        <X className="h-4 w-4" />
+      </Button>
     </div>
-  )
+
+    <nav className="p-4 space-y-2">
+      <Button
+        variant={activeSection === "dashboard" ? "secondary" : "ghost"}
+        className={cn(
+          "w-full justify-start text-white hover:bg-blue-900 hover:text-white",
+          activeSection === "dashboard" &&
+            "bg-slate-100 text-slate-900 hover:bg-slate-200 hover:text-slate-900",
+        )}
+        onClick={() => setActiveSection("dashboard")}
+      >
+        <Book className="mr-2 h-4 w-4" />
+        Dashboard
+      </Button>
+
+      <Button
+        variant={activeSection === "bible" ? "secondary" : "ghost"}
+        className={cn(
+          "w-full justify-start text-white hover:bg-blue-900 hover:text-white",
+          activeSection === "bible" &&
+            "bg-slate-100 text-slate-900 hover:bg-slate-200 hover:text-slate-900",
+        )}
+        onClick={() => setActiveSection("bible")}
+      >
+        <Book className="mr-2 h-4 w-4" />
+        Digital Bible
+      </Button>
+
+      <Button
+        variant={activeSection === "notes" ? "secondary" : "ghost"}
+        className={cn(
+          "w-full justify-start text-white hover:bg-blue-900 hover:text-white",
+          activeSection === "notes" &&
+            "bg-slate-100 text-slate-900 hover:bg-slate-200 hover:text-slate-900",
+        )}
+        onClick={() => setActiveSection("notes")}
+      >
+        <StickyNote className="mr-2 h-4 w-4" />
+        My Notes
+      </Button>
+
+      <Button
+        variant={activeSection === "guides" ? "secondary" : "ghost"}
+        className={cn(
+          "w-full justify-start text-white hover:bg-blue-900 hover:text-white",
+          activeSection === "guides" &&
+            "bg-slate-100 text-slate-900 hover:bg-slate-200 hover:text-slate-900",
+        )}
+        onClick={() => setActiveSection("guides")}
+      >
+        <FileText className="mr-2 h-4 w-4" />
+        Study Guides
+      </Button>
+
+      <Button
+        variant={activeSection === "marketplace" ? "secondary" : "ghost"}
+        className={cn(
+          "w-full justify-start text-white hover:bg-blue-900 hover:text-white",
+          activeSection === "marketplace" &&
+            "bg-slate-100 text-slate-900 hover:bg-slate-200 hover:text-slate-900",
+        )}
+        onClick={() => setActiveSection("marketplace")}
+      >
+        <ShoppingCart className="mr-2 h-4 w-4" />
+        Marketplace
+      </Button>
+
+      <Button
+        variant={activeSection === "upload" ? "secondary" : "ghost"}
+        className={cn(
+          "w-full justify-start text-white hover:bg-blue-900 hover:text-white",
+          activeSection === "upload" &&
+            "bg-slate-100 text-slate-900 hover:bg-slate-200 hover:text-slate-900",
+        )}
+        onClick={() => setActiveSection("upload")}
+      >
+        <Upload className="mr-2 h-4 w-4" />
+        Submit Guide
+      </Button>
+
+      <Button
+        variant={activeSection === "forum" ? "secondary" : "ghost"}
+        className={cn(
+          "w-full justify-start text-white hover:bg-blue-900 hover:text-white",
+          activeSection === "forum" &&
+            "bg-slate-100 text-slate-900 hover:bg-slate-200 hover:text-slate-900",
+        )}
+        onClick={() => setActiveSection("forum")}
+      >
+        <MessageSquare className="mr-2 h-4 w-4" />
+        Q&A Forum
+      </Button>
+
+      <Button
+        variant={activeSection === "live" ? "secondary" : "ghost"}
+        className={cn(
+          "w-full justify-start text-white hover:bg-blue-900 hover:text-white",
+          activeSection === "live" &&
+            "bg-slate-100 text-slate-900 hover:bg-slate-200 hover:text-slate-900",
+        )}
+        onClick={() => setActiveSection("live")}
+      >
+        <Users className="mr-2 h-4 w-4" />
+        Live Sessions
+      </Button>
+    </nav>
+  </div>
+);
 
   const BibleSidebar = () => (
     <div
