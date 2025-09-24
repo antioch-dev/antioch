@@ -43,6 +43,9 @@ export function Header() {
           <Link href="/fellowship1/bible" className="text-sm font-medium transition-colors hover:text-primary">
             SystemWideBible
           </Link>
+          <Link href="/fellowship1/bible-study" className="text-sm font-medium transition-colors hover:text-primary">
+            BibleStudy
+          </Link>
         </nav>
         <div className="flex items-center gap-4">
           <Link href="/auth/login" className="flex items-center gap-1 text-sm font-medium">
