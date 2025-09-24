@@ -1,6 +1,7 @@
 "use client"
 
 import type React from "react"
+import { useParams } from "next/navigation"
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
@@ -24,14 +25,15 @@ import PrayerLayout from "@/components/prayer-layout"
 import { mockPrayerRequests, type PrayerRequest } from "@/lib/mock-data"
 import { Plus, Filter, Heart, Clock, CheckCircle, Star, EyeOff, Calendar, Mail, FileText, Edit } from "lucide-react"
 
-interface PrayerRequestsProps {
-  params: {
-    fellowship: string
-  }
-}
 
-export default function PrayerRequests({ params }: PrayerRequestsProps) {
-  const { fellowship } = params
+export default function PrayerRequests() {
+  const params = useParams<{
+    fellowship_id: string
+  }>()
+
+
+
+  const { fellowship_id } = params
   const [requests, setRequests] = useState<PrayerRequest[]>(mockPrayerRequests)
   const [filteredRequests, setFilteredRequests] = useState<PrayerRequest[]>(mockPrayerRequests)
   const [showPrivate, setShowPrivate] = useState(false)
@@ -62,7 +64,7 @@ export default function PrayerRequests({ params }: PrayerRequestsProps) {
     const newRequest: PrayerRequest = {
       id: (requests.length + 1).toString(),
       name: formData.name,
-      fellowship: fellowship,
+      fellowship: fellowship_id,
       contact: formData.contact || undefined,
       category: formData.category as PrayerRequest["category"],
       text: formData.text,
@@ -124,7 +126,7 @@ export default function PrayerRequests({ params }: PrayerRequestsProps) {
   })
 
   return (
-    <PrayerLayout fellowshipName={fellowship}>
+    <PrayerLayout fellowshipName={fellowship_id}>
       <div className="space-y-6">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>

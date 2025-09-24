@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useState } from "react"
+import { useParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -12,18 +13,17 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Plus, X, Users, Mail, CheckCircle, Search, ArrowLeft } from "lucide-react"
 
-
 const mockUsers = [
   { id: "1", name: "John Doe", email: "john.doe@example.com" },
   { id: "2", name: "Jane Smith", email: "jane.smith@example.com" },
   { id: "3", name: "Alex Johnson", email: "alex.johnson@example.com" },
   { id: "4", name: "Emily White", email: "emily.white@example.com" },
   { id: "5", name: "Michael Brown", email: "michael.brown@example.com" },
-];
+]
 
 interface PrayerLayoutProps {
-  children: React.ReactNode;
-  fellowshipName: string;
+  children: React.ReactNode
+  fellowshipName: string
 }
 
 const PrayerLayout = ({ children, fellowshipName }: PrayerLayoutProps) => (
@@ -35,21 +35,19 @@ const PrayerLayout = ({ children, fellowshipName }: PrayerLayoutProps) => (
       {children}
     </div>
   </div>
-);
+)
 
-interface CreateMeetingProps {
-  params: Promise<{
-    fellowship_id: string;
-  }>;
-}
+export default function CreateMeeting() {
+  const params = useParams<{
+    fellowship_id: string
+  }>()
 
-export default function CreateMeeting({ params }: CreateMeetingProps) {
+  const fellowship_id = params?.fellowship_id || ""
 
-  const { fellowship_id } = React.use(params);
-  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [externalEmails, setExternalEmails] = useState<string[]>([]);
-  const [newEmail, setNewEmail] = useState("");
+  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false)
+  const [searchTerm, setSearchTerm] = useState("")
+  const [externalEmails, setExternalEmails] = useState<string[]>([])
+  const [newEmail, setNewEmail] = useState("")
 
   const [formData, setFormData] = useState({
     title: "",
@@ -60,54 +58,54 @@ export default function CreateMeeting({ params }: CreateMeetingProps) {
     link: "",
     description: "",
     selectedAttendees: [] as typeof mockUsers,
-  });
+  })
 
   const filteredUsers = mockUsers.filter(
     (user) =>
       user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.email.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
+  )
 
   const handleAttendeeToggle = (user: (typeof mockUsers)[0]) => {
-    const isSelected = formData.selectedAttendees.some((a) => a.id === user.id);
+    const isSelected = formData.selectedAttendees.some((a) => a.id === user.id)
     if (isSelected) {
       setFormData({
         ...formData,
         selectedAttendees: formData.selectedAttendees.filter((a) => a.id !== user.id),
-      });
+      })
     } else {
       setFormData({
         ...formData,
         selectedAttendees: [...formData.selectedAttendees, user],
-      });
+      })
     }
-  };
+  }
 
   const handleAddExternalEmail = () => {
     if (newEmail && !externalEmails.includes(newEmail)) {
-      setExternalEmails([...externalEmails, newEmail]);
-      setNewEmail("");
+      setExternalEmails([...externalEmails, newEmail])
+      setNewEmail("")
     }
-  };
+  }
 
   const handleRemoveExternalEmail = (email: string) => {
-    setExternalEmails(externalEmails.filter((e) => e !== email));
-  };
+    setExternalEmails(externalEmails.filter((e) => e !== email))
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
 
     console.log("[v0] Creating prayer meeting:", {
       ...formData,
       externalEmails,
-    });
+    })
 
     const allAttendees = [
       ...formData.selectedAttendees.map((a) => ({ name: a.name, email: a.email, type: "member" })),
       ...externalEmails.map((email) => ({ name: email, email, type: "external" })),
-    ];
+    ]
 
-    console.log("[v0] Sending email invitations to:", allAttendees);
+    console.log("[v0] Sending email invitations to:", allAttendees)
 
     // Mock email content
     const emailContent = {
@@ -129,11 +127,11 @@ export default function CreateMeeting({ params }: CreateMeetingProps) {
         Blessings,
         ${fellowship_id} Prayer Team
       `,
-    };
+    }
 
-    console.log("[v0] Email content:", emailContent);
+    console.log("[v0] Email content:", emailContent)
 
-    setIsConfirmationOpen(true);
+    setIsConfirmationOpen(true)
 
     // Reset form
     setFormData({
@@ -145,9 +143,9 @@ export default function CreateMeeting({ params }: CreateMeetingProps) {
       link: "",
       description: "",
       selectedAttendees: [],
-    });
-    setExternalEmails([]);
-  };
+    })
+    setExternalEmails([])
+  }
 
   return (
     <PrayerLayout fellowshipName={fellowship_id}>
@@ -391,5 +389,5 @@ export default function CreateMeeting({ params }: CreateMeetingProps) {
         </Dialog>
       </div>
     </PrayerLayout>
-  );
+  )
 }

@@ -1,8 +1,6 @@
 "use client"
 
 import React, { useState, useEffect } from "react"
-// We are replacing next/link with a standard <a> tag to fix the compilation error.
-// import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -12,17 +10,15 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Heart, CheckCircle, ArrowLeft, Sparkles } from "lucide-react"
+import { useParams } from "next/navigation"
 
-// Correctly type params as a Promise
-interface PublicPrayerSubmitProps {
-  params: Promise<{
+export default function PublicPrayerSubmit() {
+  const params = useParams<{
     fellowship_id: string
-  }>;
-}
+  }>()
 
-export default function PublicPrayerSubmit({ params }: PublicPrayerSubmitProps) {
-  // Use React.use() to unwrap the params Promise, which ensures the value is the same on both the server and client
-  const { fellowship_id } = React.use(params)
+  const fellowship_id = params?.fellowship_id || ""
+
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false)
   const [shareUrl, setShareUrl] = useState("")
 
@@ -35,7 +31,7 @@ export default function PublicPrayerSubmit({ params }: PublicPrayerSubmitProps) 
     isPrivate: false,
   })
 
-  // Use useEffect to get the window.location.href only on the client side after hydration
+ 
   useEffect(() => {
     if (typeof window !== "undefined") {
       setShareUrl(window.location.href)
