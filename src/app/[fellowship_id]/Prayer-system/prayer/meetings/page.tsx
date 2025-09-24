@@ -1,13 +1,13 @@
-"use client"
+'use client'
 
-import React, { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import React, { useState } from 'react'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import {
   Dialog,
   DialogContent,
@@ -15,7 +15,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from '@/components/ui/dialog'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -26,9 +26,9 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
-import PrayerLayout from "@/components/prayer-layout"
-import { mockPrayerMeetings, type PrayerMeeting } from "@/lib/mock-data"
+} from '@/components/ui/alert-dialog'
+import PrayerLayout from '@/components/prayer-layout'
+import { mockPrayerMeetings, type PrayerMeeting } from '@/lib/mock-data'
 import {
   Plus,
   Calendar,
@@ -41,10 +41,14 @@ import {
   Edit,
   Trash2,
   MoreVertical,
-} from "lucide-react"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+} from 'lucide-react'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
+import { useParams } from 'next/navigation'
 
-export default function PrayerMeetings({ params }: { params: { fellowship_id: string } }) {
+export default function PrayerMeetings() {
+  const params = useParams<{
+    fellowship_id: string
+  }>()
   const { fellowship_id } = params
   const [meetings, setMeetings] = useState<PrayerMeeting[]>(mockPrayerMeetings)
   const [selectedMeeting, setSelectedMeeting] = useState<PrayerMeeting | null>(null)
@@ -53,26 +57,26 @@ export default function PrayerMeetings({ params }: { params: { fellowship_id: st
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
   const [editingMeeting, setEditingMeeting] = useState<PrayerMeeting | null>(null)
   const [currentDate, setCurrentDate] = useState(new Date())
-  const [viewMode, setViewMode] = useState<"calendar" | "list">("list")
+  const [viewMode, setViewMode] = useState<'calendar' | 'list'>('list')
 
   const [formData, setFormData] = useState({
-    title: "",
-    date: "",
-    time: "",
-    location: "",
-    type: "",
-    link: "",
-    description: "",
+    title: '',
+    date: '',
+    time: '',
+    location: '',
+    type: '',
+    link: '',
+    description: '',
   })
 
   const [editFormData, setEditFormData] = useState({
-    title: "",
-    date: "",
-    time: "",
-    location: "",
-    type: "",
-    link: "",
-    description: "",
+    title: '',
+    date: '',
+    time: '',
+    location: '',
+    type: '',
+    link: '',
+    description: '',
   })
 
   const handleCreateMeeting = (e: React.FormEvent) => {
@@ -84,21 +88,21 @@ export default function PrayerMeetings({ params }: { params: { fellowship_id: st
       date: formData.date,
       time: formData.time,
       location: formData.location,
-      type: formData.type as PrayerMeeting["type"],
+      type: formData.type as PrayerMeeting['type'],
       link: formData.link || undefined,
       description: formData.description,
-      attendees: [{ id: "1", name: "You", email: "you@example.com" }],
+      attendees: [{ id: '1', name: 'You', email: 'you@example.com' }],
     }
 
     setMeetings([...meetings, newMeeting])
     setFormData({
-      title: "",
-      date: "",
-      time: "",
-      location: "",
-      type: "",
-      link: "",
-      description: "",
+      title: '',
+      date: '',
+      time: '',
+      location: '',
+      type: '',
+      link: '',
+      description: '',
     })
     setIsCreateDialogOpen(false)
   }
@@ -111,7 +115,7 @@ export default function PrayerMeetings({ params }: { params: { fellowship_id: st
       time: meeting.time,
       location: meeting.location,
       type: meeting.type,
-      link: meeting.link || "",
+      link: meeting.link || '',
       description: meeting.description,
     })
     setIsEditDialogOpen(true)
@@ -127,7 +131,7 @@ export default function PrayerMeetings({ params }: { params: { fellowship_id: st
       date: editFormData.date,
       time: editFormData.time,
       location: editFormData.location,
-      type: editFormData.type as PrayerMeeting["type"],
+      type: editFormData.type as PrayerMeeting['type'],
       link: editFormData.link || undefined,
       description: editFormData.description,
     }
@@ -143,7 +147,7 @@ export default function PrayerMeetings({ params }: { params: { fellowship_id: st
 
   const handleJoinMeeting = (meeting: PrayerMeeting) => {
     if (meeting.link) {
-      window.open(meeting.link, "_blank")
+      window.open(meeting.link, '_blank')
     }
   }
 
@@ -153,33 +157,33 @@ export default function PrayerMeetings({ params }: { params: { fellowship_id: st
 
     const calendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
       meeting.title,
-    )}&dates=${startDate.toISOString().replace(/[-:]/g, "").split(".")[0]}Z/${
-      endDate.toISOString().replace(/[-:]/g, "").split(".")[0]
+    )}&dates=${startDate.toISOString().replace(/[-:]/g, '').split('.')[0]}Z/${
+      endDate.toISOString().replace(/[-:]/g, '').split('.')[0]
     }Z&details=${encodeURIComponent(meeting.description)}&location=${encodeURIComponent(meeting.location)}`
 
-    window.open(calendarUrl, "_blank")
+    window.open(calendarUrl, '_blank')
   }
 
-  const getMeetingTypeColor = (type: PrayerMeeting["type"]) => {
+  const getMeetingTypeColor = (type: PrayerMeeting['type']) => {
     switch (type) {
-      case "General Fellowship Prayer":
-        return "bg-blue-100 text-blue-800"
-      case "Ministry-specific Prayer":
-        return "bg-purple-100 text-purple-800"
-      case "Special Event Prayer":
-        return "bg-green-100 text-green-800"
+      case 'General Fellowship Prayer':
+        return 'bg-blue-100 text-blue-800'
+      case 'Ministry-specific Prayer':
+        return 'bg-purple-100 text-purple-800'
+      case 'Special Event Prayer':
+        return 'bg-green-100 text-green-800'
       default:
-        return "bg-gray-100 text-gray-800"
+        return 'bg-gray-100 text-gray-800'
     }
   }
 
-  const getMeetingTypeIcon = (type: PrayerMeeting["type"]) => {
+  const getMeetingTypeIcon = (type: PrayerMeeting['type']) => {
     switch (type) {
-      case "General Fellowship Prayer":
+      case 'General Fellowship Prayer':
         return <Users className="h-4 w-4" />
-      case "Ministry-specific Prayer":
+      case 'Ministry-specific Prayer':
         return <Calendar className="h-4 w-4" />
-      case "Special Event Prayer":
+      case 'Special Event Prayer':
         return <CalendarPlus className="h-4 w-4" />
       default:
         return <Calendar className="h-4 w-4" />
@@ -207,17 +211,17 @@ export default function PrayerMeetings({ params }: { params: { fellowship_id: st
           <div className="flex gap-3">
             <div className="flex rounded-lg border">
               <Button
-                variant={viewMode === "list" ? "default" : "ghost"}
+                variant={viewMode === 'list' ? 'default' : 'ghost'}
                 size="sm"
-                onClick={() => setViewMode("list")}
+                onClick={() => setViewMode('list')}
                 className="rounded-r-none"
               >
                 List
               </Button>
               <Button
-                variant={viewMode === "calendar" ? "default" : "ghost"}
+                variant={viewMode === 'calendar' ? 'default' : 'ghost'}
                 size="sm"
-                onClick={() => setViewMode("calendar")}
+                onClick={() => setViewMode('calendar')}
                 className="rounded-l-none"
               >
                 Calendar
@@ -403,7 +407,8 @@ export default function PrayerMeetings({ params }: { params: { fellowship_id: st
                                 <AlertDialogHeader>
                                   <AlertDialogTitle>Delete Prayer Meeting</AlertDialogTitle>
                                   <AlertDialogDescription>
-                                    Are you sure you want to delete &quot;{meeting.title}&quot;? This action cannot be undone.
+                                    Are you sure you want to delete &quot;{meeting.title}&quot;? This action cannot be
+                                    undone.
                                   </AlertDialogDescription>
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>

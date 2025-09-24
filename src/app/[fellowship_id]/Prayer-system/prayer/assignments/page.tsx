@@ -1,23 +1,41 @@
-'use client';
+'use client'
 
-import React, { useState } from 'react';
-// All your UI component imports go here.
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import React, { useState } from 'react'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
-import { type PrayerAssignment, type PrayerRequest, getPrayerRequestById } from '@/lib/mock-data';
-import { Plus, UserCheck, Clock, CheckCircle, User, Calendar, MessageSquare, Bell, Heart, AlertCircle, Edit } from 'lucide-react';
+import { type PrayerAssignment, type PrayerRequest, getPrayerRequestById } from '@/lib/mock-data'
+import {
+  Plus,
+  UserCheck,
+  Clock,
+  CheckCircle,
+  User,
+  Calendar,
+  MessageSquare,
+  Bell,
+  Heart,
+  AlertCircle,
+  Edit,
+} from 'lucide-react'
 
 interface AssignmentListProps {
-  initialAssignments: PrayerAssignment[];
-  initialRequests: PrayerRequest[];
-  fellowshipId: string;
+  initialAssignments: PrayerAssignment[]
+  initialRequests: PrayerRequest[]
+  fellowshipId: string
 }
 
 const teamMembers = [
@@ -28,47 +46,48 @@ const teamMembers = [
   'Deacon John',
   'Prayer Leader Sarah',
   'Youth Pastor Mark',
-];
+]
 
-// This is a Client Component. It handles all interactive logic and state.
-export default function AssignmentList({ initialAssignments, initialRequests, fellowshipId }: AssignmentListProps) {
-  const [assignments, setAssignments] = useState<PrayerAssignment[]>(initialAssignments);
-  const [selectedAssignment, setSelectedAssignment] = useState<PrayerAssignment | null>(null);
-  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
-  const [isCompleteDialogOpen, setIsCompleteDialogOpen] = useState(false);
-  const [isStatusUpdateDialogOpen, setIsStatusUpdateDialogOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState('overview');
+
+export default function AssignmentList() {
+  const [assignments, setAssignments] = useState<PrayerAssignment[]>([])
+  const [initialRequests, setInitialRequests] = useState<PrayerRequest[]>([])
+  const [selectedAssignment, setSelectedAssignment] = useState<PrayerAssignment | null>(null)
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false)
+  const [isCompleteDialogOpen, setIsCompleteDialogOpen] = useState(false)
+  const [isStatusUpdateDialogOpen, setIsStatusUpdateDialogOpen] = useState(false)
+  const [activeTab, setActiveTab] = useState('overview')
 
   const [formData, setFormData] = useState({
     requestId: '',
     assignedMember: '',
-  });
+  })
 
   const [completionData, setCompletionData] = useState({
     notes: '',
-  });
+  })
 
   const [statusUpdateData, setStatusUpdateData] = useState({
     status: '',
     notes: '',
-  });
+  })
 
   const handleCreateAssignment = (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
     const newAssignment: PrayerAssignment = {
       id: (assignments.length + 1).toString(),
       requestId: formData.requestId,
       assignedMember: formData.assignedMember,
       status: 'Pending',
       dateAssigned: new Date().toISOString(),
-    };
-    setAssignments([...assignments, newAssignment]);
-    setFormData({ requestId: '', assignedMember: '' });
-    setIsCreateDialogOpen(false);
-  };
+    }
+    setAssignments([...assignments, newAssignment])
+    setFormData({ requestId: '', assignedMember: '' })
+    setIsCreateDialogOpen(false)
+  }
 
   const handleCompleteAssignment = (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
     if (selectedAssignment) {
       const updatedAssignments = assignments.map((assignment) =>
         assignment.id === selectedAssignment.id
@@ -79,16 +98,16 @@ export default function AssignmentList({ initialAssignments, initialRequests, fe
               dateCompleted: new Date().toISOString(),
             }
           : assignment,
-      );
-      setAssignments(updatedAssignments);
-      setCompletionData({ notes: '' });
-      setSelectedAssignment(null);
-      setIsCompleteDialogOpen(false);
+      )
+      setAssignments(updatedAssignments)
+      setCompletionData({ notes: '' })
+      setSelectedAssignment(null)
+      setIsCompleteDialogOpen(false)
     }
-  };
+  }
 
   const handleStatusUpdate = (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
     if (selectedAssignment) {
       const updatedAssignments = assignments.map((assignment) =>
         assignment.id === selectedAssignment.id
@@ -99,40 +118,40 @@ export default function AssignmentList({ initialAssignments, initialRequests, fe
               ...(statusUpdateData.status === 'Completed' && { dateCompleted: new Date().toISOString() }),
             }
           : assignment,
-      );
-      setAssignments(updatedAssignments);
-      setStatusUpdateData({ status: '', notes: '' });
-      setSelectedAssignment(null);
-      setIsStatusUpdateDialogOpen(false);
+      )
+      setAssignments(updatedAssignments)
+      setStatusUpdateData({ status: '', notes: '' })
+      setSelectedAssignment(null)
+      setIsStatusUpdateDialogOpen(false)
     }
-  };
+  }
 
   const getStatusIcon = (status: PrayerAssignment['status']) => {
     switch (status) {
       case 'Pending':
-        return <Clock className="h-4 w-4 text-yellow-500" />;
+        return <Clock className="h-4 w-4 text-yellow-500" />
       case 'Completed':
-        return <CheckCircle className="h-4 w-4 text-green-500" />;
+        return <CheckCircle className="h-4 w-4 text-green-500" />
     }
-  };
+  }
 
   const getStatusColor = (status: PrayerAssignment['status']) => {
     switch (status) {
       case 'Pending':
-        return 'bg-yellow-100 text-yellow-800';
+        return 'bg-yellow-100 text-yellow-800'
       case 'Completed':
-        return 'bg-green-100 text-green-800';
+        return 'bg-green-100 text-green-800'
     }
-  };
+  }
 
-  const pendingAssignments = assignments.filter((a) => a.status === 'Pending');
-  const completedAssignments = assignments.filter((a) => a.status === 'Completed');
+  const pendingAssignments = assignments.filter((a) => a.status === 'Pending')
+  const completedAssignments = assignments.filter((a) => a.status === 'Completed')
   const unassignedRequests = initialRequests.filter(
     (request) => !assignments.some((assignment) => assignment.requestId === assignment.id),
-  );
+  )
 
-  const currentUser = 'Pastor James';
-  const myAssignments = assignments.filter((a) => a.assignedMember === currentUser);
+  const currentUser = 'Pastor James'
+  const myAssignments = assignments.filter((a) => a.assignedMember === currentUser)
 
   return (
     <div className="space-y-6">
@@ -158,7 +177,10 @@ export default function AssignmentList({ initialAssignments, initialRequests, fe
             <form onSubmit={handleCreateAssignment} className="space-y-6">
               <div className="space-y-2">
                 <Label htmlFor="request">Prayer Request *</Label>
-                <Select value={formData.requestId} onValueChange={(value) => setFormData({ ...formData, requestId: value })}>
+                <Select
+                  value={formData.requestId}
+                  onValueChange={(value) => setFormData({ ...formData, requestId: value })}
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Select a prayer request" />
                   </SelectTrigger>
@@ -173,7 +195,10 @@ export default function AssignmentList({ initialAssignments, initialRequests, fe
               </div>
               <div className="space-y-2">
                 <Label htmlFor="member">Assign to Member *</Label>
-                <Select value={formData.assignedMember} onValueChange={(value) => setFormData({ ...formData, assignedMember: value })}>
+                <Select
+                  value={formData.assignedMember}
+                  onValueChange={(value) => setFormData({ ...formData, assignedMember: value })}
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Select a team member" />
                   </SelectTrigger>
@@ -254,7 +279,7 @@ export default function AssignmentList({ initialAssignments, initialRequests, fe
             <CardContent>
               <div className="space-y-4">
                 {assignments.slice(0, 5).map((assignment) => {
-                  const request = getPrayerRequestById(assignment.requestId);
+                  const request = getPrayerRequestById(assignment.requestId)
                   return (
                     <div key={assignment.id} className="flex items-center gap-4 p-3 bg-gray-50 rounded-lg">
                       {getStatusIcon(assignment.status)}
@@ -263,13 +288,13 @@ export default function AssignmentList({ initialAssignments, initialRequests, fe
                           {assignment.status === 'Completed' ? 'Assignment Completed' : 'New Assignment'}
                         </p>
                         <p className="text-sm text-gray-600">
-                          {request?.name}&apos;s {request?.category.toLowerCase()} request assigned to{" "}
+                          {request?.name}&apos;s {request?.category.toLowerCase()} request assigned to{' '}
                           {assignment.assignedMember}
                         </p>
                       </div>
                       <Badge className={getStatusColor(assignment.status)}>{assignment.status}</Badge>
                     </div>
-                  );
+                  )
                 })}
               </div>
             </CardContent>
@@ -295,8 +320,8 @@ export default function AssignmentList({ initialAssignments, initialRequests, fe
                       <Button
                         size="sm"
                         onClick={() => {
-                          setFormData({ ...formData, requestId: request.id });
-                          setIsCreateDialogOpen(true);
+                          setFormData({ ...formData, requestId: request.id })
+                          setIsCreateDialogOpen(true)
                         }}
                       >
                         Assign
@@ -323,7 +348,7 @@ export default function AssignmentList({ initialAssignments, initialRequests, fe
           ) : (
             <div className="grid gap-4">
               {myAssignments.map((assignment) => {
-                const request = getPrayerRequestById(assignment.requestId);
+                const request = getPrayerRequestById(assignment.requestId)
                 return (
                   <Card key={assignment.id} className="hover:shadow-lg transition-shadow duration-300">
                     <CardHeader>
@@ -360,8 +385,8 @@ export default function AssignmentList({ initialAssignments, initialRequests, fe
                           <>
                             <Button
                               onClick={() => {
-                                setSelectedAssignment(assignment);
-                                setIsCompleteDialogOpen(true);
+                                setSelectedAssignment(assignment)
+                                setIsCompleteDialogOpen(true)
                               }}
                               className="gap-2"
                             >
@@ -371,12 +396,12 @@ export default function AssignmentList({ initialAssignments, initialRequests, fe
                             <Button
                               variant="outline"
                               onClick={() => {
-                                setSelectedAssignment(assignment);
+                                setSelectedAssignment(assignment)
                                 setStatusUpdateData({
                                   status: assignment.status,
                                   notes: assignment.notes || '',
-                                });
-                                setIsStatusUpdateDialogOpen(true);
+                                })
+                                setIsStatusUpdateDialogOpen(true)
                               }}
                               className="gap-2"
                             >
@@ -389,12 +414,12 @@ export default function AssignmentList({ initialAssignments, initialRequests, fe
                           <Button
                             variant="outline"
                             onClick={() => {
-                              setSelectedAssignment(assignment);
+                              setSelectedAssignment(assignment)
                               setStatusUpdateData({
                                 status: assignment.status,
                                 notes: assignment.notes || '',
-                              });
-                              setIsStatusUpdateDialogOpen(true);
+                              })
+                              setIsStatusUpdateDialogOpen(true)
                             }}
                             className="gap-2"
                           >
@@ -405,7 +430,7 @@ export default function AssignmentList({ initialAssignments, initialRequests, fe
                       </div>
                     </CardContent>
                   </Card>
-                );
+                )
               })}
             </div>
           )}
@@ -415,7 +440,9 @@ export default function AssignmentList({ initialAssignments, initialRequests, fe
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Mark Assignment as Complete</DialogTitle>
-            <DialogDescription>Share any notes or encouragement from your prayer time for this request.</DialogDescription>
+            <DialogDescription>
+              Share any notes or encouragement from your prayer time for this request.
+            </DialogDescription>
           </DialogHeader>
           <form onSubmit={handleCompleteAssignment} className="space-y-6">
             <div className="space-y-2">
@@ -443,7 +470,9 @@ export default function AssignmentList({ initialAssignments, initialRequests, fe
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Update Assignment Status</DialogTitle>
-            <DialogDescription>Update the status of this prayer assignment and add any additional notes.</DialogDescription>
+            <DialogDescription>
+              Update the status of this prayer assignment and add any additional notes.
+            </DialogDescription>
           </DialogHeader>
           <form onSubmit={handleStatusUpdate} className="space-y-6">
             <div className="space-y-2">
@@ -483,5 +512,5 @@ export default function AssignmentList({ initialAssignments, initialRequests, fe
         </DialogContent>
       </Dialog>
     </div>
-  );
+  )
 }

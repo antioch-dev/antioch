@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -37,15 +36,15 @@ import {
   Handshake,
   BookOpen,
 } from "lucide-react"
+import { useParams } from "next/navigation"
 
-interface MinistryAssignmentsProps {
-  params: {
-    fellowship: string
-  }
-}
+export default function MinistryAssignments() {
+  const params = useParams<{
+    fellowship_id: string
+  }>()
 
-export default function MinistryAssignments({ params }: MinistryAssignmentsProps) {
-  const { fellowship } = params
+  const { fellowship_id } = params
+
   const [ministries, setMinistries] = useState<MinistryAssignment[]>(mockMinistryAssignments)
   const [selectedMinistry, setSelectedMinistry] = useState<MinistryAssignment | null>(null)
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false)
@@ -65,7 +64,7 @@ export default function MinistryAssignments({ params }: MinistryAssignmentsProps
     selectedMembers: [] as string[],
   })
 
-  // Available team members
+  //  team members
   const availableMembers = [
     "Pastor James",
     "Elder Mary",
@@ -95,32 +94,31 @@ export default function MinistryAssignments({ params }: MinistryAssignmentsProps
       rotationSchedule: formData.rotationSchedule,
     }
 
+   
     setMinistries([...ministries, newMinistry])
     setFormData({ ministryName: "", description: "", rotationSchedule: "" })
     setIsCreateDialogOpen(false)
   }
 
   const handleAddMembers = (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
 
     if (selectedMinistry) {
       const updatedMinistries = ministries.map((ministry) =>
         ministry.id === selectedMinistry.id
           ? {
               ...ministry,
-              members: [...new Set([...ministry.members, ...memberData.selectedMembers])].filter(
-                (m): m is string => typeof m === "string"
-              ),
+              members: [...new Set([...ministry.members, ...memberData.selectedMembers])],
             }
           : ministry,
-      );
+      )
 
-      setMinistries(updatedMinistries);
-      setMemberData({ selectedMembers: [] });
-      setSelectedMinistry(null);
-      setIsAddMemberDialogOpen(false);
+      setMinistries(updatedMinistries)
+      setMemberData({ selectedMembers: [] })
+      setSelectedMinistry(null)
+      setIsAddMemberDialogOpen(false)
     }
-  };
+  }
 
   const handleRemoveMember = (ministryId: string, memberToRemove: string) => {
     const updatedMinistries = ministries.map((ministry) =>
@@ -135,14 +133,14 @@ export default function MinistryAssignments({ params }: MinistryAssignmentsProps
     setMinistries(updatedMinistries)
   }
 
- const handleRotateAssignments = (ministryId: string) => {
-  const ministry = ministries.find((m) => m.id === ministryId);
-  if (ministry && ministry.members.length > 1) {
-    const rotatedMembers = [...ministry.members.slice(1), ministry.members[0]] as string[];
-    const updatedMinistries = ministries.map((m) => (m.id === ministryId ? { ...m, members: rotatedMembers } : m));
-    setMinistries(updatedMinistries);
+  const handleRotateAssignments = (ministryId: string) => {
+    const ministry = ministries.find((m) => m.id === ministryId)
+    if (ministry && ministry.members.length > 1) {
+      const rotatedMembers = [...ministry.members.slice(1), ministry.members[0]]
+      const updatedMinistries = ministries.map((m) => (m.id === ministryId ? { ...m, members: rotatedMembers } : m)) as MinistryAssignment[];
+      setMinistries(updatedMinistries)
+    }
   }
-};
 
   const getMinistryIcon = (ministryName: string) => {
     if (ministryName.toLowerCase().includes("worship")) return <Music className="h-5 w-5 text-blue-600" />
@@ -172,7 +170,7 @@ export default function MinistryAssignments({ params }: MinistryAssignmentsProps
   const averageMembersPerMinistry = ministries.length > 0 ? Math.round(totalMembers / ministries.length) : 0
 
   return (
-    <PrayerLayout fellowshipName={fellowship}>
+    <PrayerLayout fellowshipName={fellowship_id}>
       <div className="space-y-6">
         {/* Header */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -470,9 +468,7 @@ export default function MinistryAssignments({ params }: MinistryAssignmentsProps
           <DialogContent>
             <DialogHeader>
               <DialogTitle>Add Prayer Team Members</DialogTitle>
-              <DialogDescription>
-                Select members to add to the {selectedMinistry?.ministryName} prayer team.
-              </DialogDescription>
+              <DialogDescription>Select members to add to the {selectedMinistry?.ministryName} prayer team.</DialogDescription>
             </DialogHeader>
 
             <form onSubmit={handleAddMembers} className="space-y-6">

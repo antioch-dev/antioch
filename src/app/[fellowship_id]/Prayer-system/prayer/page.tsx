@@ -1,24 +1,43 @@
+"use client"
+
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { useParams } from "next/navigation"
 import PrayerLayout from "@/components/prayer-layout"
-import { mockPrayerRequests, mockPrayerMeetings, mockPrayerAssignments } from "@/lib/mock-data"
+import {
+  mockPrayerRequests,
+  mockPrayerMeetings,
+  mockPrayerAssignments,
+  type PrayerRequest, 
+} from "@/lib/mock-data"
 import { Heart, Calendar, Users, Building, Plus, Sparkles, Star } from "lucide-react"
 
-interface PrayerHomeProps {
-  params: {
-    fellowship: string
-  }
-}
+export default function PrayerHome() {
+  const params = useParams<{
+    fellowship_id: string
+  }>()
 
-export default function PrayerHome({ params }: PrayerHomeProps) {
-  
-  const fellowship = params?.fellowship || 'default-fellowship';
+  const { fellowship_id } = params
+  const [requests, setRequests] = useState<PrayerRequest[]>(mockPrayerRequests)
+  const [filteredRequests, setFilteredRequests] = useState<PrayerRequest[]>(mockPrayerRequests)
+  const [showPrivate, setShowPrivate] = useState(false)
+  const [filterCategory, setFilterCategory] = useState<string>("all")
+  const [filterStatus, setFilterStatus] = useState<string>("all")
+  const [isSubmitDialogOpen, setIsSubmitDialogOpen] = useState(false)
+  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false)
+  const [isStatusDialogOpen, setIsStatusDialogOpen] = useState(false)
+  const [selectedRequest, setSelectedRequest] = useState<PrayerRequest | null>(null)
+
+  const fellowship = params?.fellowship_id || "default-fellowship"
 
   // Calculate stats
   const totalRequests = mockPrayerRequests.length
-  const activeRequests = mockPrayerRequests.filter((r) => r.status === "Pending" || r.status === "In Progress").length
+  const activeRequests = mockPrayerRequests.filter(
+    (r) => r.status === "Pending" || r.status === "In Progress"
+  ).length
   const answeredRequests = mockPrayerRequests.filter((r) => r.status === "Completed").length
   const upcomingMeetings = mockPrayerMeetings.filter((m) => new Date(m.date) >= new Date()).length
   const pendingAssignments = mockPrayerAssignments.filter((a) => a.status === "Pending").length
@@ -93,7 +112,7 @@ export default function PrayerHome({ params }: PrayerHomeProps) {
 
         {/* Quick Actions */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <Link href="/fellowship1/Prayer-system/prayer/requests">
+          <Link href={`/${fellowship}/Prayer-system/prayer/requests`}>
             <Card className="prayer-card-glow cursor-pointer group bg-gradient-to-br from-purple-50 via-white to-purple-50 border-purple-200">
               <CardHeader className="text-center pb-4">
                 <div className="mx-auto mb-4 p-4 bg-purple-100 rounded-full w-fit group-hover:bg-purple-200 transition-colors">
@@ -113,7 +132,7 @@ export default function PrayerHome({ params }: PrayerHomeProps) {
             </Card>
           </Link>
 
-          <Link href={"/fellowship1/Prayer-system/prayer/meetings"}>
+          <Link href={`/${fellowship}/Prayer-system/prayer/meetings`}>
             <Card className="prayer-card-glow cursor-pointer group bg-gradient-to-br from-green-50 via-white to-green-50 border-green-200">
               <CardHeader className="text-center pb-4">
                 <div className="mx-auto mb-4 p-4 bg-green-100 rounded-full w-fit group-hover:bg-green-200 transition-colors">
@@ -131,7 +150,7 @@ export default function PrayerHome({ params }: PrayerHomeProps) {
             </Card>
           </Link>
 
-          <Link href={"/fellowship1/Prayer-system/prayer/assignments"}>
+          <Link href={`/${fellowship}/Prayer-system/prayer/assignments`}>
             <Card className="prayer-card-glow cursor-pointer group bg-gradient-to-br from-blue-50 via-white to-blue-50 border-blue-200">
               <CardHeader className="text-center pb-4">
                 <div className="mx-auto mb-4 p-4 bg-blue-100 rounded-full w-fit group-hover:bg-blue-200 transition-colors">
@@ -151,7 +170,7 @@ export default function PrayerHome({ params }: PrayerHomeProps) {
             </Card>
           </Link>
 
-          <Link href={"/fellowship1/Prayer-system/prayer/ministries"}>
+          <Link href={`/${fellowship}/Prayer-system/prayer/ministries`}>
             <Card className="prayer-card-glow cursor-pointer group bg-gradient-to-br from-orange-50 via-white to-orange-50 border-orange-200">
               <CardHeader className="text-center pb-4">
                 <div className="mx-auto mb-4 p-4 bg-orange-100 rounded-full w-fit group-hover:bg-orange-200 transition-colors">
