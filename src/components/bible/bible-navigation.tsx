@@ -31,25 +31,25 @@ export function BibleNavigation() {
           <span className="font-bold text-xl">Antioch Bible</span>
         </Link>
 
-        {/* Desktop Navigation */}
-<div className="hidden md:flex flex-1 justify-center items-center space-x-6">
-  {navigationItems.map((item) => {
-    const Icon = item.icon
-    return (
-      <Link
-        key={item.href}
-        href={item.href}
-        className={cn(
-          "flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground",
-          pathname === item.href ? "bg-accent text-accent-foreground" : "text-muted-foreground",
-        )}
-      >
-        <Icon className="h-4 w-4" />
-        <span>{item.label}</span>
-      </Link>
-    )
-  })}
-</div>
+        {/* Desktop Navigation - Centered Responsively */}
+        <div className="hidden md:flex flex-1 items-center justify-center space-x-6">
+          {navigationItems.map((item) => {
+            const Icon = item.icon
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  "flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground",
+                  pathname === item.href ? "bg-accent text-accent-foreground" : "text-muted-foreground",
+                )}
+              >
+                <Icon className="h-4 w-4" />
+                <span>{item.label}</span>
+              </Link>
+            )
+          })}
+        </div>
 
         {/* Right side actions */}
         <div className="flex items-center space-x-2">
@@ -70,7 +70,7 @@ export function BibleNavigation() {
       {/* Mobile Navigation */}
       {isMobileMenuOpen && (
         <div className="md:hidden border-t bg-background">
-          <div className="container px-4 py-4 space-y-2">
+          <div className="container px-4 py-4 space-y-2 flex flex-col items-center">
             {navigationItems.map((item) => {
               const Icon = item.icon
               return (
@@ -78,7 +78,7 @@ export function BibleNavigation() {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    "flex items-center space-x-3 px-3 py-3 rounded-md text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground",
+                    "w-full flex items-center justify-center space-x-3 px-3 py-3 rounded-md text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground",
                     pathname === item.href ? "bg-accent text-accent-foreground" : "text-muted-foreground",
                   )}
                   onClick={() => setIsMobileMenuOpen(false)}
