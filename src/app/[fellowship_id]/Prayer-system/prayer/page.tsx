@@ -11,7 +11,7 @@ import {
   mockPrayerRequests,
   mockPrayerMeetings,
   mockPrayerAssignments,
-  type PrayerRequest, 
+  type PrayerRequest,
 } from "@/lib/mock-data"
 import { Heart, Calendar, Users, Building, Plus, Sparkles, Star } from "lucide-react"
 
@@ -20,16 +20,15 @@ export default function PrayerHome() {
     fellowship_id: string
   }>()
 
-  const { fellowship_id } = params
-  const [requests, setRequests] = useState<PrayerRequest[]>(mockPrayerRequests)
-  const [filteredRequests, setFilteredRequests] = useState<PrayerRequest[]>(mockPrayerRequests)
-  const [showPrivate, setShowPrivate] = useState(false)
-  const [filterCategory, setFilterCategory] = useState<string>("all")
-  const [filterStatus, setFilterStatus] = useState<string>("all")
-  const [isSubmitDialogOpen, setIsSubmitDialogOpen] = useState(false)
-  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false)
-  const [isStatusDialogOpen, setIsStatusDialogOpen] = useState(false)
-  const [selectedRequest, setSelectedRequest] = useState<PrayerRequest | null>(null)
+  const [_requests, _setRequests] = useState<PrayerRequest[]>(mockPrayerRequests)
+  const [_filteredRequests, _setFilteredRequests] = useState<PrayerRequest[]>(mockPrayerRequests)
+  const [_showPrivate, _setShowPrivate] = useState(false)
+  const [_filterCategory, _setFilterCategory] = useState<string>("all")
+  const [_filterStatus, _setFilterStatus] = useState<string>("all")
+  const [_isSubmitDialogOpen, _setIsSubmitDialogOpen] = useState(false)
+  const [_isConfirmationOpen, _setIsConfirmationOpen] = useState(false)
+  const [_isStatusDialogOpen, _setIsStatusDialogOpen] = useState(false)
+  const [_selectedRequest, _setSelectedRequest] = useState<PrayerRequest | null>(null)
 
   const fellowship = params?.fellowship_id || "default-fellowship"
 
