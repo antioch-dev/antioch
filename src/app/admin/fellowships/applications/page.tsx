@@ -1,19 +1,19 @@
-'use client'
+"use client"
 
-import { DashboardLayout } from '@/components/dashboard-layout'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
+import { DashboardLayout } from "@/components/dashboard-layout"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
 import {
   mockFellowshipApplications,
   approveFellowshipApplication,
   rejectFellowshipApplication,
   type FellowshipApplication,
-} from '@/lib/mock-data' // Corrected import: 'type' keyword is used for type-only import
-import { Search, Check, X, Eye, Clock, Mail, Phone, MapPin, Filter, Download, AlertCircle } from 'lucide-react'
-import { useState, useCallback } from 'react'
+} from "@/lib/mock-data" // Corrected import: 'type' keyword is used for type-only import
+import { Search, Check, X, Eye, Clock, Mail, Phone, MapPin, Filter, Download, AlertCircle } from "lucide-react"
+import { useState, useCallback } from "react"
 import {
   Dialog,
   DialogContent,
@@ -21,26 +21,26 @@ import {
   DialogTitle,
   DialogDescription,
   DialogFooter,
-} from '@/components/ui/dialog'
+} from "@/components/ui/dialog"
 
 export default function FellowshipApplicationsPage() {
   // State to manage the list of applications, allowing for updates
   const [applications, setApplications] = useState(mockFellowshipApplications)
   const [selectedApplication, setSelectedApplication] = useState<FellowshipApplication | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [reviewNotes, setReviewNotes] = useState('')
+  const [reviewNotes, setReviewNotes] = useState("")
 
   // Filter applications based on their status
-  const pendingApplications = applications.filter((app) => app.status === 'pending')
-  const approvedApplications = applications.filter((app) => app.status === 'approved')
-  const rejectedApplications = applications.filter((app) => app.status === 'rejected')
+  const pendingApplications = applications.filter((app) => app.status === "pending")
+  const approvedApplications = applications.filter((app) => app.status === "approved")
+  const rejectedApplications = applications.filter((app) => app.status === "rejected")
 
   // Function to determine the badge style based on application status
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case 'approved':
+      case "approved":
         return <Badge className="bg-green-100 text-green-800 border-green-200">Approved</Badge>
-      case 'rejected':
+      case "rejected":
         return <Badge className="bg-red-100 text-red-800 border-red-200">Rejected</Badge>
       default:
         return <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200">Pending</Badge>
@@ -50,7 +50,7 @@ export default function FellowshipApplicationsPage() {
   // Handle viewing application details in a modal
   const handleViewDetails = useCallback((application: FellowshipApplication) => {
     setSelectedApplication(application)
-    setReviewNotes(application.notes || '') // Load existing notes
+    setReviewNotes(application.notes || "") // Load existing notes
     setIsModalOpen(true)
   }, [])
 
@@ -61,7 +61,7 @@ export default function FellowshipApplicationsPage() {
       // Update local state to reflect the change
       setApplications([...mockFellowshipApplications]) // Re-fetch or re-filter
       setIsModalOpen(false) // Close modal after action
-      setReviewNotes('') // Clear notes
+      setReviewNotes("") // Clear notes
     },
     [reviewNotes],
   )
@@ -73,7 +73,7 @@ export default function FellowshipApplicationsPage() {
       // Update local state to reflect the change
       setApplications([...mockFellowshipApplications]) // Re-fetch or re-filter
       setIsModalOpen(false) // Close modal after action
-      setReviewNotes('') // Clear notes
+      setReviewNotes("") // Clear notes
     },
     [reviewNotes],
   )
@@ -81,7 +81,7 @@ export default function FellowshipApplicationsPage() {
   return (
     <DashboardLayout userRole="admin">
       <div className="p-6 bg-gray-50 min-h-screen">
-        {' '}
+        {" "}
         {/* Changed bg-white to bg-gray-50 for consistency */}
         <div className="flex justify-between items-center mb-6">
           <div>
@@ -279,7 +279,7 @@ export default function FellowshipApplicationsPage() {
                       <Eye className="mr-1 h-3 w-3" />
                       View Details
                     </Button>
-                    {application.status === 'pending' && (
+                    {application.status === "pending" && (
                       <>
                         <Button
                           size="sm"
@@ -340,12 +340,12 @@ export default function FellowshipApplicationsPage() {
                     <MapPin className="mr-2 h-4 w-4 text-gray-500" /> {selectedApplication.address}
                   </p>
                   <p>
-                    <span className="font-medium">Submitted Date:</span>{' '}
+                    <span className="font-medium">Submitted Date:</span>{" "}
                     {new Date(selectedApplication.submittedDate).toLocaleDateString()}
                   </p>
                   {selectedApplication.reviewedDate && (
                     <p>
-                      <span className="font-medium">Reviewed Date:</span>{' '}
+                      <span className="font-medium">Reviewed Date:</span>{" "}
                       {new Date(selectedApplication.reviewedDate).toLocaleDateString()}
                     </p>
                   )}
@@ -361,12 +361,12 @@ export default function FellowshipApplicationsPage() {
                     className="bg-gray-50 border-gray-300 text-gray-900"
                     value={reviewNotes}
                     onChange={(e) => setReviewNotes(e.target.value)}
-                    disabled={selectedApplication.status !== 'pending'} // Disable if not pending
+                    disabled={selectedApplication.status !== "pending"} // Disable if not pending
                   />
                 </div>
               </div>
               <DialogFooter className="flex flex-col sm:flex-row sm:justify-end gap-2 pt-4">
-                {selectedApplication.status === 'pending' && (
+                {selectedApplication.status === "pending" && (
                   <>
                     <Button
                       className="bg-green-600 hover:bg-green-700 text-white w-full sm:w-auto"

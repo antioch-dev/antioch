@@ -1,9 +1,9 @@
-import { DashboardLayout } from '@/components/dashboard-layout'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { Input } from '@/components/ui/input'
-import { mockFellowships, getFellowshipApplications } from '@/lib/mock-data'
+import { DashboardLayout } from "@/components/dashboard-layout"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { Input } from "@/components/ui/input"
+import { mockFellowships, getFellowshipApplications } from "@/lib/mock-data"
 import {
   Search,
   Plus,
@@ -17,22 +17,22 @@ import {
   Filter,
   Download,
   MoreHorizontal,
-} from 'lucide-react'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
-import Link from 'next/link'
+} from "lucide-react"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import Link from "next/link"
 
 export default function AdminFellowshipsPage() {
-  const activeFellowships = mockFellowships.filter((f) => f.status === 'active')
-  const bannedFellowships = mockFellowships.filter((f) => f.status === 'banned')
-  const pendingApplications = getFellowshipApplications().filter((app) => app.status === 'pending')
+  const activeFellowships = mockFellowships.filter((f) => f.status === "active")
+  const bannedFellowships = mockFellowships.filter((f) => f.status === "banned")
+  const pendingApplications = getFellowshipApplications().filter((app) => app.status === "pending")
 
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case 'active':
+      case "active":
         return <Badge className="bg-green-100 text-green-800 border-green-200">Active</Badge>
-      case 'banned':
+      case "banned":
         return <Badge className="bg-red-100 text-red-800 border-red-200">Banned</Badge>
-      case 'pending':
+      case "pending":
         return <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200">Pending</Badge>
       default:
         return <Badge className="bg-gray-100 text-gray-800 border-gray-200">Inactive</Badge>
@@ -193,13 +193,13 @@ export default function AdminFellowshipsPage() {
                         <Calendar className="mr-2 h-4 w-4" />
                         View Events
                       </DropdownMenuItem>
-                      {fellowship.status !== 'banned' && (
+                      {fellowship.status !== "banned" && (
                         <DropdownMenuItem className="text-red-600">
                           <Ban className="mr-2 h-4 w-4" />
                           Ban Fellowship
                         </DropdownMenuItem>
                       )}
-                      {fellowship.status === 'banned' && (
+                      {fellowship.status === "banned" && (
                         <DropdownMenuItem className="text-green-600">
                           <Users className="mr-2 h-4 w-4" />
                           Unban Fellowship

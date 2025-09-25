@@ -8,24 +8,24 @@ import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { LogOut, Download, FileText, CheckCircle, ArrowLeft } from "lucide-react" 
+import { LogOut, Download, FileText, CheckCircle, ArrowLeft } from "lucide-react"
 import { useStore } from "@/lib/store"
 import { toast } from "sonner"
-import { useRouter } from "next/navigation" 
+import { useRouter } from "next/navigation"
 
 interface Task {
-  id: string;
-  title: string;
-  category: string;
-  status: "completed" | "in_progress" | "blocked" | "not_started";
+  id: string
+  title: string
+  category: string
+  status: "completed" | "in_progress" | "blocked" | "not_started"
 }
 
 interface Checkout {
-  id?: string;
-  date: Date;
-  selectedTasks: string[];
-  responses: Record<string, string>;
-  exportFormat: "pdf" | "markdown";
+  id?: string
+  date: Date
+  selectedTasks: string[]
+  responses: Record<string, string>
+  exportFormat: "pdf" | "markdown"
 }
 
 const checkoutPrompts = [
@@ -37,13 +37,13 @@ const checkoutPrompts = [
 ]
 
 export default function CheckoutPage() {
-  const router = useRouter() 
+  const router = useRouter()
 
   const { tasks, checkouts, addCheckout } = useStore() as {
-    tasks: Task[];
-    checkouts: Checkout[];
-    addCheckout: (checkout: Omit<Checkout, "id">) => void;
-  };
+    tasks: Task[]
+    checkouts: Checkout[]
+    addCheckout: (checkout: Omit<Checkout, "id">) => void
+  }
   const [selectedTasks, setSelectedTasks] = useState<string[]>([])
   const [responses, setResponses] = useState<Record<string, string>>({})
   const [exportFormat, setExportFormat] = useState<"pdf" | "markdown">("pdf")
@@ -115,9 +115,11 @@ export default function CheckoutPage() {
   const checkoutsWithParsedDates: Checkout[] = checkouts.map((checkout) => ({
     ...checkout,
     date: checkout.date instanceof Date ? checkout.date : new Date(checkout.date),
-  }));
+  }))
 
-  const todaysCheckout = checkoutsWithParsedDates.find((checkout) => checkout.date.toDateString() === new Date().toDateString())
+  const todaysCheckout = checkoutsWithParsedDates.find(
+    (checkout) => checkout.date.toDateString() === new Date().toDateString(),
+  )
 
   return (
     <div className="p-6 space-y-6">

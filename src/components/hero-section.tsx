@@ -1,9 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import Link from "next/link"
-import { ArrowRight, Play, ChevronDown } from "lucide-react"
+import { Play, ChevronDown } from "lucide-react"
 import { ScrollAnimation } from "@/components/scroll-animation"
 
 interface HeroData {
@@ -38,7 +36,7 @@ export function HeroSection() {
       setIsLoaded(true)
     }
 
-   void fetchHeroData()
+    void fetchHeroData()
   }, [])
 
   if (!heroData) {
@@ -95,8 +93,6 @@ export function HeroSection() {
                   {heroData.description}
                 </p>
               </ScrollAnimation>
-
-
             </div>
 
             {/* Visual element */}

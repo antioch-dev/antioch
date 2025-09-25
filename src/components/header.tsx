@@ -1,6 +1,6 @@
-import { Button } from '@/components/ui/button'
-import Link from 'next/link'
-import { User } from 'lucide-react'
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
+import { User } from "lucide-react"
 
 export function Header() {
   return (
@@ -26,25 +26,28 @@ export function Header() {
             Donate
           </Link>*/}
           <Link href="/fellowship1/task-manager" className="text-sm font-medium transition-colors hover:text-primary">
-            task manager
-          </Link> 
-          <Link
-            href="/fellowship1/forms"
-            className="text-sm font-medium transition-colors hover:text-primary"
-          >
+            Task Manager
+          </Link>
+          <Link href="/fellowship1/forms" className="text-sm font-medium transition-colors hover:text-primary">
             Forms
           </Link>
-          <Link
-            href="/fellowship1/shared_music"
-            className="text-sm font-medium transition-colors hover:text-primary"
-          >
+          <Link href="/fellowship1/shared_music" className="text-sm font-medium transition-colors hover:text-primary">
             Shared Music
           </Link>
+          
            <Link
             href="/fellowship1/Prayer-system"
-            className="text-sm font-medium transition-colors hover:text-primary"
-          >
-            Prayer
+            className="text-sm font-medium transition-colors hover:text-primary>
+            PrayerPal
+          <Link href="/fellowship1/qa" className="text-sm font-medium transition-colors hover:text-primary">
+            QAsystem
+          </Link>
+          <Link href="/fellowship1/leadership" className="text-sm font-medium transition-colors hover:text-primary">
+            Tenure
+          </Link>
+          <Link href="/fellowship1/bible" className="text-sm font-medium transition-colors hover:text-primary">
+            SystemWideBible
+          main
           </Link>
         </nav>
         <div className="flex items-center gap-4">

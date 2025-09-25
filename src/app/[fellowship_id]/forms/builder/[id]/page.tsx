@@ -1,70 +1,70 @@
-'use client'
+"use client"
 
-import type React from 'react'
+import type React from "react"
 
-import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Textarea } from '@/components/ui/textarea'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Switch } from '@/components/ui/switch'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Badge } from '@/components/ui/badge'
-import { Trash2, GripVertical, Eye, Save, Upload, X, ImageIcon } from 'lucide-react'
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Switch } from "@/components/ui/switch"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Badge } from "@/components/ui/badge"
+import { Trash2, GripVertical, Eye, Save, Upload, X, ImageIcon } from "lucide-react"
 
-import type { FormField, Form } from '../../types'
-import { DragDropContext, Droppable, Draggable, type DropResult } from '@hello-pangea/dnd'
-import { Share } from 'lucide-react'
-import { toast } from 'sonner'
-import { ShareFormDialog } from '../../components/share-form-dialog'
-import { useParams } from 'next/navigation'
+import type { FormField, Form } from "../../types"
+import { DragDropContext, Droppable, Draggable, type DropResult } from "@hello-pangea/dnd"
+import { Share } from "lucide-react"
+import { toast } from "sonner"
+import { ShareFormDialog } from "../../components/share-form-dialog"
+import { useParams } from "next/navigation"
 
 const fieldTypes = [
-  { value: 'text', label: 'Text' },
-  { value: 'textarea', label: 'Long Text' },
-  { value: 'number', label: 'Number' },
-  { value: 'email', label: 'Email' },
-  { value: 'date', label: 'Date' },
-  { value: 'select', label: 'Dropdown' },
-  { value: 'multiselect', label: 'Multiple Choice' },
-  { value: 'boolean', label: 'Yes/No' },
-  { value: 'file', label: 'File Upload' },
+  { value: "text", label: "Text" },
+  { value: "textarea", label: "Long Text" },
+  { value: "number", label: "Number" },
+  { value: "email", label: "Email" },
+  { value: "date", label: "Date" },
+  { value: "select", label: "Dropdown" },
+  { value: "multiselect", label: "Multiple Choice" },
+  { value: "boolean", label: "Yes/No" },
+  { value: "file", label: "File Upload" },
 ]
 
 export default function FormBuilder() {
   const params = useParams<{ id: string; fellowship_id: string }>()
   const [form, setForm] = useState<Form>({
-    id: params.id === 'new' ? '' : params.id,
-    title: 'Untitled Form',
-    description: '',
+    id: params.id === "new" ? "" : params.id,
+    title: "Untitled Form",
+    description: "",
     fields: [],
     settings: {
       isPublic: true,
       isOpen: true,
       requireLogin: false,
-      successMessage: 'Thank you for your submission!',
+      successMessage: "Thank you for your submission!",
       successImage: undefined,
-      successImageAlt: '',
+      successImageAlt: "",
     },
     createdAt: new Date(),
     updatedAt: new Date(),
-    createdBy: 'user1',
+    createdBy: "user1",
     coAdmins: [],
     responses: [],
   })
 
-  const [activeTab, setActiveTab] = useState('build')
+  const [activeTab, setActiveTab] = useState("build")
 
-  const addField = (type: FormField['type']) => {
+  const addField = (type: FormField["type"]) => {
     const newField: FormField = {
       id: `field-${Date.now()}`,
       type,
       title: `New ${type} field`,
-      description: '',
+      description: "",
       required: false,
-      options: type === 'select' || type === 'multiselect' ? ['Option 1', 'Option 2'] : undefined,
+      options: type === "select" || type === "multiselect" ? ["Option 1", "Option 2"] : undefined,
     }
     setForm((prev) => ({
       ...prev,
@@ -97,7 +97,6 @@ export default function FormBuilder() {
   const handleSuccessImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
     if (file) {
-  
       const imageUrl = URL.createObjectURL(file)
       setForm((prev) => ({
         ...prev,
@@ -107,7 +106,7 @@ export default function FormBuilder() {
           successImageAlt: file.name,
         },
       }))
-      toast.success('Success image uploaded!')
+      toast.success("Success image uploaded!")
     }
   }
 
@@ -117,22 +116,22 @@ export default function FormBuilder() {
       settings: {
         ...prev.settings,
         successImage: undefined,
-        successImageAlt: '',
+        successImageAlt: "",
       },
     }))
-    toast.success('Success image removed!')
+    toast.success("Success image removed!")
   }
 
   const openFormInNewTab = () => {
     const formId = params.id
-    window.open(`/${params.fellowship_id}/forms/fill/${formId}`, '_blank')
+    window.open(`/${params.fellowship_id}/forms/fill/${formId}`, "_blank")
   }
 
   return (
     <div className="container mx-auto p-6">
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h1 className="text-3xl font-bold">{params.id === 'new' ? 'Create Form' : 'Edit Form'}</h1>
+          <h1 className="text-3xl font-bold">{params.id === "new" ? "Create Form" : "Edit Form"}</h1>
           <p className="text-muted-foreground">Build your custom form</p>
         </div>
         <div className="flex gap-2">
@@ -227,7 +226,7 @@ export default function FormBuilder() {
                                   <div>
                                     <Label>Description (optional)</Label>
                                     <Input
-                                      value={field.description || ''}
+                                      value={field.description || ""}
                                       onChange={(e) => updateField(field.id, { description: e.target.value })}
                                     />
                                   </div>
@@ -239,7 +238,7 @@ export default function FormBuilder() {
                                     <Label>Required field</Label>
                                   </div>
 
-                                  {(field.type === 'select' || field.type === 'multiselect') && (
+                                  {(field.type === "select" || field.type === "multiselect") && (
                                     <div>
                                       <Label>Options</Label>
                                       <div className="space-y-2">
@@ -280,7 +279,7 @@ export default function FormBuilder() {
                         {/* Add Field Button with Select */}
                         <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
                           <div className="flex flex-col sm:flex-row gap-3 items-center">
-                            <Select onValueChange={(value) => addField(value as FormField['type'])}>
+                            <Select onValueChange={(value) => addField(value as FormField["type"])}>
                               <SelectTrigger className="w-full sm:w-48">
                                 <SelectValue placeholder="Choose field type" />
                               </SelectTrigger>
@@ -370,8 +369,8 @@ export default function FormBuilder() {
                   <div className="space-y-3">
                     <div className="relative inline-block">
                       <img
-                        src={form.settings.successImage || '/placeholder.svg'}
-                        alt={form.settings.successImageAlt || 'Success image'}
+                        src={form.settings.successImage || "/placeholder.svg"}
+                        alt={form.settings.successImageAlt || "Success image"}
                         className="max-w-xs max-h-48 rounded-lg border object-cover"
                       />
                       <Button
@@ -387,7 +386,7 @@ export default function FormBuilder() {
                       <Label htmlFor="successImageAlt">Image Alt Text</Label>
                       <Input
                         id="successImageAlt"
-                        value={form.settings.successImageAlt || ''}
+                        value={form.settings.successImageAlt || ""}
                         onChange={(e) =>
                           setForm((prev) => ({
                             ...prev,
@@ -445,12 +444,12 @@ export default function FormBuilder() {
                   </Label>
                   {field.description && <p className="text-sm text-muted-foreground">{field.description}</p>}
 
-                  {field.type === 'text' && <Input placeholder="Enter text..." />}
-                  {field.type === 'textarea' && <Textarea placeholder="Enter text..." />}
-                  {field.type === 'number' && <Input type="number" placeholder="Enter number..." />}
-                  {field.type === 'email' && <Input type="email" placeholder="Enter email..." />}
-                  {field.type === 'date' && <Input type="date" />}
-                  {field.type === 'select' && (
+                  {field.type === "text" && <Input placeholder="Enter text..." />}
+                  {field.type === "textarea" && <Textarea placeholder="Enter text..." />}
+                  {field.type === "number" && <Input type="number" placeholder="Enter number..." />}
+                  {field.type === "email" && <Input type="email" placeholder="Enter email..." />}
+                  {field.type === "date" && <Input type="date" />}
+                  {field.type === "select" && (
                     <Select>
                       <SelectTrigger>
                         <SelectValue placeholder="Select an option" />
@@ -464,13 +463,13 @@ export default function FormBuilder() {
                       </SelectContent>
                     </Select>
                   )}
-                  {field.type === 'boolean' && (
+                  {field.type === "boolean" && (
                     <div className="flex items-center space-x-2">
                       <Switch />
                       <Label>Yes/No</Label>
                     </div>
                   )}
-                  {field.type === 'file' && <Input type="file" />}
+                  {field.type === "file" && <Input type="file" />}
                 </div>
               ))}
 
@@ -482,8 +481,8 @@ export default function FormBuilder() {
                 <div className="text-center space-y-4">
                   {form.settings.successImage && (
                     <img
-                      src={form.settings.successImage || '/placeholder.svg'}
-                      alt={form.settings.successImageAlt || 'Success image'}
+                      src={form.settings.successImage || "/placeholder.svg"}
+                      alt={form.settings.successImageAlt || "Success image"}
                       className="max-w-xs max-h-48 mx-auto rounded-lg object-cover"
                     />
                   )}

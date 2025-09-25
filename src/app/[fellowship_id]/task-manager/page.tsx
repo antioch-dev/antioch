@@ -1,10 +1,10 @@
-'use client'
+"use client"
 
-import { motion } from 'framer-motion'
-import { ArrowRight, CheckCircle, Clock, Users, Zap } from 'lucide-react'
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { motion } from "framer-motion"
+import { ArrowRight, CheckCircle, Clock, Users, Zap } from "lucide-react"
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
 export default function LandingPage() {
   return (
@@ -120,23 +120,23 @@ export default function LandingPage() {
 
 const features = [
   {
-    title: 'Task Management',
-    description: 'Create, organize, and track tasks with powerful filtering and search capabilities.',
+    title: "Task Management",
+    description: "Create, organize, and track tasks with powerful filtering and search capabilities.",
     icon: CheckCircle,
   },
   {
-    title: 'Team Collaboration',
-    description: 'Assign tasks, track progress, and collaborate seamlessly with your team.',
+    title: "Team Collaboration",
+    description: "Assign tasks, track progress, and collaborate seamlessly with your team.",
     icon: Users,
   },
   {
-    title: 'Time Tracking',
-    description: 'Monitor time spent on tasks and projects with built-in time tracking tools.',
+    title: "Time Tracking",
+    description: "Monitor time spent on tasks and projects with built-in time tracking tools.",
     icon: Clock,
   },
   {
-    title: 'Automation',
-    description: 'Set up recurring tasks and automated workflows to save time and effort.',
+    title: "Automation",
+    description: "Set up recurring tasks and automated workflows to save time and effort.",
     icon: Zap,
   },
 ]

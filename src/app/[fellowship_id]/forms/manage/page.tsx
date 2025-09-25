@@ -1,42 +1,42 @@
-'use client'
+"use client"
 
-import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
-import { MoreHorizontal, Plus, Eye, Edit, Trash2, Share, BarChart3, Users, FileText } from 'lucide-react'
-import Link from 'next/link'
-import type { Form } from '../types'
-import { useParams } from 'next/navigation'
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { MoreHorizontal, Plus, Eye, Edit, Trash2, Share, BarChart3, Users, FileText } from "lucide-react"
+import Link from "next/link"
+import type { Form } from "../types"
+import { useParams } from "next/navigation"
 
 // Mock data - in a real app, this would come from an API
 const mockForms: Form[] = [
   {
-    id: '1',
-    title: 'Customer Feedback Survey',
-    description: 'Collect feedback from our customers about their experience',
+    id: "1",
+    title: "Customer Feedback Survey",
+    description: "Collect feedback from our customers about their experience",
     fields: [],
     settings: {
       isPublic: true,
       isOpen: true,
       requireLogin: false,
-      successMessage: 'Thank you for your feedback!',
+      successMessage: "Thank you for your feedback!",
     },
-    createdAt: new Date('2024-01-15'),
-    updatedAt: new Date('2024-01-20'),
-    createdBy: 'user1',
+    createdAt: new Date("2024-01-15"),
+    updatedAt: new Date("2024-01-20"),
+    createdBy: "user1",
     coAdmins: [],
     responses: Array(45)
       .fill(null)
       .map((_, i) => ({
         id: `resp-${i}`,
-        formId: '1',
+        formId: "1",
         responses: [
           {
-            fieldId: '1',
-            fieldName: 'Customer Name',
-            fieldType: 'text',
+            fieldId: "1",
+            fieldName: "Customer Name",
+            fieldType: "text",
             value: `Customer ${i + 1}`,
           },
         ],
@@ -44,30 +44,30 @@ const mockForms: Form[] = [
       })),
   },
   {
-    id: '2',
-    title: 'Event Registration',
-    description: 'Register for our upcoming conference',
+    id: "2",
+    title: "Event Registration",
+    description: "Register for our upcoming conference",
     fields: [],
     settings: {
       isPublic: false,
       isOpen: true,
       requireLogin: true,
-      successMessage: 'Registration successful!',
+      successMessage: "Registration successful!",
     },
-    createdAt: new Date('2024-01-10'),
-    updatedAt: new Date('2024-01-18'),
-    createdBy: 'user1',
-    coAdmins: ['user2'],
+    createdAt: new Date("2024-01-10"),
+    updatedAt: new Date("2024-01-18"),
+    createdBy: "user1",
+    coAdmins: ["user2"],
     responses: Array(45)
       .fill(null)
       .map((_, i) => ({
         id: `resp-${i}`,
-        formId: '1',
+        formId: "1",
         responses: [
           {
-            fieldId: '1',
-            fieldName: 'Customer Name',
-            fieldType: 'text',
+            fieldId: "1",
+            fieldName: "Customer Name",
+            fieldType: "text",
             value: `Customer ${i + 1}`,
           },
         ],
@@ -105,11 +105,11 @@ export default function FormsDashboard() {
                   <CardTitle className="flex items-center gap-2">
                     {form.title}
                     <div className="flex gap-1">
-                      <Badge variant={form.settings.isOpen ? 'default' : 'secondary'}>
-                        {form.settings.isOpen ? 'Open' : 'Closed'}
+                      <Badge variant={form.settings.isOpen ? "default" : "secondary"}>
+                        {form.settings.isOpen ? "Open" : "Closed"}
                       </Badge>
-                      <Badge variant={form.settings.isPublic ? 'outline' : 'secondary'}>
-                        {form.settings.isPublic ? 'Public' : 'Private'}
+                      <Badge variant={form.settings.isPublic ? "outline" : "secondary"}>
+                        {form.settings.isPublic ? "Public" : "Private"}
                       </Badge>
                     </div>
                   </CardTitle>

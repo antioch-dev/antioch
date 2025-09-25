@@ -10,11 +10,11 @@ export function HomeHeader() {
   const [isScrolled, setIsScrolled] = useState(false)
 
   const navigation = [
-    { name: "Home", href: "/homepage" },
-    { name: "Search", href: "/homepage/search" },
-    { name: "Register", href: "/homepage/register" },
-    { name: "About", href: "/homepage/about" },
-    { name: "Download", href: "/homepage/download" },
+    { name: "Home", href: "/" },
+    { name: "Search", href: "/search" },
+    { name: "Register", href: "/register" },
+    { name: "About", href: "/about" },
+    { name: "Download", href: "/download" },
   ]
 
   useEffect(() => {
@@ -29,7 +29,9 @@ export function HomeHeader() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-100" : "bg-gradient-to-r from-blue-600 to-purple-700/90"
+        isScrolled
+          ? "bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-100"
+          : "bg-gradient-to-r from-blue-600 to-purple-700/90"
       }`}
     >
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

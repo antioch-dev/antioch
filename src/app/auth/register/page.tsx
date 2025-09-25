@@ -48,9 +48,9 @@ export default function RegisterPage() {
     }
     // Client-side validation for all required fields
     if (!firstName || !lastName || !email || !country || !city || !fellowship || !password) {
-        setError("Please fill in all required fields.")
-        setIsLoading(false)
-        return
+      setError("Please fill in all required fields.")
+      setIsLoading(false)
+      return
     }
 
     // Simulate an API call for registration
@@ -129,12 +129,12 @@ export default function RegisterPage() {
 
   // Images for the background gallery
   const galleryImages = [
-    "https://maravianwebservices.com/images/wicf/20241231_crossover/thumbnails/tn_Cross%20over004.jpg",
-    "https://maravianwebservices.com/images/wicf/20250222_relationship_conference/thumbnails/tn_IMG_0090.jpg",
-    "https://maravianwebservices.com/images/wicf/20241130_worship_experience_1/thumbnails/tn_IMG_2925.JPG",
-    "https://files.maravianwebservices.com/wicf/20250405_sof_championship_1/thumbnails/tn_IMG_8116.jpg",
-    "https://maravianwebservices.com/images/wicf/20241130_worship_experience_2/thumbnails/tn_WICF-35.jpg",
-    "https://maravianwebservices.com/images/wicf/20241130_worship_experience_2/thumbnails/tn_IMG_2941.JPG",
+    "https://maravianwebservices.com/images/hafh/20241231_crossover/thumbnails/tn_Cross%20over004.jpg",
+    "https://maravianwebservices.com/images/hafh/20250222_relationship_conference/thumbnails/tn_IMG_0090.jpg",
+    "https://maravianwebservices.com/images/hafh/20241130_worship_experience_1/thumbnails/tn_IMG_2925.JPG",
+    "https://files.maravianwebservices.com/hafh/20250405_sof_championship_1/thumbnails/tn_IMG_8116.jpg",
+    "https://maravianwebservices.com/images/hafh/20241130_worship_experience_2/thumbnails/tn_WICF-35.jpg",
+    "https://maravianwebservices.com/images/hafh/20241130_worship_experience_2/thumbnails/tn_IMG_2941.JPG",
   ]
 
   return (
@@ -144,7 +144,7 @@ export default function RegisterPage() {
 
       {/* Back to home link */}
       <div className="container py-8 z-10">
-        <Link href="/" className="inline-flex items-center text-white hover:text-gray-200">
+        <Link href="/" className="inline-flex items-center hover:opacity-70">
           <ChevronLeft className="mr-1 h-4 w-4" />
           Back to home
         </Link>
@@ -152,12 +152,12 @@ export default function RegisterPage() {
 
       {/* Main registration card */}
       <div className="flex-1 flex items-center justify-center px-4 py-12 z-10">
-        <Card className="w-full max-w-md border-gray-200 shadow-lg bg-white/95">
+        <Card className="w-full max-w-md border-gray-200 shadow-lg bg-white/75 dark:bg-black/75">
           <CardHeader className="space-y-1 text-center">
             <div className="flex justify-center mb-2">
-              <Cross className="h-10 w-10 text-black" /> {/* Example icon */}
+              <Cross className="h-10 w-10" /> {/* Example icon */}
             </div>
-            <CardTitle className="text-2xl font-bold text-black">Join A fellowship</CardTitle>
+            <CardTitle className="text-2xl font-bold">Join A fellowship</CardTitle>
             <CardDescription>Become part of the Antioch community</CardDescription>
             <div className="pt-2">
               <p className="text-xs text-gray-500 italic">
@@ -276,7 +276,9 @@ export default function RegisterPage() {
                 <Label htmlFor="fellowship">Fellowship</Label>
                 <div className="relative">
                   <Users className="absolute left-3 top-3 h-4 w-4 text-gray-400 pointer-events-none" />
-                  <Select onValueChange={setFellowship} value={fellowship} disabled={!city}> {/* Disable until a city is selected */}
+                  <Select onValueChange={setFellowship} value={fellowship} disabled={!city}>
+                    {" "}
+                    {/* Disable until a city is selected */}
                     <SelectTrigger id="fellowship" className="pl-10 border-gray-200 focus:ring-black">
                       <SelectValue placeholder={city ? "Select your fellowship" : "Select a city first"} />
                     </SelectTrigger>
@@ -331,23 +333,21 @@ export default function RegisterPage() {
                   className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                 >
                   I agree to the{" "}
-                  <Link href="#" className="text-black hover:text-gray-600">
+                  <Link href="#" className="hover:opacity-70">
                     terms of service
                   </Link>{" "}
                   and{" "}
-                  <Link href="#" className="text-black hover:text-gray-600">
+                  <Link href="#" className="hover:opacity-70">
                     privacy policy
                   </Link>
                 </label>
               </div>
 
               {/* Error Message Display */}
-              {error && (
-                <p className="text-red-500 text-sm text-center">{error}</p>
-              )}
+              {error && <p className="text-red-500 text-sm text-center">{error}</p>}
 
               {/* Submit Button */}
-              <Button type="submit" className="w-full bg-black hover:bg-gray-800 text-white" disabled={isLoading}>
+              <Button type="submit" className="w-full" disabled={isLoading}>
                 {isLoading ? "Creating account..." : "Join Fellowship"}
               </Button>
             </form>
@@ -358,7 +358,7 @@ export default function RegisterPage() {
                 <span className="w-full border-t border-gray-200" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-white px-2 text-gray-500">Or continue with</span>
+                <span className="bg-white black:bg-black px-2 text-gray-500">Or continue with</span>
               </div>
             </div>
 
@@ -375,7 +375,7 @@ export default function RegisterPage() {
           <CardFooter className="flex flex-col space-y-4">
             <div className="text-center text-sm">
               Already part of our fellowship?{" "}
-              <Link href="/auth/login" className="text-black hover:text-gray-600 font-medium">
+              <Link href="/auth/login" className="hover:opacity-70 font-medium">
                 Sign in
               </Link>
             </div>

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState } from "react"
 
 type ProductType = {
   id: number
@@ -6,9 +6,9 @@ type ProductType = {
   price: number
 }
 const products: ProductType[] = [
-  { id: 1, name: 'Product 1', price: 12 },
-  { id: 2, name: 'Product 2', price: 20 },
-  { id: 3, name: 'Product 3', price: 30 },
+  { id: 1, name: "Product 1", price: 12 },
+  { id: 2, name: "Product 2", price: 20 },
+  { id: 3, name: "Product 3", price: 30 },
 ]
 
 export function Page() {

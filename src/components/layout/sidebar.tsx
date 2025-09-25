@@ -19,15 +19,16 @@ import { cn } from "@/lib/utils"
 import { useStore } from "@/lib/store"
 import { Button } from "@/components/ui/button"
 
+const basePath = "/fellowship1/task-manager"
 const navigation = [
-  { name: "Dashboard", href: "/task-manager/dashboard", icon: LayoutDashboard },
-  { name: "Task CRUD", href: "/task-manager/tasks", icon: CheckSquare },
-  { name: "Assignments", href: "/task-manager/assignments", icon: Users },
-  { name: "Recurring Tasks", href: "/task-manager/recurring", icon: RotateCcw },
-  { name: "Check-in", href: "/task-manager/checkin", icon: LogIn },
-  { name: "Check-out", href: "/task-manager/checkout", icon: LogOut },
-  { name: "Long Term Tasks", href: "/task-manager/long-term", icon: Calendar },
-  { name: "Settings", href: "/task-manager/settings", icon: Settings },
+  { name: "Dashboard", href: `${basePath}/dashboard`, icon: LayoutDashboard },
+  { name: "Task CRUD", href: `${basePath}/tasks`, icon: CheckSquare },
+  { name: "Assignments", href: `${basePath}/assignments`, icon: Users },
+  { name: "Recurring Tasks", href: `${basePath}/recurring`, icon: RotateCcw },
+  { name: "Check-in", href: `${basePath}/checkin`, icon: LogIn },
+  { name: "Check-out", href: `${basePath}/checkout`, icon: LogOut },
+  { name: "Long Term Tasks", href: `${basePath}/long-term`, icon: Calendar },
+  { name: "Settings", href: `${basePath}/settings`, icon: Settings },
 ]
 
 export function Sidebar() {

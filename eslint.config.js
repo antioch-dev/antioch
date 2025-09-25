@@ -1,5 +1,5 @@
-import { FlatCompat } from '@eslint/eslintrc'
-import tseslint from 'typescript-eslint'
+import { FlatCompat } from "@eslint/eslintrc"
+import tseslint from "typescript-eslint"
 
 const compat = new FlatCompat({
   baseDirectory: import.meta.dirname,
@@ -7,28 +7,28 @@ const compat = new FlatCompat({
 
 export default tseslint.config(
   {
-    ignores: ['.next', 'src/components/ui/**/*'],
+    ignores: [".next", "src/components/ui/**/*"],
   },
-  ...compat.extends('next/core-web-vitals'),
+  ...compat.extends("next/core-web-vitals"),
   {
-    files: ['**/*.ts', '**/*.tsx'],
+    files: ["**/*.ts", "**/*.tsx"],
     extends: [
       ...tseslint.configs.recommended,
       ...tseslint.configs.recommendedTypeChecked,
       ...tseslint.configs.stylisticTypeChecked,
     ],
     rules: {
-      '@typescript-eslint/array-type': 'off',
-      '@typescript-eslint/prefer-nullish-coalescing': 'off',
-      '@typescript-eslint/consistent-type-definitions': 'off',
-      '@typescript-eslint/consistent-type-imports': [
-        'warn',
-        { prefer: 'type-imports', fixStyle: 'inline-type-imports' },
+      "@typescript-eslint/array-type": "off",
+      "@typescript-eslint/prefer-nullish-coalescing": "off",
+      "@typescript-eslint/consistent-type-definitions": "off",
+      "@typescript-eslint/consistent-type-imports": [
+        "warn",
+        { prefer: "type-imports", fixStyle: "inline-type-imports" },
       ],
-      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
-      '@typescript-eslint/require-await': 'off',
-      '@typescript-eslint/no-misused-promises': ['error', { checksVoidReturn: { attributes: false } }],
-      '@next/next/no-img-element': 'off',
+      "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+      "@typescript-eslint/require-await": "off",
+      "@typescript-eslint/no-misused-promises": ["error", { checksVoidReturn: { attributes: false } }],
+      "@next/next/no-img-element": "off",
     },
   },
   {

@@ -342,7 +342,7 @@ export default function SearchPage() {
                     asChild
                     className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-full transition-all duration-300 hover:scale-105 shadow-lg"
                   >
-                    <Link href={`/fellowship/${fellowship.subpath}`}>Visit Fellowship</Link>
+                    <Link href={`/${fellowship.subpath}`}>Visit Fellowship</Link>
                   </Button>
                 </div>
               </CardContent>

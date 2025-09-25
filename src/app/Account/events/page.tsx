@@ -1,11 +1,11 @@
-import { DashboardLayout } from '@/components/dashboard-layout'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { Input } from '@/components/ui/input'
-import { getUserById, getFellowshipById, getEventsByFellowshipId } from '@/lib/mock-data'
-import { Search, Calendar, Clock, MapPin, Users, Filter, CheckCircle, XCircle } from 'lucide-react'
-import { notFound } from 'next/navigation'
+import { DashboardLayout } from "@/components/dashboard-layout"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { Input } from "@/components/ui/input"
+import { getUserById, getFellowshipById, getEventsByFellowshipId } from "@/lib/mock-data"
+import { Search, Calendar, Clock, MapPin, Users, Filter, CheckCircle, XCircle } from "lucide-react"
+import { notFound } from "next/navigation"
 
 interface UserEventsProps {
   params: Promise<{ user_id: string }>
@@ -26,25 +26,25 @@ export default async function UserEvents({ params }: UserEventsProps) {
 
   // Mock RSVP data
   const userRSVPs = {
-    'event-1': 'attending',
-    'event-2': 'attending',
-    'event-3': 'not-attending',
+    "event-1": "attending",
+    "event-2": "attending",
+    "event-3": "not-attending",
   }
 
   const getRSVPStatus = (eventId: string) => {
-    return userRSVPs[eventId as keyof typeof userRSVPs] || 'no-response'
+    return userRSVPs[eventId as keyof typeof userRSVPs] || "no-response"
   }
 
   const getRSVPBadge = (status: string) => {
     switch (status) {
-      case 'attending':
+      case "attending":
         return (
           <Badge className="bg-green-100 text-green-800">
             <CheckCircle className="mr-1 h-3 w-3" />
             Attending
           </Badge>
         )
-      case 'not-attending':
+      case "not-attending":
         return (
           <Badge className="bg-red-100 text-red-800">
             <XCircle className="mr-1 h-3 w-3" />
@@ -63,7 +63,7 @@ export default async function UserEvents({ params }: UserEventsProps) {
           <div>
             <h1 className="text-3xl font-bold text-gray-900">My Events</h1>
             <p className="text-gray-600">
-              {fellowship ? `Events from ${fellowship.name}` : 'No fellowship events available'}
+              {fellowship ? `Events from ${fellowship.name}` : "No fellowship events available"}
             </p>
           </div>
         </div>
@@ -111,7 +111,7 @@ export default async function UserEvents({ params }: UserEventsProps) {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold text-gray-900">
-                    {Object.values(userRSVPs).filter((status) => status === 'attending').length}
+                    {Object.values(userRSVPs).filter((status) => status === "attending").length}
                   </div>
                   {/* Line 116: Changed 'RSVP'd yes' to 'RSVP&apos;d yes' */}
                   <p className="text-xs text-gray-500">RSVP&apos;d yes</p>

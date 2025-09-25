@@ -1,6 +1,6 @@
 export interface FormField {
   id: string
-  type: 'text' | 'number' | 'select' | 'multiselect' | 'file' | 'boolean' | 'email' | 'textarea' | 'date'
+  type: "text" | "number" | "select" | "multiselect" | "file" | "boolean" | "email" | "textarea" | "date"
   title: string
   description?: string
   required: boolean
@@ -35,13 +35,13 @@ export interface Form {
 
 // Typed response value based on field type
 export type FormFieldValue =
-  | { type: 'text' | 'email' | 'textarea'; value: string }
-  | { type: 'number'; value: number }
-  | { type: 'date'; value: Date }
-  | { type: 'boolean'; value: boolean }
-  | { type: 'select'; value: string }
-  | { type: 'multiselect'; value: string[] }
-  | { type: 'file'; value: FileData | null }
+  | { type: "text" | "email" | "textarea"; value: string }
+  | { type: "number"; value: number }
+  | { type: "date"; value: Date }
+  | { type: "boolean"; value: boolean }
+  | { type: "select"; value: string }
+  | { type: "multiselect"; value: string[] }
+  | { type: "file"; value: FileData | null }
 
 export interface FileData {
   name: string
@@ -55,7 +55,7 @@ export interface FileData {
 export interface FormResponseData {
   fieldId: string
   fieldName: string
-  fieldType: FormField['type']
+  fieldType: FormField["type"]
   value: string // JSON stringified value
 }
 

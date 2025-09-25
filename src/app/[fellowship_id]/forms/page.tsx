@@ -1,17 +1,16 @@
-'use client'
+"use client"
 
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { FileText, Users, BarChart3, Plus } from 'lucide-react'
-import Link from 'next/link'
-import { useParams } from 'next/navigation'
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { FileText, Users, BarChart3, Plus } from "lucide-react"
+import Link from "next/link"
+import { useParams } from "next/navigation"
 
 export default function FormsPage() {
-  
   const params = useParams<{
     fellowship_id: string
   }>()
-  const { fellowship_id } = params 
+  const { fellowship_id } = params
 
   return (
     <div className="container mx-auto p-6 space-y-8">
@@ -24,21 +23,20 @@ export default function FormsPage() {
       </div>
 
       <div className="flex justify-center gap-4">
-        
         <Link href={`/${fellowship_id}/forms/builder/new`}>
           <Button size="lg">
             <Plus className="w-5 h-5 mr-2" />
             Create New Form
           </Button>
         </Link>
-        
+
         <Link href={`/${fellowship_id}/forms/manage`}>
           <Button variant="outline" size="lg">
             <FileText className="w-5 h-5 mr-2" />
             View My Forms
           </Button>
         </Link>
-        
+
         <Link href={`/${fellowship_id}/forms/list`}>
           <Button variant="outline" size="lg">
             <Users className="w-5 h-5 mr-2" />

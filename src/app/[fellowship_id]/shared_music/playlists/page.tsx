@@ -1,111 +1,111 @@
-'use client'
+"use client"
 
-import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Badge } from '@/components/ui/badge'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import Link from 'next/link'
-import { Search, Plus, Heart, Music, Users, Calendar, Play } from 'lucide-react'
-import { useToast } from '@/hooks/use-toast'
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Badge } from "@/components/ui/badge"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import Link from "next/link"
+import { Search, Plus, Heart, Music, Users, Calendar, Play } from "lucide-react"
+import { useToast } from "@/hooks/use-toast"
 
 // Mock playlists data
 const playlists = [
   {
     id: 1,
-    title: 'Sunday Morning Worship',
-    description: 'Our regular Sunday morning service playlist',
-    creator: 'Pastor John',
-    creatorAvatar: '/placeholder-user.jpg',
+    title: "Sunday Morning Worship",
+    description: "Our regular Sunday morning service playlist",
+    creator: "Pastor John",
+    creatorAvatar: "/placeholder-user.jpg",
     songCount: 8,
-    duration: '32 minutes',
+    duration: "32 minutes",
     isPublic: true,
-    category: 'Service',
-    lastUpdated: '2024-12-10',
+    category: "Service",
+    lastUpdated: "2024-12-10",
     plays: 45,
-    songs: ['Amazing Grace', 'How Great Thou Art', '10,000 Reasons'],
+    songs: ["Amazing Grace", "How Great Thou Art", "10,000 Reasons"],
     isFavorited: false,
   },
   {
     id: 2,
-    title: 'Christmas Celebration',
-    description: 'Special Christmas service songs',
-    creator: 'Music Team',
-    creatorAvatar: '/placeholder-user.jpg',
+    title: "Christmas Celebration",
+    description: "Special Christmas service songs",
+    creator: "Music Team",
+    creatorAvatar: "/placeholder-user.jpg",
     songCount: 12,
-    duration: '48 minutes',
+    duration: "48 minutes",
     isPublic: true,
-    category: 'Holiday',
-    lastUpdated: '2024-12-08',
+    category: "Holiday",
+    lastUpdated: "2024-12-08",
     plays: 23,
-    songs: ['Silent Night', 'O Holy Night', 'Joy to the World'],
+    songs: ["Silent Night", "O Holy Night", "Joy to the World"],
     isFavorited: true,
   },
   {
     id: 3,
-    title: 'Youth Service Favorites',
-    description: 'Contemporary songs for youth gatherings',
-    creator: 'Sarah Wilson',
-    creatorAvatar: '/placeholder-user.jpg',
+    title: "Youth Service Favorites",
+    description: "Contemporary songs for youth gatherings",
+    creator: "Sarah Wilson",
+    creatorAvatar: "/placeholder-user.jpg",
     songCount: 15,
-    duration: '58 minutes',
+    duration: "58 minutes",
     isPublic: true,
-    category: 'Youth',
-    lastUpdated: '2024-12-05',
+    category: "Youth",
+    lastUpdated: "2024-12-05",
     plays: 67,
-    songs: ['Cornerstone', 'Blessed Be Your Name', '10,000 Reasons'],
+    songs: ["Cornerstone", "Blessed Be Your Name", "10,000 Reasons"],
     isFavorited: false,
   },
   {
     id: 4,
-    title: 'Traditional Hymns',
-    description: 'Classic hymns for traditional services',
-    creator: 'Elder Mary',
-    creatorAvatar: '/placeholder-user.jpg',
+    title: "Traditional Hymns",
+    description: "Classic hymns for traditional services",
+    creator: "Elder Mary",
+    creatorAvatar: "/placeholder-user.jpg",
     songCount: 20,
-    duration: '75 minutes',
+    duration: "75 minutes",
     isPublic: true,
-    category: 'Traditional',
-    lastUpdated: '2024-12-03',
+    category: "Traditional",
+    lastUpdated: "2024-12-03",
     plays: 34,
-    songs: ['Amazing Grace', 'Holy, Holy, Holy', 'Great Is Thy Faithfulness'],
+    songs: ["Amazing Grace", "Holy, Holy, Holy", "Great Is Thy Faithfulness"],
     isFavorited: true,
   },
   {
     id: 5,
-    title: 'Evening Prayer',
-    description: 'Peaceful songs for evening services',
-    creator: 'David Chen',
-    creatorAvatar: '/placeholder-user.jpg',
+    title: "Evening Prayer",
+    description: "Peaceful songs for evening services",
+    creator: "David Chen",
+    creatorAvatar: "/placeholder-user.jpg",
     songCount: 6,
-    duration: '24 minutes',
+    duration: "24 minutes",
     isPublic: false,
-    category: 'Prayer',
-    lastUpdated: '2024-12-01',
+    category: "Prayer",
+    lastUpdated: "2024-12-01",
     plays: 12,
-    songs: ['Be Thou My Vision', 'Amazing Grace', 'How Great Thou Art'],
+    songs: ["Be Thou My Vision", "Amazing Grace", "How Great Thou Art"],
     isFavorited: false,
   },
   {
     id: 6,
-    title: 'Baptism Service',
-    description: 'Songs for baptism ceremonies',
-    creator: 'Pastor John',
-    creatorAvatar: '/placeholder-user.jpg',
+    title: "Baptism Service",
+    description: "Songs for baptism ceremonies",
+    creator: "Pastor John",
+    creatorAvatar: "/placeholder-user.jpg",
     songCount: 5,
-    duration: '20 minutes',
+    duration: "20 minutes",
     isPublic: true,
-    category: 'Ceremony',
-    lastUpdated: '2024-11-28',
+    category: "Ceremony",
+    lastUpdated: "2024-11-28",
     plays: 8,
-    songs: ['Amazing Grace', 'I Have Decided', 'Just As I Am'],
+    songs: ["Amazing Grace", "I Have Decided", "Just As I Am"],
     isFavorited: false,
   },
 ]
 
 export default function PlaylistsPage() {
-  const [searchTerm, setSearchTerm] = useState('')
+  const [searchTerm, setSearchTerm] = useState("")
   type PlaylistState = { isFavorited: boolean }
   const [playlistStates, setPlaylistStates] = useState<Record<number, PlaylistState>>(
     playlists.reduce(
@@ -136,14 +136,14 @@ export default function PlaylistsPage() {
 
     const isFavorited = !playlistStates[playlistId]?.isFavorited
     toast({
-      title: isFavorited ? 'Added to Favorites' : 'Removed from Favorites',
-      description: `"${playlistTitle}" has been ${isFavorited ? 'added to' : 'removed from'} your favorites.`,
+      title: isFavorited ? "Added to Favorites" : "Removed from Favorites",
+      description: `"${playlistTitle}" has been ${isFavorited ? "added to" : "removed from"} your favorites.`,
     })
   }
 
   const handleScheduleService = (playlistId: number, playlistTitle: string) => {
     toast({
-      title: 'Service Scheduled',
+      title: "Service Scheduled",
       description: `A new service has been scheduled with "${playlistTitle}" playlist.`,
     })
   }
@@ -225,8 +225,8 @@ export default function PlaylistsPage() {
                   <Heart
                     className={`h-4 w-4 transition-all duration-300 group-hover/heart:scale-110 ${
                       playlistStates[playlist.id]?.isFavorited
-                        ? 'fill-red-500 text-red-500'
-                        : 'group-hover/heart:text-red-500'
+                        ? "fill-red-500 text-red-500"
+                        : "group-hover/heart:text-red-500"
                     }`}
                   />
                 </Button>
@@ -238,12 +238,12 @@ export default function PlaylistsPage() {
                 style={{ animationDelay: `${index * 0.1 + 0.2}s` }}
               >
                 <Avatar className="h-6 w-6 transition-transform duration-300 hover:scale-110">
-                  <AvatarImage src={playlist.creatorAvatar || '/placeholder.svg'} alt={playlist.creator} />
+                  <AvatarImage src={playlist.creatorAvatar || "/placeholder.svg"} alt={playlist.creator} />
                   <AvatarFallback>
                     {playlist.creator
-                      .split(' ')
+                      .split(" ")
                       .map((n) => n[0])
-                      .join('')}
+                      .join("")}
                   </AvatarFallback>
                 </Avatar>
                 <span className="text-sm text-muted-foreground">{playlist.creator}</span>

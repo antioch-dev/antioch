@@ -1,10 +1,10 @@
-'use client'
+"use client"
 
-import { useState, useEffect, useCallback } from 'react'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { useRouter } from 'next/navigation'
-import { ArrowLeft, Maximize, Minimize, ChevronLeft, ChevronRight, SkipForward, SkipBack } from 'lucide-react'
+import { useState, useEffect, useCallback } from "react"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { useRouter } from "next/navigation"
+import { ArrowLeft, Maximize, Minimize, ChevronLeft, ChevronRight, SkipForward, SkipBack } from "lucide-react"
 
 type Song = {
   id: number
@@ -16,12 +16,12 @@ type Song = {
 // Mock playlist data with full lyrics
 const playlistData = {
   id: 1,
-  title: 'Sunday Morning Worship',
+  title: "Sunday Morning Worship",
   songs: [
     {
       id: 1,
-      title: 'Amazing Grace',
-      artist: 'Traditional',
+      title: "Amazing Grace",
+      artist: "Traditional",
       lyrics: `Amazing grace! How sweet the sound
 That saved a wretch like me!
 I once was lost, but now am found;
@@ -34,8 +34,8 @@ The hour I first believed.`,
     },
     {
       id: 2,
-      title: 'How Great Thou Art',
-      artist: 'Carl Boberg',
+      title: "How Great Thou Art",
+      artist: "Carl Boberg",
       lyrics: `O Lord my God, when I in awesome wonder
 Consider all the worlds Thy hands have made
 I see the stars, I hear the rolling thunder
@@ -48,8 +48,8 @@ How great Thou art, how great Thou art`,
     },
     {
       id: 3,
-      title: '10,000 Reasons',
-      artist: 'Matt Redman',
+      title: "10,000 Reasons",
+      artist: "Matt Redman",
       lyrics: `Bless the Lord, O my soul, O my soul
 Worship His holy name
 Sing like never before, O my soul
@@ -78,7 +78,7 @@ export default function PlaylistPresentationPage() {
       return []
     }
     const titleSlide = `${song.title}\n\n${song.artist}`
-    const lyricsSlides = song.lyrics.split('\n\n').filter((slide: string) => slide.trim())
+    const lyricsSlides = song.lyrics.split("\n\n").filter((slide: string) => slide.trim())
     return [titleSlide, ...lyricsSlides]
   }
 
@@ -146,31 +146,31 @@ export default function PlaylistPresentationPage() {
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
       switch (e.key) {
-        case 'ArrowRight':
-        case ' ':
+        case "ArrowRight":
+        case " ":
           nextSlide()
           break
-        case 'ArrowLeft':
+        case "ArrowLeft":
           prevSlide()
           break
-        case 'ArrowUp':
+        case "ArrowUp":
           prevSong()
           break
-        case 'ArrowDown':
+        case "ArrowDown":
           nextSong()
           break
-        case 'Escape':
+        case "Escape":
           exitPresentation()
           break
-        case 'f':
-        case 'F':
+        case "f":
+        case "F":
           toggleFullscreen()
           break
       }
     }
 
-    window.addEventListener('keydown', handleKeyPress)
-    return () => window.removeEventListener('keydown', handleKeyPress)
+    window.addEventListener("keydown", handleKeyPress)
+    return () => window.removeEventListener("keydown", handleKeyPress)
   }, [currentSlide, currentSongIndex, exitPresentation, nextSlide, nextSong, prevSlide, prevSong])
 
   return (
@@ -230,7 +230,7 @@ export default function PlaylistPresentationPage() {
       {/* Main Presentation Area */}
       <div
         className="flex items-center justify-center min-h-screen p-8"
-        style={{ paddingTop: isFullscreen ? '2rem' : '6rem' }}
+        style={{ paddingTop: isFullscreen ? "2rem" : "6rem" }}
       >
         <div className="text-center max-w-4xl w-full">
           <div
@@ -256,7 +256,7 @@ export default function PlaylistPresentationPage() {
                   key={index}
                   onClick={() => setCurrentSlide(index)}
                   className={`w-2 h-2 rounded-full transition-all ${
-                    index === currentSlide ? 'bg-white' : 'bg-white/30'
+                    index === currentSlide ? "bg-white" : "bg-white/30"
                   }`}
                 />
               ))}
@@ -280,8 +280,8 @@ export default function PlaylistPresentationPage() {
                 }}
                 className={`px-3 py-1 rounded-full text-xs transition-all ${
                   index === currentSongIndex
-                    ? 'bg-white text-black'
-                    : 'text-white/70 hover:text-white hover:bg-white/10'
+                    ? "bg-white text-black"
+                    : "text-white/70 hover:text-white hover:bg-white/10"
                 }`}
               >
                 {song.title}

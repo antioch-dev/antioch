@@ -16,11 +16,7 @@ interface MockRecurrencePattern {
   time?: string
 }
 
-export default function DashboardLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true)
   const { setUser, setTasks } = useStore()
 
@@ -44,7 +40,7 @@ export default function DashboardLayout({
                   }
                 : null,
             }
-          })
+          }),
         )
         await new Promise((resolve) => setTimeout(resolve, 500))
       } catch (error) {

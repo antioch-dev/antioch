@@ -1,14 +1,26 @@
-import { DashboardLayout } from '@/components/dashboard-layout'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { getUserById, getEventsByFellowshipId, getFellowshipById } from '@/lib/mock-data'
-import { Calendar, Church, Users, Clock, MapPin } from 'lucide-react'
-import Link from 'next/link'
-import { notFound } from 'next/navigation'
+import { DashboardLayout } from "@/components/dashboard-layout"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { getUserById, getEventsByFellowshipId, getFellowshipById } from "@/lib/mock-data"
+import { Calendar, Church, Users, Clock, MapPin } from "lucide-react"
+import Link from "next/link"
+import { notFound } from "next/navigation"
 
 interface UserDashboardProps {
   params: Promise<{ user_id: string }>
+}
+
+// Map the permission roles to regular user roles for the dashboard layout
+const mapRoleForDashboard = (role: string) => {
+  switch (role) {
+    case "super_admin":
+    case "tenure_manager":
+    case "department_head":
+      return "admin" 
+    default:
+      return role as "admin" | "pastor" | "leader" | "member" | "user"
+  }
 }
 
 export default async function UserDashboard({ params }: UserDashboardProps) {
@@ -22,8 +34,11 @@ export default async function UserDashboard({ params }: UserDashboardProps) {
   const fellowship = user.fellowshipId ? getFellowshipById(user.fellowshipId) : null
   const upcomingEvents = user.fellowshipId ? getEventsByFellowshipId(user.fellowshipId).slice(0, 3) : []
 
+  // Map the user role for the dashboard layout
+  const dashboardRole = mapRoleForDashboard(user.role)
+
   return (
-    <DashboardLayout userRole={user.role} userId={user_id}>
+    <DashboardLayout userRole={dashboardRole} userId={user_id}>
       <div className="p-6 bg-gray-50 min-h-screen">
         <div className="mb-6">
           <h1 className="text-3xl font-bold text-gray-900">Welcome back, {user.name}!</h1>
@@ -38,9 +53,9 @@ export default async function UserDashboard({ params }: UserDashboardProps) {
               <Church className="h-4 w-4 text-gray-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-gray-900">{fellowship?.name || 'Not Assigned'}</div>
+              <div className="text-2xl font-bold text-gray-900">{fellowship?.name || "Not Assigned"}</div>
               <p className="text-xs text-gray-500">
-                {fellowship ? `${fellowship.memberCount} members` : 'Contact admin to join'}
+                {fellowship ? `${fellowship.memberCount} members` : "Contact admin to join"}
               </p>
             </CardContent>
           </Card>
@@ -85,7 +100,7 @@ export default async function UserDashboard({ params }: UserDashboardProps) {
                   <div className="space-y-2">
                     <div className="flex items-center text-sm text-gray-500">
                       <MapPin className="mr-2 h-4 w-4 text-gray-500" />
-                      {fellowship.location.address}, {fellowship.location.city}, {fellowship.location.state}{' '}
+                      {fellowship.location.address}, {fellowship.location.city}, {fellowship.location.state}{" "}
                       {fellowship.location.zipCode}
                     </div>
                     <div className="flex items-center text-sm text-gray-500">

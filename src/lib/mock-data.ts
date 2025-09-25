@@ -1,85 +1,195 @@
 export interface User {
-  id: string;
-  name: string;
-  email: string;
-  phone?: string;
-  role: "admin" | "pastor" | "leader" | "member";
-  fellowshipId?: string;
-  joinDate: string;
-  avatar?: string;
-  isEmailVerified: boolean;
-  isPhoneVerified: boolean;
-  username: string;
-  accountStatus: "active" | "suspended" | "pending_verification";
-  lastLogin: string;
+  id: string
+  name: string
+  email: string
+  phone?: string
+  role: "admin" | "pastor" | "leader" | "member" | "super_admin" | "tenure_manager" | "department_head"
+  fellowshipId?: string
+  joinDate: string
+  avatar?: string
+  isEmailVerified: boolean
+  isPhoneVerified: boolean
+  username: string
+  accountStatus: "active" | "suspended" | "pending_verification"
+  lastLogin: string
   permissions: {
-    canManageFellowships: boolean;
-    canManageUsers: boolean;
-    canViewAnalytics: boolean;
-    canManagePermissions: boolean;
-  };
-  bio?: string;
+    canManageFellowships: boolean
+    canManageUsers: boolean
+    canViewAnalytics: boolean
+    canManagePermissions: boolean
+  }
+  bio?: string
+  personId?: string
 }
 
 export interface Fellowship {
-  id: string;
-  name: string;
-  description: string;
+  id: string
+  name: string
+  description: string
   location: {
-    address: string;
-    city: string;
-    state: string;
-    zipCode: string;
-    coordinates?: { lat: number; lng: number };
-  };
-  memberCount: number;
-  pastor: string;
-  established: string;
-  status: "active" | "inactive" | "banned" | "pending";
-  image?: string;
-  contactEmail: string;
-  contactPhone: string;
-  website?: string;
-  adminIds: string[];
-  applicationStatus: "approved" | "pending" | "rejected";
-  applicationDate: string;
+    address: string
+    city: string
+    state: string
+    zipCode: string
+    coordinates?: { lat: number; lng: number }
+  }
+  memberCount: number
+  pastor: string
+  established: string
+  status: "active" | "inactive" | "banned" | "pending"
+  image?: string
+  contactEmail: string
+  contactPhone: string
+  website?: string
+  adminIds: string[]
+  applicationStatus: "approved" | "pending" | "rejected"
+  applicationDate: string
   permissions: {
-    canCreateEvents: boolean;
-    canManageMembers: boolean;
-    canViewAnalytics: boolean;
-    canEditInfo: boolean;
-  };
+    canCreateEvents: boolean
+    canManageMembers: boolean
+    canViewAnalytics: boolean
+    canEditInfo: boolean
+  }
 }
 
 export interface Event {
-  id: string;
-  title: string;
-  description: string;
-  date: string;
-  time: string;
-  location: string;
-  fellowshipId: string;
-  attendees: number;
-  maxAttendees?: number;
-  type: "service" | "bible-study" | "fellowship" | "outreach" | "prayer";
+  id: string
+  title: string
+  description: string
+  date: string
+  time: string
+  location: string
+  fellowshipId: string
+  attendees: number
+  maxAttendees?: number
+  type: "service" | "bible-study" | "fellowship" | "outreach" | "prayer"
 }
 
 export interface FellowshipApplication {
-  id: string;
-  applicantName: string;
-  fellowshipId: string;
-  fellowshipName: string;
-  pastorName: string;
-  email: string;
-  phone: string;
-  address: string;
-  description: string;
-  status: "pending" | "approved" | "rejected";
-  submittedDate: string;
-  reviewedDate?: string;
-  reviewedBy?: string;
-  notes?: string;
+  id: string
+  applicantName: string
+  fellowshipId: string
+  fellowshipName: string
+  pastorName: string
+  email: string
+  phone: string
+  address: string
+  description: string
+  status: "pending" | "approved" | "rejected"
+  submittedDate: string
+  reviewedDate?: string
+  reviewedBy?: string
+  notes?: string
 }
+
+
+export interface Tenure {
+  id: string
+  title: string
+  startDate: string // ISO date string
+  endDate: string // ISO date string
+  status: "active" | "past" | "upcoming"
+  fellowshipId: string
+  createdAt: string
+  updatedAt: string
+}
+
+export interface Position {
+  id: string
+  name: string
+  description: string
+  departmentId: string | null // null for standalone positions
+  isActive: boolean
+  fellowshipId: string
+  createdAt: string
+  updatedAt: string
+}
+
+export interface Department {
+  id: string
+  name: string
+  description: string
+  fellowshipId: string
+  createdAt: string
+  updatedAt: string
+}
+
+export interface Person {
+  id: string
+  name: string
+  email: string
+  phone: string
+  fellowshipId: string
+  bio: string
+  photoUrl: string | null
+  createdAt: string
+  updatedAt: string
+}
+
+export interface Appointment {
+  id: string
+  tenureId: string
+  positionId: string
+  personId: string
+  status: "pending" | "accepted" | "declined" | "revoked"
+  inviteLink: string
+  inviteToken: string
+  appointedBy: string // admin user id
+  appointedAt: string
+  respondedAt: string | null
+  createdAt: string
+  updatedAt: string
+}
+
+export interface Permission {
+  id: string
+  role: "super_admin" | "tenure_manager" | "department_head"
+  actions: string[]
+  fellowshipId: string
+  userId: string
+  createdAt: string
+  updatedAt: string
+}
+
+// Extended types for UI
+export interface AppointmentWithDetails extends Appointment {
+  tenure: Tenure
+  position: Position
+  person: Person
+  department?: Department
+}
+
+export interface PositionWithDepartment extends Position {
+  department?: Department
+}
+
+export interface TenureStats {
+  totalTenures: number
+  activeTenures: number
+  totalPositions: number
+  totalAppointments: number
+  pendingAppointments: number
+}
+
+export interface DepartmentMember {
+  departmentId: string
+  personId: string
+  role: "leader" | "member"
+  joinedAt: string
+}
+
+
+export interface DepartmentWithMembers extends Department {
+  members: (DepartmentMember & { person: Person })[]
+  positionCount: number
+  leaderCount: number
+}
+
+export interface PersonWithDepartments extends Person {
+  departments: (DepartmentMember & { department: Department })[]
+  currentAppointments: AppointmentWithDetails[]
+}
+
 
 export const mockFellowships: Fellowship[] = [
   {
@@ -267,7 +377,7 @@ export const mockFellowships: Fellowship[] = [
       canEditInfo: true,
     },
   },
-];
+]
 
 export const mockUsers: User[] = [
   {
@@ -289,7 +399,7 @@ export const mockUsers: User[] = [
       canViewAnalytics: false,
       canManagePermissions: false,
     },
-    bio: "Passionate about community service and outreach."
+    bio: "Passionate about community service and outreach.",
   },
   {
     id: "user-2",
@@ -310,7 +420,7 @@ export const mockUsers: User[] = [
       canViewAnalytics: true,
       canManagePermissions: false,
     },
-    bio: "Leads the youth ministry and loves teaching."
+    bio: "Leads the youth ministry and loves teaching.",
   },
   {
     id: "admin-1",
@@ -330,7 +440,7 @@ export const mockUsers: User[] = [
       canViewAnalytics: true,
       canManagePermissions: true,
     },
-    bio: "Platform administrator with full access."
+    bio: "Platform administrator with full access.",
   },
   {
     id: "user-3",
@@ -351,7 +461,7 @@ export const mockUsers: User[] = [
       canViewAnalytics: true,
       canManagePermissions: false,
     },
-    bio: "Head pastor of Hope Baptist Fellowship."
+    bio: "Head pastor of Hope Baptist Fellowship.",
   },
   {
     id: "user-4",
@@ -371,9 +481,85 @@ export const mockUsers: User[] = [
       canViewAnalytics: false,
       canManagePermissions: false,
     },
-    bio: "New member, eager to get involved."
+    bio: "New member, eager to get involved.",
   },
-];
+  {
+    id: "admin_1",
+    name: "Pastor Johnson",
+    email: "pastor@antiochfellowship.org",
+    role: "super_admin",
+    personId: "person_1",
+    joinDate: "",
+    isEmailVerified: false,
+    isPhoneVerified: false,
+    username: "",
+    accountStatus: "active",
+    lastLogin: "",
+    permissions: {
+      canManageFellowships: false,
+      canManageUsers: false,
+      canViewAnalytics: false,
+      canManagePermissions: false
+    }
+  },
+  {
+    id: "admin_2",
+    name: "Elder Smith",
+    email: "elder.smith@antiochfellowship.org",
+    role: "tenure_manager",
+    personId: "person_2",
+    joinDate: "",
+    isEmailVerified: false,
+    isPhoneVerified: false,
+    username: "",
+    accountStatus: "active",
+    lastLogin: "",
+    permissions: {
+      canManageFellowships: false,
+      canManageUsers: false,
+      canViewAnalytics: false,
+      canManagePermissions: false
+    }
+  },
+  {
+    id: "admin_3",
+    name: "Deacon Brown",
+    email: "deacon.brown@antiochfellowship.org",
+    role: "department_head",
+    personId: "person_5",
+    joinDate: "",
+    isEmailVerified: false,
+    isPhoneVerified: false,
+    username: "",
+    accountStatus: "active",
+    lastLogin: "",
+    permissions: {
+      canManageFellowships: false,
+      canManageUsers: false,
+      canViewAnalytics: false,
+      canManagePermissions: false
+    }
+  },
+  {
+    id: "user_1",
+    name: "Michael Davis",
+    email: "michael.davis@email.com",
+    role: "member",
+    personId: "person_3",
+    joinDate: "",
+    isEmailVerified: false,
+    isPhoneVerified: false,
+    username: "",
+    accountStatus: "active",
+    lastLogin: "",
+    permissions: {
+      canManageFellowships: false,
+      canManageUsers: false,
+      canViewAnalytics: false,
+      canManagePermissions: false
+    }
+  },
+]
 
 export const mockFellowshipApplications: FellowshipApplication[] = [
   {
@@ -418,7 +604,7 @@ export const mockFellowshipApplications: FellowshipApplication[] = [
     reviewedBy: "admin-1",
     notes: "Excellent application with strong community references",
   },
-];
+]
 
 export const mockEvents: Event[] = [
   {
@@ -457,82 +643,80 @@ export const mockEvents: Event[] = [
     maxAttendees: 40,
     type: "fellowship",
   },
-];
+]
 
 export const getFellowshipById = (id: string): Fellowship | undefined => {
-  return mockFellowships.find((f) => f.id === id);
-};
+  return mockFellowships.find((f) => f.id === id)
+}
 
 export const getUserById = (id: string): User | undefined => {
-  return mockUsers.find((u) => u.id === id);
-};
+  return mockUsers.find((u) => u.id === id)
+}
 
 export const getEventsByFellowshipId = (fellowshipId: string): Event[] => {
-  return mockEvents.filter((e) => e.fellowshipId === fellowshipId);
-};
+  return mockEvents.filter((e) => e.fellowshipId === fellowshipId)
+}
 
 export const getApprovedFellowshipApplications = (fellowshipId: string): FellowshipApplication[] => {
-  return mockFellowshipApplications.filter(
-    (app) => app.fellowshipId === fellowshipId && app.status === "approved"
-  );
-};
+  return mockFellowshipApplications.filter((app) => app.fellowshipId === fellowshipId && app.status === "approved")
+}
 
 export const approveFellowshipApplication = (id: string, notes = "", reviewedBy = "admin-1") => {
-  const application = mockFellowshipApplications.find((app) => app.id === id);
+  const application = mockFellowshipApplications.find((app) => app.id === id)
   if (application) {
-    application.status = "approved";
-    application.reviewedDate = new Date().toISOString().split('T')[0];
-    application.notes = notes;
-    application.reviewedBy = reviewedBy;
+    application.status = "approved"
+    application.reviewedDate = new Date().toISOString().split("T")[0]
+    application.notes = notes
+    application.reviewedBy = reviewedBy
   }
-};
+}
 
 export const rejectFellowshipApplication = (id: string, notes = "", reviewedBy = "admin-1") => {
-  const application = mockFellowshipApplications.find((app) => app.id === id);
+  const application = mockFellowshipApplications.find((app) => app.id === id)
   if (application) {
-    application.status = "rejected";
-    application.reviewedDate = new Date().toISOString().split('T')[0];
-    application.notes = notes;
-    application.reviewedBy = reviewedBy;
+    application.status = "rejected"
+    application.reviewedDate = new Date().toISOString().split("T")[0]
+    application.notes = notes
+    application.reviewedBy = reviewedBy
   }
-};
+}
 
 export const getFellowshipApplications = () => {
-  return mockFellowshipApplications;
-};
+  return mockFellowshipApplications
+}
 
 export const getPendingApplications = () => {
-  return mockFellowshipApplications.filter((app) => app.status === "pending");
-};
+  return mockFellowshipApplications.filter((app) => app.status === "pending")
+}
 
 export const getFellowshipStats = (fellowshipId: string) => {
-  const fellowship = getFellowshipById(fellowshipId);
-  const events = getEventsByFellowshipId(fellowshipId);
+  const fellowship = getFellowshipById(fellowshipId)
+  const events = getEventsByFellowshipId(fellowshipId)
 
   return {
     totalMembers: fellowship?.memberCount || 0,
     activeEvents: events.length,
     avgAttendance: events.reduce((acc, e) => acc + e.attendees, 0) / events.length || 0,
     upcomingEvents: events.filter((e) => new Date(e.date) > new Date()).length,
-  };
-};
+  }
+}
 
 export function updateUser(id: string, updatedFields: Partial<User>): User | undefined {
-  const userIndex = mockUsers.findIndex(user => user.id === id);
+  const userIndex = mockUsers.findIndex((user) => user.id === id)
   if (userIndex > -1) {
-    const userToUpdate: User = mockUsers[userIndex]!;
-    Object.assign(userToUpdate, updatedFields);
-    userToUpdate.lastLogin = new Date().toISOString();
-    return userToUpdate;
+    const userToUpdate: User = mockUsers[userIndex]!
+    Object.assign(userToUpdate, updatedFields)
+    userToUpdate.lastLogin = new Date().toISOString()
+    return userToUpdate
   }
-  return undefined;
+  return undefined
 }
 
 export function deleteUser(id: string): boolean {
-  const initialLength = mockUsers.length;
-  const newMockUsers = mockUsers.filter(user => user.id !== id);
-  mockUsers.splice(0, mockUsers.length, ...newMockUsers);
-  return mockUsers.length < initialLength;
+  const initialLength = mockUsers.length
+  const newMockUsers = mockUsers.filter((user) => user.id !== id)
+  mockUsers.splice(0, mockUsers.length, ...newMockUsers)
+  return mockUsers.length < initialLength
 }
 import type { Database } from "./supabase"
 
@@ -541,12 +725,12 @@ export type RecurrencePattern =
   | { type: "weekly"; day: string; time: string }
   | { type: "daily"; time: string }
   | { type: "monthly"; day: number; time: string }
-  | { type: "yearly"; date: string; time: string };
+  | { type: "yearly"; date: string; time: string }
 
 // Update the Task type to use the new RecurrencePattern
 type Task = Omit<Database["public"]["Tables"]["tasks"]["Row"], "recurrence_pattern"> & {
-  recurrence_pattern: RecurrencePattern | null;
-};
+  recurrence_pattern: RecurrencePattern | null
+}
 type Profile = Database["public"]["Tables"]["profiles"]["Row"]
 
 export const mockUser: Profile = {
@@ -831,6 +1015,7 @@ export const mockCheckouts = [
     created_at: new Date(Date.now() - 172800000).toISOString(), // 2 days ago
   },
 ]
+ prayer_system
 export interface PrayerRequest {
   id: string
   name: string
@@ -1093,3 +1278,729 @@ export const getAssignmentsByRequestId = (requestId: string): PrayerAssignment[]
 export const getAssignmentsByMember = (member: string): PrayerAssignment[] => {
   return mockPrayerAssignments.filter((assignment) => assignment.assignedMember === member)
 }
+=======
+
+// qa system mock data
+export interface Topic {
+  id: string
+  title: string
+  description: string
+  status: "open" | "closed"
+  answerSetting: "allow_all" | "require_review" | "not_allowed"
+  questionsCount: number
+  answersCount: number
+  pinnedAnswersCount: number
+  createdAt: Date
+  updatedAt: Date
+}
+
+export interface Question {
+  id: string
+  topicId: string
+  text: string
+  author?: string
+  fellowship?: string
+  status: "pending" | "approved" | "answered"
+  votes: number
+  isDisplayed: boolean
+  createdAt: Date
+  updatedAt: Date
+}
+
+export interface Answer {
+  id: string
+  questionId: string
+  text: string
+  author?: string
+  status: "pending" | "approved" | "rejected"
+  isPinned: boolean
+  isChurchOfficial: boolean
+  createdAt: Date
+  updatedAt: Date
+}
+
+export interface Stats {
+  totalQuestions: number
+  totalAnswers: number
+  displayedQuestions: number
+  pendingQuestions: number
+  answeredQuestions: number
+}
+
+// Mock Topics Data
+export const mockTopics: Topic[] = [
+  {
+    id: "1",
+    title: "Sunday Service Q&A",
+    description: "Questions and answers from today's Sunday service message",
+    status: "open",
+    answerSetting: "require_review",
+    questionsCount: 12,
+    answersCount: 8,
+    pinnedAnswersCount: 3,
+    createdAt: new Date("2024-01-15T09:00:00Z"),
+    updatedAt: new Date("2024-01-15T11:30:00Z"),
+  },
+  {
+    id: "2",
+    title: "Bible Study Discussion",
+    description: "Questions from our weekly Bible study on Romans 8",
+    status: "open",
+    answerSetting: "allow_all",
+    questionsCount: 7,
+    answersCount: 15,
+    pinnedAnswersCount: 2,
+    createdAt: new Date("2024-01-10T19:00:00Z"),
+    updatedAt: new Date("2024-01-10T21:00:00Z"),
+  },
+  {
+    id: "3",
+    title: "Youth Ministry Q&A",
+    description: "Questions from our youth about faith and life",
+    status: "closed",
+    answerSetting: "require_review",
+    questionsCount: 5,
+    answersCount: 5,
+    pinnedAnswersCount: 5,
+    createdAt: new Date("2024-01-08T18:00:00Z"),
+    updatedAt: new Date("2024-01-08T20:00:00Z"),
+  },
+]
+
+// Mock Questions Data
+export const mockQuestions: Question[] = [
+  {
+    id: "1",
+    topicId: "1",
+    text: 'How can we practically apply the concept of "walking in the Spirit" in our daily lives?',
+    author: "Sarah M.",
+    fellowship: "Young Adults",
+    status: "approved",
+    votes: 8,
+    isDisplayed: false,
+    createdAt: new Date("2024-01-15T09:15:00Z"),
+    updatedAt: new Date("2024-01-15T09:15:00Z"),
+  },
+  {
+    id: "2",
+    topicId: "1",
+    text: 'What does it mean to be "more than conquerors" in Romans 8:37?',
+    author: "Michael T.",
+    fellowship: "Men's Ministry",
+    status: "answered",
+    votes: 12,
+    isDisplayed: true,
+    createdAt: new Date("2024-01-15T09:30:00Z"),
+    updatedAt: new Date("2024-01-15T10:45:00Z"),
+  },
+  {
+    id: "3",
+    topicId: "1",
+    text: "How do we know if we're truly led by the Spirit versus our own desires?",
+    author: "Jennifer L.",
+    fellowship: "Women's Ministry",
+    status: "approved",
+    votes: 15,
+    isDisplayed: false,
+    createdAt: new Date("2024-01-15T09:45:00Z"),
+    updatedAt: new Date("2024-01-15T09:45:00Z"),
+  },
+  {
+    id: "4",
+    topicId: "1",
+    text: "Can you explain the difference between condemnation and conviction?",
+    status: "pending",
+    votes: 3,
+    isDisplayed: false,
+    createdAt: new Date("2024-01-15T10:00:00Z"),
+    updatedAt: new Date("2024-01-15T10:00:00Z"),
+  },
+  {
+    id: "5",
+    topicId: "2",
+    text: 'In Romans 8:28, does "all things work together for good" mean bad things won\'t happen to Christians?',
+    author: "David K.",
+    fellowship: "Bible Study Group",
+    status: "answered",
+    votes: 9,
+    isDisplayed: false,
+    createdAt: new Date("2024-01-10T19:15:00Z"),
+    updatedAt: new Date("2024-01-10T20:30:00Z"),
+  },
+]
+
+// Mock Answers Data
+export const mockAnswers: Answer[] = [
+  {
+    id: "1",
+    questionId: "2",
+    text: "Being \"more than conquerors\" means that through Christ's love, we don't just barely survive life's challenges - we triumph over them. It's not about avoiding difficulties, but about having victory through them because nothing can separate us from God's love.",
+    author: "Pastor Johnson",
+    status: "approved",
+    isPinned: true,
+    isChurchOfficial: true,
+    createdAt: new Date("2024-01-15T10:45:00Z"),
+    updatedAt: new Date("2024-01-15T10:45:00Z"),
+  },
+  {
+    id: "2",
+    questionId: "2",
+    text: "I think it means we have the ultimate victory because Christ has already won the battle against sin and death. We're on the winning team!",
+    author: "Lisa R.",
+    status: "approved",
+    isPinned: false,
+    isChurchOfficial: false,
+    createdAt: new Date("2024-01-15T11:00:00Z"),
+    updatedAt: new Date("2024-01-15T11:00:00Z"),
+  },
+  {
+    id: "3",
+    questionId: "5",
+    text: "Romans 8:28 doesn't promise that bad things won't happen, but that God can work even through difficult circumstances for our ultimate good and His glory. It's about God's sovereignty and His ability to bring purpose from pain.",
+    author: "Pastor Johnson",
+    status: "approved",
+    isPinned: true,
+    isChurchOfficial: true,
+    createdAt: new Date("2024-01-10T20:30:00Z"),
+    updatedAt: new Date("2024-01-10T20:30:00Z"),
+  },
+]
+
+// Mock Stats Data
+export const mockStats: Stats = {
+  totalQuestions: 24,
+  totalAnswers: 28,
+  displayedQuestions: 1,
+  pendingQuestions: 3,
+  answeredQuestions: 8,
+}
+
+// Utility functions for mock data
+export const getTopicById = (id: string): Topic | undefined => {
+  return mockTopics.find((topic) => topic.id === id)
+}
+
+export const getQuestionsByTopicId = (topicId: string): Question[] => {
+  return mockQuestions.filter((question) => question.topicId === topicId)
+}
+
+export const getAnswersByQuestionId = (questionId: string): Answer[] => {
+  return mockAnswers.filter((answer) => answer.questionId === questionId)
+}
+
+export const getQuestionById = (id: string): Question | undefined => {
+  return mockQuestions.find((question) => question.id === id)
+}
+
+export const MOCK_FELLOWSHIP_ID = "fellowship_123"
+
+export const mockTenures: Tenure[] = [
+  {
+    id: "tenure_1",
+    title: "2024 Leadership Tenure",
+    startDate: "2024-01-01",
+    endDate: "2024-12-31",
+    status: "active",
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    createdAt: "2023-11-15T10:00:00Z",
+    updatedAt: "2023-11-15T10:00:00Z",
+  },
+  {
+    id: "tenure_2",
+    title: "2023 Leadership Tenure",
+    startDate: "2023-01-01",
+    endDate: "2023-12-31",
+    status: "past",
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    createdAt: "2022-11-15T10:00:00Z",
+    updatedAt: "2022-11-15T10:00:00Z",
+  },
+  {
+    id: "tenure_3",
+    title: "2025 Leadership Tenure",
+    startDate: "2025-01-01",
+    endDate: "2025-12-31",
+    status: "upcoming",
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    createdAt: "2024-10-15T10:00:00Z",
+    updatedAt: "2024-10-15T10:00:00Z",
+  },
+]
+
+export const mockDepartments: Department[] = [
+  {
+    id: "dept_1",
+    name: "Music Ministry",
+    description: "Worship and music coordination",
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+  {
+    id: "dept_2",
+    name: "Children Ministry",
+    description: "Children and youth programs",
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+  {
+    id: "dept_3",
+    name: "Media Ministry",
+    description: "Audio, video, and digital content",
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+  {
+    id: "dept_4",
+    name: "Outreach Ministry",
+    description: "Community outreach and evangelism",
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+]
+
+export const mockPositions: Position[] = [
+  // Standalone positions
+  {
+    id: "pos_1",
+    name: "President",
+    description: "Overall leadership and vision",
+    departmentId: null,
+    isActive: true,
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+  {
+    id: "pos_2",
+    name: "Secretary",
+    description: "Record keeping and documentation",
+    departmentId: null,
+    isActive: true,
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+  {
+    id: "pos_3",
+    name: "Treasurer",
+    description: "Financial management and oversight",
+    departmentId: null,
+    isActive: true,
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+  // Department-linked positions
+  {
+    id: "pos_4",
+    name: "Music Ministry Leader",
+    description: "Lead worship and music programs",
+    departmentId: "dept_1",
+    isActive: true,
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+  {
+    id: "pos_5",
+    name: "Children Ministry Leader",
+    description: "Oversee children and youth activities",
+    departmentId: "dept_2",
+    isActive: true,
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+  {
+    id: "pos_6",
+    name: "Media Ministry Leader",
+    description: "Manage audio/video and digital content",
+    departmentId: "dept_3",
+    isActive: true,
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+  {
+    id: "pos_7",
+    name: "Outreach Ministry Leader",
+    description: "Lead community outreach efforts",
+    departmentId: "dept_4",
+    isActive: true,
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+]
+
+export const mockPersons: Person[] = [
+  {
+    id: "person_1",
+    name: "John Smith",
+    email: "john.smith@email.com",
+    phone: "+1-555-0101",
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    bio: "Passionate about church leadership and community building. Has served in various leadership roles for over 8 years.",
+    photoUrl: "/professional-man-headshot.png",
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+  {
+    id: "person_2",
+    name: "Sarah Johnson",
+    email: "sarah.johnson@email.com",
+    phone: "+1-555-0102",
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    bio: "Experienced in financial management and church administration. CPA with 12 years of nonprofit experience.",
+    photoUrl: "/professional-woman-headshot.png",
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+  {
+    id: "person_3",
+    name: "Michael Davis",
+    email: "michael.davis@email.com",
+    phone: "+1-555-0103",
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    bio: "Music director with 10+ years of worship leading experience. Skilled in piano, guitar, and vocal coaching.",
+    photoUrl: "/professional-headshot-man-musician.png",
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+  {
+    id: "person_4",
+    name: "Emily Wilson",
+    email: "emily.wilson@email.com",
+    phone: "+1-555-0104",
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    bio: "Children ministry coordinator and early childhood educator. Passionate about nurturing young hearts for Christ.",
+    photoUrl: "/professional-headshot-woman-teacher.png",
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+  {
+    id: "person_5",
+    name: "David Brown",
+    email: "david.brown@email.com",
+    phone: "+1-555-0105",
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    bio: "Media specialist with expertise in audio/video production. Professional broadcast engineer with creative vision.",
+    photoUrl: "/professional-headshot-man-tech.png",
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+  {
+    id: "person_6",
+    name: "Lisa Anderson",
+    email: "lisa.anderson@email.com",
+    phone: "+1-555-0106",
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    bio: "Community outreach coordinator with heart for evangelism. Former missionary with global ministry experience.",
+    photoUrl: "/professional-headshot-woman-community.png",
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+  {
+    id: "person_7",
+    name: "Robert Taylor",
+    email: "robert.taylor@email.com",
+    phone: "+1-555-0107",
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    bio: "Assistant worship leader and sound technician. Brings technical expertise to enhance worship experience.",
+    photoUrl: "/professional-man-headshot.png",
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+  {
+    id: "person_8",
+    name: "Jennifer Martinez",
+    email: "jennifer.martinez@email.com",
+    phone: "+1-555-0108",
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    bio: "Children's Sunday school teacher and youth mentor. Dedicated to discipleship and spiritual growth.",
+    photoUrl: "/professional-woman-headshot.png",
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+  {
+    id: "person_9",
+    name: "Christopher Lee",
+    email: "christopher.lee@email.com",
+    phone: "+1-555-0109",
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    bio: "Video production specialist and live streaming coordinator. Helps extend our reach through digital ministry.",
+    photoUrl: "/professional-headshot-man-tech.png",
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+  {
+    id: "person_10",
+    name: "Amanda Garcia",
+    email: "amanda.garcia@email.com",
+    phone: "+1-555-0110",
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    bio: "Community volunteer coordinator and event organizer. Passionate about connecting with local neighborhoods.",
+    photoUrl: "/professional-headshot-woman-community.png",
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+  {
+    id: "person_11",
+    name: "James Thompson",
+    email: "james.thompson@email.com",
+    phone: "+1-555-0111",
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    bio: "Administrative assistant and meeting coordinator. Ensures smooth operations and effective communication.",
+    photoUrl: "/professional-man-headshot.png",
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+  {
+    id: "person_12",
+    name: "Rachel White",
+    email: "rachel.white@email.com",
+    phone: "+1-555-0112",
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    bio: "New member interested in serving. Recently completed leadership training program.",
+    photoUrl: "/professional-woman-headshot.png",
+    createdAt: "2024-11-01T10:00:00Z",
+    updatedAt: "2024-11-01T10:00:00Z",
+  },
+]
+
+export const mockAppointments: Appointment[] = [
+  // Current tenure appointments (2024)
+  {
+    id: "appt_1",
+    tenureId: "tenure_1",
+    positionId: "pos_1",
+    personId: "person_1",
+    status: "accepted",
+    inviteLink: "/fellowship_123/leadership/invite/token_abc123",
+    inviteToken: "token_abc123",
+    appointedBy: "admin_1",
+    appointedAt: "2023-12-01T10:00:00Z",
+    respondedAt: "2023-12-02T14:30:00Z",
+    createdAt: "2023-12-01T10:00:00Z",
+    updatedAt: "2023-12-02T14:30:00Z",
+  },
+  {
+    id: "appt_2",
+    tenureId: "tenure_1",
+    positionId: "pos_2",
+    personId: "person_11",
+    status: "accepted",
+    inviteLink: "/fellowship_123/leadership/invite/token_sec789",
+    inviteToken: "token_sec789",
+    appointedBy: "admin_1",
+    appointedAt: "2023-12-01T10:00:00Z",
+    respondedAt: "2023-12-02T11:20:00Z",
+    createdAt: "2023-12-01T10:00:00Z",
+    updatedAt: "2023-12-02T11:20:00Z",
+  },
+  {
+    id: "appt_3",
+    tenureId: "tenure_1",
+    positionId: "pos_3",
+    personId: "person_2",
+    status: "accepted",
+    inviteLink: "/fellowship_123/leadership/invite/token_def456",
+    inviteToken: "token_def456",
+    appointedBy: "admin_1",
+    appointedAt: "2023-12-01T10:00:00Z",
+    respondedAt: "2023-12-03T09:15:00Z",
+    createdAt: "2023-12-01T10:00:00Z",
+    updatedAt: "2023-12-03T09:15:00Z",
+  },
+  {
+    id: "appt_4",
+    tenureId: "tenure_1",
+    positionId: "pos_4",
+    personId: "person_3",
+    status: "accepted",
+    inviteLink: "/fellowship_123/leadership/invite/token_ghi789",
+    inviteToken: "token_ghi789",
+    appointedBy: "admin_1",
+    appointedAt: "2023-12-01T10:00:00Z",
+    respondedAt: "2023-12-01T16:45:00Z",
+    createdAt: "2023-12-01T10:00:00Z",
+    updatedAt: "2023-12-01T16:45:00Z",
+  },
+  {
+    id: "appt_5",
+    tenureId: "tenure_1",
+    positionId: "pos_5",
+    personId: "person_4",
+    status: "accepted",
+    inviteLink: "/fellowship_123/leadership/invite/token_jkl012",
+    inviteToken: "token_jkl012",
+    appointedBy: "admin_1",
+    appointedAt: "2023-12-05T10:00:00Z",
+    respondedAt: "2023-12-06T14:20:00Z",
+    createdAt: "2023-12-05T10:00:00Z",
+    updatedAt: "2023-12-06T14:20:00Z",
+  },
+  {
+    id: "appt_6",
+    tenureId: "tenure_1",
+    positionId: "pos_6",
+    personId: "person_5",
+    status: "accepted",
+    inviteLink: "/fellowship_123/leadership/invite/token_mno345",
+    inviteToken: "token_mno345",
+    appointedBy: "admin_1",
+    appointedAt: "2023-12-05T10:00:00Z",
+    respondedAt: "2023-12-05T18:30:00Z",
+    createdAt: "2023-12-05T10:00:00Z",
+    updatedAt: "2023-12-05T18:30:00Z",
+  },
+  {
+    id: "appt_7",
+    tenureId: "tenure_1",
+    positionId: "pos_7",
+    personId: "person_6",
+    status: "accepted",
+    inviteLink: "/fellowship_123/leadership/invite/token_pqr678",
+    inviteToken: "token_pqr678",
+    appointedBy: "admin_1",
+    appointedAt: "2023-12-05T10:00:00Z",
+    respondedAt: "2023-12-07T10:15:00Z",
+    createdAt: "2023-12-05T10:00:00Z",
+    updatedAt: "2023-12-07T10:15:00Z",
+  },
+  // Pending appointments for 2025 tenure
+  {
+    id: "appt_8",
+    tenureId: "tenure_3",
+    positionId: "pos_1",
+    personId: "person_1",
+    status: "pending",
+    inviteLink: "/fellowship_123/leadership/invite/token_2025_pres",
+    inviteToken: "token_2025_pres",
+    appointedBy: "admin_1",
+    appointedAt: "2024-11-15T10:00:00Z",
+    respondedAt: null,
+    createdAt: "2024-11-15T10:00:00Z",
+    updatedAt: "2024-11-15T10:00:00Z",
+  },
+  {
+    id: "appt_9",
+    tenureId: "tenure_3",
+    positionId: "pos_4",
+    personId: "person_12",
+    status: "pending",
+    inviteLink: "/fellowship_123/leadership/invite/token_2025_music",
+    inviteToken: "token_2025_music",
+    appointedBy: "admin_1",
+    appointedAt: "2024-11-20T10:00:00Z",
+    respondedAt: null,
+    createdAt: "2024-11-20T10:00:00Z",
+    updatedAt: "2024-11-20T10:00:00Z",
+  },
+  // Declined appointment example
+  {
+    id: "appt_10",
+    tenureId: "tenure_1",
+    positionId: "pos_2",
+    personId: "person_7",
+    status: "declined",
+    inviteLink: "/fellowship_123/leadership/invite/token_declined_sec",
+    inviteToken: "token_declined_sec",
+    appointedBy: "admin_1",
+    appointedAt: "2023-11-20T10:00:00Z",
+    respondedAt: "2023-11-22T15:45:00Z",
+    createdAt: "2023-11-20T10:00:00Z",
+    updatedAt: "2023-11-22T15:45:00Z",
+  },
+  // Past tenure appointments for history
+  {
+    id: "appt_11",
+    tenureId: "tenure_2",
+    positionId: "pos_1",
+    personId: "person_2",
+    status: "accepted",
+    inviteLink: "/fellowship_123/leadership/invite/token_2023_pres",
+    inviteToken: "token_2023_pres",
+    appointedBy: "admin_1",
+    appointedAt: "2022-12-01T10:00:00Z",
+    respondedAt: "2022-12-02T14:30:00Z",
+    createdAt: "2022-12-01T10:00:00Z",
+    updatedAt: "2022-12-02T14:30:00Z",
+  },
+  {
+    id: "appt_12",
+    tenureId: "tenure_2",
+    positionId: "pos_4",
+    personId: "person_3",
+    status: "accepted",
+    inviteLink: "/fellowship_123/leadership/invite/token_2023_music",
+    inviteToken: "token_2023_music",
+    appointedBy: "admin_1",
+    appointedAt: "2022-12-01T10:00:00Z",
+    respondedAt: "2022-12-01T16:45:00Z",
+    createdAt: "2022-12-01T10:00:00Z",
+    updatedAt: "2022-12-01T16:45:00Z",
+  },
+]
+
+export const mockDepartmentMembers: DepartmentMember[] = [
+  // Music Ministry Members
+  { departmentId: "dept_1", personId: "person_3", role: "leader", joinedAt: "2023-01-01T10:00:00Z" },
+  { departmentId: "dept_1", personId: "person_7", role: "member", joinedAt: "2023-06-15T10:00:00Z" },
+  { departmentId: "dept_1", personId: "person_12", role: "member", joinedAt: "2024-09-01T10:00:00Z" },
+
+  // Children Ministry Members
+  { departmentId: "dept_2", personId: "person_4", role: "leader", joinedAt: "2023-01-01T10:00:00Z" },
+  { departmentId: "dept_2", personId: "person_8", role: "member", joinedAt: "2023-03-20T10:00:00Z" },
+
+  // Media Ministry Members
+  { departmentId: "dept_3", personId: "person_5", role: "leader", joinedAt: "2023-01-01T10:00:00Z" },
+  { departmentId: "dept_3", personId: "person_9", role: "member", joinedAt: "2023-08-10T10:00:00Z" },
+
+  // Outreach Ministry Members
+  { departmentId: "dept_4", personId: "person_6", role: "leader", joinedAt: "2023-01-01T10:00:00Z" },
+  { departmentId: "dept_4", personId: "person_10", role: "member", joinedAt: "2023-05-12T10:00:00Z" },
+]
+
+
+export const mockPermissions: Permission[] = [
+  {
+    id: "perm_1",
+    role: "super_admin",
+    actions: [
+      "create_tenure",
+      "edit_tenure",
+      "delete_tenure",
+      "manage_positions",
+      "manage_appointments",
+      "manage_permissions",
+    ],
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    userId: "admin_1",
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+  {
+    id: "perm_2",
+    role: "tenure_manager",
+    actions: ["create_tenure", "edit_tenure", "manage_appointments"],
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    userId: "admin_2",
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+  {
+    id: "perm_3",
+    role: "department_head",
+    actions: ["view_appointments", "manage_department_positions"],
+    fellowshipId: MOCK_FELLOWSHIP_ID,
+    userId: "admin_3",
+    createdAt: "2023-01-01T10:00:00Z",
+    updatedAt: "2023-01-01T10:00:00Z",
+  },
+]
+ main

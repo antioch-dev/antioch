@@ -8,7 +8,20 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
-import { Mail, Phone, MapPin, Clock, Send, CheckCircle, MessageSquare, HeadphonesIcon, Globe, Users, Shield, Heart } from 'lucide-react'
+import {
+  Mail,
+  Phone,
+  MapPin,
+  Clock,
+  Send,
+  CheckCircle,
+  MessageSquare,
+  HeadphonesIcon,
+  Globe,
+  Users,
+  Shield,
+  Heart,
+} from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { ScrollAnimation } from "@/components/scroll-animation"
 
@@ -148,7 +161,7 @@ export default function ContactPage() {
         category: "",
         message: "",
       })
-    } catch{
+    } catch {
       toast({
         title: "Submission Failed",
         description: "There was an error sending your message. Please try again.",
@@ -167,9 +180,7 @@ export default function ContactPage() {
           <div className="text-center mb-12">
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
               Get in{" "}
-              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                Touch
-              </span>
+              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Touch</span>
             </h1>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
               {`We're here to help you succeed. Reach out to our team for support, questions, or just to say hello.`}
@@ -186,7 +197,9 @@ export default function ContactPage() {
                 className="group bg-white/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-2xl transition-all duration-500 rounded-2xl hover:scale-105 text-center"
               >
                 <CardContent className="p-6">
-                  <div className={`inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br ${method.color} rounded-2xl mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                  <div
+                    className={`inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br ${method.color} rounded-2xl mb-4 group-hover:scale-110 transition-transform duration-300`}
+                  >
                     <method.icon className="h-8 w-8 text-white" />
                   </div>
                   <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors duration-300">
@@ -301,7 +314,8 @@ export default function ContactPage() {
 
                   <div className="bg-blue-50 p-4 rounded-2xl">
                     <p className="text-sm text-blue-800">
-                      <strong>Response Time:</strong> We typically respond within 24 hours during business days. For urgent technical issues, please use our live chat or phone support.
+                      <strong>Response Time:</strong> We typically respond within 24 hours during business days. For
+                      urgent technical issues, please use our live chat or phone support.
                     </p>
                   </div>
 
@@ -397,15 +411,23 @@ export default function ContactPage() {
                   <div className="space-y-4">
                     <div>
                       <h4 className="font-semibold text-gray-900 mb-2">How quickly do you respond to inquiries?</h4>
-                      <p className="text-sm text-gray-600">We respond to all inquiries within 24 hours during business days. Urgent technical issues are prioritized.</p>
+                      <p className="text-sm text-gray-600">
+                        We respond to all inquiries within 24 hours during business days. Urgent technical issues are
+                        prioritized.
+                      </p>
                     </div>
                     <div>
                       <h4 className="font-semibold text-gray-900 mb-2">Do you offer phone support?</h4>
-                      <p className="text-sm text-gray-600">Yes, phone support is available during business hours. You can also schedule a call for complex technical discussions.</p>
+                      <p className="text-sm text-gray-600">
+                        Yes, phone support is available during business hours. You can also schedule a call for complex
+                        technical discussions.
+                      </p>
                     </div>
                     <div>
                       <h4 className="font-semibold text-gray-900 mb-2">Can I visit your offices?</h4>
-                      <p className="text-sm text-gray-600">Office visits are by appointment only. Please contact us in advance to schedule a meeting.</p>
+                      <p className="text-sm text-gray-600">
+                        Office visits are by appointment only. Please contact us in advance to schedule a meeting.
+                      </p>
                     </div>
                   </div>
                 </CardContent>
@@ -499,7 +521,7 @@ export default function ContactPage() {
                 Message Sent Successfully!
               </DialogTitle>
               <DialogDescription className="text-center text-gray-600 leading-relaxed text-sm sm:text-base px-2">
-               {`Thank you for contacting us. We've received your message and will respond within 24 hours during business days. For urgent matters, please use our live chat or phone support.`}
+                {`Thank you for contacting us. We've received your message and will respond within 24 hours during business days. For urgent matters, please use our live chat or phone support.`}
               </DialogDescription>
             </DialogHeader>
             <div className="flex justify-center mt-6 sm:mt-8">
