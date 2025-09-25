@@ -1,3 +1,4 @@
+
 export interface User {
   id: string
   name: string
@@ -1739,3 +1740,5 @@ export const mockPermissions: Permission[] = [
     updatedAt: "2023-01-01T10:00:00Z",
   },
 ]
+
+
