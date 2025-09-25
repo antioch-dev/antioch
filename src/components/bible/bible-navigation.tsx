@@ -26,14 +26,15 @@ export function BibleNavigation() {
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
      
       <div className="w-full flex h-16 items-center justify-between px-6">
-        {/* Logo */}
+        
+
+        {/* Desktop Navigation - Centered */}
+        <div className="hidden md:flex flex-1 items-center justify-center space-x-6">
+          {/* Logo */}
         <Link href="/fellowship1/bible" className="flex items-center space-x-2">
           <Book className="h-6 w-6 text-primary" />
           <span className="font-bold text-xl">Antioch Bible</span>
         </Link>
-
-        {/* Desktop Navigation - Centered */}
-        <div className="hidden md:flex flex-1 items-center justify-center space-x-6">
           {navigationItems.map((item) => {
             const Icon = item.icon
             return (
@@ -50,11 +51,13 @@ export function BibleNavigation() {
               </Link>
             )
           })}
-        </div>
-
-        {/* Right side actions */}
+{/* Right side actions */}
         <div className="flex items-center space-x-2">
           <ThemeToggle />
+
+        </div>
+
+        
 
           {/* Mobile menu button */}
           <Button
