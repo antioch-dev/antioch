@@ -37,8 +37,10 @@ export function Header() {
           
            <Link
             href="/fellowship1/Prayer-system"
-            className="text-sm font-medium transition-colors hover:text-primary>
+            className="text-sm font-medium transition-colors hover:text-primary"
+           >
             PrayerPal
+          </Link>
           <Link href="/fellowship1/qa" className="text-sm font-medium transition-colors hover:text-primary">
             QAsystem
           </Link>

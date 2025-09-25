@@ -1015,7 +1015,6 @@ export const mockCheckouts = [
     created_at: new Date(Date.now() - 172800000).toISOString(), // 2 days ago
   },
 ]
- prayer_system
 export interface PrayerRequest {
   id: string
   name: string
@@ -1278,7 +1277,7 @@ export const getAssignmentsByRequestId = (requestId: string): PrayerAssignment[]
 export const getAssignmentsByMember = (member: string): PrayerAssignment[] => {
   return mockPrayerAssignments.filter((assignment) => assignment.assignedMember === member)
 }
-=======
+
 
 // qa system mock data
 export interface Topic {
@@ -2003,4 +2002,4 @@ export const mockPermissions: Permission[] = [
     updatedAt: "2023-01-01T10:00:00Z",
   },
 ]
- main
+ 

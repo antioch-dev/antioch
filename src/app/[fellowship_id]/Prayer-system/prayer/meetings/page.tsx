@@ -56,7 +56,6 @@ export default function PrayerMeetings() {
   const [isDetailsDialogOpen, setIsDetailsDialogOpen] = useState(false)
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
   const [editingMeeting, setEditingMeeting] = useState<PrayerMeeting | null>(null)
-  const [currentDate, setCurrentDate] = useState(new Date())
   const [viewMode, setViewMode] = useState<'calendar' | 'list'>('list')
 
   const [formData, setFormData] = useState({
