@@ -24,14 +24,15 @@ export function BibleNavigation() {
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center justify-between px-4">
+     
+      <div className="w-full flex h-16 items-center justify-between px-6">
         {/* Logo */}
         <Link href="/fellowship1/bible" className="flex items-center space-x-2">
           <Book className="h-6 w-6 text-primary" />
           <span className="font-bold text-xl">Antioch Bible</span>
         </Link>
 
-        {/* Desktop Navigation - Centered Responsively */}
+        {/* Desktop Navigation - Centered */}
         <div className="hidden md:flex flex-1 items-center justify-center space-x-6">
           {navigationItems.map((item) => {
             const Icon = item.icon
@@ -70,7 +71,7 @@ export function BibleNavigation() {
       {/* Mobile Navigation */}
       {isMobileMenuOpen && (
         <div className="md:hidden border-t bg-background">
-          <div className="container px-4 py-4 space-y-2 flex flex-col items-center">
+          <div className="px-4 py-4 space-y-2 flex flex-col items-center">
             {navigationItems.map((item) => {
               const Icon = item.icon
               return (
