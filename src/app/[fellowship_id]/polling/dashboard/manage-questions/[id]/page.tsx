@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/input"
 import { toast } from "@/components/ui/use-toast"
 import { getQuestionnaireById, updateQuestion, deleteQuestion, getAllTopics } from "@/lib/data"
-import type { Question, Topic } from "@/lib/types"
+import type { Question, Topic } from "@/lib/polling-mock"
 import { useRouter } from "next/navigation"
 import { CheckCircle, XCircle, AlertCircle, Trash2, Search, Filter } from "lucide-react"
 
@@ -173,7 +173,7 @@ export default function ManageQuestionsPage({ params }: { params: { id: string }
   const getTopicName = (topicId?: string) => {
     if (!topicId) return "No Topic"
     const topic = topics.find((t) => t.id === topicId)
-    return topic ? topic.name : "Unknown Topic"
+    return topic ? topic.name : "Unknown Topic" 
   }
 
   const getTopicColor = (topicId?: string) => {

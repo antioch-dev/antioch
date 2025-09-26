@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { generateMockResponses } from "@/lib/mock-data"
+import { generateMockResponses } from "@/lib/polling-mock"
 import { useEffect, useState } from "react"
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts"
 import { ChartContainer, ChartTooltip } from "@/components/ui/chart"

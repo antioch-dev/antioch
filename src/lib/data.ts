@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from "uuid"
-import type { QuestionGroup, Topic, Question, Response } from "./types"
-import { generateMockResponses, generateMockTopics } from "./mock-data"
+import type { QuestionGroup, Topic, Question, Response } from "@/lib/polling-mock"
+import { generateMockResponses, generateMockTopics } from "@/lib/polling-mock"
 
 const STORAGE_KEY = "quickpoll_questionnaires"
 const TOPICS_KEY = "quickpoll_topics"

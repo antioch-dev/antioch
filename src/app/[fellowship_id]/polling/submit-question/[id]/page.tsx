@@ -100,7 +100,7 @@ export default function SubmitQuestionPage({ params }: { params: { id: string } 
         options: values.type === "multiple-choice" ? options.filter(Boolean) : undefined,
       }
 
-      await submitUserQuestion(questionnaire.id, questionData)
+       submitUserQuestion(questionnaire.id, questionData)
       setSubmitted(true)
       toast({
         title: "Success",
@@ -189,7 +189,7 @@ export default function SubmitQuestionPage({ params }: { params: { id: string } 
         <CardHeader>
           <CardTitle>Submit a Question</CardTitle>
           <CardDescription>
-            Submit your own question to be added to "{questionnaire.title}". Your question will be reviewed before being
+            Submit your own question to be added to `{questionnaire.title}`. Your question will be reviewed before being
             added.
           </CardDescription>
         </CardHeader>

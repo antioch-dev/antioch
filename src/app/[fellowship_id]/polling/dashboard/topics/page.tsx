@@ -10,7 +10,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { toast } from "@/components/ui/use-toast"
 import { PlusCircle, Trash2, Edit, Check, X } from "lucide-react"
 import { getAllTopics, saveTopic, deleteTopic } from "@/lib/data"
-import type { Topic } from "@/lib/types"
+import type { Topic } from "@/lib/polling-mock"
 import { v4 as uuidv4 } from "uuid"
 
 export default function TopicsPage() {

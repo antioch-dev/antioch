@@ -31,7 +31,7 @@ const formSchema = z.object({
 
 export default function CreateQuestionnairePage() {
   const router = useRouter()
-  const [questions, setQuestions] = useState<any[]>([])
+  const [questions, setQuestions] = useState<unknown[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -76,7 +76,7 @@ export default function CreateQuestionnairePage() {
     }
   }
 
-  const addQuestion = (question: any) => {
+  const addQuestion = (question: unknown) => {
     setQuestions([...questions, question])
   }
 
