@@ -9,10 +9,11 @@ import { getQuestionnaireById } from "@/lib/data"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Loader2 } from "lucide-react"
+import type { QuestionGroup } from "@/lib/polling-mock"
 
 export default function QuestionnairePage({ params }: { params: { id: string } }) {
   const router = useRouter()
-  const [questionnaire, setQuestionnaire] = useState<any>(null)
+  const [questionnaire, setQuestionnaire] = useState<QuestionGroup | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
