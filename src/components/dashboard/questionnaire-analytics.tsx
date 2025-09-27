@@ -6,13 +6,25 @@ import { generateMockResponses } from "@/lib/polling-mock"
 import { useEffect, useState } from "react"
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts"
 import { ChartContainer, ChartTooltip } from "@/components/ui/chart"
+import type { Question, Response } from "@/lib/polling-mock"
+
+export interface Questionnaire {
+  id: string;
+  title: string;
+  description?: string;
+  questions: Question[];
+  responses: Response[];
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 
 interface QuestionnaireAnalyticsProps {
-  questionnaire: any
+  questionnaire: Questionnaire;
 }
 
 export function QuestionnaireAnalytics({ questionnaire }: QuestionnaireAnalyticsProps) {
-  const [responses, setResponses] = useState<any[]>([])
+  const [responses, setResponses] = useState<Response[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -69,8 +81,8 @@ export function QuestionnaireAnalytics({ questionnaire }: QuestionnaireAnalytics
   const getMultipleChoiceStats = (questionId: string) => {
     if (!questionId) return []
 
-    const question = questions.find((q: any) => q && q.id === questionId)
-    if (!question || !question.options || !Array.isArray(question.options)) return []
+    const question = questions.find((q: Question) => q && q.id === questionId)
+    if (!question?.options || !Array.isArray(question.options)) return []
 
     const counts: Record<string, number> = {}
     // Initialize all options with zero count
@@ -83,7 +95,7 @@ export function QuestionnaireAnalytics({ questionnaire }: QuestionnaireAnalytics
     // Count responses
     if (Array.isArray(responses)) {
       responses.forEach((response) => {
-        if (response && response.answers && response.answers[questionId]) {
+        if (response?.answers?.[questionId]) {
           const answer = response.answers[questionId]
           if (answer && counts[answer] !== undefined) {
             counts[answer] = (counts[answer] || 0) + 1
@@ -100,7 +112,7 @@ export function QuestionnaireAnalytics({ questionnaire }: QuestionnaireAnalytics
 
   const getTextResponseCount = (questionId: string) => {
     if (!questionId || !Array.isArray(responses)) return 0
-    return responses.filter((response) => response && response.answers && response.answers[questionId]).length
+    return responses.filter((response) => response?.answers?.[questionId]).length
   }
 
   const getCompletionRate = () => {
@@ -111,7 +123,7 @@ export function QuestionnaireAnalytics({ questionnaire }: QuestionnaireAnalytics
 
     if (Array.isArray(responses)) {
       responses.forEach((response) => {
-        if (response && response.answers) {
+        if (response?.answers) {
           const answeredCount = Object.keys(response.answers || {}).length
           totalAnswered += answeredCount
         }
@@ -130,7 +142,7 @@ export function QuestionnaireAnalytics({ questionnaire }: QuestionnaireAnalytics
       <Card>
         <CardHeader>
           <CardTitle>No Questions Available</CardTitle>
-          <CardDescription>This questionnaire doesn't have any questions yet.</CardDescription>
+          <CardDescription>{`This questionnaire doesn't have any questions yet.`}</CardDescription>
         </CardHeader>
         <CardContent>
           <p>Add questions to your questionnaire to see analytics.</p>
@@ -173,13 +185,13 @@ export function QuestionnaireAnalytics({ questionnaire }: QuestionnaireAnalytics
           {questions.length > 0 ? (
             <Tabs defaultValue={questions[0]?.id || "tab-0"}>
               <TabsList className="mb-4 w-full overflow-x-auto">
-                {questions.map((question: any, index: number) => (
+                {questions.map((question: Question, index: number) => (
                   <TabsTrigger key={question?.id || `question-${index}`} value={question?.id || `tab-${index}`}>
                     Question {index + 1}
                   </TabsTrigger>
                 ))}
               </TabsList>
-              {questions.map((question: any, index: number) => {
+              {questions.map((question: Question, index: number) => {
                 if (!question) return null
 
                 const questionId = question.id || `question-${index}`
@@ -203,7 +215,7 @@ export function QuestionnaireAnalytics({ questionnaire }: QuestionnaireAnalytics
                           </CardHeader>
                           <CardContent>
                             <div className="h-[300px]">
-                              <ChartContainer>
+                              <ChartContainer config={{}}>
                                 <ResponsiveContainer width="100%" height="100%">
                                   <BarChart data={getMultipleChoiceStats(questionId)}>
                                     <CartesianGrid strokeDasharray="3 3" />
@@ -223,7 +235,7 @@ export function QuestionnaireAnalytics({ questionnaire }: QuestionnaireAnalytics
                           </CardHeader>
                           <CardContent>
                             <div className="h-[300px]">
-                              <ChartContainer>
+                              <ChartContainer config={{}}>
                                 <ResponsiveContainer width="100%" height="100%">
                                   <PieChart>
                                     <Pie
@@ -238,7 +250,7 @@ export function QuestionnaireAnalytics({ questionnaire }: QuestionnaireAnalytics
                                         `${name || ""}: ${((percent || 0) * 100).toFixed(0)}%`
                                       }
                                     >
-                                      {getMultipleChoiceStats(questionId).map((entry: any, i: number) => (
+                                      {getMultipleChoiceStats(questionId).map((_entry: unknown, i: number) => (
                                         <Cell key={`cell-${i}`} fill={COLORS[i % COLORS.length]} />
                                       ))}
                                     </Pie>
@@ -266,7 +278,7 @@ export function QuestionnaireAnalytics({ questionnaire }: QuestionnaireAnalytics
                               {Array.isArray(responses) && responses.length > 0 ? (
                                 responses
                                   .slice(0, 5)
-                                  .filter((response) => response?.answers && response.answers[questionId])
+                                  .filter((response) => response?.answers?.[questionId])
                                   .map((response, idx) => (
                                     <div key={idx} className="rounded-lg border p-3 text-sm">
                                       {response.answers[questionId]}
