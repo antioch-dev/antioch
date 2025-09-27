@@ -17,15 +17,15 @@ export function QuestionGroupList() {
 
   const filteredGroups = questionGroups.filter((group) => group.title.toLowerCase().includes(searchTerm.toLowerCase()))
 
-  const copyToClipboard = (url: string) => {
-    navigator.clipboard.writeText(`${window.location.origin}${url}`)
+  const copyToClipboard = async (url: string) => {
+   await navigator.clipboard.writeText(`${window.location.origin}${url}`)
     toast({
       title: "Link copied",
       description: "The link has been copied to your clipboard.",
     })
   }
 
-  const getStatus = (group: any) => {
+  const getStatus = (group: { startDate?: string; endDate?: string }) => {
     const now = new Date()
     if (group.endDate && new Date(group.endDate) < now) {
       return "Closed"
