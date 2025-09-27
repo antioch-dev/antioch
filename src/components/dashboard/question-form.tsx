@@ -14,6 +14,7 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { v4 as uuidv4 } from "uuid"
 import { Label } from "@/components/ui/label"
+import type { Question }  from "@/lib/polling-mock"
 
 const questionSchema = z.object({
   type: z.enum(["text", "multiple-choice"]),
@@ -23,8 +24,8 @@ const questionSchema = z.object({
 })
 
 interface QuestionFormProps {
-  onAddQuestion: (question: any) => void
-  questions: any[]
+  onAddQuestion: (question: Question) => void
+  questions: Question[]
   onRemoveQuestion: (index: number) => void
 }
 
@@ -39,7 +40,7 @@ export function QuestionForm({ onAddQuestion, questions, onRemoveQuestion }: Que
     },
   })
 
-  const questionType = form.watch("type")
+  const questionType: Question["type"] = form.watch("type")
 
   const onSubmit = (values: z.infer<typeof questionSchema>) => {
     if (values.type === "multiple-choice" && options.filter(Boolean).length < 2) {
@@ -51,15 +52,21 @@ export function QuestionForm({ onAddQuestion, questions, onRemoveQuestion }: Que
       return
     }
 
-    const question = {
-      id: uuidv4(),
-      ...values,
-      options: values.type === "multiple-choice" ? options.filter(Boolean) : undefined,
-    }
+   const question: Question = {
+  id: uuidv4(),
+  ...values,
+  options:
+    values.type === "multiple-choice"
+      ? options.filter(Boolean)
+      : undefined,
+  status: "active",
+  moderationStatus: "pending",
+  createdAt: new Date().toISOString(),
+};
 
-    onAddQuestion(question)
-    form.reset()
-    setOptions([""])
+onAddQuestion(question);
+form.reset();
+setOptions([""]);
 
     toast({
       title: "Question added",
