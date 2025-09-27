@@ -19,6 +19,7 @@ import { cn } from "@/lib/utils"
 import { format } from "date-fns"
 import { Calendar } from "@/components/ui/calendar"
 import { createQuestionGroup } from "@/lib/actions"
+import type { Question } from "@/lib/polling-mock"
 
 const formSchema = z.object({
   title: z.string().min(2, {
@@ -31,7 +32,7 @@ const formSchema = z.object({
 
 export default function CreateQuestionnairePage() {
   const router = useRouter()
-  const [questions, setQuestions] = useState<unknown[]>([])
+  const [questions, setQuestions] = useState<Question[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -65,7 +66,7 @@ export default function CreateQuestionnairePage() {
       })
 
       router.push(`/dashboard/questionnaire/${result.id}`)
-    } catch (error) {
+    } catch {
       toast({
         title: "Error",
         description: "Failed to create questionnaire.",
@@ -76,7 +77,7 @@ export default function CreateQuestionnairePage() {
     }
   }
 
-  const addQuestion = (question: unknown) => {
+  const addQuestion = (question: Question) => {
     setQuestions([...questions, question])
   }
 

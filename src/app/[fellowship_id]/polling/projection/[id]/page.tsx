@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { MessageSquare, Settings, Loader2 } from "lucide-react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useRouter } from "next/navigation"
+import type { Question, Response } from "@/lib/polling-mock"
 
 // Ultra-minimal component with no complex object operations
 export default function ProjectionPage({ params }: { params: { id: string } }) {
@@ -13,12 +14,12 @@ export default function ProjectionPage({ params }: { params: { id: string } }) {
   const [title, setTitle] = useState<string>("Loading...")
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [questions, setQuestions] = useState<any[]>([])
+  const [questions, setQuestions] = useState<Question[]>([])
   const [currentIndex, setCurrentIndex] = useState(0)
   const [showSettings, setShowSettings] = useState(false)
   const [autoAdvance, setAutoAdvance] = useState(false)
   const [autoAdvanceInterval, setAutoAdvanceInterval] = useState(30)
-  const [responseData, setResponseData] = useState<any[]>([])
+  const [responseData, setResponseData] = useState<Response[]>([])
   const [textResponses, setTextResponses] = useState<string[]>([])
 
   // Safe colors array
@@ -34,29 +35,56 @@ export default function ProjectionPage({ params }: { params: { id: string } }) {
         setTitle("Sample Questionnaire")
 
         // Create minimal sample questions
-        const sampleQuestions = [
+        const sampleQuestions: Question[] = [
           {
             id: "q1",
             type: "multiple-choice",
             prompt: "How satisfied are you with our service?",
             options: ["Very Satisfied", "Satisfied", "Neutral", "Dissatisfied", "Very Dissatisfied"],
+            createdAt: new Date().toISOString()
           },
           {
             id: "q2",
             type: "text",
             prompt: "What improvements would you suggest?",
+            createdAt: new Date().toISOString()
           },
         ]
 
         setQuestions(sampleQuestions)
 
         // Create sample response data for the first question
-        const sampleResponseData = [
-          { name: "Very Satisfied", value: 15 },
-          { name: "Satisfied", value: 30 },
-          { name: "Neutral", value: 20 },
-          { name: "Dissatisfied", value: 10 },
-          { name: "Very Dissatisfied", value: 5 },
+        const sampleResponseData: Response[] = [
+          {
+            name: "Very Satisfied", value: 15,
+            id: "",
+            answers: { a: "Very satisfied" },
+            submittedAt: ""
+          },
+          {
+            name: "Satisfied", value: 30,
+            id: "",
+            answers: { a: "Somewhat satisfied" },
+            submittedAt: ""
+          },
+          {
+            name: "Neutral", value: 20,
+            id: "",
+            answers: { a: "Neutral" },
+            submittedAt: ""
+          },
+          {
+            name: "Dissatisfied", value: 10,
+            id: "",
+            answers: { a: "Dissatisfied" },
+            submittedAt: ""
+          },
+          {
+            name: "Very Dissatisfied", value: 5,
+            id: "",
+            answers: { a: "Very dissatisfied" },
+            submittedAt: ""
+          }, 
         ]
 
         setResponseData(sampleResponseData)
@@ -78,7 +106,7 @@ export default function ProjectionPage({ params }: { params: { id: string } }) {
       }
     }
 
-    loadData()
+   void loadData()
   }, [params.id])
 
   useEffect(() => {
@@ -142,7 +170,7 @@ export default function ProjectionPage({ params }: { params: { id: string } }) {
         <div className="text-center max-w-md">
           <MessageSquare className="mx-auto h-12 w-12" />
           <h2 className="mt-4 text-xl font-semibold">No Questions Available</h2>
-          <p className="mt-2 text-gray-400">This questionnaire doesn't have any questions yet.</p>
+          <p className="mt-2 text-gray-400">{`This questionnaire doesn't have any questions yet.`}</p>
           <Button variant="outline" className="mt-4" onClick={() => router.push("/dashboard")}>
             Return to Dashboard
           </Button>
@@ -235,9 +263,9 @@ export default function ProjectionPage({ params }: { params: { id: string } }) {
 
         <Card className="bg-gray-900 border-gray-800">
           <CardHeader>
-            <CardTitle className="text-2xl">{currentQuestion.prompt}</CardTitle>
+            <CardTitle className="text-2xl">{currentQuestion?.prompt}</CardTitle>
             <CardDescription className="text-gray-400">
-              {currentQuestion.type === "text" ? "Text Response" : "Multiple Choice"}
+              {currentQuestion?.type === "text" ? "Text Response" : "Multiple Choice"}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -248,7 +276,7 @@ export default function ProjectionPage({ params }: { params: { id: string } }) {
               </TabsList>
 
               <TabsContent value="results">
-                {currentQuestion.type === "multiple-choice" ? (
+                {currentQuestion?.type === "multiple-choice" ? (
                   <div className="h-[400px]">
                     {responseData.length > 0 ? (
                       <div className="p-4 text-center">
@@ -294,7 +322,7 @@ export default function ProjectionPage({ params }: { params: { id: string } }) {
               </TabsContent>
 
               <TabsContent value="responses">
-                {currentQuestion.type === "text" ? (
+                {currentQuestion?.type === "text" ? (
                   <div className="space-y-2 max-h-[400px] overflow-y-auto pr-2">
                     {textResponses.length === 0 ? (
                       <p className="text-center py-8 text-gray-400">No responses yet</p>

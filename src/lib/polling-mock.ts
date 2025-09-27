@@ -1,3 +1,4 @@
+import type { ReactNode } from "react"
 
 
 export type QuestionType = "text" | "multiple-choice"
@@ -19,8 +20,10 @@ export interface Answer {
 }
 
 export interface Response {
+  name: ReactNode
+  value: number 
   id: string
-  answers: Record<string, string>
+  answers: Record<string, string> 
   submittedAt: string
   respondentInfo?: {
     name?: string
@@ -96,6 +99,8 @@ export function generateMockResponses(questionnaire: { questions: Question[] }):
           new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
           new Date()
         ).toISOString(),
+        name: undefined,
+        value: 1
       })
     }
 
