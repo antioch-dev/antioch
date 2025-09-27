@@ -7,9 +7,30 @@ import { Copy, ExternalLink, MessageSquare, BarChart3 } from "lucide-react"
 import Link from "next/link"
 import { toast } from "@/components/ui/use-toast"
 import { useRouter } from "next/navigation"
+import type { Question, Response } from "@/lib/polling-mock"
+
+export interface Questionnaire {
+  id: string;
+  title: string;
+  description?: string;
+  questions: Question[];
+  responses: Response[];
+  createdAt: Date;
+  updatedAt: Date;
+  endDate?: string;
+  startDate?: string;
+  answererUrl?: string;
+  projectionUrl?: string;
+  adminUrl?: string;
+  settings?: {
+    allowAnonymous?: boolean;
+    moderationEnabled?: boolean;
+    allowQuestionSubmission?: boolean;
+  };
+}
 
 interface QuestionnaireDetailsProps {
-  questionnaire: any
+  questionnaire: Questionnaire
 }
 
 export function QuestionnaireDetails({ questionnaire }: QuestionnaireDetailsProps) {
@@ -32,15 +53,15 @@ export function QuestionnaireDetails({ questionnaire }: QuestionnaireDetailsProp
     )
   }
 
-  const copyToClipboard = (url: string) => {
-    navigator.clipboard.writeText(`${window.location.origin}${url}`)
+  const copyToClipboard = async (url: string) => {
+    await navigator.clipboard.writeText(`${window.location.origin}${url}`)
     toast({
       title: "Link copied",
       description: "The link has been copied to your clipboard.",
     })
   }
 
-  const getStatus = (questionnaire: any) => {
+  const getStatus = (questionnaire: Questionnaire) => {
     if (!questionnaire) return "Unknown"
 
     const now = new Date()
@@ -206,7 +227,7 @@ export function QuestionnaireDetails({ questionnaire }: QuestionnaireDetailsProp
         <CardContent>
           {questions.length > 0 ? (
             <div className="space-y-4">
-              {questions.map((question: any, index: number) => (
+              {questions.map((question: Question, index: number) => (
                 <div key={index} className="rounded-lg border p-4">
                   <div className="flex items-start justify-between">
                     <div>
