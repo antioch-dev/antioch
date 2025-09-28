@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid"
-import type { QuestionGroup, Question, Topic, Response } from "./types"
+import type { QuestionGroup, Question, Topic, Response } from "@/lib/polling-mock"
 
 // Storage keys
 const STORAGE_KEY = "quickpoll_questionnaires"
@@ -100,7 +100,7 @@ const sampleQuestionnaire: QuestionGroup = {
 }
 
 // Initialize with some sample data if empty
-const initializeData = () => {
+const initializeData = (): QuestionGroup[] => {
   if (typeof window === "undefined") {
     // Return sample data for server-side rendering
     return [sampleQuestionnaire]
@@ -109,11 +109,12 @@ const initializeData = () => {
   try {
     const existingData = localStorage.getItem(STORAGE_KEY)
     if (existingData) {
-      return JSON.parse(existingData)
+      const parsedData = JSON.parse(existingData) as QuestionGroup[]
+      return parsedData
     }
 
     // Create sample questionnaire with responses
-    const initialData = [sampleQuestionnaire]
+    const initialData: QuestionGroup[] = [sampleQuestionnaire]
     localStorage.setItem(STORAGE_KEY, JSON.stringify(initialData))
     return initialData
   } catch (error) {
@@ -123,7 +124,7 @@ const initializeData = () => {
 }
 
 // Initialize topics
-const initializeTopics = () => {
+const initializeTopics = (): Topic[] => {
   if (typeof window === "undefined") {
     // Return sample topics for server-side rendering
     return sampleTopics
@@ -132,7 +133,8 @@ const initializeTopics = () => {
   try {
     const existingTopics = localStorage.getItem(TOPICS_STORAGE_KEY)
     if (existingTopics) {
-      return JSON.parse(existingTopics)
+      const parsedTopics = JSON.parse(existingTopics) as Topic[]
+      return parsedTopics
     }
 
     // Create sample topics
@@ -145,35 +147,35 @@ const initializeTopics = () => {
 }
 
 // Get all question groups
-export const getAllQuestionGroups = () => {
+export const getAllQuestionGroups = (): QuestionGroup[] => {
   return initializeData()
 }
 
 // Get all topics
-export const getAllTopics = () => {
+export const getAllTopics = (): Topic[] => {
   return initializeTopics()
 }
 
 // Get a questionnaire by ID
-export const getQuestionnaireById = (id: string) => {
+export const getQuestionnaireById = (id: string): QuestionGroup | null => {
   const questionnaires = getAllQuestionGroups()
   return questionnaires.find((q: QuestionGroup) => q.id === id) || null
 }
 
 // Get a questionnaire by answerer URL
-export const getQuestionnaireByAnswerUrl = (url: string) => {
+export const getQuestionnaireByAnswerUrl = (url: string): QuestionGroup | null => {
   const questionnaires = getAllQuestionGroups()
   return questionnaires.find((q: QuestionGroup) => q.answererUrl === url) || null
 }
 
 // Get a questionnaire by projection URL
-export const getQuestionnaireByProjectionUrl = (url: string) => {
+export const getQuestionnaireByProjectionUrl = (url: string): QuestionGroup | null => {
   const questionnaires = getAllQuestionGroups()
   return questionnaires.find((q: QuestionGroup) => q.projectionUrl === url) || null
 }
 
 // Save a question group
-export const saveQuestionGroup = (questionGroup: QuestionGroup) => {
+export const saveQuestionGroup = (questionGroup: QuestionGroup): QuestionGroup => {
   if (typeof window === "undefined") return questionGroup
 
   try {
@@ -198,7 +200,7 @@ export const saveQuestionGroup = (questionGroup: QuestionGroup) => {
 }
 
 // Submit answers to a questionnaire
-export const submitAnswers = async (questionnaireId: string, answers: Record<string, string>) => {
+export const submitAnswers = async (questionnaireId: string, answers: Record<string, string>): Promise<Response | null> => {
   if (typeof window === "undefined") return null
 
   try {
@@ -210,14 +212,17 @@ export const submitAnswers = async (questionnaireId: string, answers: Record<str
         id: uuidv4(),
         answers,
         submittedAt: new Date().toISOString(),
+        name: undefined,
+        value: 0
       }
 
-      if (!questionnaires[questionnaireIndex].responses) {
-        questionnaires[questionnaireIndex].responses = []
+      const questionnaire = questionnaires[questionnaireIndex]
+      if (!questionnaire?.responses) {
+        questionnaire!.responses = []
       }
 
-      questionnaires[questionnaireIndex].responses.push(response)
-      questionnaires[questionnaireIndex].updatedAt = new Date().toISOString()
+      questionnaire!.responses.push(response)
+      questionnaire!.updatedAt = new Date().toISOString()
 
       localStorage.setItem(STORAGE_KEY, JSON.stringify(questionnaires))
       return response
@@ -231,7 +236,7 @@ export const submitAnswers = async (questionnaireId: string, answers: Record<str
 }
 
 // Save a topic
-export const saveTopic = (topic: Topic) => {
+export const saveTopic = (topic: Topic): Topic => {
   if (typeof window === "undefined") return topic
 
   try {
@@ -253,7 +258,7 @@ export const saveTopic = (topic: Topic) => {
 }
 
 // Delete a topic
-export const deleteTopic = (topicId: string) => {
+export const deleteTopic = (topicId: string): void => {
   if (typeof window === "undefined") return
 
   try {
@@ -267,23 +272,46 @@ export const deleteTopic = (topicId: string) => {
 }
 
 // Update a question
-export const updateQuestion = (questionnaireId: string, questionId: string, updates: Partial<Question>) => {
+export const updateQuestion = (
+  questionnaireId: string,
+  questionId: string,
+  updates: Partial<Question>
+): void => {
   if (typeof window === "undefined") return
 
   try {
     const questionnaires = getAllQuestionGroups()
-    const questionnaireIndex = questionnaires.findIndex((q: QuestionGroup) => q.id === questionnaireId)
+    const questionnaireIndex = questionnaires.findIndex(
+      (q: QuestionGroup) => q.id === questionnaireId
+    )
 
     if (questionnaireIndex >= 0) {
-      const questionIndex = questionnaires[questionnaireIndex].questions.findIndex((q: Question) => q.id === questionId)
+      const questionnaire = questionnaires[questionnaireIndex]
+
+      if (!questionnaire) return
+
+      const questionIndex = questionnaire.questions.findIndex(
+        (q) => q.id === questionId
+      )
 
       if (questionIndex >= 0) {
-        questionnaires[questionnaireIndex].questions[questionIndex] = {
-          ...questionnaires[questionnaireIndex].questions[questionIndex],
-          ...updates,
+        const existing = questionnaire.questions[questionIndex]
+
+        // ✅ Explicitly construct a safe Question
+        const updated: Question = {
+          ...existing, // keep required properties safe
+          ...updates,  // apply partial updates
+          id: existing!.id, // ensure id never becomes undefined
+          prompt: updates.prompt ?? existing!.prompt,
+          type: updates.type ?? existing!.type,
+          status: updates.status ?? existing!.status,
+          moderationStatus: updates.moderationStatus ?? existing!.moderationStatus,
+          createdAt: existing!.createdAt, // preserve createdAt
         }
 
-        questionnaires[questionnaireIndex].updatedAt = new Date().toISOString()
+        questionnaire.questions[questionIndex] = updated
+        questionnaire.updatedAt = new Date().toISOString()
+
         localStorage.setItem(STORAGE_KEY, JSON.stringify(questionnaires))
       }
     }
@@ -293,8 +321,9 @@ export const updateQuestion = (questionnaireId: string, questionId: string, upda
   }
 }
 
+
 // Delete a question
-export const deleteQuestion = (questionnaireId: string, questionId: string) => {
+export const deleteQuestion = (questionnaireId: string, questionId: string): void => {
   if (typeof window === "undefined") return
 
   try {
@@ -302,11 +331,12 @@ export const deleteQuestion = (questionnaireId: string, questionId: string) => {
     const questionnaireIndex = questionnaires.findIndex((q: QuestionGroup) => q.id === questionnaireId)
 
     if (questionnaireIndex >= 0) {
-      questionnaires[questionnaireIndex].questions = questionnaires[questionnaireIndex].questions.filter(
+      const questionnaire = questionnaires[questionnaireIndex]
+      questionnaire!.questions = questionnaire!.questions.filter(
         (q: Question) => q.id !== questionId,
       )
 
-      questionnaires[questionnaireIndex].updatedAt = new Date().toISOString()
+      questionnaire!.updatedAt = new Date().toISOString()
       localStorage.setItem(STORAGE_KEY, JSON.stringify(questionnaires))
     }
   } catch (error) {
@@ -316,7 +346,7 @@ export const deleteQuestion = (questionnaireId: string, questionId: string) => {
 }
 
 // Submit a user-generated question
-export const submitUserQuestion = async (questionnaireId: string, questionData: Partial<Question>) => {
+export const submitUserQuestion = async (questionnaireId: string, questionData: Partial<Question>): Promise<Question | null> => {
   if (typeof window === "undefined") return null
 
   try {
@@ -324,19 +354,20 @@ export const submitUserQuestion = async (questionnaireId: string, questionData: 
     const questionnaireIndex = questionnaires.findIndex((q: QuestionGroup) => q.id === questionnaireId)
 
     if (questionnaireIndex >= 0) {
+      const questionnaire = questionnaires[questionnaireIndex]
       const newQuestion: Question = {
         id: uuidv4(),
         type: questionData.type || "text",
         prompt: questionData.prompt || "",
-        options: questionData.options,
+        options: questionData.options || [],
         topicId: questionData.topicId,
         status: "disabled", // New questions are disabled by default
         moderationStatus: "pending", // New questions need moderation
         createdAt: new Date().toISOString(),
       }
 
-      questionnaires[questionnaireIndex].questions.push(newQuestion)
-      questionnaires[questionnaireIndex].updatedAt = new Date().toISOString()
+      questionnaire!.questions.push(newQuestion)
+      questionnaire!.updatedAt = new Date().toISOString()
 
       localStorage.setItem(STORAGE_KEY, JSON.stringify(questionnaires))
       return newQuestion

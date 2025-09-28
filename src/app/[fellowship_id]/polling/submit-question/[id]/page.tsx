@@ -8,13 +8,14 @@ import { Input } from "@/components/ui/input"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Textarea } from "@/components/ui/textarea"
 import { toast } from "@/components/ui/use-toast"
-import { getQuestionnaireByAnswerUrl, submitUserQuestion } from "@/lib/data"
+import { getQuestionnaireById, submitUserQuestion } from "@/lib/data"
 import { CheckCircle, Loader2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import type { QuestionGroup, Topic } from "@/lib/polling-mock"
 
 const questionSchema = z.object({
   type: z.enum(["text", "multiple-choice"]),
@@ -27,7 +28,7 @@ const questionSchema = z.object({
 
 export default function SubmitQuestionPage({ params }: { params: { id: string } }) {
   const router = useRouter()
-  const [questionnaire, setQuestionnaire] = useState<any>(null)
+  const [questionnaire, setQuestionnaire] = useState<QuestionGroup | null>(null)
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
@@ -46,7 +47,7 @@ export default function SubmitQuestionPage({ params }: { params: { id: string } 
   useEffect(() => {
     const loadQuestionnaire = () => {
       try {
-        const data = getQuestionnaireByAnswerUrl(params.id)
+        const data = getQuestionnaireById(params.id)
         if (!data) {
           toast({
             title: "Error",
@@ -100,7 +101,7 @@ export default function SubmitQuestionPage({ params }: { params: { id: string } 
         options: values.type === "multiple-choice" ? options.filter(Boolean) : undefined,
       }
 
-       submitUserQuestion(questionnaire.id, questionData)
+       submitUserQuestion(questionnaire!.id, questionData)
       setSubmitted(true)
       toast({
         title: "Success",
@@ -189,7 +190,7 @@ export default function SubmitQuestionPage({ params }: { params: { id: string } 
         <CardHeader>
           <CardTitle>Submit a Question</CardTitle>
           <CardDescription>
-            Submit your own question to be added to `{questionnaire.title}`. Your question will be reviewed before being
+            Submit your own question to be added to `{questionnaire!.title}`. Your question will be reviewed before being
             added.
           </CardDescription>
         </CardHeader>
@@ -278,7 +279,7 @@ export default function SubmitQuestionPage({ params }: { params: { id: string } 
                 </div>
               )}
 
-              {questionnaire.topics && questionnaire.topics.length > 0 && (
+              {questionnaire?.topics && questionnaire.topics.length > 0 && (
                 <FormField
                   control={form.control}
                   name="topicId"
@@ -292,11 +293,11 @@ export default function SubmitQuestionPage({ params }: { params: { id: string } 
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          {questionnaire.topics.map((topic: any) => (
-                            <SelectItem key={topic.id} value={topic.id}>
-                              {topic.name}
-                            </SelectItem>
-                          ))}
+                          {questionnaire?.topics?.map((topic: Topic) => (
+  <SelectItem key={topic.id} value={topic.id}>
+    {topic.name}
+  </SelectItem>
+))}
                         </SelectContent>
                       </Select>
                       <FormDescription>Select a topic that best fits your question.</FormDescription>

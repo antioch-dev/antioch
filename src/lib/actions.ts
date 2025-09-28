@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid"
 import { saveQuestionGroup } from "./data"
 import type { QuestionGroup } from "@/lib/polling-mock"
 
-export async function createQuestionGroup(data: any): Promise<QuestionGroup> {
+export async function createQuestionGroup(data: QuestionGroup): Promise<QuestionGroup> {
   // Create unique IDs for the questionnaire
   const id = uuidv4()
   const adminUrl = uuidv4()

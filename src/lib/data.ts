@@ -5,7 +5,7 @@ import { generateMockResponses, generateMockTopics } from "@/lib/polling-mock"
 const STORAGE_KEY = "quickpoll_questionnaires"
 const TOPICS_KEY = "quickpoll_topics"
 
-// Sample data for server-side rendering and initial state
+// Sample questionnaire used for initialization
 const sampleQuestionnaire: QuestionGroup = {
   id: "sample-1",
   title: "Customer Satisfaction Survey",
@@ -43,19 +43,18 @@ const sampleQuestionnaire: QuestionGroup = {
       createdAt: new Date().toISOString(),
     },
   ],
-  responses: [], // Will be populated with mock data
+  responses: [],
   settings: {
     allowAnonymous: true,
     moderationEnabled: true,
     allowQuestionSubmission: true,
   },
-  topics: [], // Will be populated with mock data
+  topics: [],
 }
 
-// Initialize with some sample data if empty
-const initializeData = () => {
+// Initialize with some sample data
+const initializeData = (): QuestionGroup[] => {
   if (typeof window === "undefined") {
-    // Return sample data for server-side rendering
     const sampleWithResponses = { ...sampleQuestionnaire }
     try {
       sampleWithResponses.responses = generateMockResponses(sampleQuestionnaire) || []
@@ -72,14 +71,13 @@ const initializeData = () => {
     const existingData = localStorage.getItem(STORAGE_KEY)
     if (existingData) {
       try {
-        const parsedData = JSON.parse(existingData)
-        // Ensure each questionnaire has the required properties
-        return parsedData.map((q: any) => ({
+        const parsedData = JSON.parse(existingData) as QuestionGroup[]
+        return parsedData.map((q) => ({
           ...q,
-          questions: Array.isArray(q.questions) ? q.questions : [],
-          responses: Array.isArray(q.responses) ? q.responses : [],
-          topics: Array.isArray(q.topics) ? q.topics : [],
-          settings: q.settings || {},
+          questions: Array.isArray(q?.questions) ? q.questions : [],
+          responses: Array.isArray(q?.responses) ? q.responses : [],
+          topics: Array.isArray(q?.topics) ? q.topics : [],
+          settings: q?.settings || {},
         }))
       } catch (parseError) {
         console.error("Error parsing localStorage data:", parseError)
@@ -87,7 +85,6 @@ const initializeData = () => {
       }
     }
 
-    // Create sample questionnaire
     return [createSampleQuestionnaire()]
   } catch (error) {
     console.error("Error accessing localStorage:", error)
@@ -95,23 +92,17 @@ const initializeData = () => {
   }
 }
 
-// Create a sample questionnaire with all required properties
-const createSampleQuestionnaire = () => {
+const createSampleQuestionnaire = (): QuestionGroup => {
   const sampleWithResponses = { ...sampleQuestionnaire }
   try {
     sampleWithResponses.responses = generateMockResponses(sampleQuestionnaire) || []
     sampleWithResponses.topics = generateMockTopics() || []
 
-    // Assign topics to questions if topics exist
-    if (
-      sampleWithResponses.topics &&
-      sampleWithResponses.topics.length > 0 &&
-      sampleWithResponses.questions &&
-      sampleWithResponses.questions.length > 0
-    ) {
+    // Add proper null checks for topics
+    if (sampleWithResponses.topics && sampleWithResponses.topics.length > 0 && sampleWithResponses.questions) {
       sampleWithResponses.questions = sampleWithResponses.questions.map((q, index) => ({
         ...q,
-        topicId: sampleWithResponses.topics[index % sampleWithResponses.topics.length].id,
+        topicId: sampleWithResponses.topics?.[index % sampleWithResponses.topics.length]?.id,
       }))
     }
   } catch (error) {
@@ -122,8 +113,7 @@ const createSampleQuestionnaire = () => {
   return sampleWithResponses
 }
 
-// Initialize topics
-const initializeTopics = () => {
+const initializeTopics = (): Topic[] => {
   if (typeof window === "undefined") {
     try {
       return generateMockTopics() || []
@@ -137,28 +127,22 @@ const initializeTopics = () => {
     const existingTopics = localStorage.getItem(TOPICS_KEY)
     if (existingTopics) {
       try {
-        return JSON.parse(existingTopics) || []
+        return (JSON.parse(existingTopics) as Topic[]) || []
       } catch (parseError) {
         console.error("Error parsing topics from localStorage:", parseError)
         return []
       }
     }
 
-    try {
-      const topics = generateMockTopics() || []
-      localStorage.setItem(TOPICS_KEY, JSON.stringify(topics))
-      return topics
-    } catch (error) {
-      console.error("Error generating and saving mock topics:", error)
-      return []
-    }
+    const topics = generateMockTopics() || []
+    localStorage.setItem(TOPICS_KEY, JSON.stringify(topics))
+    return topics
   } catch (error) {
     console.error("Error accessing localStorage for topics:", error)
     return []
   }
 }
 
-// Get all question groups
 export const getAllQuestionGroups = (): QuestionGroup[] => {
   try {
     return initializeData()
@@ -168,32 +152,23 @@ export const getAllQuestionGroups = (): QuestionGroup[] => {
   }
 }
 
-// Get a questionnaire by ID
 export const getQuestionnaireById = (id: string): QuestionGroup | null => {
-  if (!id) {
-    console.error("Invalid ID provided to getQuestionnaireById")
-    return null
-  }
+  if (!id) return null
 
   try {
     const questionnaires = getAllQuestionGroups()
-    const questionnaire = questionnaires.find((q) => q && q.id === id) || null
+    const questionnaire = questionnaires.find((q) => q?.id === id) || null
+    if (!questionnaire) return null
 
-    // If questionnaire not found, return null
-    if (!questionnaire) {
-      return null
-    }
-
-    // Create a safe copy with all required properties
-    const safeQuestionnaire: QuestionGroup = {
-      id: questionnaire.id || "unknown",
-      title: questionnaire.title || "Untitled Questionnaire",
-      description: questionnaire.description || "",
-      adminUrl: questionnaire.adminUrl || "",
-      answererUrl: questionnaire.answererUrl || "",
-      projectionUrl: questionnaire.projectionUrl || "",
-      createdAt: questionnaire.createdAt || new Date().toISOString(),
-      updatedAt: questionnaire.updatedAt || new Date().toISOString(),
+    return {
+      id: questionnaire.id ?? "unknown",
+      title: questionnaire.title ?? "Untitled Questionnaire",
+      description: questionnaire.description ?? "",
+      adminUrl: questionnaire.adminUrl ?? "",
+      answererUrl: questionnaire.answererUrl ?? "",
+      projectionUrl: questionnaire.projectionUrl ?? "",
+      createdAt: questionnaire.createdAt ?? new Date().toISOString(),
+      updatedAt: questionnaire.updatedAt ?? new Date().toISOString(),
       questions: Array.isArray(questionnaire.questions) ? questionnaire.questions : [],
       responses: Array.isArray(questionnaire.responses) ? questionnaire.responses : [],
       topics: Array.isArray(questionnaire.topics) ? questionnaire.topics : [],
@@ -203,128 +178,28 @@ export const getQuestionnaireById = (id: string): QuestionGroup | null => {
         allowQuestionSubmission: false,
       },
     }
-
-    return safeQuestionnaire
   } catch (error) {
     console.error("Error getting questionnaire by ID:", error)
     return null
   }
 }
 
-// Get a questionnaire by answerer URL
-export const getQuestionnaireByAnswerUrl = (url: string): QuestionGroup | null => {
-  if (!url) {
-    console.error("Invalid URL provided to getQuestionnaireByAnswerUrl")
-    return null
-  }
-
-  try {
-    const questionnaires = getAllQuestionGroups()
-    const questionnaire = questionnaires.find((q) => q && q.answererUrl === url) || null
-
-    // If questionnaire not found, return null
-    if (!questionnaire) {
-      return null
-    }
-
-    // Create a safe copy with all required properties
-    const safeQuestionnaire: QuestionGroup = {
-      id: questionnaire.id || "unknown",
-      title: questionnaire.title || "Untitled Questionnaire",
-      description: questionnaire.description || "",
-      adminUrl: questionnaire.adminUrl || "",
-      answererUrl: questionnaire.answererUrl || "",
-      projectionUrl: questionnaire.projectionUrl || "",
-      createdAt: questionnaire.createdAt || new Date().toISOString(),
-      updatedAt: questionnaire.updatedAt || new Date().toISOString(),
-      questions: Array.isArray(questionnaire.questions) ? questionnaire.questions : [],
-      responses: Array.isArray(questionnaire.responses) ? questionnaire.responses : [],
-      topics: Array.isArray(questionnaire.topics) ? questionnaire.topics : [],
-      settings: questionnaire.settings || {
-        allowAnonymous: true,
-        moderationEnabled: false,
-        allowQuestionSubmission: false,
-      },
-    }
-
-    return safeQuestionnaire
-  } catch (error) {
-    console.error("Error getting questionnaire by answer URL:", error)
-    return null
-  }
-}
-
-// Get a questionnaire by projection URL
-export const getQuestionnaireByProjectionUrl = (url: string): QuestionGroup | null => {
-  if (!url) {
-    console.error("Invalid URL provided to getQuestionnaireByProjectionUrl")
-    return null
-  }
-
-  try {
-    const questionnaires = getAllQuestionGroups()
-    const questionnaire = questionnaires.find((q) => q && q.projectionUrl === url) || null
-
-    // If questionnaire not found, return null
-    if (!questionnaire) {
-      return null
-    }
-
-    // Create a safe copy with all required properties
-    const safeQuestionnaire: QuestionGroup = {
-      id: questionnaire.id || "unknown",
-      title: questionnaire.title || "Untitled Questionnaire",
-      description: questionnaire.description || "",
-      adminUrl: questionnaire.adminUrl || "",
-      answererUrl: questionnaire.answererUrl || "",
-      projectionUrl: questionnaire.projectionUrl || "",
-      createdAt: questionnaire.createdAt || new Date().toISOString(),
-      updatedAt: questionnaire.updatedAt || new Date().toISOString(),
-      questions: Array.isArray(questionnaire.questions) ? questionnaire.questions : [],
-      responses: Array.isArray(questionnaire.responses) ? questionnaire.responses : [],
-      topics: Array.isArray(questionnaire.topics) ? questionnaire.topics : [],
-      settings: questionnaire.settings || {
-        allowAnonymous: true,
-        moderationEnabled: false,
-        allowQuestionSubmission: false,
-      },
-    }
-
-    // Generate mock responses if none exist
-    if (safeQuestionnaire.responses.length === 0) {
-      try {
-        safeQuestionnaire.responses = generateMockResponses(safeQuestionnaire) || []
-      } catch (error) {
-        console.error("Error generating mock responses:", error)
-        safeQuestionnaire.responses = []
-      }
-    }
-
-    return safeQuestionnaire
-  } catch (error) {
-    console.error("Error getting questionnaire by projection URL:", error)
-    return null
-  }
-}
-
-// Save a question group
 export const saveQuestionGroup = (questionGroup: QuestionGroup): QuestionGroup => {
   if (typeof window === "undefined") return questionGroup
 
   try {
     const questionnaires = getAllQuestionGroups()
-    const existingIndex = questionnaires.findIndex((q) => q && q.id === questionGroup.id)
+    const existingIndex = questionnaires.findIndex((q) => q?.id === questionGroup.id)
 
-    // Create a safe copy with all required properties
     const safeQuestionGroup: QuestionGroup = {
       ...questionGroup,
-      id: questionGroup.id || uuidv4(),
-      title: questionGroup.title || "Untitled Questionnaire",
-      description: questionGroup.description || "",
-      adminUrl: questionGroup.adminUrl || uuidv4(),
-      answererUrl: questionGroup.answererUrl || uuidv4(),
-      projectionUrl: questionGroup.projectionUrl || uuidv4(),
-      createdAt: questionGroup.createdAt || new Date().toISOString(),
+      id: questionGroup.id ?? uuidv4(),
+      title: questionGroup.title ?? "Untitled Questionnaire",
+      description: questionGroup.description ?? "",
+      adminUrl: questionGroup.adminUrl ?? uuidv4(),
+      answererUrl: questionGroup.answererUrl ?? uuidv4(),
+      projectionUrl: questionGroup.projectionUrl ?? uuidv4(),
+      createdAt: questionGroup.createdAt ?? new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       questions: Array.isArray(questionGroup.questions) ? questionGroup.questions : [],
       responses: Array.isArray(questionGroup.responses) ? questionGroup.responses : [],
@@ -350,225 +225,179 @@ export const saveQuestionGroup = (questionGroup: QuestionGroup): QuestionGroup =
   }
 }
 
-// Submit answers to a questionnaire
 export const submitAnswers = async (
   questionnaireId: string,
   answers: Record<string, string>,
   respondentInfo?: { name?: string; email?: string },
 ): Promise<Response | null> => {
   if (typeof window === "undefined") return null
-  if (!questionnaireId || !answers) {
-    console.error("Invalid parameters provided to submitAnswers")
-    return null
-  }
+  if (!questionnaireId) return null
 
   try {
     const questionnaires = getAllQuestionGroups()
-    const questionnaireIndex = questionnaires.findIndex((q) => q && q.id === questionnaireId)
+    const questionnaireIndex = questionnaires.findIndex((q) => q?.id === questionnaireId)
 
     if (questionnaireIndex >= 0) {
+      const questionnaire = questionnaires[questionnaireIndex]
+      if (!questionnaire) return null
+
       const response: Response = {
         id: uuidv4(),
-        answers: answers || {},
+        answers,
         submittedAt: new Date().toISOString(),
         respondentInfo: respondentInfo || {},
+        name: respondentInfo?.name || "Anonymous",
+        value: 0,
       }
 
-      if (!Array.isArray(questionnaires[questionnaireIndex].responses)) {
-        questionnaires[questionnaireIndex].responses = []
-      }
-
-      questionnaires[questionnaireIndex].responses.push(response)
-      questionnaires[questionnaireIndex].updatedAt = new Date().toISOString()
+      questionnaire.responses = questionnaire.responses || []
+      questionnaire.responses.push(response)
+      questionnaire.updatedAt = new Date().toISOString()
 
       localStorage.setItem(STORAGE_KEY, JSON.stringify(questionnaires))
       return response
     }
 
-    throw new Error("Questionnaire not found")
+    return null
   } catch (error) {
     console.error("Error submitting answers:", error)
-    throw error
-  }
-}
-
-// Get all topics
-export const getAllTopics = (): Topic[] => {
-  try {
-    return initializeTopics()
-  } catch (error) {
-    console.error("Error getting all topics:", error)
-    return []
-  }
-}
-
-// Save a topic
-export const saveTopic = (topic: Topic): Topic => {
-  if (typeof window === "undefined") return topic
-  if (!topic) {
-    console.error("Invalid topic provided to saveTopic")
-    return { id: uuidv4(), name: "Untitled Topic", createdAt: new Date().toISOString() }
-  }
-
-  try {
-    const topics = getAllTopics()
-    const existingIndex = topics.findIndex((t) => t && t.id === topic.id)
-
-    // Create a safe copy
-    const safeTopic: Topic = {
-      ...topic,
-      id: topic.id || uuidv4(),
-      name: topic.name || "Untitled Topic",
-      createdAt: topic.createdAt || new Date().toISOString(),
-    }
-
-    if (existingIndex >= 0) {
-      topics[existingIndex] = safeTopic
-    } else {
-      topics.push(safeTopic)
-    }
-
-    localStorage.setItem(TOPICS_KEY, JSON.stringify(topics))
-    return safeTopic
-  } catch (error) {
-    console.error("Error saving topic to localStorage:", error)
-    return topic
-  }
-}
-
-// Delete a topic
-export const deleteTopic = (topicId: string): boolean => {
-  if (typeof window === "undefined") return false
-  if (!topicId) {
-    console.error("Invalid topic ID provided to deleteTopic")
-    return false
-  }
-
-  try {
-    const topics = getAllTopics()
-    const filteredTopics = topics.filter((t) => t && t.id !== topicId)
-
-    if (filteredTopics.length !== topics.length) {
-      localStorage.setItem(TOPICS_KEY, JSON.stringify(filteredTopics))
-      return true
-    }
-
-    return false
-  } catch (error) {
-    console.error("Error deleting topic from localStorage:", error)
-    return false
-  }
-}
-
-// Add a question to a questionnaire
-export const addQuestion = (questionnaireId: string, question: Question): Question | null => {
-  if (typeof window === "undefined") return null
-  if (!questionnaireId || !question) {
-    console.error("Invalid parameters provided to addQuestion")
     return null
   }
+}
+
+export const addQuestion = (questionnaireId: string, question: Partial<Question>): Question | null => {
+  if (typeof window === "undefined") return null
+  if (!questionnaireId) return null
 
   try {
     const questionnaires = getAllQuestionGroups()
-    const questionnaireIndex = questionnaires.findIndex((q) => q && q.id === questionnaireId)
+    const questionnaireIndex = questionnaires.findIndex((q) => q?.id === questionnaireId)
 
     if (questionnaireIndex >= 0) {
-      if (!Array.isArray(questionnaires[questionnaireIndex].questions)) {
-        questionnaires[questionnaireIndex].questions = []
-      }
+      const qg = questionnaires[questionnaireIndex]
+      if (!qg) return null
 
-      // Create a safe copy
+      qg.questions = qg.questions || []
+
       const safeQuestion: Question = {
-        ...question,
-        id: question.id || uuidv4(),
-        type: question.type || "text",
-        prompt: question.prompt || "Untitled Question",
-        createdAt: question.createdAt || new Date().toISOString(),
-        status: question.status || "active",
-        moderationStatus: question.moderationStatus || "approved",
+        id: question.id ?? uuidv4(),
+        type: question.type ?? "text",
+        prompt: question.prompt ?? "Untitled Question",
+        options: question.options ?? [],
+        topicId: question.topicId,
+        status: question.status ?? "active",
+        moderationStatus: question.moderationStatus ?? "approved",
+        createdAt: question.createdAt ?? new Date().toISOString(),
       }
 
-      questionnaires[questionnaireIndex].questions.push(safeQuestion)
-      questionnaires[questionnaireIndex].updatedAt = new Date().toISOString()
+      qg.questions.push(safeQuestion)
+      qg.updatedAt = new Date().toISOString()
 
       localStorage.setItem(STORAGE_KEY, JSON.stringify(questionnaires))
       return safeQuestion
     }
 
-    throw new Error("Questionnaire not found")
+    return null
   } catch (error) {
     console.error("Error adding question:", error)
     return null
   }
 }
 
-// Update a question
 export const updateQuestion = (
   questionnaireId: string,
   questionId: string,
   updates: Partial<Question>,
 ): Question | null => {
   if (typeof window === "undefined") return null
-  if (!questionnaireId || !questionId || !updates) {
-    console.error("Invalid parameters provided to updateQuestion")
-    return null
-  }
 
   try {
     const questionnaires = getAllQuestionGroups()
-    const questionnaireIndex = questionnaires.findIndex((q) => q && q.id === questionnaireId)
+    const questionnaireIndex = questionnaires.findIndex((q) => q?.id === questionnaireId)
 
     if (questionnaireIndex >= 0) {
-      if (!Array.isArray(questionnaires[questionnaireIndex].questions)) {
-        questionnaires[questionnaireIndex].questions = []
-        return null
-      }
+      const qg = questionnaires[questionnaireIndex]
+      if (!qg || !Array.isArray(qg.questions)) return null
 
-      const questionIndex = questionnaires[questionnaireIndex].questions.findIndex((q) => q && q.id === questionId)
-
+      const questionIndex = qg.questions.findIndex((q) => q?.id === questionId)
       if (questionIndex >= 0) {
-        questionnaires[questionnaireIndex].questions[questionIndex] = {
-          ...questionnaires[questionnaireIndex].questions[questionIndex],
+        const existingQuestion = qg.questions[questionIndex]
+        if (!existingQuestion) return null
+
+        qg.questions[questionIndex] = {
+          ...existingQuestion,
           ...updates,
         }
-        questionnaires[questionnaireIndex].updatedAt = new Date().toISOString()
-
+        qg.updatedAt = new Date().toISOString()
         localStorage.setItem(STORAGE_KEY, JSON.stringify(questionnaires))
-        return questionnaires[questionnaireIndex].questions[questionIndex]
+        return qg.questions[questionIndex]
       }
     }
 
-    throw new Error("Question or questionnaire not found")
+    return null
   } catch (error) {
     console.error("Error updating question:", error)
     return null
   }
 }
 
-// Delete a question
-export const deleteQuestion = (questionnaireId: string, questionId: string): boolean => {
-  if (typeof window === "undefined") return false
-  if (!questionnaireId || !questionId) {
-    console.error("Invalid parameters provided to deleteQuestion")
-    return false
-  }
+export const submitUserQuestion = (
+  questionnaireId: string,
+  question: Omit<Question, "id" | "createdAt" | "status" | "moderationStatus">,
+): Question | null => {
+  if (typeof window === "undefined") return null
 
   try {
     const questionnaires = getAllQuestionGroups()
-    const questionnaireIndex = questionnaires.findIndex((q) => q && q.id === questionnaireId)
+    const questionnaireIndex = questionnaires.findIndex((q) => q?.id === questionnaireId)
 
     if (questionnaireIndex >= 0) {
-      if (!Array.isArray(questionnaires[questionnaireIndex].questions)) {
-        return false
+      const qg = questionnaires[questionnaireIndex]
+      if (!qg) return null
+
+      qg.questions = qg.questions || []
+
+      const newQuestion: Question = {
+        ...question,
+        id: uuidv4(),
+        type: question.type ?? "text",
+        prompt: question.prompt ?? "Untitled Question",
+        options: question.options ?? [],
+        createdAt: new Date().toISOString(),
+        status: "disabled",
+        moderationStatus: "pending",
       }
 
-      const originalLength = questionnaires[questionnaireIndex].questions.length
-      questionnaires[questionnaireIndex].questions = questionnaires[questionnaireIndex].questions.filter(
-        (q) => q && q.id !== questionId,
-      )
+      qg.questions.push(newQuestion)
+      qg.updatedAt = new Date().toISOString()
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(questionnaires))
+      return newQuestion
+    }
 
-      if (questionnaires[questionnaireIndex].questions.length !== originalLength) {
-        questionnaires[questionnaireIndex].updatedAt = new Date().toISOString()
+    return null
+  } catch (error) {
+    console.error("Error submitting user question:", error)
+    return null
+  }
+}
+
+// Additional utility functions with proper type safety
+export const deleteQuestion = (questionnaireId: string, questionId: string): boolean => {
+  if (typeof window === "undefined") return false
+
+  try {
+    const questionnaires = getAllQuestionGroups()
+    const questionnaireIndex = questionnaires.findIndex((q) => q?.id === questionnaireId)
+
+    if (questionnaireIndex >= 0) {
+      const qg = questionnaires[questionnaireIndex]
+      if (!qg || !Array.isArray(qg.questions)) return false
+
+      const initialLength = qg.questions.length
+      qg.questions = qg.questions.filter((q) => q?.id !== questionId)
+      qg.updatedAt = new Date().toISOString()
+
+      if (qg.questions.length < initialLength) {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(questionnaires))
         return true
       }
@@ -581,46 +410,11 @@ export const deleteQuestion = (questionnaireId: string, questionId: string): boo
   }
 }
 
-// Submit a question from a user
-export const submitUserQuestion = (
-  questionnaireId: string,
-  question: Omit<Question, "id" | "createdAt" | "status" | "moderationStatus">,
-): Question | null => {
-  if (typeof window === "undefined") return null
-  if (!questionnaireId || !question) {
-    console.error("Invalid parameters provided to submitUserQuestion")
-    return null
-  }
-
+export const getAllTopics = (): Topic[] => {
   try {
-    const questionnaires = getAllQuestionGroups()
-    const questionnaireIndex = questionnaires.findIndex((q) => q && q.id === questionnaireId)
-
-    if (questionnaireIndex >= 0) {
-      if (!Array.isArray(questionnaires[questionnaireIndex].questions)) {
-        questionnaires[questionnaireIndex].questions = []
-      }
-
-      const newQuestion: Question = {
-        ...question,
-        id: uuidv4(),
-        type: question.type || "text",
-        prompt: question.prompt || "Untitled Question",
-        createdAt: new Date().toISOString(),
-        status: "disabled", // New questions are disabled by default
-        moderationStatus: "pending", // New questions need moderation
-      }
-
-      questionnaires[questionnaireIndex].questions.push(newQuestion)
-      questionnaires[questionnaireIndex].updatedAt = new Date().toISOString()
-
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(questionnaires))
-      return newQuestion
-    }
-
-    throw new Error("Questionnaire not found")
+    return initializeTopics()
   } catch (error) {
-    console.error("Error submitting user question:", error)
-    return null
+    console.error("Error getting all topics:", error)
+    return []
   }
 }
