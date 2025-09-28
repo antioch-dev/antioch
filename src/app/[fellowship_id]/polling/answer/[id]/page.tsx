@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Textarea } from "@/components/ui/textarea"
 import { toast } from "@/components/ui/use-toast"
-import { getQuestionnaireByAnswerUrl, submitAnswers } from "@/lib/data"
+import { getQuestionnaireById, submitAnswers } from "@/lib/data"
 import { CheckCircle, Loader2, MessageSquare } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
@@ -90,7 +90,7 @@ export default function AnswerPage({ params }: AnswerPageProps) {
       try {
         // Await the params promise
         const resolvedParams = await params
-        const data = getQuestionnaireByAnswerUrl(resolvedParams.id)
+        const data = getQuestionnaireById(resolvedParams.id)
         
         if (!data) {
           toast({
