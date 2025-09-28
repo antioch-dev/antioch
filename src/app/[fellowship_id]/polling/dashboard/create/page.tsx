@@ -44,38 +44,50 @@ export default function CreateQuestionnairePage() {
   })
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    if (questions.length === 0) {
-      toast({
-        title: "Error",
-        description: "Please add at least one question.",
-        variant: "destructive",
-      })
-      return
-    }
-
-    setIsSubmitting(true)
-    try {
-      const result = await createQuestionGroup({
-        ...values,
-        questions,
-      })
-
-      toast({
-        title: "Success!",
-        description: "Your questionnaire has been created.",
-      })
-
-      router.push(`/dashboard/questionnaire/${result.id}`)
-    } catch {
-      toast({
-        title: "Error",
-        description: "Failed to create questionnaire.",
-        variant: "destructive",
-      })
-    } finally {
-      setIsSubmitting(false)
-    }
+  if (questions.length === 0) {
+    toast({
+      title: "Error",
+      description: "Please add at least one question.",
+      variant: "destructive",
+    })
+    return
   }
+
+  setIsSubmitting(true)
+  try {
+    const now = new Date().toISOString()
+
+    const result = await createQuestionGroup({
+      ...values,
+      questions,
+      id: "",
+      responses: [],
+      adminUrl: "",
+      answererUrl: "",
+      projectionUrl: "",
+      createdAt: now,
+      updatedAt: now,
+      startDate: values.startDate ? values.startDate.toISOString() : undefined,
+      endDate: values.endDate ? values.endDate.toISOString() : undefined,
+    })
+
+    toast({
+      title: "Success!",
+      description: "Your questionnaire has been created.",
+    })
+
+    router.push(`/dashboard/questionnaire/${result.id}`)
+  } catch {
+    toast({
+      title: "Error",
+      description: "Failed to create questionnaire.",
+      variant: "destructive",
+    })
+  } finally {
+    setIsSubmitting(false)
+  }
+}
+
 
   const addQuestion = (question: Question) => {
     setQuestions([...questions, question])
