@@ -14,7 +14,12 @@ import type { Question, QuestionGroup, Topic } from "@/lib/polling-mock"
 import { useRouter } from "next/navigation"
 import { CheckCircle, XCircle, AlertCircle, Trash2, Search, Filter } from "lucide-react"
 
-export default function ManageQuestionsPage({ params }: { params: { id: string } }) {
+// Update the props interface to handle Promise
+interface ManageQuestionsPageProps {
+  params: Promise<{ id: string }>
+}
+
+export default function ManageQuestionsPage({ params }: ManageQuestionsPageProps) {
   const router = useRouter()
   const [questionnaire, setQuestionnaire] = useState<QuestionGroup | null>(null);
   const [topics, setTopics] = useState<Topic[]>([])
@@ -23,11 +28,33 @@ export default function ManageQuestionsPage({ params }: { params: { id: string }
   const [filterTopic, setFilterTopic] = useState<string | null>(null)
   const [filterStatus, setFilterStatus] = useState<string | null>(null)
   const [filterModeration, setFilterModeration] = useState<string | null>(null)
+  const [resolvedParams, setResolvedParams] = useState<{ id: string } | null>(null)
+
+  // Resolve the params promise
+  useEffect(() => {
+    const resolveParams = async () => {
+      try {
+        const resolved = await params
+        setResolvedParams(resolved)
+      } catch (error) {
+        console.error("Error resolving params:", error)
+        toast({
+          title: "Error",
+          description: "Failed to load page parameters.",
+          variant: "destructive",
+        })
+      }
+    }
+
+   void resolveParams()
+  }, [params])
 
   useEffect(() => {
-    const loadData = () => {
+    const loadData = async () => {
+      if (!resolvedParams) return
+
       try {
-        const questionnaireData = getQuestionnaireById(params.id)
+        const questionnaireData = getQuestionnaireById(resolvedParams.id)
         const topicsData = getAllTopics()
 
         if (!questionnaireData) {
@@ -54,135 +81,126 @@ export default function ManageQuestionsPage({ params }: { params: { id: string }
       }
     }
 
-    loadData()
-  }, [params.id, router])
+   void loadData()
+  }, [resolvedParams, router])
 
- const handleUpdateStatus = (questionId: string, status: "active" | "disabled") => {
-  try {
-    // Add null check
-    if (!questionnaire) {
-      throw new Error("Questionnaire not loaded");
+  const handleUpdateStatus = (questionId: string, status: "active" | "disabled") => {
+    try {
+      if (!questionnaire) {
+        throw new Error("Questionnaire not loaded");
+      }
+
+      updateQuestion(questionnaire.id, questionId, { status })
+
+      setQuestionnaire({
+        ...questionnaire,
+        questions: questionnaire.questions.map((q: Question) => (q.id === questionId ? { ...q, status } : q)),
+      })
+
+      toast({
+        title: "Success",
+        description: `Question ${status === "active" ? "enabled" : "disabled"} successfully.`,
+      })
+    } catch (error) {
+      console.error("Error updating question status:", error)
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "Failed to update question status.",
+        variant: "destructive",
+      })
+    }
+  }
+
+  const handleUpdateModeration = (questionId: string, moderationStatus: "approved" | "pending" | "rejected") => {
+    try {
+      if (!questionnaire) {
+        throw new Error("Questionnaire not loaded");
+      }
+
+      updateQuestion(questionnaire.id, questionId, { moderationStatus })
+
+      setQuestionnaire({
+        ...questionnaire,
+        questions: questionnaire.questions.map((q: Question) => (q.id === questionId ? { ...q, moderationStatus } : q)),
+      })
+
+      toast({
+        title: "Success",
+        description: `Question ${moderationStatus} successfully.`,
+      })
+    } catch (error) {
+      console.error("Error updating moderation status:", error)
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "Failed to update moderation status.",
+        variant: "destructive",
+      })
+    }
+  }
+
+  const handleUpdateTopic = (questionId: string, topicId: string) => {
+    try {
+      if (!questionnaire) {
+        throw new Error("Questionnaire not loaded");
+      }
+
+      updateQuestion(questionnaire.id, questionId, { topicId })
+
+      setQuestionnaire({
+        ...questionnaire,
+        questions: questionnaire.questions.map((q: Question) => (q.id === questionId ? { ...q, topicId } : q)),
+      })
+
+      toast({
+        title: "Success",
+        description: "Question topic updated successfully.",
+      })
+    } catch (error) {
+      console.error("Error updating question topic:", error)
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "Failed to update question topic.",
+        variant: "destructive",
+      })
+    }
+  }
+
+  const handleDeleteQuestion = (questionId: string) => {
+    if (!confirm("Are you sure you want to delete this question? This action cannot be undone.")) {
+      return
     }
 
-    updateQuestion(questionnaire.id, questionId, { status })
+    try {
+      if (!questionnaire) {
+        throw new Error("Questionnaire not loaded");
+      }
 
-    setQuestionnaire({
-      ...questionnaire,
-      questions: questionnaire.questions.map((q: Question) => (q.id === questionId ? { ...q, status } : q)),
-    })
+      deleteQuestion(questionnaire.id, questionId)
 
-    toast({
-      title: "Success",
-      description: `Question ${status === "active" ? "enabled" : "disabled"} successfully.`,
-    })
-  } catch (error) {
-    console.error("Error updating question status:", error)
-    toast({
-      title: "Error",
-      description: error instanceof Error ? error.message : "Failed to update question status.",
-      variant: "destructive",
-    })
-  }
-}
+      setQuestionnaire({
+        ...questionnaire,
+        questions: questionnaire.questions.filter((q: Question) => q.id !== questionId),
+      })
 
-// Apply the same pattern to all other functions
-const handleUpdateModeration = (questionId: string, moderationStatus: "approved" | "pending" | "rejected") => {
-  try {
-    if (!questionnaire) {
-      throw new Error("Questionnaire not loaded");
+      toast({
+        title: "Success",
+        description: "Question deleted successfully.",
+      })
+    } catch (error) {
+      console.error("Error deleting question:", error)
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "Failed to delete question.",
+        variant: "destructive",
+      })
     }
-
-    updateQuestion(questionnaire.id, questionId, { moderationStatus })
-
-    setQuestionnaire({
-      ...questionnaire,
-      questions: questionnaire.questions.map((q: Question) => (q.id === questionId ? { ...q, moderationStatus } : q)),
-    })
-
-    toast({
-      title: "Success",
-      description: `Question ${moderationStatus} successfully.`,
-    })
-  } catch (error) {
-    console.error("Error updating moderation status:", error)
-    toast({
-      title: "Error",
-      description: error instanceof Error ? error.message : "Failed to update moderation status.",
-      variant: "destructive",
-    })
-  }
-}
-
-const handleUpdateTopic = (questionId: string, topicId: string) => {
-  try {
-    if (!questionnaire) {
-      throw new Error("Questionnaire not loaded");
-    }
-
-    updateQuestion(questionnaire.id, questionId, { topicId })
-
-    setQuestionnaire({
-      ...questionnaire,
-      questions: questionnaire.questions.map((q: Question) => (q.id === questionId ? { ...q, topicId } : q)),
-    })
-
-    toast({
-      title: "Success",
-      description: "Question topic updated successfully.",
-    })
-  } catch (error) {
-    console.error("Error updating question topic:", error)
-    toast({
-      title: "Error",
-      description: error instanceof Error ? error.message : "Failed to update question topic.",
-      variant: "destructive",
-    })
-  }
-}
-
-const handleDeleteQuestion = (questionId: string) => {
-  if (!confirm("Are you sure you want to delete this question? This action cannot be undone.")) {
-    return
   }
 
-  try {
-    if (!questionnaire) {
-      throw new Error("Questionnaire not loaded");
-    }
-
-    deleteQuestion(questionnaire.id, questionId)
-
-    setQuestionnaire({
-      ...questionnaire,
-      questions: questionnaire.questions.filter((q: Question) => q.id !== questionId),
-    })
-
-    toast({
-      title: "Success",
-      description: "Question deleted successfully.",
-    })
-  } catch (error) {
-    console.error("Error deleting question:", error)
-    toast({
-      title: "Error",
-      description: error instanceof Error ? error.message : "Failed to delete question.",
-      variant: "destructive",
-    })
-  }
-}
-//here
   const filteredQuestions =
     questionnaire?.questions?.filter((question: Question) => {
-      // Search filter
       const matchesSearch = searchTerm === "" || question.prompt.toLowerCase().includes(searchTerm.toLowerCase())
-
-      // Topic filter
       const matchesTopic = filterTopic === null || question.topicId === filterTopic
-
-      // Status filter
       const matchesStatus = filterStatus === null || question.status === filterStatus
-
-      // Moderation filter
       const matchesModeration = filterModeration === null || question.moderationStatus === filterModeration
 
       return matchesSearch && matchesTopic && matchesStatus && matchesModeration
@@ -195,12 +213,12 @@ const handleDeleteQuestion = (questionId: string) => {
   }
 
   const getTopicColor = (topicId?: string) => {
-    if (!topicId) return "#6b7280" // gray-500
+    if (!topicId) return "#6b7280"
     const topic = topics.find((t) => t.id === topicId)
     return topic ? topic.color : "#6b7280"
   }
 
-  if (loading) {
+  if (loading || !resolvedParams) {
     return (
       <>
         <DashboardHeader heading="Manage Questions" text="Loading..." />
@@ -225,7 +243,7 @@ const handleDeleteQuestion = (questionId: string) => {
   return (
     <>
       <DashboardHeader heading="Manage Questions" text={`Manage questions for "${questionnaire.title}"`}>
-        <Button variant="outline" onClick={() => router.push(`/dashboard/questionnaire/${params.id}`)}>
+        <Button variant="outline" onClick={() => router.push(`/dashboard/questionnaire/${resolvedParams.id}`)}>
           Back to Questionnaire
         </Button>
       </DashboardHeader>
