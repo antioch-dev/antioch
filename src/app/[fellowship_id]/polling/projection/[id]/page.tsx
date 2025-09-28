@@ -8,8 +8,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useRouter } from "next/navigation"
 import type { Question, Response } from "@/lib/polling-mock"
 
+// Update props interface for Next.js 15
+interface ProjectionPageProps {
+  params: Promise<{ id: string }>
+}
+
 // Ultra-minimal component with no complex object operations
-export default function ProjectionPage({ params }: { params: { id: string } }) {
+export default function ProjectionPage({ params }: ProjectionPageProps) {
   const router = useRouter()
   const [title, setTitle] = useState<string>("Loading...")
   const [loading, setLoading] = useState(true)
@@ -21,14 +26,32 @@ export default function ProjectionPage({ params }: { params: { id: string } }) {
   const [autoAdvanceInterval, setAutoAdvanceInterval] = useState(30)
   const [responseData, setResponseData] = useState<Response[]>([])
   const [textResponses, setTextResponses] = useState<string[]>([])
+  const [resolvedParams, setResolvedParams] = useState<{ id: string } | null>(null)
 
   // Safe colors array
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884D8", "#82ca9d"]
 
+  // Resolve params promise
+  useEffect(() => {
+    const resolveParams = async () => {
+      try {
+        const resolved = await params
+        setResolvedParams(resolved)
+      } catch (error) {
+        console.error("Error resolving params:", error)
+        setError("Failed to load page parameters.")
+      }
+    }
+
+    void resolveParams()
+  }, [params])
+
   useEffect(() => {
     const loadData = async () => {
+      if (!resolvedParams) return
+
       try {
-        console.log("Loading data for projection:", params.id)
+        console.log("Loading data for projection:", resolvedParams.id)
 
         // Simulate data loading without using the actual data service
         // This avoids any potential issues in the data service
@@ -107,7 +130,7 @@ export default function ProjectionPage({ params }: { params: { id: string } }) {
     }
 
    void loadData()
-  }, [params.id])
+  }, [resolvedParams])
 
   useEffect(() => {
     let timer: NodeJS.Timeout | null = null
@@ -135,8 +158,8 @@ export default function ProjectionPage({ params }: { params: { id: string } }) {
     }
   }
 
-  // Loading state
-  if (loading) {
+  // Loading state (including params resolution)
+  if (loading || !resolvedParams) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-black text-white p-4">
         <div className="text-center">

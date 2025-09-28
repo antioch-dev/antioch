@@ -17,6 +17,11 @@ import { z } from "zod"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import type { QuestionGroup, Topic } from "@/lib/polling-mock"
 
+// Update props interface for Next.js 15
+interface SubmitQuestionPageProps {
+  params: Promise<{ id: string }>
+}
+
 const questionSchema = z.object({
   type: z.enum(["text", "multiple-choice"]),
   prompt: z.string().min(2, {
@@ -26,13 +31,14 @@ const questionSchema = z.object({
   topicId: z.string().optional(),
 })
 
-export default function SubmitQuestionPage({ params }: { params: { id: string } }) {
+export default function SubmitQuestionPage({ params }: SubmitQuestionPageProps) {
   const router = useRouter()
   const [questionnaire, setQuestionnaire] = useState<QuestionGroup | null>(null)
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [options, setOptions] = useState<string[]>(["", ""])
+  const [resolvedParams, setResolvedParams] = useState<{ id: string } | null>(null)
 
   const form = useForm<z.infer<typeof questionSchema>>({
     resolver: zodResolver(questionSchema),
@@ -44,10 +50,31 @@ export default function SubmitQuestionPage({ params }: { params: { id: string } 
 
   const questionType = form.watch("type")
 
+  // Resolve params promise
+  useEffect(() => {
+    const resolveParams = async () => {
+      try {
+        const resolved = await params
+        setResolvedParams(resolved)
+      } catch (error) {
+        console.error("Error resolving params:", error)
+        toast({
+          title: "Error",
+          description: "Failed to load page parameters.",
+          variant: "destructive",
+        })
+      }
+    }
+
+   void resolveParams()
+  }, [params])
+
   useEffect(() => {
     const loadQuestionnaire = () => {
+      if (!resolvedParams) return
+
       try {
-        const data = getQuestionnaireById(params.id)
+        const data = getQuestionnaireById(resolvedParams.id)
         if (!data) {
           toast({
             title: "Error",
@@ -64,7 +91,7 @@ export default function SubmitQuestionPage({ params }: { params: { id: string } 
             description: "Question submission is not enabled for this questionnaire.",
             variant: "destructive",
           })
-          router.push(`/answer/${params.id}`)
+          router.push(`/answer/${resolvedParams.id}`)
           return
         }
 
@@ -82,9 +109,11 @@ export default function SubmitQuestionPage({ params }: { params: { id: string } 
     }
 
     loadQuestionnaire()
-  }, [params.id, router])
+  }, [resolvedParams, router])
 
   const onSubmit = async (values: z.infer<typeof questionSchema>) => {
+    if (!questionnaire || !resolvedParams) return
+
     if (values.type === "multiple-choice" && options.filter(Boolean).length < 2) {
       toast({
         title: "Error",
@@ -101,7 +130,7 @@ export default function SubmitQuestionPage({ params }: { params: { id: string } 
         options: values.type === "multiple-choice" ? options.filter(Boolean) : undefined,
       }
 
-       submitUserQuestion(questionnaire!.id, questionData)
+      submitUserQuestion(questionnaire.id, questionData)
       setSubmitted(true)
       toast({
         title: "Success",
@@ -136,7 +165,7 @@ export default function SubmitQuestionPage({ params }: { params: { id: string } 
     setOptions(newOptions)
   }
 
-  if (loading) {
+  if (loading || !resolvedParams) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center p-4">
         <Card className="w-full max-w-md">
@@ -166,7 +195,7 @@ export default function SubmitQuestionPage({ params }: { params: { id: string } 
             </CardDescription>
           </CardHeader>
           <CardFooter className="flex justify-center gap-4">
-            <Button variant="outline" onClick={() => router.push(`/answer/${params.id}`)}>
+            <Button variant="outline" onClick={() => router.push(`/answer/${resolvedParams.id}`)}>
               Back to Questionnaire
             </Button>
             <Button
@@ -294,10 +323,10 @@ export default function SubmitQuestionPage({ params }: { params: { id: string } 
                         </FormControl>
                         <SelectContent>
                           {questionnaire?.topics?.map((topic: Topic) => (
-  <SelectItem key={topic.id} value={topic.id}>
-    {topic.name}
-  </SelectItem>
-))}
+                            <SelectItem key={topic.id} value={topic.id}>
+                              {topic.name}
+                            </SelectItem>
+                          ))}
                         </SelectContent>
                       </Select>
                       <FormDescription>Select a topic that best fits your question.</FormDescription>
@@ -310,7 +339,7 @@ export default function SubmitQuestionPage({ params }: { params: { id: string } 
           </Form>
         </CardContent>
         <CardFooter className="flex justify-between">
-          <Button variant="outline" onClick={() => router.push(`/answer/${params.id}`)}>
+          <Button variant="outline" onClick={() => router.push(`/answer/${resolvedParams.id}`)}>
             Cancel
           </Button>
           <Button onClick={form.handleSubmit(onSubmit)} disabled={submitting}>
