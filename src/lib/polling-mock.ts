@@ -24,7 +24,7 @@ export interface Response {
   value: number 
   id: string
   answers: Record<string, string> 
-  submittedAt: string
+  submittedAt: string | Date
   respondentInfo?: {
     name?: string
     email?: string

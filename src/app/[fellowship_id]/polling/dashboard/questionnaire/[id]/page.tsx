@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { DashboardHeader } from "@/components/dashboard/dashboard-header"
-import { QuestionnaireDetails } from "@/components/dashboard/questionnaire-details"
+import { QuestionnaireDetails, type Questionnaire } from "@/components/dashboard/questionnaire-details"
 import { QuestionnaireAnalytics } from "@/components/dashboard/questionnaire-analytics"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { getQuestionnaireById } from "@/lib/data"
@@ -11,20 +11,57 @@ import { Button } from "@/components/ui/button"
 import { Loader2 } from "lucide-react"
 import type { QuestionGroup } from "@/lib/polling-mock"
 
-export default function QuestionnairePage({ params }: { params: { id: string } }) {
+// Update the props interface to handle Promise
+interface QuestionnairePageProps {
+  params: Promise<{ id: string }>
+}
+
+// Create a type conversion function
+const convertQuestionGroupToQuestionnaire = (questionGroup: QuestionGroup): Questionnaire => {
+  return {
+    ...questionGroup,
+    createdAt: new Date(questionGroup.createdAt),
+    updatedAt: new Date(questionGroup.updatedAt),
+    // Convert any response dates too if needed
+    responses: questionGroup.responses?.map(response => ({
+      ...response,
+      submittedAt: new Date(response.submittedAt)
+    })) || []
+  }
+}
+
+export default function QuestionnairePage({ params }: QuestionnairePageProps) {
   const router = useRouter()
   const [questionnaire, setQuestionnaire] = useState<QuestionGroup | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [resolvedParams, setResolvedParams] = useState<{ id: string } | null>(null)
+
+  // Resolve the params promise
+  useEffect(() => {
+    const resolveParams = async () => {
+      try {
+        const resolved = await params
+        setResolvedParams(resolved)
+      } catch (error) {
+        console.error("Error resolving params:", error)
+        setError("Failed to load page parameters.")
+      }
+    }
+
+   void resolveParams()
+  }, [params])
 
   useEffect(() => {
     const loadQuestionnaire = () => {
+      if (!resolvedParams) return
+
       try {
-        console.log("Loading questionnaire with ID:", params.id)
-        const data = getQuestionnaireById(params.id)
+        console.log("Loading questionnaire with ID:", resolvedParams.id)
+        const data = getQuestionnaireById(resolvedParams.id)
 
         if (!data) {
-          console.error("Questionnaire not found with ID:", params.id)
+          console.error("Questionnaire not found with ID:", resolvedParams.id)
           setError("Questionnaire not found")
           setLoading(false)
           return
@@ -41,9 +78,9 @@ export default function QuestionnairePage({ params }: { params: { id: string } }
     }
 
     loadQuestionnaire()
-  }, [params.id])
+  }, [resolvedParams])
 
-  if (loading) {
+  if (loading || !resolvedParams) {
     return (
       <>
         <DashboardHeader heading="Loading..." text="Please wait while we load the questionnaire data." />
@@ -68,6 +105,9 @@ export default function QuestionnairePage({ params }: { params: { id: string } }
     )
   }
 
+  // Convert the questionnaire for the analytics component
+  const analyticsQuestionnaire = convertQuestionGroupToQuestionnaire(questionnaire)
+
   return (
     <>
       <DashboardHeader
@@ -81,10 +121,10 @@ export default function QuestionnairePage({ params }: { params: { id: string } }
             <TabsTrigger value="analytics">Analytics</TabsTrigger>
           </TabsList>
           <TabsContent value="details" className="space-y-4 pt-4">
-            <QuestionnaireDetails questionnaire={questionnaire} />
+            <QuestionnaireDetails questionnaire={analyticsQuestionnaire} />
           </TabsContent>
           <TabsContent value="analytics" className="space-y-4 pt-4">
-            <QuestionnaireAnalytics questionnaire={questionnaire} />
+            <QuestionnaireAnalytics questionnaire={analyticsQuestionnaire} />
           </TabsContent>
         </Tabs>
       </div>
