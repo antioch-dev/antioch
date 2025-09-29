@@ -234,7 +234,7 @@ export default function ManageQuestionsPage({ params }: ManageQuestionsPageProps
       <>
         <DashboardHeader heading="Error" text="Questionnaire not found" />
         <div className="container py-8">
-          <Button onClick={() => router.push("fellowship1/polling/dashboard")}>Return to Dashboard</Button>
+          <Button onClick={() => router.push("/fellowship1/polling/dashboard")}>Return to Dashboard</Button>
         </div>
       </>
     )
@@ -243,7 +243,7 @@ export default function ManageQuestionsPage({ params }: ManageQuestionsPageProps
   return (
     <>
       <DashboardHeader heading="Manage Questions" text={`Manage questions for "${questionnaire.title}"`}>
-        <Button variant="outline" onClick={() => router.push(`fellowship1/polling/dashboard/questionnaire/${resolvedParams.id}`)}>
+        <Button variant="outline" onClick={() => router.push(`/fellowship1/polling/dashboard/questionnaire/${resolvedParams.id}`)}>
           Back to Questionnaire
         </Button>
       </DashboardHeader>

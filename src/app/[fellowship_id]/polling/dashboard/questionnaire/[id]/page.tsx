@@ -97,7 +97,7 @@ export default function QuestionnairePage({ params }: QuestionnairePageProps) {
         <DashboardHeader heading="Error" text={error || "An unknown error occurred"} />
         <div className="container py-8">
           <p>Unable to load questionnaire. Please return to the dashboard and try again.</p>
-          <Button onClick={() => router.push("fellowship1/polling/dashboard")} className="mt-4">
+          <Button onClick={() => router.push("/fellowship1/polling/dashboard")} className="mt-4">
             Return to Dashboard
           </Button>
         </div>

@@ -76,7 +76,7 @@ export default function CreateQuestionnairePage() {
       description: "Your questionnaire has been created.",
     })
 
-    router.push(`fellowship1/polling/dashboard/questionnaire/${result.id}`)
+    router.push(`/fellowship1/polling/dashboard/questionnaire/${result.id}`)
   } catch {
     toast({
       title: "Error",

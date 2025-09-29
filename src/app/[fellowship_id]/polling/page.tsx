@@ -29,7 +29,7 @@ export default function Home() {
               Build questionnaires in minutes, share them with a unique link, and get instant analytics.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-4">
-              <Link href="fellowship1/polling/dashboard/create">
+              <Link href="/fellowship1/polling/dashboard/create">
                 <Button size="lg">
                   Create Questionnaire
                   <ArrowRight className="ml-2 h-4 w-4" />
@@ -50,7 +50,7 @@ export default function Home() {
                 Create question groups with titles, descriptions, and customizable questions in minutes.
               </CardContent>
               <CardFooter>
-                <Link href="fellowship1/polling/dashboard/create" className="w-full">
+                <Link href="/fellowship1/polling/dashboard/create" className="w-full">
                   <Button className="w-full">Get Started</Button>
                 </Link>
               </CardFooter>
