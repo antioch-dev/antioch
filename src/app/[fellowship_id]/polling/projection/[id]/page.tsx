@@ -178,7 +178,7 @@ export default function ProjectionPage({ params }: ProjectionPageProps) {
           <MessageSquare className="mx-auto h-12 w-12" />
           <h2 className="mt-4 text-xl font-semibold">Error Loading Questionnaire</h2>
           <p className="mt-2 text-gray-400">{error}</p>
-          <Button variant="outline" className="mt-4" onClick={() => router.push("/dashboard")}>
+          <Button variant="outline" className="mt-4" onClick={() => router.push("fellowship1/polling/dashboard")}>
             Return to Dashboard
           </Button>
         </div>
@@ -194,7 +194,7 @@ export default function ProjectionPage({ params }: ProjectionPageProps) {
           <MessageSquare className="mx-auto h-12 w-12" />
           <h2 className="mt-4 text-xl font-semibold">No Questions Available</h2>
           <p className="mt-2 text-gray-400">{`This questionnaire doesn't have any questions yet.`}</p>
-          <Button variant="outline" className="mt-4" onClick={() => router.push("/dashboard")}>
+          <Button variant="outline" className="mt-4" onClick={() => router.push("fellowship1/polling/dashboard")}>
             Return to Dashboard
           </Button>
         </div>

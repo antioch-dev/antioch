@@ -91,7 +91,7 @@ export default function SubmitQuestionPage({ params }: SubmitQuestionPageProps) 
             description: "Question submission is not enabled for this questionnaire.",
             variant: "destructive",
           })
-          router.push(`/answer/${resolvedParams.id}`)
+          router.push(`fellowship1/polling/answer/${resolvedParams.id}`)
           return
         }
 
@@ -195,7 +195,7 @@ export default function SubmitQuestionPage({ params }: SubmitQuestionPageProps) 
             </CardDescription>
           </CardHeader>
           <CardFooter className="flex justify-center gap-4">
-            <Button variant="outline" onClick={() => router.push(`/answer/${resolvedParams.id}`)}>
+            <Button variant="outline" onClick={() => router.push(`fellowship1/polling/answer/${resolvedParams.id}`)}>
               Back to Questionnaire
             </Button>
             <Button
@@ -339,7 +339,7 @@ export default function SubmitQuestionPage({ params }: SubmitQuestionPageProps) 
           </Form>
         </CardContent>
         <CardFooter className="flex justify-between">
-          <Button variant="outline" onClick={() => router.push(`/answer/${resolvedParams.id}`)}>
+          <Button variant="outline" onClick={() => router.push(`fellowship1/polling/answer/${resolvedParams.id}`)}>
             Cancel
           </Button>
           <Button onClick={form.handleSubmit(onSubmit)} disabled={submitting}>

@@ -10,7 +10,7 @@ export default function DashboardPage() {
   return (
     <>
       <DashboardHeader heading="Dashboard" text="Manage your questionnaires and view analytics.">
-        <Link href="/dashboard/create">
+        <Link href="fellowship1/polling/dashboard/create">
           <Button>
             <PlusCircle className="mr-2 h-4 w-4" />
             New Questionnaire 

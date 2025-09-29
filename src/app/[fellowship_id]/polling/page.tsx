@@ -13,7 +13,7 @@ export default function Home() {
             <span>QuickPoll Analytics</span>
           </div>
           <div className="flex items-center gap-4">
-            <Link href="/dashboard">
+            <Link href="/fellowship1/polling/dashboard">
               <Button>Dashboard</Button>
             </Link>
           </div>
@@ -29,7 +29,7 @@ export default function Home() {
               Build questionnaires in minutes, share them with a unique link, and get instant analytics.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-4">
-              <Link href="/dashboard/create">
+              <Link href="fellowship1/polling/dashboard/create">
                 <Button size="lg">
                   Create Questionnaire
                   <ArrowRight className="ml-2 h-4 w-4" />
@@ -50,7 +50,7 @@ export default function Home() {
                 Create question groups with titles, descriptions, and customizable questions in minutes.
               </CardContent>
               <CardFooter>
-                <Link href="/dashboard/create" className="w-full">
+                <Link href="fellowship1/polling/dashboard/create" className="w-full">
                   <Button className="w-full">Get Started</Button>
                 </Link>
               </CardFooter>
@@ -65,7 +65,7 @@ export default function Home() {
                 Each questionnaire gets a shareable link for respondents and a private admin link for analytics.
               </CardContent>
               <CardFooter>
-                <Link href="/dashboard" className="w-full">
+                <Link href="/fellowship1/polling/dashboard" className="w-full">
                   <Button variant="outline" className="w-full">
                     Learn More
                   </Button>
@@ -82,7 +82,7 @@ export default function Home() {
                 Get instant insights with charts, statistics, and visualizations of your questionnaire responses.
               </CardContent>
               <CardFooter>
-                <Link href="/dashboard" className="w-full">
+                <Link href="/fellowship1/polling/dashboard" className="w-full">
                   <Button variant="outline" className="w-full">
                     View Demo
                   </Button>
