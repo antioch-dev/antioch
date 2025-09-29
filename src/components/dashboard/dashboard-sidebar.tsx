@@ -49,7 +49,7 @@ export function DashboardSidebar() {
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link href="/dashboard">
+                  <Link href="/fellowship1/polling/dashboard/questionnaire/123">
                     <FileQuestion />
                     <span>My Questionnaires</span>
                   </Link>
@@ -57,7 +57,7 @@ export function DashboardSidebar() {
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link href="/dashboard/topics">
+                  <Link href="/fellowship1/polling/dashboard/topics">
                     <Tag />
                     <span>Topics</span>
                   </Link>

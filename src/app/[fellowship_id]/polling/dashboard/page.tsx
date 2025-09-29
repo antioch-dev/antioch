@@ -1,3 +1,4 @@
+"use client"
 import { DashboardHeader } from "@/components/dashboard/dashboard-header"
 import { QuestionGroupList } from "@/components/dashboard/question-group-list"
 import { Button } from "@/components/ui/button"
@@ -13,7 +14,7 @@ export default function DashboardPage() {
         <Link href="/fellowship1/polling/dashboard/create">
           <Button>
             <PlusCircle className="mr-2 h-4 w-4" />
-            New Questionnaire 
+            New Questionnaire
           </Button>
         </Link>
       </DashboardHeader>
