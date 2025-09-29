@@ -1,3 +1,5 @@
+"use client"
+
 import {
   Sidebar,
   SidebarContent,
@@ -15,8 +17,12 @@ import { BarChart3, FileQuestion, Home, PlusCircle, Settings, User, Tag } from "
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ModeToggle } from "@/components/mode-toggle"
+import { getAllQuestionGroups } from "@/lib/polling-data" // adjust path
 
 export function DashboardSidebar() {
+  const questionnaires = getAllQuestionGroups()
+  const firstQuestionnaireId = questionnaires[0]?.id
+
   return (
     <Sidebar variant="inset">
       <SidebarHeader className="flex items-center justify-between">
@@ -48,8 +54,14 @@ export function DashboardSidebar() {
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="/fellowship1/polling/dashboard/questionnaire/123">
+                <SidebarMenuButton asChild disabled={!firstQuestionnaireId}>
+                  <Link
+                    href={
+                      firstQuestionnaireId
+                        ? `/fellowship1/polling/dashboard/questionnaire/${firstQuestionnaireId}`
+                        : "#"
+                    }
+                  >
                     <FileQuestion />
                     <span>My Questionnaires</span>
                   </Link>

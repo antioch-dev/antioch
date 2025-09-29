@@ -6,8 +6,23 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { PlusCircle } from "lucide-react"
 import Link from "next/link"
+import { useState, useEffect } from "react" // Add this import
 
 export default function DashboardPage() {
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    setIsLoading(false)
+  }, [])
+
+  if (isLoading) {
+    return (
+      <div className="container flex items-center justify-center min-h-screen">
+        <div>Loading dashboard...</div>
+      </div>
+    )
+  }
+
   return (
     <>
       <DashboardHeader heading="Dashboard" text="Manage your questionnaires and view analytics.">
