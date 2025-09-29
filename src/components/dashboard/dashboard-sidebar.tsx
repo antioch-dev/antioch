@@ -33,7 +33,7 @@ export function DashboardSidebar() {
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link href="/dashboard">
+                  <Link href="/fellowship1/polling/dashboard">
                     <Home />
                     <span>Dashboard</span>
                   </Link>
@@ -41,7 +41,7 @@ export function DashboardSidebar() {
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link href="/dashboard/create">
+                  <Link href="/fellowship1/polling/dashboard/create">
                     <PlusCircle />
                     <span>Create Questionnaire</span>
                   </Link>

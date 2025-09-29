@@ -46,7 +46,7 @@ export function QuestionnaireDetails({ questionnaire }: QuestionnaireDetailsProp
             <CardDescription>The requested questionnaire could not be found.</CardDescription>
           </CardHeader>
           <CardContent>
-            <Button onClick={() => router.push("/dashboard")}>Return to Dashboard</Button>
+            <Button onClick={() => router.push("/fellowship1/polling/dashboard")}>Return to Dashboard</Button>
           </CardContent>
         </Card>
       </div>
@@ -147,7 +147,7 @@ export function QuestionnaireDetails({ questionnaire }: QuestionnaireDetailsProp
                 <Button
                   variant="ghost"
                   size="icon"
-                  onClick={() => copyToClipboard(`/answer/${questionnaire.answererUrl || ""}`)}
+                  onClick={() => copyToClipboard(`/fellowship1/polling/answer/${questionnaire.answererUrl || ""}`)}
                 >
                   <Copy className="h-4 w-4" />
                   <span className="sr-only">Copy link</span>
@@ -171,7 +171,7 @@ export function QuestionnaireDetails({ questionnaire }: QuestionnaireDetailsProp
                 <Button
                   variant="ghost"
                   size="icon"
-                  onClick={() => copyToClipboard(`/projection/${questionnaire.projectionUrl || ""}`)}
+                  onClick={() => copyToClipboard(`/fellowship1/polling/projection/${questionnaire.projectionUrl || ""}`)}
                 >
                   <Copy className="h-4 w-4" />
                   <span className="sr-only">Copy link</span>
@@ -188,14 +188,14 @@ export function QuestionnaireDetails({ questionnaire }: QuestionnaireDetailsProp
               <h3 className="text-sm font-medium text-muted-foreground">Admin Link</h3>
               <div className="mt-1 flex items-center gap-2">
                 <code className="rounded bg-muted px-2 py-1 text-sm">
-                  {`${typeof window !== "undefined" ? window.location.origin : ""}/dashboard/questionnaire/${
+                  {`${typeof window !== "undefined" ? window.location.origin : ""}/fellowship1/polling/dashboard/questionnaire/${
                     questionnaire.id || "link"
                   }`}
                 </code>
                 <Button
                   variant="ghost"
                   size="icon"
-                  onClick={() => copyToClipboard(`/dashboard/questionnaire/${questionnaire.id || ""}`)}
+                  onClick={() => copyToClipboard(`/fellowship1/polling/dashboard/questionnaire/${questionnaire.id || ""}`)}
                 >
                   <Copy className="h-4 w-4" />
                   <span className="sr-only">Copy link</span>
@@ -205,7 +205,7 @@ export function QuestionnaireDetails({ questionnaire }: QuestionnaireDetailsProp
           </div>
 
           <div className="mt-6 flex flex-wrap gap-3">
-            <Button onClick={() => router.push(`/dashboard/manage-questions/${questionnaire.id}`)}>
+            <Button onClick={() => router.push(`/fellowship1/polling/dashboard/manage-questions/${questionnaire.id}`)}>
               <MessageSquare className="mr-2 h-4 w-4" />
               Manage Questions
             </Button>

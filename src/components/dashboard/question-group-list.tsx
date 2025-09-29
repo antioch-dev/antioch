@@ -71,7 +71,7 @@ export function QuestionGroupList() {
                 filteredGroups.map((group) => (
                   <TableRow key={group.id}>
                     <TableCell className="font-medium">
-                      <Link href={`/dashboard/questionnaire/${group.id}`} className="hover:underline">
+                      <Link href={`/fellowship1/polling/dashboard/questionnaire/${group.id}`} className="hover:underline">
                         {group.title}
                       </Link>
                     </TableCell>
@@ -96,20 +96,20 @@ export function QuestionGroupList() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          onClick={() => copyToClipboard(`/answer/${group.answererUrl}`)}
+                          onClick={() => copyToClipboard(`/fellowship1/polling/answer/${group.answererUrl}`)}
                           title="Copy shareable link"
                         >
                           <Copy className="h-4 w-4" />
                           <span className="sr-only">Copy link</span>
                         </Button>
                         <Button variant="ghost" size="icon" asChild title="View analytics">
-                          <Link href={`/dashboard/questionnaire/${group.id}?tab=analytics`}>
+                          <Link href={`/fellowship1/polling/dashboard/questionnaire/${group.id}?tab=analytics`}>
                             <BarChart3 className="h-4 w-4" />
                             <span className="sr-only">View analytics</span>
                           </Link>
                         </Button>
                         <Button variant="ghost" size="icon" asChild title="Open answerer view">
-                          <Link href={`/answer/${group.answererUrl}`} target="_blank">
+                          <Link href={`/fellowship1/polling/answer/${group.answererUrl}`} target="_blank">
                             <ExternalLink className="h-4 w-4" />
                             <span className="sr-only">Open answerer view</span>
                           </Link>
