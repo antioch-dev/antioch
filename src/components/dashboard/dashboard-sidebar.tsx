@@ -6,12 +6,10 @@ import {
   SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarTrigger,
 } from "@/components/ui/sidebar"
 import { BarChart3, FileQuestion, Home, PlusCircle, Settings, User, Tag } from "lucide-react"
 import Link from "next/link"
@@ -24,17 +22,21 @@ export function DashboardSidebar() {
   const firstQuestionnaireId = questionnaires[0]?.id
 
   return (
-    <Sidebar variant="inset">
+    <Sidebar
+      variant="inset"
+      className="flex h-[calc(100vh-64px)] w-[250px] flex-col border-r bg-background mt-[64px]"
+    >
+      {/* Header */}
       <SidebarHeader className="flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 font-bold">
+        <Link href="/fellowship1/polling" className="flex items-center gap-2 font-bold">
           <BarChart3 className="h-5 w-5" />
           <span>QuickPoll</span>
         </Link>
-        <SidebarTrigger />
       </SidebarHeader>
-      <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>Navigation</SidebarGroupLabel>
+
+      {/* Content */}
+      <SidebarContent className="flex-1 overflow-y-auto flex flex-col items-center ">
+        <SidebarGroup className="w-full">
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
@@ -79,7 +81,9 @@ export function DashboardSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="flex items-center justify-between p-4">
+
+      {/* Footer pinned at bottom */}
+      <SidebarFooter className="flex items-center justify-between p-4 border-t">
         <div className="flex items-center gap-2">
           <User className="h-5 w-5" />
           <span className="text-sm font-medium">Admin User</span>
