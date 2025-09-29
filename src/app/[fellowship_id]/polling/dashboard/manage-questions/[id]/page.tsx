@@ -63,7 +63,7 @@ export default function ManageQuestionsPage({ params }: ManageQuestionsPageProps
             description: "Questionnaire not found.",
             variant: "destructive",
           })
-          router.push("fellwoship1/polling/dashboard")
+          router.push("/fellwoship1/polling/dashboard")
           return
         }
 

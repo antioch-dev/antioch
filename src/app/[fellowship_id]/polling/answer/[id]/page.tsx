@@ -98,7 +98,7 @@ export default function AnswerPage({ params }: AnswerPageProps) {
             description: "Questionnaire not found.",
             variant: "destructive",
           })
-          router.push("/")
+          router.push("/fellowship1/polling")
           return
         }
 
@@ -165,7 +165,7 @@ export default function AnswerPage({ params }: AnswerPageProps) {
             <CardDescription>The questionnaire you are looking for does not exist or has expired.</CardDescription>
           </CardHeader>
           <CardFooter>
-            <Button onClick={() => router.push("/")} className="w-full">
+            <Button onClick={() => router.push("/fellowship1/polling")} className="w-full">
               Return Home
             </Button>
           </CardFooter>
@@ -186,7 +186,7 @@ export default function AnswerPage({ params }: AnswerPageProps) {
             <p>This questionnaire doesn&apos;t have any active questions at the moment.</p>
           </CardContent>
           <CardFooter>
-            <Button onClick={() => router.push("/")} className="w-full">
+            <Button onClick={() => router.push("/fellowship1/polling")} className="w-full">
               Return Home
             </Button>
           </CardFooter>
@@ -208,7 +208,7 @@ export default function AnswerPage({ params }: AnswerPageProps) {
             <CardDescription>Unable to load the current question.</CardDescription>
           </CardHeader>
           <CardFooter>
-            <Button onClick={() => router.push("/")} className="w-full">
+            <Button onClick={() => router.push("/fellowship1/polling")} className="w-full">
               Return Home
             </Button>
           </CardFooter>
@@ -275,7 +275,7 @@ export default function AnswerPage({ params }: AnswerPageProps) {
             <CardDescription className="text-center">Your responses have been submitted successfully.</CardDescription>
           </CardHeader>
           <CardFooter className="flex flex-col gap-4">
-            <Button onClick={() => router.push("/")} variant="outline" className="w-full">
+            <Button onClick={() => router.push("/fellowship1/polling")} variant="outline" className="w-full">
               Return Home
             </Button>
             {questionnaire.settings?.allowQuestionSubmission && (

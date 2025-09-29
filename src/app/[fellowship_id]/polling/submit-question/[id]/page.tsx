@@ -81,7 +81,7 @@ export default function SubmitQuestionPage({ params }: SubmitQuestionPageProps) 
             description: "Questionnaire not found.",
             variant: "destructive",
           })
-          router.push("/")
+          router.push("/fellowship1/polling")
           return
         }
 
