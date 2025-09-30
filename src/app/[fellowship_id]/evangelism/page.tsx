@@ -37,19 +37,19 @@ export default function Dashboard() {
               <p className="text-gray-600">Engaging hearts, nurturing faith, building community</p>
             </div>
             <nav className="flex space-x-4">
-              <Link href="/fellowship1/Church-Evangelism/visitors">
+              <Link href="/fellowship1/evangelism/visitors">
                 <Button variant="ghost">Visitors</Button>
               </Link>
-              <Link href="/fellowship1/Church-Evangelism//follow-up">
+              <Link href="/fellowship1/evangelism//follow-up">
                 <Button variant="ghost">Follow-Up</Button>
               </Link>
-              <Link href="/fellowship1/Church-Evangelism//events">
+              <Link href="/fellowship1/evangelism//events">
                 <Button variant="ghost">Events</Button>
               </Link>
-              <Link href="/fellowship1/Church-Evangelism//volunteers">
+              <Link href="/fellowship1/evangelism//volunteers">
                 <Button variant="ghost">Volunteers</Button>
               </Link>
-              <Link href="/fellowship1/Church-Evangelism//analytics">
+              <Link href="/fellowship1/evangelism//analytics">
                 <Button variant="ghost">Analytics</Button>
               </Link>
             </nav>
@@ -168,13 +168,13 @@ export default function Dashboard() {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <Link href="/fellowship1/Church-Evangelism//visitors/add">
+              <Link href="/fellowship1/evangelism//visitors/add">
                 <Button className="w-full h-20 flex flex-col items-center justify-center space-y-2">
                   <UserPlus className="h-6 w-6" />
                   <span>Add Visitor</span>
                 </Button>
               </Link>
-              <Link href="/fellowship1/Church-Evangelism//follow-up/schedule">
+              <Link href="/fellowship1/evangelism//follow-up/schedule">
                 <Button
                   variant="outline"
                   className="w-full h-20 flex flex-col items-center justify-center space-y-2 bg-white text-gray-700"
@@ -183,7 +183,7 @@ export default function Dashboard() {
                   <span>Schedule Follow-up</span>
                 </Button>
               </Link>
-              <Link href="/fellowship1/Church-Evangelism//events/new">
+              <Link href="/fellowship1/evangelism//events/new">
                 <Button
                   variant="outline"
                   className="w-full h-20 flex flex-col items-center justify-center space-y-2 bg-white text-gray-700"
@@ -192,7 +192,7 @@ export default function Dashboard() {
                   <span>Create Event</span>
                 </Button>
               </Link>
-              <Link href="/fellowship1/Church-Evangelism//analytics">
+              <Link href="/fellowship1/evangelism//analytics">
                 <Button
                   variant="outline"
                   className="w-full h-20 flex flex-col items-center justify-center space-y-2 bg-white text-gray-700"
