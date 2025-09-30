@@ -282,9 +282,15 @@ function ChartLegendContent({
         return (
           <div
             key={item.value}
+     prayer_system
+            className={
+              '[&>svg]:text-muted-foreground flex items-center gap-1.5 [&>svg]:h-3 [&>svg]:w-3'
+            }
+
             className={cn(
               '[&>svg]:text-muted-foreground flex items-center gap-1.5 [&>svg]:h-3 [&>svg]:w-3',
             )}
+              main
           >
             {itemConfig?.icon && !hideIcon ? (
               <itemConfig.icon />

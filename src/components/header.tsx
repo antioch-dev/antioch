@@ -34,6 +34,13 @@ export function Header() {
           <Link href="/fellowship1/shared_music" className="text-sm font-medium transition-colors hover:text-primary">
             Shared Music
           </Link>
+          
+           <Link
+            href="/fellowship1/Prayer-system"
+            className="text-sm font-medium transition-colors hover:text-primary"
+           >
+            PrayerPal
+          </Link>
           <Link href="/fellowship1/qa" className="text-sm font-medium transition-colors hover:text-primary">
             QAsystem
           </Link>
@@ -42,6 +49,7 @@ export function Header() {
           </Link>
           <Link href="/fellowship1/bible" className="text-sm font-medium transition-colors hover:text-primary">
             SystemWideBible
+          main
           </Link>
           <Link href="/fellowship1/bible-study" className="text-sm font-medium transition-colors hover:text-primary">
             BibleStudy
