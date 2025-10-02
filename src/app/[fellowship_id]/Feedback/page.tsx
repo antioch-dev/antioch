@@ -28,8 +28,8 @@ export default function HomePage() {
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold text-foreground mb-4">Share Your Feedback</h2>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              Your input helps us build better experiences. Whether it's a suggestion, fellowship question, or bug
-              report, we'd love to hear from you.
+             {` Your input helps us build better experiences. Whether it's a suggestion, fellowship question, or bug
+              report, we'd love to hear from you.`}
             </p>
           </div>
 

@@ -45,22 +45,29 @@ export default function SettingsPage() {
   const [isSaving, setIsSaving] = useState(false)
 
   useEffect(() => {
-    fetchUserAndSettings()
+    void fetchUserAndSettings()
   }, [])
 
   const fetchUserAndSettings = async () => {
     try {
       const userResponse = await fetch("/api/auth/me")
       if (userResponse.ok) {
-        const userData = await userResponse.json()
+        const userData = await userResponse.json() as { user: AuthUser}
         setUser(userData.user)
       }
 
       // Load settings from localStorage for now (could be from API)
       const savedSettings = localStorage.getItem("userSettings")
       if (savedSettings) {
-        setSettings(JSON.parse(savedSettings))
+      try{
+         const parsedSettings = JSON.parse(savedSettings) as UserSettings
+         setSettings(parsedSettings)
+
+      } catch(parseError){
+        console.error("Failed to parse saved settings:", parseError)
       }
+      }
+    
     } catch (error) {
       console.error("Failed to fetch user data:", error)
     } finally {
@@ -84,7 +91,7 @@ export default function SettingsPage() {
     }
   }
 
-  const updateSetting = (key: keyof UserSettings, value: any) => {
+  const updateSetting = (key: keyof UserSettings, value: unknown) => {
     setSettings((prev) => ({ ...prev, [key]: value }))
   }
 

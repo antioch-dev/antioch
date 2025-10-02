@@ -27,14 +27,14 @@ export function AuthHeader() {
   const router = useRouter()
 
   useEffect(() => {
-    fetchUser()
+     void fetchUser()
   }, [])
 
   const fetchUser = async () => {
     try {
       const response = await fetch("/api/auth/me")
       if (response.ok) {
-        const data = await response.json()
+        const data = await response.json() as { user: AuthUser}
         setUser(data.user)
       }
     } catch (error) {

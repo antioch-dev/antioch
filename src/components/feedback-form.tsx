@@ -108,7 +108,7 @@ export function FeedbackForm() {
           Submit Feedback
         </CardTitle>
         <CardDescription>
-          All fields marked with * are required. We'll get back to you if you provide contact information.
+         {` All fields marked with * are required. We'll get back to you if you provide contact information.`}
         </CardDescription>
       </CardHeader>
 
@@ -194,7 +194,7 @@ export function FeedbackForm() {
             <div className="border-t border-border pt-4">
               <h3 className="font-medium text-foreground mb-2">Contact Information (Optional)</h3>
               <p className="text-sm text-muted-foreground mb-4">
-                Provide your contact details if you'd like us to follow up with you
+              {`  Provide your contact details if you'd like us to follow up with you`}
               </p>
             </div>
 
@@ -227,7 +227,7 @@ export function FeedbackForm() {
             <Alert className="border-primary/20 bg-primary/5">
               <CheckCircle className="h-4 w-4 text-primary" />
               <AlertDescription className="text-primary">
-                Thank you! Your feedback has been submitted successfully. We'll review it and get back to you if needed.
+ {`     Thank you! Your feedback has been submitted successfully. We'll review it and get back to you if needed.`}
               </AlertDescription>
             </Alert>
           )}

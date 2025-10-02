@@ -31,6 +31,8 @@ interface FeedbackItem {
   updatedAt: string
 }
 
+type FeedbackStatus =  "new" | "in_progress" | "resolved" 
+
 interface FellowshipFeedbackListProps {
   searchQuery: string
   statusFilter: string
@@ -45,7 +47,7 @@ export function FellowshipFeedbackList({
   feedbackType,
 }: FellowshipFeedbackListProps) {
   const [feedbackItems, setFeedbackItems] = useState<FeedbackItem[]>([])
-  const [selectedItem, setSelectedItem] = useState<FeedbackItem | null>(null)
+  const [, setSelectedItem] = useState<FeedbackItem | null>(null)
   const [replyText, setReplyText] = useState("")
 
   useEffect(() => {
@@ -159,7 +161,7 @@ export function FellowshipFeedbackList({
   const handleStatusChange = (itemId: string, newStatus: string) => {
     setFeedbackItems((items) =>
       items.map((item) =>
-        item.id === itemId ? { ...item, status: newStatus as any, updatedAt: new Date().toISOString() } : item,
+        item.id === itemId ? { ...item, status: newStatus as FeedbackStatus, updatedAt: new Date().toISOString() } : item,
       ),
     )
   }

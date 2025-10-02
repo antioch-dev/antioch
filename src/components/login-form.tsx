@@ -10,6 +10,12 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Shield, AlertCircle, Eye, EyeOff } from "lucide-react"
+interface AuthUser {
+  id: string
+  email: string
+  name?: string
+  role: string
+}
 
 export function LoginForm() {
   const [email, setEmail] = useState("")
@@ -33,10 +39,10 @@ export function LoginForm() {
         body: JSON.stringify({ email, password }),
       })
 
-      const data = await response.json()
+      const data = await response.json() as { user: AuthUser }
 
       if (!response.ok) {
-        throw new Error(data.error || "Login failed")
+        throw new Error( "Login failed")
       }
 
       // Redirect based on user role

@@ -38,9 +38,11 @@ interface FeedbackListProps {
   assigneeFilter: string
 }
 
+type FeedbackStatus =  "new" | "in_progress" | "resolved" | "archived" 
+
 export function FeedbackList({ searchQuery, statusFilter, categoryFilter, assigneeFilter }: FeedbackListProps) {
   const [feedbackItems, setFeedbackItems] = useState<FeedbackItem[]>([])
-  const [selectedItem, setSelectedItem] = useState<FeedbackItem | null>(null)
+  const [, setSelectedItem] = useState<FeedbackItem | null>(null)
   const [replyText, setReplyText] = useState("")
 
   useEffect(() => {
@@ -130,13 +132,13 @@ export function FeedbackList({ searchQuery, statusFilter, categoryFilter, assign
     }
   }
 
-  const handleStatusChange = (itemId: string, newStatus: string) => {
-    setFeedbackItems((items) =>
-      items.map((item) =>
-        item.id === itemId ? { ...item, status: newStatus as any, updatedAt: new Date().toISOString() } : item,
-      ),
-    )
-  }
+ const handleStatusChange = (itemId: string, newStatus: FeedbackStatus) => {
+  setFeedbackItems((items) =>
+    items.map((item) =>
+      item.id === itemId ? { ...item, status: newStatus, updatedAt: new Date().toISOString() } : item,
+    ),
+  )
+}
 
   const handleAssigneeChange = (itemId: string, assignee: string) => {
     setFeedbackItems((items) =>
@@ -271,7 +273,7 @@ export function FeedbackList({ searchQuery, statusFilter, categoryFilter, assign
                   </div>
 
                   <div className="flex items-center space-x-2">
-                    <Select value={item.status} onValueChange={(value) => handleStatusChange(item.id, value)}>
+                    <Select value={item.status} onValueChange={(value:  "new" | "in_progress" | "resolved" | "archived") => handleStatusChange(item.id, value)}>
                       <SelectTrigger className="w-32">
                         <SelectValue />
                       </SelectTrigger>
