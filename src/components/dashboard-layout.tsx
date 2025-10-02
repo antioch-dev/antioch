@@ -24,11 +24,11 @@ export function DashboardLayout({ children, userRole = "member", fellowshipId, u
   const getNavItems = () => {
     if (userRole === "admin") {
       return [
-        { name: "Dashboard", href: "/admin/dashboard", icon: Home },
-        { name: "Fellowships", href: "/admin/fellowships", icon: Church },
-        { name: "Users", href: "/admin/users", icon: Users },
-        { name: "Analytics", href: "/admin/analytics", icon: BarChart3 },
-        { name: "Settings", href: "/admin/settings", icon: Settings },
+        { name: "Dashboard", href: "/fellowship1/church-finance/admin/dashboard", icon: Home },
+        { name: "Fellowships", href: "/fellowship1/church-finance/admin/fellowships", icon: Church },
+        { name: "Users", href: "/fellowship1/church-finance/admin/users", icon: Users },
+        { name: "Analytics", href: "/fellowship1/church-finance/admin/analytics", icon: BarChart3 },
+        { name: "Settings", href: "/fellowship1/church-finance/admin/settings", icon: Settings },
       ]
     } else if (fellowshipId) {
       return [

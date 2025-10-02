@@ -17,22 +17,22 @@ export default function HomePage() {
               <h1 className="font-serif font-black text-xl text-gray-900">Church Finance</h1>
             </div>
             <nav className="flex items-center gap-6">
-              <Link href="/income" className="text-gray-600 hover:text-primary font-medium">
+              <Link href="/fellowship1/church-finance/income" className="text-gray-600 hover:text-primary font-medium">
                 Income
               </Link>
-              <Link href="/expenses" className="text-gray-600 hover:text-primary font-medium">
+              <Link href="/fellowship1/church-finance/expenses" className="text-gray-600 hover:text-primary font-medium">
                 Expenses
               </Link>
-              <Link href="/budgets" className="text-gray-600 hover:text-primary font-medium">
+              <Link href="/fellowship1/church-finance/budgets" className="text-gray-600 hover:text-primary font-medium">
                 Budgets
               </Link>
-              <Link href="/reports" className="text-gray-600 hover:text-primary font-medium">
+              <Link href="/fellowship1/church-finance/reports" className="text-gray-600 hover:text-primary font-medium">
                 Reports
               </Link>
-              <Link href="/assets" className="text-gray-600 hover:text-primary font-medium">
+              <Link href="/fellowship1/church-finance/assets" className="text-gray-600 hover:text-primary font-medium">
                 Assets
               </Link>
-              <Link href="/admin" className="text-gray-600 hover:text-primary font-medium">
+              <Link href="/fellowship1/church-finance/admin" className="text-gray-600 hover:text-primary font-medium">
                 Admin
               </Link>
             </nav>
@@ -52,10 +52,10 @@ export default function HomePage() {
           </p>
           <div className="flex gap-4 justify-center">
             <Button asChild size="lg" className="bg-primary hover:bg-primary/90">
-              <Link href="/income">Get Started Today</Link>
+              <Link href="/fellowship1/church-finance/income">Get Started Today</Link>
             </Button>
             <Button asChild size="lg" variant="outline" className="bg-transparent">
-              <Link href="/admin">
+              <Link href="/fellowship1/church-finance/admin">
                 <Settings className="w-4 h-4 mr-2" />
                 Admin Dashboard
               </Link>
@@ -106,7 +106,7 @@ export default function HomePage() {
             </CardHeader>
             <CardContent>
               <Button asChild className="w-full">
-                <Link href="/income/new">
+                <Link href="/fellowship1/church-finance/income/new">
                   <Plus className="w-4 h-4 mr-2" />
                   Add Income
                 </Link>
@@ -121,7 +121,7 @@ export default function HomePage() {
             </CardHeader>
             <CardContent>
               <Button asChild variant="outline" className="w-full bg-transparent">
-                <Link href="/expenses/new">
+                <Link href="/fellowship1/church-finance/expenses/new">
                   <Plus className="w-4 h-4 mr-2" />
                   Add Expense
                 </Link>
@@ -136,7 +136,7 @@ export default function HomePage() {
             </CardHeader>
             <CardContent>
               <Button asChild variant="outline" className="w-full bg-transparent">
-                <Link href="/budgets/new">
+                <Link href="/fellowship1/church-finance/budgets/new">
                   <Plus className="w-4 h-4 mr-2" />
                   New Request
                 </Link>
@@ -151,7 +151,7 @@ export default function HomePage() {
             </CardHeader>
             <CardContent>
               <Button asChild variant="outline" className="w-full bg-transparent">
-                <Link href="/reports">
+                <Link href="/fellowship1/church-finance/reports">
                   <Calendar className="w-4 h-4 mr-2" />
                   View Reports
                 </Link>

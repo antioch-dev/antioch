@@ -92,22 +92,22 @@ export default function NewAssetPage() {
               </Link>
             </div>
             <nav className="flex items-center gap-6">
-              <Link href="/income" className="text-gray-600 hover:text-primary font-medium">
+              <Link href="/fellowship1/church-finance/income" className="text-gray-600 hover:text-primary font-medium">
                 Income
               </Link>
-              <Link href="/expenses" className="text-gray-600 hover:text-primary font-medium">
+              <Link href="/fellowship1/church-finance/expenses" className="text-gray-600 hover:text-primary font-medium">
                 Expenses
               </Link>
-              <Link href="/budgets" className="text-gray-600 hover:text-primary font-medium">
+              <Link href="/fellowship1/church-finance/budgets" className="text-gray-600 hover:text-primary font-medium">
                 Budgets
               </Link>
-              <Link href="/reports" className="text-gray-600 hover:text-primary font-medium">
+              <Link href="/fellowship1/church-finance/reports" className="text-gray-600 hover:text-primary font-medium">
                 Reports
               </Link>
-              <Link href="/assets" className="text-primary font-medium">
+              <Link href="/fellowship1/church-finance/assets" className="text-primary font-medium">
                 Assets
               </Link>
-              <Link href="/admin" className="text-gray-600 hover:text-primary font-medium">
+              <Link href="/fellowship1/church-finance/admin" className="text-gray-600 hover:text-primary font-medium">
                 Admin
               </Link>
             </nav>
@@ -120,7 +120,7 @@ export default function NewAssetPage() {
         {/* Page Header */}
         <div className="flex items-center gap-4 mb-8">
           <Button variant="outline" size="sm" asChild>
-            <Link href="/assets">
+            <Link href="/fellowship1/church-finance/assets">
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Assets
             </Link>
@@ -339,7 +339,7 @@ export default function NewAssetPage() {
                   Add Asset
                 </Button>
                 <Button type="button" variant="outline" asChild>
-                  <Link href="/assets">Cancel</Link>
+                  <Link href="/fellowship1/church-finance/assets">Cancel</Link>
                 </Button>
               </div>
             </form>

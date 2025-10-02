@@ -94,22 +94,22 @@ export default function ReportsPage() {
               </Link>
             </div>
             <nav className="flex items-center gap-6">
-              <Link href="/income" className="text-gray-600 hover:text-primary font-medium">
+              <Link href="/fellowship1/church-finance/income" className="text-gray-600 hover:text-primary font-medium">
                 Income
               </Link>
-              <Link href="/expenses" className="text-gray-600 hover:text-primary font-medium">
+              <Link href="/fellowship1/church-finance/expenses" className="text-gray-600 hover:text-primary font-medium">
                 Expenses
               </Link>
-              <Link href="/budgets" className="text-gray-600 hover:text-primary font-medium">
+              <Link href="/fellowship1/church-finance/budgets" className="text-gray-600 hover:text-primary font-medium">
                 Budgets
               </Link>
-              <Link href="/reports" className="text-primary font-medium">
+              <Link href="/fellowship1/church-finance/reports" className="text-primary font-medium">
                 Reports
               </Link>
-              <Link href="/assets" className="text-gray-600 hover:text-primary font-medium">
+              <Link href="/fellowship1/church-finance/assets" className="text-gray-600 hover:text-primary font-medium">
                 Assets
               </Link>
-              <Link href="/admin" className="text-gray-600 hover:text-primary font-medium">
+              <Link href="/fellowship1/church-finance/admin" className="text-gray-600 hover:text-primary font-medium">
                 Admin
               </Link>
             </nav>
@@ -248,19 +248,19 @@ export default function ReportsPage() {
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <Button variant="outline" className="h-20 flex-col gap-2 bg-transparent" asChild>
-                    <Link href="/reports/monthly/january">
+                    <Link href="/fellowship1/church-finance/reports/monthly/january">
                       <FileText className="w-6 h-6" />
                       <span>Monthly Summary</span>
                     </Link>
                   </Button>
                   <Button variant="outline" className="h-20 flex-col gap-2 bg-transparent" asChild>
-                    <Link href="/reports/yearly/2024">
+                    <Link href="/fellowship1/church-finance/reports/yearly/2024">
                       <Calendar className="w-6 h-6" />
                       <span>Yearly Report</span>
                     </Link>
                   </Button>
                   <Button variant="outline" className="h-20 flex-col gap-2 bg-transparent" asChild>
-                    <Link href="/reports/tax-summary">
+                    <Link href="/fellowship1/church-finance/reports/tax-summary">
                       <DollarSign className="w-6 h-6" />
                       <span>Tax Summary</span>
                     </Link>

@@ -111,22 +111,22 @@ export default function AdminDashboardPage() {
               </Link>
             </div>
             <nav className="flex items-center gap-6">
-              <Link href="/income" className="text-gray-600 hover:text-primary font-medium">
+              <Link href="/fellowship1/church-finance/income" className="text-gray-600 hover:text-primary font-medium">
                 Income
               </Link>
-              <Link href="/expenses" className="text-gray-600 hover:text-primary font-medium">
+              <Link href="/fellowship1/church-finance/expenses" className="text-gray-600 hover:text-primary font-medium">
                 Expenses
               </Link>
-              <Link href="/budgets" className="text-gray-600 hover:text-primary font-medium">
+              <Link href="/fellowship1/church-finance/budgets" className="text-gray-600 hover:text-primary font-medium">
                 Budgets
               </Link>
-              <Link href="/reports" className="text-gray-600 hover:text-primary font-medium">
+              <Link href="/fellowship1/church-finance/reports" className="text-gray-600 hover:text-primary font-medium">
                 Reports
               </Link>
-              <Link href="/assets" className="text-gray-600 hover:text-primary font-medium">
+              <Link href="/fellowship1/church-finance/assets" className="text-gray-600 hover:text-primary font-medium">
                 Assets
               </Link>
-              <Link href="/admin" className="text-primary font-medium">
+              <Link href="/fellowship1/church-finance/admin" className="text-primary font-medium">
                 Admin
               </Link>
             </nav>
@@ -248,25 +248,25 @@ export default function AdminDashboardPage() {
                 </CardHeader>
                 <CardContent className="space-y-3">
                   <Button asChild className="w-full justify-start">
-                    <Link href="/budgets">
+                    <Link href="/fellowship1/church-finance/budgets">
                       <CheckCircle className="w-4 h-4 mr-2" />
                       Review Budget Requests ({pendingBudgets.length})
                     </Link>
                   </Button>
                   <Button asChild variant="outline" className="w-full justify-start bg-transparent">
-                    <Link href="/reports">
+                    <Link href="/fellowship1/church-finance/reports">
                       <Receipt className="w-4 h-4 mr-2" />
                       Generate Monthly Report
                     </Link>
                   </Button>
                   <Button asChild variant="outline" className="w-full justify-start bg-transparent">
-                    <Link href="/income/new">
+                    <Link href="/fellowship1/church-finance/income/new">
                       <DollarSign className="w-4 h-4 mr-2" />
                       Record Income
                     </Link>
                   </Button>
                   <Button asChild variant="outline" className="w-full justify-start bg-transparent">
-                    <Link href="/expenses/new">
+                    <Link href="/fellowship1/church-finance/expenses/new">
                       <Receipt className="w-4 h-4 mr-2" />
                       Record Expense
                     </Link>

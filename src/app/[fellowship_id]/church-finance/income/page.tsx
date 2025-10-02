@@ -62,19 +62,19 @@ export default function IncomePage() {
               </Link>
             </div>
             <nav className="flex items-center gap-6">
-              <Link href="/income" className="text-primary font-medium">
+              <Link href="/fellowship1/church-finance/income" className="text-primary font-medium">
                 Income
               </Link>
-              <Link href="/expenses" className="text-gray-600 hover:text-primary font-medium">
+              <Link href="/fellowship1/church-finance/expenses" className="text-gray-600 hover:text-primary font-medium">
                 Expenses
               </Link>
-              <Link href="/budgets" className="text-gray-600 hover:text-primary font-medium">
+              <Link href="/fellowship1/church-finance/budgets" className="text-gray-600 hover:text-primary font-medium">
                 Budgets
               </Link>
-              <Link href="/reports" className="text-gray-600 hover:text-primary font-medium">
+              <Link href="/fellowship1/church-finance/reports" className="text-gray-600 hover:text-primary font-medium">
                 Reports
               </Link>
-              <Link href="/assets" className="text-gray-600 hover:text-primary font-medium">
+              <Link href="/fellowship1/church-finance/assets" className="text-gray-600 hover:text-primary font-medium">
                 Assets
               </Link>
             </nav>
@@ -91,7 +91,7 @@ export default function IncomePage() {
             <p className="text-gray-600">Track and manage all incoming funds</p>
           </div>
           <Button asChild>
-            <Link href="/income/new">
+            <Link href="/fellowship1/church-finance/income/new">
               <Plus className="w-4 h-4 mr-2" />
               Record Income
             </Link>
