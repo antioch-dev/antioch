@@ -9,7 +9,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { DollarSign, ArrowLeft, Save } from "lucide-react"
 import Link from "next/link"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 const ministryDepartments = [
   "Youth Ministry",
@@ -24,7 +24,15 @@ const ministryDepartments = [
   "Other",
 ]
 
-export default function EditBudgetRequestPage({ params }: { params: { id: string } }) {
+// Define the props interface
+interface EditBudgetRequestPageProps {
+  params: Promise<{
+    id: string
+  }>
+}
+
+export default function EditBudgetRequestPage({ params }: EditBudgetRequestPageProps) {
+  const [resolvedParams, setResolvedParams] = useState<{ id: string } | null>(null)
   const [formData, setFormData] = useState({
     title: "Youth Ministry Summer Camp",
     description: "Annual summer camp for 25 youth members including transportation, accommodation, and activities",
@@ -37,10 +45,31 @@ export default function EditBudgetRequestPage({ params }: { params: { id: string
       "Camp includes lodging ($1500), meals ($800), transportation ($600), activities ($400), materials ($200)",
   })
 
+  // Resolve the params promise
+  useEffect(() => {
+    async function resolveParams() {
+      const resolved = await params
+      setResolvedParams(resolved)
+    }
+   void resolveParams()
+  }, [params])
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     console.log("Updated budget request:", formData)
     alert("Budget request updated successfully!")
+  }
+
+  // Show loading state while params are being resolved
+  if (!resolvedParams) {
+    return (
+      <div className="min-h-screen bg-green-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading...</p>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -83,7 +112,7 @@ export default function EditBudgetRequestPage({ params }: { params: { id: string
         {/* Page Header */}
         <div className="flex items-center gap-4 mb-8">
           <Button variant="outline" size="sm" asChild>
-            <Link href={`/budgets/${params.id}`}>
+            <Link href={`/budgets/${resolvedParams.id}`}>
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Request
             </Link>
@@ -217,7 +246,7 @@ export default function EditBudgetRequestPage({ params }: { params: { id: string
                   Save Changes
                 </Button>
                 <Button type="button" variant="outline" asChild>
-                  <Link href={`/budgets/${params.id}`}>Cancel</Link>
+                  <Link href={`/budgets/${resolvedParams.id}`}>Cancel</Link>
                 </Button>
               </div>
             </form>

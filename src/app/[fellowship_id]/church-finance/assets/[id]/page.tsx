@@ -1,12 +1,34 @@
+"use client"
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { DollarSign, ArrowLeft, Edit, Calendar, MapPin, Shield, FileText } from "lucide-react"
 import Link from "next/link"
+import { useState, useEffect } from "react"
 
-export default function AssetDetailPage({ params }: { params: { id: string } }) {
+// Define the props interface
+interface AssetDetailPageProps {
+  params: Promise<{
+    id: string
+  }>
+}
+
+export default function AssetDetailPage({ params }: AssetDetailPageProps) {
+  const [resolvedParams, setResolvedParams] = useState<{ id: string } | null>(null)
+
+  // Resolve the params promise
+  useEffect(() => {
+    async function resolveParams() {
+      const resolved = await params
+      setResolvedParams(resolved)
+    }
+    void resolveParams()
+  }, [params])
+
+  // Mock asset data - in a real app, you'd fetch this based on the ID
   const asset = {
-    id: Number.parseInt(params.id),
+    id: resolvedParams ? Number.parseInt(resolvedParams.id) : 1,
     name: "Sound System - Main Sanctuary",
     description:
       "Professional audio system with wireless microphones, mixing board, and speaker array for main sanctuary worship services",
@@ -49,6 +71,18 @@ export default function AssetDetailPage({ params }: { params: { id: string } }) 
   }
 
   const depreciationRate = ((asset.currentValue - asset.purchasePrice) / asset.purchasePrice) * 100
+
+  // Show loading state while params are being resolved
+  if (!resolvedParams) {
+    return (
+      <div className="min-h-screen bg-green-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading...</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-green-50">
@@ -102,7 +136,7 @@ export default function AssetDetailPage({ params }: { params: { id: string } }) 
             </div>
           </div>
           <Button asChild>
-            <Link href={`/assets/${params.id}/edit`}>
+            <Link href={`/assets/${resolvedParams.id}/edit`}>
               <Edit className="w-4 h-4 mr-2" />
               Edit Asset
             </Link>

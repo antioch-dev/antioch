@@ -17,7 +17,14 @@ import {
   Edit,
 } from "lucide-react"
 import Link from "next/link"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+
+// Define the props interface
+interface BudgetRequestDetailPageProps {
+  params: Promise<{
+    id: string
+  }>
+}
 
 // Mock data - in real app this would come from database based on ID
 const budgetRequest = {
@@ -26,7 +33,7 @@ const budgetRequest = {
   description:
     "Annual summer camp for 25 youth members including transportation, accommodation, and activities. This camp provides spiritual growth opportunities and builds community among our young people.",
   requestedAmount: 3500.0,
-  approvedAmount: null,
+  approvedAmount: 1000.0,
   requestedBy: "Pastor John",
   ministryDepartment: "Youth Ministry",
   purpose:
@@ -70,7 +77,8 @@ const getStatusColor = (status: string) => {
   }
 }
 
-export default function BudgetRequestDetailPage({ params }: { params: { id: string } }) {
+export default function BudgetRequestDetailPage({ params }: BudgetRequestDetailPageProps) {
+  const [resolvedParams, setResolvedParams] = useState<{ id: string } | null>(null)
   const [isProcessing, setIsProcessing] = useState(false)
   const [showApprovalForm, setShowApprovalForm] = useState(false)
   const [showDenialForm, setShowDenialForm] = useState(false)
@@ -80,10 +88,21 @@ export default function BudgetRequestDetailPage({ params }: { params: { id: stri
   })
   const [denialReason, setDenialReason] = useState("")
 
+  // Resolve the params promise
+  useEffect(() => {
+    async function resolveParams() {
+      const resolved = await params
+      setResolvedParams(resolved)
+    }
+   void resolveParams()
+  }, [params])
+
   const handleApprove = async () => {
+    if (!resolvedParams) return
+    
     setIsProcessing(true)
     try {
-      const response = await fetch(`/api/budgets/${params.id}/approve`, {
+      const response = await fetch(`/api/budgets/${resolvedParams.id}/approve`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -108,9 +127,11 @@ export default function BudgetRequestDetailPage({ params }: { params: { id: stri
   }
 
   const handleDeny = async () => {
+    if (!resolvedParams) return
+    
     setIsProcessing(true)
     try {
-      const response = await fetch(`/api/budgets/${params.id}/deny`, {
+      const response = await fetch(`/api/budgets/${resolvedParams.id}/deny`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ reason: denialReason }),
@@ -129,6 +150,18 @@ export default function BudgetRequestDetailPage({ params }: { params: { id: stri
       setIsProcessing(false)
       setShowDenialForm(false)
     }
+  }
+
+  // Show loading state while params are being resolved
+  if (!resolvedParams) {
+    return (
+      <div className="min-h-screen bg-green-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading...</p>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -192,7 +225,7 @@ export default function BudgetRequestDetailPage({ params }: { params: { id: stri
           </div>
           {(budgetRequest.status === "pending" || budgetRequest.status === "under_review") && (
             <Button asChild>
-              <Link href={`/budgets/${params.id}/edit`}>
+              <Link href={`/budgets/${resolvedParams.id}/edit`}>
                 <Edit className="w-4 h-4 mr-2" />
                 Edit Request
               </Link>

@@ -62,7 +62,7 @@ export default function NewExpensePage() {
       })
 
       if (response.ok) {
-        const result = await response.json()
+        const result = await response.json() as string
         console.log("[v0] Expense recorded:", result)
         alert("Expense recorded successfully!")
         // Reset form

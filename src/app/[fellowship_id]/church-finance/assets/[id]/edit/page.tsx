@@ -1,8 +1,7 @@
 "use client"
 
 import type React from "react"
-
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -12,7 +11,15 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { DollarSign, ArrowLeft, Save, Upload, X } from "lucide-react"
 import Link from "next/link"
 
-export default function EditAssetPage({ params }: { params: { id: string } }) {
+// Define the props interface
+interface EditAssetPageProps {
+  params: Promise<{
+    id: string
+  }>
+}
+
+export default function EditAssetPage({ params }: EditAssetPageProps) {
+  const [resolvedParams, setResolvedParams] = useState<{ id: string } | null>(null)
   const [formData, setFormData] = useState({
     name: "Sound System - Main Sanctuary",
     description:
@@ -35,6 +42,15 @@ export default function EditAssetPage({ params }: { params: { id: string } }) {
   ])
 
   const [isSubmitting, setIsSubmitting] = useState(false)
+
+  // Resolve the params promise
+  useEffect(() => {
+    async function resolveParams() {
+      const resolved = await params
+      setResolvedParams(resolved)
+    }
+   void resolveParams()
+  }, [params])
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
@@ -61,10 +77,13 @@ export default function EditAssetPage({ params }: { params: { id: string } }) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    
+    if (!resolvedParams) return
+    
     setIsSubmitting(true)
 
     try {
-      const response = await fetch(`/api/assets/${params.id}`, {
+      const response = await fetch(`/api/assets/${resolvedParams.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -76,11 +95,11 @@ export default function EditAssetPage({ params }: { params: { id: string } }) {
       })
 
       if (response.ok) {
-        const result = await response.json()
+        const result = await response.json() as string
         console.log("[v0] Asset updated successfully:", result)
         alert("Asset updated successfully!")
         // Redirect back to asset detail page
-        window.location.href = `/assets/${params.id}`
+        window.location.href = `/assets/${resolvedParams.id}`
       } else {
         throw new Error("Failed to update asset")
       }
@@ -112,6 +131,18 @@ export default function EditAssetPage({ params }: { params: { id: string } }) {
     { value: "poor", label: "Poor" },
     { value: "needs_repair", label: "Needs Repair" },
   ]
+
+  // Show loading state while params are being resolved
+  if (!resolvedParams) {
+    return (
+      <div className="min-h-screen bg-green-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading...</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-green-50">
@@ -153,7 +184,7 @@ export default function EditAssetPage({ params }: { params: { id: string } }) {
         {/* Page Header */}
         <div className="flex items-center gap-4 mb-8">
           <Button variant="outline" size="sm" asChild>
-            <Link href={`/assets/${params.id}`}>
+            <Link href={`/assets/${resolvedParams.id}`}>
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Asset
             </Link>
@@ -378,7 +409,7 @@ export default function EditAssetPage({ params }: { params: { id: string } }) {
           {/* Submit Button */}
           <div className="flex justify-end gap-4">
             <Button type="button" variant="outline" asChild>
-              <Link href={`/assets/${params.id}`}>Cancel</Link>
+              <Link href={`/assets/${resolvedParams.id}`}>Cancel</Link>
             </Button>
             <Button type="submit" disabled={isSubmitting}>
               <Save className="w-4 h-4 mr-2" />

@@ -33,7 +33,7 @@ const taxData = {
 
 export default function TaxSummaryPage() {
   const [selectedYear, setSelectedYear] = useState("2024")
-  const data = taxData[selectedYear as keyof typeof taxData]
+  const data = taxData[selectedYear as unknown as keyof typeof taxData]
 
   return (
     <div className="min-h-screen bg-green-50">

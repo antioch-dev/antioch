@@ -57,7 +57,7 @@ export default function NewIncomePage() {
       })
 
       if (response.ok) {
-        const result = await response.json()
+        const result = await response.json() as string
         console.log("[v0] Income recorded:", result)
         alert("Income recorded successfully!")
         // Reset form

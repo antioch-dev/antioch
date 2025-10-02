@@ -8,7 +8,7 @@ import { type ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } f
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from "recharts"
 import { DollarSign, Download, ArrowLeft, TrendingUp, TrendingDown, Calendar } from "lucide-react"
 import Link from "next/link"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 // Mock yearly data
 const yearlyData = {
@@ -62,9 +62,42 @@ const chartConfig = {
   net: { label: "Net Income", color: "#84cc16" },
 } satisfies ChartConfig
 
-export default function YearlyReportPage({ params }: { params: { year: string } }) {
-  const [selectedYear, setSelectedYear] = useState(params.year)
-  const data = yearlyData[selectedYear as keyof typeof yearlyData]
+// Define the props interface
+interface YearlyReportPageProps {
+  params: Promise<{
+    year: string
+  }>
+}
+
+export default function YearlyReportPage({ params }: YearlyReportPageProps) {
+  const [resolvedParams, setResolvedParams] = useState<{ year: string } | null>(null)
+  const [selectedYear, setSelectedYear] = useState("2024")
+
+  // Resolve the params promise
+  useEffect(() => {
+    async function resolveParams() {
+      const resolved = await params
+      setResolvedParams(resolved)
+      if (resolved.year) {
+        setSelectedYear(resolved.year)
+      }
+    }
+   void resolveParams()
+  }, [params])
+
+  const data = yearlyData[selectedYear as unknown as keyof typeof yearlyData]
+
+  // Show loading state while params are being resolved
+  if (!resolvedParams) {
+    return (
+      <div className="min-h-screen bg-green-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading report...</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-green-50">

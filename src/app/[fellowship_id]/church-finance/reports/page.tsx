@@ -73,7 +73,7 @@ const chartConfig = {
 
 export default function ReportsPage() {
   const [selectedYear, setSelectedYear] = useState("2024")
-  const [selectedMonth, setSelectedMonth] = useState("January")
+  // const [selectedMonth, setSelectedMonth] = useState("January")
 
   const totalIncome = monthlyData.reduce((sum, month) => sum + month.income, 0)
   const totalExpenses = monthlyData.reduce((sum, month) => sum + month.expenses, 0)

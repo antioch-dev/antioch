@@ -17,13 +17,33 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
-export default function MonthlyReportPage({ params }: { params: { month: string } }) {
+// Define the props interface
+interface MonthlyReportPageProps {
+  params: Promise<{
+    month: string
+  }>
+}
+
+export default function MonthlyReportPage({ params }: MonthlyReportPageProps) {
   const router = useRouter()
+  const [resolvedParams, setResolvedParams] = useState<{ month: string } | null>(null)
+  const [currentMonth, setCurrentMonth] = useState("2024-01")
+  const [currentYear, setCurrentYear] = useState(2024)
 
-  const [currentMonth, setCurrentMonth] = useState(params.month || "2024-01")
-  const [currentYear, setCurrentYear] = useState(Number.parseInt(currentMonth.split("-")[0]))
+  // Resolve the params promise
+  useEffect(() => {
+    async function resolveParams() {
+      const resolved = await params
+      setResolvedParams(resolved)
+      if (resolved.month) {
+        setCurrentMonth(resolved.month)
+        setCurrentYear(Number.parseInt(resolved.month.split("-")[0] ?? "2024"))
+      }
+    }
+   void resolveParams()
+  }, [params])
 
   const months = [
     { value: "01", label: "January" },
@@ -42,12 +62,13 @@ export default function MonthlyReportPage({ params }: { params: { month: string 
 
   const navigateToMonth = (monthYear: string) => {
     setCurrentMonth(monthYear)
+    setCurrentYear(Number.parseInt(monthYear.split("-")[0] ?? "2024"))
     router.push(`/reports/monthly/${monthYear}`)
   }
 
   const navigatePrevMonth = () => {
     const [year, month] = currentMonth.split("-")
-    const currentDate = new Date(Number.parseInt(year), Number.parseInt(month) - 1)
+    const currentDate = new Date(Number.parseInt(year ?? "2024"), Number.parseInt(month ?? "1") - 1)
     currentDate.setMonth(currentDate.getMonth() - 1)
     const newMonthYear = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, "0")}`
     navigateToMonth(newMonthYear)
@@ -55,7 +76,7 @@ export default function MonthlyReportPage({ params }: { params: { month: string 
 
   const navigateNextMonth = () => {
     const [year, month] = currentMonth.split("-")
-    const currentDate = new Date(Number.parseInt(year), Number.parseInt(month) - 1)
+    const currentDate = new Date(Number.parseInt(year ?? "2024"), Number.parseInt(month ?? "1") - 1)
     currentDate.setMonth(currentDate.getMonth() + 1)
     const newMonthYear = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, "0")}`
     navigateToMonth(newMonthYear)
@@ -97,6 +118,18 @@ export default function MonthlyReportPage({ params }: { params: { month: string 
     income: { label: "Income", color: "#15803d" },
     expenses: { label: "Expenses", color: "#dc2626" },
   } satisfies ChartConfig
+
+  // Show loading state while params are being resolved
+  if (!resolvedParams) {
+    return (
+      <div className="min-h-screen bg-green-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading report...</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-green-50">
@@ -200,7 +233,8 @@ export default function MonthlyReportPage({ params }: { params: { month: string 
                   <Select
                     value={currentYear.toString()}
                     onValueChange={(year) => {
-                      setCurrentYear(Number.parseInt(year))
+                      const newYear = Number.parseInt(year)
+                      setCurrentYear(newYear)
                       navigateToMonth(`${year}-${currentMonth.split("-")[1]}`)
                     }}
                   >

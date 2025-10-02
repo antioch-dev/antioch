@@ -45,7 +45,7 @@ export default function HomePage() {
         {/* Hero Section */}
         <div className="text-center mb-12">
           <h1 className="font-serif font-black text-4xl text-gray-900 mb-4">
-            Empowering Your Church's Financial Stewardship
+            {`Empowering Your Church's Financial Stewardship`}
           </h1>
           <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
             Manage income, expenses, and budgets with ease. Designed for everyone—no accounting experience required.

@@ -27,9 +27,29 @@ const expenseCategories = [
   "Other Expenses",
 ]
 
+interface Expense {
+  amount: number
+  description: string
+  category: string
+  date: string
+  paymentMethod: string
+  vendor?: string
+  receiptNumber?: string
+  receiptUrl?: string
+  notes?: string
+}
+
 const paymentMethods = ["Cash", "Check", "Bank Transfer", "Online", "Other"]
 
-export default function EditExpensePage({ params }: { params: { id: string } }) {
+// Define the props interface
+interface EditExpensePageProps {
+  params: Promise<{
+    id: string
+  }>
+}
+
+export default function EditExpensePage({ params }: EditExpensePageProps) {
+  const [resolvedParams, setResolvedParams] = useState<{ id: string } | null>(null)
   const [formData, setFormData] = useState({
     amount: "",
     description: "",
@@ -45,17 +65,28 @@ export default function EditExpensePage({ params }: { params: { id: string } }) 
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
 
+  // Resolve the params promise
   useEffect(() => {
-    // Load existing expense data
+    async function resolveParams() {
+      const resolved = await params
+      setResolvedParams(resolved)
+    }
+   void resolveParams()
+  }, [params])
+
+  useEffect(() => {
+    // Load existing expense data only after params are resolved
     const loadExpense = async () => {
+      if (!resolvedParams) return
+
       try {
-        const response = await fetch(`/api/expenses/${params.id}`)
+        const response = await fetch(`/api/expenses/${resolvedParams.id}`)
         if (response.ok) {
-          const expense = await response.json()
+          const expense = (await response.json()) as Expense
           setFormData({
             amount: expense.amount.toString(),
             description: expense.description,
-            category: expense.category,
+            category: expense.category, 
             date: expense.date,
             paymentMethod: expense.paymentMethod,
             vendor: expense.vendor || "",
@@ -71,15 +102,18 @@ export default function EditExpensePage({ params }: { params: { id: string } }) 
       }
     }
 
-    loadExpense()
-  }, [params.id])
+    void loadExpense()
+  }, [resolvedParams])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    
+    if (!resolvedParams) return
+    
     setIsSubmitting(true)
 
     try {
-      const response = await fetch(`/api/expenses/${params.id}`, {
+      const response = await fetch(`/api/expenses/${resolvedParams.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -88,7 +122,7 @@ export default function EditExpensePage({ params }: { params: { id: string } }) 
       })
 
       if (response.ok) {
-        const result = await response.json()
+        const result = await response.json() as string
         console.log("[v0] Expense updated:", result)
         alert("Expense updated successfully!")
         window.location.href = `/expenses`
@@ -103,10 +137,13 @@ export default function EditExpensePage({ params }: { params: { id: string } }) 
     }
   }
 
-  if (isLoading) {
+  if (isLoading || !resolvedParams) {
     return (
       <div className="min-h-screen bg-green-50 flex items-center justify-center">
-        <div className="text-center">Loading expense details...</div>
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading expense details...</p>
+        </div>
       </div>
     )
   }
