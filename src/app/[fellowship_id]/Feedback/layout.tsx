@@ -1,4 +1,3 @@
-import { Analytics } from '@vercel/analytics/next'
 import React from 'react'
 
 
@@ -8,11 +7,8 @@ export default function Layout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body className={`font-sans antialiased`}>
+      <main className="min-h-screen bg-background">
         {children}
-        <Analytics />
-      </body>
-    </html>
+      </main>
   )
 }

@@ -13,7 +13,7 @@ export default function HomePage() {
               <h1 className="text-2xl font-bold text-foreground">Feedback Portal</h1>
               <p className="text-muted-foreground mt-1">Help us improve by sharing your thoughts</p>
             </div>
-            <Link href="/login">
+            <Link href="/fellowship1/Feedback/login">
               <Button variant="outline" size="sm">
                 Admin Login
               </Button>

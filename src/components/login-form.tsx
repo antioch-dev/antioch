@@ -47,9 +47,9 @@ export function LoginForm() {
 
       // Redirect based on user role
       if (data.user.role === "fellowship_manager") {
-        router.push("/fellowship")
+        router.push("/fellowship1/Feedback/fellowship")
       } else {
-        router.push("/admin")
+        router.push("/fellowship1/Feedback/admin")
       }
     } catch (error) {
       setError(error instanceof Error ? error.message : "An error occurred")
