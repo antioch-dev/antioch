@@ -131,7 +131,7 @@ export default function VolunteersPage() {
               <h1 className="text-2xl font-bold text-gray-900">Volunteer Management</h1>
               <p className="text-gray-600">Mobilize and train your evangelism team</p>
             </div>
-            <Link href="/volunteers/add">
+            <Link href="/fellowship1/evangelism/volunteers/add">
               <Button>
                 <UserPlus className="h-4 w-4 mr-2" />
                 Add Volunteer
