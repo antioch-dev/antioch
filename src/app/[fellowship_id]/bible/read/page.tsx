@@ -133,7 +133,7 @@ export default function BibleReadPage() {
     })
   }
 
-  const handleBookmarkVerse = (verseNumber: number, text: string) => {
+  const handleBookmarkVerse = (verseNumber: number, _text: string) => {
     const reference = `${currentBook?.name} ${selectedChapter}:${verseNumber}`
     const wasBookmarked = isBookmarked(reference)
 
