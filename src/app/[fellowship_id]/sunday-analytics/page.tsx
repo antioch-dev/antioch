@@ -85,7 +85,7 @@ export default function HomePage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Users className="h-5 w-5 text-primary" />
-                Children's Ministry
+                Children&apos;s Ministry
               </CardTitle>
               <CardDescription>Kids and families</CardDescription>
             </CardHeader>

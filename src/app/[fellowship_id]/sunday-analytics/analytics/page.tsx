@@ -1,90 +1,89 @@
-
 "use client"
 
 import React from 'react';
 import {
-  CalendarDays,
-  TrendingUp,
-  TrendingDown,
-  Users,
-  UserPlus,
-  BarChart3,
-  Calendar,
-  Target,
-  Heart,
-  Award,
-  Activity,
+    CalendarDays,
+    TrendingUp,
+    TrendingDown,
+    Users,
+    UserPlus,
+    BarChart3,
+    Calendar,
+    Target,
+    Heart,
+    Award,
+    Activity,
 } from "lucide-react";
 
-
+// --- INLINE UI COMPONENTS (Shadcn/Tailwind Replacements) ---
 
 const Card = ({ children, className = '' }: { children: React.ReactNode, className?: string }) => (
-  <div className={`rounded-xl border bg-card text-card-foreground shadow-sm ${className}`}>{children}</div>
+    <div className={`rounded-xl border bg-card text-card-foreground shadow-sm ${className}`}>{children}</div>
 );
 const CardHeader = ({ children, className = '' }: { children: React.ReactNode, className?: string }) => (
-  <div className={`flex flex-col space-y-1.5 p-6 ${className}`}>{children}</div>
+    <div className={`flex flex-col space-y-1.5 p-6 ${className}`}>{children}</div>
 );
 const CardTitle = ({ children, className = '' }: { children: React.ReactNode, className?: string }) => (
-  <h3 className={`text-xl font-semibold leading-none tracking-tight ${className}`}>{children}</h3>
+    <h3 className={`text-xl font-semibold leading-none tracking-tight ${className}`}>{children}</h3>
 );
 const CardDescription = ({ children, className = '' }: { children: React.ReactNode, className?: string }) => (
-  <p className={`text-sm text-muted-foreground ${className}`}>{children}</p>
+    <p className={`text-sm text-muted-foreground ${className}`}>{children}</p>
 );
 const CardContent = ({ children, className = '' }: { children: React.ReactNode, className?: string }) => (
-  <div className={`p-6 pt-0 ${className}`}>{children}</div>
+    <div className={`p-6 pt-0 ${className}`}>{children}</div>
 );
 
 type ButtonProps = { children: React.ReactNode, className?: string, variant?: 'default' | 'outline' | 'secondary' };
 const Button = ({ children, className = '', variant = 'default' }: ButtonProps) => {
-  let variantClasses = 'bg-primary text-primary-foreground hover:bg-primary/90';
-  if (variant === 'outline') {
-    variantClasses = 'border border-input bg-background hover:bg-accent hover:text-accent-foreground';
-  } else if (variant === 'secondary') {
-    variantClasses = 'bg-secondary text-secondary-foreground hover:bg-secondary/80';
-  }
-  return (
-    <button className={`inline-flex items-center justify-center rounded-lg text-sm font-medium transition-colors h-10 px-4 py-2 ${variantClasses} ${className}`}>
-      {children}
-    </button>
-  );
+    let variantClasses = 'bg-primary text-primary-foreground hover:bg-primary/90';
+    if (variant === 'outline') {
+        variantClasses = 'border border-input bg-background hover:bg-accent hover:text-accent-foreground';
+    } else if (variant === 'secondary') {
+        variantClasses = 'bg-secondary text-secondary-foreground hover:bg-secondary/80';
+    }
+    return (
+        <button className={`inline-flex items-center justify-center rounded-lg text-sm font-medium transition-colors h-10 px-4 py-2 ${variantClasses} ${className}`}>
+            {children}
+        </button>
+    );
 };
 
 type BadgeProps = { children: React.ReactNode, className?: string, variant?: 'default' | 'secondary' | 'destructive' | 'outline' };
 const Badge = ({ children, className = '', variant = 'default' }: BadgeProps) => {
-  let variantClasses = 'bg-primary/90 text-primary-foreground hover:bg-primary';
-  if (variant === 'secondary') {
-    variantClasses = 'bg-gray-200 text-gray-800 hover:bg-gray-300';
-  } else if (variant === 'destructive') {
-    variantClasses = 'bg-red-500 text-white hover:bg-red-600';
-  } else if (variant === 'outline') {
-    variantClasses = 'text-foreground border border-input bg-white/50';
-  }
-  return (
-    <div className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors ${variantClasses} ${className}`}>
-      {children}
-    </div>
-  );
+    let variantClasses = 'bg-primary/90 text-primary-foreground hover:bg-primary';
+    if (variant === 'secondary') {
+        variantClasses = 'bg-gray-200 text-gray-800 hover:bg-gray-300';
+    } else if (variant === 'destructive') {
+        variantClasses = 'bg-red-500 text-white hover:bg-red-600';
+    } else if (variant === 'outline') {
+        variantClasses = 'text-foreground border border-input bg-white/50';
+    }
+    return (
+        <div className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors ${variantClasses} ${className}`}>
+            {children}
+        </div>
+    );
 };
 
 const Progress = ({ value, className = '' }: { value: number, className?: string }) => (
-  <div className={`relative h-2 w-full overflow-hidden rounded-full bg-gray-200 ${className}`}>
-    <div
-      role="progressbar"
-      aria-valuenow={value}
-      className="h-full w-full flex-1 bg-primary transition-all duration-500"
-      style={{ transform: `translateX(-${100 - (value || 0)}%)` }}
-    />
-  </div>
+    <div className={`relative h-2 w-full overflow-hidden rounded-full bg-gray-200 ${className}`}>
+        <div
+            role="progressbar"
+            aria-valuenow={value}
+            className="h-full w-full flex-1 bg-primary transition-all duration-500"
+            style={{ transform: `translateX(-${100 - (value || 0)}%)` }}
+        />
+    </div>
 );
 
 const MockLink = ({ href, children }: { href: string; children: React.ReactNode }) => (
-  <a href="#" onClick={(e) => { e.preventDefault(); console.log('Navigating to:', href); }} className="block">
-    {children}
-  </a>
+    <a href="#" onClick={(e) => { e.preventDefault(); console.log('Navigating to:', href); }} className="block">
+        {children}
+    </a>
 );
 const useParams = () => ({ fellowship: 'fellowship1' });
 
-// --- TYPE DEFINITIONS ---
+// --- TYPE DEFINITIONS & MOCK DATA ---
 interface SundayStats {
     date: string;
     total: number;
@@ -96,10 +95,10 @@ interface SundayStats {
 }
 
 interface MonthlyStats {
-    month: string; 
+    month: string;
     totalAttendance: number;
     averageWeekly: number;
-    growthRate: number; 
+    growthRate: number;
     newVisitors: number;
 }
 
@@ -129,15 +128,15 @@ const MOCK_MONTHLY_STATS: MonthlyStats[] = [
     { month: '2024-09', totalAttendance: 620, averageWeekly: 155, growthRate: 31.9, newVisitors: 75 },
 ];
 
-const getLatestSundayStats = (): SundayStats | undefined => ({ 
-    date: '2024-09-29', total: 155, adults: 100, youth: 35, children: 20, newVisitors: 12, serviceType: 'Sunday Service' 
+const getLatestSundayStats = (): SundayStats | undefined => ({
+    date: '2024-09-29', total: 155, adults: 100, youth: 35, children: 20, newVisitors: 12, serviceType: 'Sunday Service'
 });
 const getAverageAttendance = (): number => 140;
-const getHighestAttendance = (): SundayStats | undefined => ({ 
-    date: '2024-09-08', total: 175, adults: 110, youth: 45, children: 20, newVisitors: 15, serviceType: 'Special Event' 
+const getHighestAttendance = (): SundayStats | undefined => ({
+    date: '2024-09-08', total: 175, adults: 110, youth: 45, children: 20, newVisitors: 15, serviceType: 'Special Event'
 });
-const getLowestAttendance = (): SundayStats | undefined => ({ 
-    date: '2024-01-07', total: 85, adults: 60, youth: 15, children: 10, newVisitors: 5, serviceType: 'Regular Service' 
+const getLowestAttendance = (): SundayStats | undefined => ({
+    date: '2024-01-07', total: 85, adults: 60, youth: 15, children: 10, newVisitors: 5, serviceType: 'Regular Service'
 });
 const getGrowthTrend = (): number => 18.5;
 const getRetentionRate = (): number => 85;
@@ -153,23 +152,22 @@ const formatDate = (dateString: string | undefined) => {
     });
 };
 
-
-
+// --- MAIN COMPONENT ---
 
 export default function AnalyticsOverview() {
     const params = useParams();
-    const fellowship = params.fellowship as string;
+    const fellowship = params.fellowship;
 
     // Defensive data fetching using nullish coalescing (??)
     const latestStats = getLatestSundayStats() ?? DEFAULT_SUNDAY_STATS;
     const averageAttendance = getAverageAttendance();
     const highestRecord = getHighestAttendance() ?? DEFAULT_SUNDAY_STATS;
-    const lowestRecord = getLowestAttendance() ?? DEFAULT_SUNDAY_STATS;
-    
+  
+
     // Defensive array access:
     const mockMonthlyStats: MonthlyStats[] = MOCK_MONTHLY_STATS;
     const currentMonth = mockMonthlyStats[mockMonthlyStats.length - 1] ?? DEFAULT_MONTHLY_STATS;
-    
+
     const growthTrend = getGrowthTrend();
     const retentionRate = getRetentionRate();
     const engagementScore = getEngagementScore();
@@ -181,11 +179,12 @@ export default function AnalyticsOverview() {
                 <div className="relative z-10">
                     <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">Fellowship Analytics Dashboard</h1>
                     <p className="text-base sm:text-lg text-gray-600 max-w-2xl">
-                        Comprehensive insights into your fellowship's spiritual growth, attendance patterns, and community
+                        
+                        Comprehensive insights into your fellowship&apos;s spiritual growth, attendance patterns, and community
                         engagement.
                     </p>
                 </div>
-                
+
                 <div className="absolute top-0 right-0 w-24 h-24 sm:w-32 sm:h-32 bg-indigo-600/10 rounded-full -translate-y-12 sm:-translate-y-16 translate-x-12 sm:translate-x-16"></div>
                 <div className="absolute bottom-0 left-0 w-16 h-16 sm:w-24 sm:h-24 bg-indigo-600/10 rounded-full translate-y-8 sm:translate-y-12 -translate-x-8 sm:-translate-x-12"></div>
             </div>
@@ -411,7 +410,7 @@ export default function AnalyticsOverview() {
                         {mockMonthlyStats
                             .slice(-4)
                             .reverse()
-                            .map((month, index) => (
+                            .map((month, _index) => ( 
                                 <div
                                     key={month.month}
                                     className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 border border-gray-200 rounded-lg hover:bg-gray-100 transition-colors duration-200"
@@ -440,9 +439,9 @@ export default function AnalyticsOverview() {
                                                 month.growthRate > 0
                                                     ? 'bg-green-100 text-green-700 border-green-200'
                                                     : month.growthRate < -5
-                                                    ? 'bg-red-100 text-red-700 border-red-200'
-                                                    : 'bg-gray-100 text-gray-700 border-gray-200'
-                                            }`}
+                                                        ? 'bg-red-100 text-red-700 border-red-200'
+                                                        : 'bg-gray-100 text-gray-700 border-gray-200'
+                                                }`}
                                         >
                                             {month.growthRate > 0 ? "+" : ""}
                                             {month.growthRate}%

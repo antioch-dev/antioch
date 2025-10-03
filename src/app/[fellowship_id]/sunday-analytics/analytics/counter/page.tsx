@@ -22,7 +22,7 @@ interface CounterState {
   adults: number
   youth: number
   children: number
-  online: number // Added online attendance tracking
+  online: number 
   lastSaved: Date | null
   isAutoSaving: boolean
 }
@@ -77,7 +77,7 @@ export default function LiveCounter() {
     category: keyof Pick<CounterState, "adults" | "youth" | "children" | "online">,
     amount = 1,
   ) => {
-    // Added online to type
+    
     setCounter((prev) => ({
       ...prev,
       [category]: prev[category] + amount,
