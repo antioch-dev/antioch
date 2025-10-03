@@ -30,7 +30,7 @@ export default function AdminDashboard() {
 
   return (
   
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col min-h-screen">
       {/* Header */}
       <header className="border-b border-border bg-card/50 px-6 py-4">
         <div className="flex items-center justify-between">
