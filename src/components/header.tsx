@@ -47,9 +47,11 @@ export function Header() {
           <Link href="/fellowship1/leadership" className="text-sm font-medium transition-colors hover:text-primary">
             Tenure
           </Link>
+          <Link href="/fellowship1/evangelism" className="text-sm font-medium transition-colors hover:text-primary">
+            Evangelism
+          </Link>
           <Link href="/fellowship1/bible" className="text-sm font-medium transition-colors hover:text-primary">
             SystemWideBible
-          main
           </Link>
           <Link href="/fellowship1/bible-study" className="text-sm font-medium transition-colors hover:text-primary">
             BibleStudy
