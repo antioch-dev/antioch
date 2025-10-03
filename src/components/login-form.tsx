@@ -10,12 +10,38 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Shield, AlertCircle, Eye, EyeOff } from "lucide-react"
+
 interface AuthUser {
   id: string
   email: string
-  name?: string
+  name: string
   role: string
 }
+
+// Mock users data
+const mockUsers = [
+  {
+    id: "1",
+    email: "admin@example.com",
+    name: "System Admin",
+    role: "admin",
+    password: "admin123",
+  },
+  {
+    id: "2",
+    email: "fellowship@example.com",
+    name: "Fellowship Manager",
+    role: "fellowship_manager",
+    password: "fellowship123",
+  },
+  {
+    id: "3",
+    email: "dev@example.com",
+    name: "Developer",
+    role: "developer",
+    password: "dev123",
+  },
+]
 
 export function LoginForm() {
   const [email, setEmail] = useState("")
@@ -31,22 +57,29 @@ export function LoginForm() {
     setError("")
 
     try {
-      const response = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      })
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 1000))
 
-      const data = await response.json() as { user: AuthUser }
+      // Mock authentication - find user with matching credentials
+      const user = mockUsers.find(u => u.email === email && u.password === password)
 
-      if (!response.ok) {
-        throw new Error( "Login failed")
+      if (!user) {
+        throw new Error("Invalid email or password")
       }
 
+      // Create user object without password
+      const userData: AuthUser = {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        role: user.role,
+      }
+
+      // Store user in localStorage to simulate login state
+      localStorage.setItem("currentUser", JSON.stringify(userData))
+
       // Redirect based on user role
-      if (data.user.role === "fellowship_manager") {
+      if (user.role === "fellowship_manager") {
         router.push("/fellowship1/Feedback/fellowship")
       } else {
         router.push("/fellowship1/Feedback/admin")
@@ -56,6 +89,12 @@ export function LoginForm() {
     } finally {
       setIsLoading(false)
     }
+  }
+
+  // Optional: Pre-fill demo credentials for easier testing
+  const fillDemoCredentials = (demoEmail: string, demoPassword: string) => {
+    setEmail(demoEmail)
+    setPassword(demoPassword)
   }
 
   return (
@@ -123,9 +162,39 @@ export function LoginForm() {
         <div className="mt-6 pt-4 border-t border-border">
           <div className="text-sm text-muted-foreground">
             <p className="font-medium mb-2">Demo Credentials:</p>
-            <div className="space-y-1 text-xs">
-              <p>Admin: admin@example.com / admin123</p>
-              <p>Fellowship: fellowship@example.com / fellowship123</p>
+            <div className="space-y-2 text-xs">
+              <div className="flex flex-col gap-1">
+                <div className="flex gap-2">
+                  <span>Admin:</span>
+                  <button
+                    type="button"
+                    onClick={() => fillDemoCredentials("admin@example.com", "admin123")}
+                    className="text-primary hover:underline"
+                  >
+                    admin@example.com / admin123
+                  </button>
+                </div>
+                <div className="flex gap-2">
+                  <span>Fellowship:</span>
+                  <button
+                    type="button"
+                    onClick={() => fillDemoCredentials("fellowship@example.com", "fellowship123")}
+                    className="text-primary hover:underline"
+                  >
+                    fellowship@example.com / fellowship123
+                  </button>
+                </div>
+                <div className="flex gap-2">
+                  <span>Developer:</span>
+                  <button
+                    type="button"
+                    onClick={() => fillDemoCredentials("dev@example.com", "dev123")}
+                    className="text-primary hover:underline"
+                  >
+                    dev@example.com / dev123
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>

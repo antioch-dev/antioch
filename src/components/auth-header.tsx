@@ -17,7 +17,7 @@ import { LogOut, User, Settings } from "lucide-react"
 interface AuthUser {
   id: string
   email: string
-  name?: string
+  name?: string | null
   role: string
 }
 
@@ -27,62 +27,50 @@ export function AuthHeader() {
   const router = useRouter()
 
   useEffect(() => {
-     void fetchUser()
+    const timer = setTimeout(() => {
+      setUser({
+        id: "1",
+        email: "admin@example.com",
+        name: "John Admin",
+        role: "admin",
+      })
+      setIsLoading(false)
+    }, 300)
+    return () => clearTimeout(timer)
   }, [])
 
-  const fetchUser = async () => {
-    try {
-      const response = await fetch("/api/auth/me")
-      if (response.ok) {
-        const data = await response.json() as { user: AuthUser}
-        setUser(data.user)
-      }
-    } catch (error) {
-      console.error("Failed to fetch user:", error)
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
-  const handleLogout = async () => {
-    try {
-      await fetch("/api/auth/logout", { method: "POST" })
-      router.push("/login")
-    } catch (error) {
-      console.error("Logout failed:", error)
-    }
+  const handleLogout = () => {
+    setUser(null)
+    router.push("/login")
   }
 
   const handleSettingsClick = () => {
     router.push("/settings")
   }
 
+  const getInitials = (name?: string | null, email?: string): string => {
+    if (name?.trim()) {
+      return name
+        .trim()
+        .split(/\s+/)
+        .map((n) => n.charAt(0).toUpperCase())
+        .slice(0, 2)
+        .join("")
+    }
+    return email?.charAt(0)?.toUpperCase() ?? "U"
+  }
+
+  const getRoleLabel = (role: string): string => {
+    const roleLabels: Record<string, string> = {
+      admin: "System Admin",
+      fellowship_manager: "Fellowship Manager",
+      developer: "Developer",
+    }
+    return roleLabels[role] ?? "User"
+  }
+
   if (isLoading || !user) {
     return null
-  }
-
-  const getInitials = (name?: string, email?: string) => {
-    if (name) {
-      return name
-        .split(" ")
-        .map((n) => n[0])
-        .join("")
-        .toUpperCase()
-    }
-    return email?.charAt(0).toUpperCase() || "U"
-  }
-
-  const getRoleLabel = (role: string) => {
-    switch (role) {
-      case "admin":
-        return "System Admin"
-      case "fellowship_manager":
-        return "Fellowship Manager"
-      case "developer":
-        return "Developer"
-      default:
-        return "User"
-    }
   }
 
   return (
@@ -99,9 +87,15 @@ export function AuthHeader() {
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">{user.name || "Admin User"}</p>
-            <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
-            <p className="text-xs leading-none text-muted-foreground">{getRoleLabel(user.role)}</p>
+            <p className="text-sm font-medium leading-none">
+              {user.name ?? "Admin User"}
+            </p>
+            <p className="text-xs leading-none text-muted-foreground">
+              {user.email}
+            </p>
+            <p className="text-xs leading-none text-muted-foreground">
+              {getRoleLabel(user.role)}
+            </p>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
