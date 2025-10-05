@@ -2064,10 +2064,7 @@ export const generateMockAttendanceData = (): AttendanceRecord[] => {
 
 export const initializeDefaultData = () => {
   if (typeof window !== "undefined") {
-    // Import the initialization function
-    import("./mock-api").then(({ initializeMockData }) => {
-      initializeMockData()
-    })
+
   }
 }
 
