@@ -2003,3 +2003,219 @@ export const mockPermissions: Permission[] = [
     updatedAt: "2023-01-01T10:00:00Z",
   },
 ]
+// Mock data for Sunday Analytics
+export interface AttendanceRecord {
+  date: string
+  total: number
+  adults: number
+  youth: number
+  children: number
+  online: number
+  newVisitors: number
+  serviceType: "Morning" | "Evening" | "Special Service"
+}
+
+export interface MonthlyStats {
+  month: string
+  totalAttendance: number
+  newVisitors: number
+  growthRate: number
+  averageWeekly: number
+}
+
+// Generate mock attendance data for the last 6 months
+export const generateMockAttendanceData = (): AttendanceRecord[] => {
+  const data: AttendanceRecord[] = []
+  const startDate = new Date()
+  startDate.setMonth(startDate.getMonth() - 6)
+
+  // Generate data for each Sunday
+  for (let i = 0; i < 26; i++) {
+    const currentDate = new Date(startDate)
+    currentDate.setDate(startDate.getDate() + i * 7)
+
+    // Skip if not Sunday
+    if (currentDate.getDay() !== 0) continue
+
+    const baseAttendance = 200 + Math.random() * 100
+    const adults = Math.floor(baseAttendance * 0.6 + Math.random() * 20)
+    const youth = Math.floor(baseAttendance * 0.25 + Math.random() * 15)
+    const children = Math.floor(baseAttendance * 0.15 + Math.random() * 10)
+    const online = Math.floor(Math.random() * 60 + 20)
+    const total = adults + youth + children + online
+    const newVisitors = Math.floor(Math.random() * 20 + 5)
+
+    const serviceType = i % 8 === 0 ? "Special Service" : i % 4 === 0 ? "Evening" : "Morning"
+
+    data.push({
+      // FIX for TS2322 (Line 2051): Use non-null assertion for safety, though split[0] is generally safe here.
+      date: currentDate.toISOString().split("T")[0]!, 
+      total,
+      adults,
+      youth,
+      children,
+      online,
+      newVisitors,
+      serviceType,
+    })
+  }
+
+  return data.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+}
+
+export const initializeDefaultData = () => {
+  if (typeof window !== "undefined") {
+
+  }
+}
+
+export const mockAttendanceData = generateMockAttendanceData()
+
+export const mockMonthlyStats: MonthlyStats[] = [
+  {
+    month: "2025-03",
+    totalAttendance: 1024,
+    newVisitors: 45,
+    growthRate: 5.2,
+    averageWeekly: 256,
+  },
+  {
+    month: "2025-04",
+    totalAttendance: 1156,
+    newVisitors: 52,
+    growthRate: 12.9,
+    averageWeekly: 289,
+  },
+  {
+    month: "2025-05",
+    totalAttendance: 1089,
+    newVisitors: 38,
+    growthRate: -5.8,
+    averageWeekly: 272,
+  },
+  {
+    month: "2025-06",
+    totalAttendance: 1203,
+    newVisitors: 61,
+    growthRate: 10.5,
+    averageWeekly: 301,
+  },
+  {
+    month: "2025-07",
+    totalAttendance: 1167,
+    newVisitors: 44,
+    growthRate: -3.0,
+    averageWeekly: 292,
+  },
+  {
+    month: "2025-08",
+    totalAttendance: 1245,
+    newVisitors: 58,
+    growthRate: 6.7,
+    averageWeekly: 311,
+  },
+]
+
+// Helper functions
+export const getLatestSundayStats = () => {
+  if (mockAttendanceData.length === 0) {
+    return {
+      date: new Date().toISOString().split("T")[0],
+      total: 0,
+      adults: 0,
+      youth: 0,
+      children: 0,
+      online: 0,
+      newVisitors: 0,
+      serviceType: "Morning" as const,
+    }
+  }
+  const latest = mockAttendanceData[mockAttendanceData.length - 1]
+  return latest
+}
+
+export const getAverageAttendance = () => {
+  if (mockAttendanceData.length === 0) return 0
+  const total = mockAttendanceData.reduce((sum, record) => sum + record.total, 0)
+  return Math.round(total / mockAttendanceData.length)
+}
+
+export const getHighestAttendance = () => {
+  if (mockAttendanceData.length === 0) {
+    return {
+      date: new Date().toISOString().split("T")[0],
+      total: 0,
+      adults: 0,
+      youth: 0,
+      children: 0,
+      online: 0,
+      newVisitors: 0,
+      serviceType: "Morning" as const,
+    }
+  }
+  
+  return mockAttendanceData.reduce(
+    (max, record) => (record.total > max.total ? record : max),
+    mockAttendanceData[0]!
+  )
+}
+
+export const getLowestAttendance = () => {
+  if (mockAttendanceData.length === 0) {
+    return {
+      date: new Date().toISOString().split("T")[0],
+      total: 0,
+      adults: 0,
+      youth: 0,
+      children: 0,
+      online: 0,
+      newVisitors: 0,
+      serviceType: "Morning" as const,
+    }
+  }
+ 
+  return mockAttendanceData.reduce(
+    (min, record) => (record.total < min.total ? record : min),
+    mockAttendanceData[0]!
+  )
+}
+
+export const getGrowthTrend = (weeks = 4) => {
+  if (mockAttendanceData.length < weeks) return 0
+  const recent = mockAttendanceData.slice(-weeks)
+  const older = mockAttendanceData.slice(-(weeks * 2), -weeks)
+
+  if (older.length === 0) return 0
+
+  const recentAvg = recent.reduce((sum, record) => sum + record.total, 0) / recent.length
+  const olderAvg = older.reduce((sum, record) => sum + record.total, 0) / older.length
+
+  return ((recentAvg - olderAvg) / olderAvg) * 100
+}
+
+export const getAttendanceByCategory = () => {
+  if (mockAttendanceData.length === 0) return { adults: 0, youth: 0, children: 0, online: 0 }
+
+  const totals = mockAttendanceData.reduce(
+    (acc, record) => ({
+      adults: acc.adults + record.adults,
+      youth: acc.youth + record.youth,
+      children: acc.children + record.children,
+      online: acc.online + record.online,
+    }),
+    { adults: 0, youth: 0, children: 0, online: 0 },
+  )
+
+  return totals
+}
+
+export const getRetentionRate = () => {
+  // Mock retention calculation
+  return Math.round(75 + Math.random() * 20) // 75-95% retention rate
+}
+
+export const getEngagementScore = () => {
+  // Mock engagement score based on attendance consistency
+  return Math.round(80 + Math.random() * 15) // 80-95% engagement
+}
+ 

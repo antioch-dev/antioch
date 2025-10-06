@@ -115,7 +115,7 @@ export default function EventsPage() {
               <h1 className="text-2xl font-bold text-gray-900">Evangelism Events</h1>
               <p className="text-gray-600">Plan and manage community outreach activities</p>
             </div>
-            <Link href="/events/new">
+            <Link href="/fellowship1/evangelism/events/new">
               <Button>
                 <Plus className="h-4 w-4 mr-2" />
                 Create Event

@@ -1,6 +1,4 @@
 import Image from "next/image"
-
-import { Header } from "@/components/header"
 import { Heart, Calendar } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
