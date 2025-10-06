@@ -29,13 +29,13 @@ export default function AdminDashboard() {
           </div>
           <div className="flex gap-2">
             <Button variant="outline" className="bg-white text-gray-900 border-gray-300 hover:bg-gray-50" asChild>
-              <Link href="/fellowship1/church-finance/admin/analytics">
+              <Link href="/admin/analytics">
                 <Activity className="mr-2 h-4 w-4" />
                 View Analytics
               </Link>
             </Button>
             <Button className="bg-blue-600 hover:bg-blue-700 text-white" asChild>
-              <Link href="/fellowship1/church-finance/admin/fellowships/applications">
+              <Link href="/admin/fellowships/applications">
                 <Plus className="mr-2 h-4 w-4" />
                 Add Fellowship
               </Link>
@@ -172,7 +172,7 @@ export default function AdminDashboard() {
                 className="w-full mt-4 bg-white text-gray-900 border-gray-300 hover:bg-gray-50"
                 asChild
               >
-                <Link href="/fellowship1/church-finance/admin/fellowships">View All Fellowships</Link>
+                <Link href="/admin/fellowships">View All Fellowships</Link>
               </Button>
             </CardContent>
           </Card>
@@ -222,7 +222,7 @@ export default function AdminDashboard() {
             <CardContent>
               <div className="space-y-3">
                 <Button className="w-full justify-start bg-blue-600 hover:bg-blue-700 text-white" asChild>
-                  <Link href="/fellowship1/church-finance/admin/fellowships/new">
+                  <Link href="/admin/fellowships/new">
                     <Plus className="mr-2 h-4 w-4" />
                     Add New Fellowship
                   </Link>
@@ -232,7 +232,7 @@ export default function AdminDashboard() {
                   className="w-full justify-start bg-white text-gray-900 border-gray-300 hover:bg-gray-50"
                   asChild
                 >
-                  <Link href="/fellowship1/church-finance/admin/users">
+                  <Link href="/admin/users">
                     <Users className="mr-2 h-4 w-4" />
                     Manage Users
                   </Link>
@@ -242,7 +242,7 @@ export default function AdminDashboard() {
                   className="w-full justify-start bg-white text-gray-900 border-gray-300 hover:bg-gray-50"
                   asChild
                 >
-                  <Link href="/fellowship1/church-finance/admin/analytics">
+                  <Link href="/admin/analytics">
                     <Activity className="mr-2 h-4 w-4" />
                     View Analytics
                   </Link>
@@ -252,7 +252,7 @@ export default function AdminDashboard() {
                   className="w-full justify-start bg-white text-gray-900 border-gray-300 hover:bg-gray-50"
                   asChild
                 >
-                  <Link href="/fellowship1/church-finance/admin/settings">
+                  <Link href="/admin/settings">
                     <Activity className="mr-2 h-4 w-4" />
                     Platform Settings
                   </Link>
