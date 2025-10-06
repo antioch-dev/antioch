@@ -49,7 +49,7 @@ export default function AdminFellowshipsPage() {
           </div>
           <div className="flex gap-2">
             <Button variant="outline" className="bg-gray-50 text-gray-900 border-gray-300 hover:bg-gray-100" asChild>
-              <Link href="/fellowship1/church-finance/admin/fellowships/applications">
+              <Link href="/admin/fellowships/applications">
                 <AlertTriangle className="mr-2 h-4 w-4" />
                 Pending Applications ({pendingApplications.length})
               </Link>
