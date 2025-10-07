@@ -155,6 +155,9 @@ importers:
       jspdf:
         specifier: ^3.0.1
         version: 3.0.3
+      lru-cache:
+        specifier: ^11.2.2
+        version: 11.2.2
       lucide-react:
         specifier: ^0.515.0
         version: 0.515.0(react@19.2.0)
@@ -3068,6 +3071,10 @@ packages:
   loose-envify@1.4.0:
     resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==}
     hasBin: true
+
+  lru-cache@11.2.2:
+    resolution: {integrity: sha512-F9ODfyqML2coTIsQpSkRHnLSZMtkU8Q+mSfcaIyKwy58u+8k5nvAYeiNhsyMARvzNcXJ9QfWVrcPsC9e9rAxtg==}
+    engines: {node: 20 || >=22}
 
   lucide-react@0.515.0:
     resolution: {integrity: sha512-Sy7bY0MeicRm2pzrnoHm2h6C1iVoeHyBU2fjdQDsXGP51fhkhau1/ZV/dzrcxEmAKsxYb6bGaIsMnGHuQ5s0dw==}
@@ -6986,6 +6993,8 @@ snapshots:
   loose-envify@1.4.0:
     dependencies:
       js-tokens: 4.0.0
+
+  lru-cache@11.2.2: {}
 
   lucide-react@0.515.0(react@19.2.0):
     dependencies:

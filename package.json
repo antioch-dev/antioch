@@ -70,6 +70,7 @@
     "input-otp": "^1.4.2",
     "jose": "^6.1.0",
     "jspdf": "^3.0.1",
+    "lru-cache": "^11.2.2",
     "lucide-react": "^0.515.0",
     "next": "^15.3.3",
     "next-auth": "5.0.0-beta.25",
