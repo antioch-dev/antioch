@@ -11,7 +11,7 @@ export default async function Layout({ children, params }: LayoutProps) {
 
   return (
     <>
-      <FellowshipNavigation fellowshipId={fellowship_id} fellowshipName="Fellowship Platform" />
+      <FellowshipNavigation fellowshipId={fellowship_id} fellowshipName="Antioch" />
       <main className="min-h-screen bg-background">{children}</main>
       <Footer />
     </>
