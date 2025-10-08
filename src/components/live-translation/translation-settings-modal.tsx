@@ -56,7 +56,8 @@ export function TranslationSettingsModal({
 
   if (!isOpen) return null
 
-  const testVoice = (voice: string) => {
+ 
+  const testVoice = (_voice: string) => {
     if ("speechSynthesis" in window) {
       const utterance = new SpeechSynthesisUtterance("Hello, this is a test of the voice.")
       utterance.lang = selectedLanguage === "Spanish" ? "es-ES" : "fr-FR"
@@ -99,7 +100,8 @@ export function TranslationSettingsModal({
           ].map((tab) => (
             <button
               key={tab.id}
-              onClick={() => setActiveTab(tab.id as any)}
+
+              onClick={() => setActiveTab(tab.id as "language" | "voice" | "settings")}
               className={`flex-1 flex items-center justify-center space-x-2 py-4 px-6 transition-all duration-300 ${
                 activeTab === tab.id
                   ? "border-b-2 border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400"
