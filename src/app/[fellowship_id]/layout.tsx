@@ -1,10 +1,17 @@
 import { Footer } from "@/components/footer"
-import { Header } from "@/components/header"
+import { FellowshipNavigation } from "@/components/fellowship-navigation"
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+interface LayoutProps {
+  children: React.ReactNode
+  params: Promise<{ fellowship_id: string }>
+}
+
+export default async function Layout({ children, params }: LayoutProps) {
+  const { fellowship_id } = await params
+
   return (
     <>
-      <Header />
+      <FellowshipNavigation fellowshipId={fellowship_id} fellowshipName="Fellowship Platform" />
       <main className="min-h-screen bg-background">{children}</main>
       <Footer />
     </>
