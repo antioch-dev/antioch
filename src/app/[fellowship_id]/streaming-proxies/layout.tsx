@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   description: 'Manage your streaming proxies with ease',
 };
 
-export default function RootLayout({
+export default function Layout({
   children,
 }: {
   children: React.ReactNode;
