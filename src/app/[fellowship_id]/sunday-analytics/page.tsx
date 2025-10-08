@@ -71,7 +71,7 @@ export default function HomePage() {
                   <span className="text-muted-foreground">Monthly Avg:</span>
                   <span className="font-medium">92 attendees</span>
                 </div>
-                <Link href="/youth-fellowship/analytics">
+                <Link href="/fellowship1/youth-fellowship/analytics">
                   <Button className="w-full mt-4">
                     <BarChart3 className="h-4 w-4 mr-2" />
                     View Analytics
@@ -99,7 +99,7 @@ export default function HomePage() {
                   <span className="text-muted-foreground">Monthly Avg:</span>
                   <span className="font-medium">148 attendees</span>
                 </div>
-                <Link href="/childrens-ministry/analytics">
+                <Link href="/fellowship1/childrens-ministry/analytics">
                   <Button className="w-full mt-4">
                     <BarChart3 className="h-4 w-4 mr-2" />
                     View Analytics
@@ -114,13 +114,13 @@ export default function HomePage() {
         <div className="mt-16 text-center">
           <h3 className="text-2xl font-bold text-foreground mb-8">Quick Actions</h3>
           <div className="flex flex-wrap justify-center gap-4">
-            <Link href="/grace-fellowship/analytics/counter">
+            <Link href="/fellowship1/grace-fellowship/analytics/counter">
               <Button variant="outline" size="lg">
                 <Counter className="h-5 w-5 mr-2" />
                 Live Counter
               </Button>
             </Link>
-            <Link href="/grace-fellowship/analytics/monthly">
+            <Link href="/fellowship1/grace-fellowship/analytics/monthly">
               <Button variant="outline" size="lg">
                 <Calendar className="h-5 w-5 mr-2" />
                 Monthly Reports
