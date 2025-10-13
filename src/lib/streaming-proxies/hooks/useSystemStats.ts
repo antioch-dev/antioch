@@ -97,7 +97,7 @@ export function useSystemStats(
       setLoading(true);
       clearError();
 
-      const response = await apiClient.getAnalytics(timeRange,0);
+      const response = await apiClient.getAnalytics(timeRange = '7d');
       
       if (response.success && response.data) {
         // Transform date strings to Date objects if needed

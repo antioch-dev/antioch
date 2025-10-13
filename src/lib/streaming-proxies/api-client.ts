@@ -1,16 +1,15 @@
 import { 
-  StreamingProxy, 
-  StreamingSession, 
-  SystemStats, 
-  HealthCheckResult,
-  CreateProxyRequest,
-  UpdateProxyRequest,
-  CreateSessionRequest,
-  ApiResponse,
-  ApiError,
-  ProxyFilters,
-  SessionFilters,
-  AnalyticsData
+ type StreamingProxy, 
+  type StreamingSession, 
+  type SystemStats, 
+  type HealthCheckResult,
+  type CreateProxyRequest,
+  type UpdateProxyRequest,
+  type CreateSessionRequest,
+  type ApiResponse,
+  type ProxyFilters,
+  type SessionFilters,
+  type AnalyticsData
 } from './types';
 
 export interface ApiClientConfig {
@@ -62,7 +61,7 @@ export class ApiClientError extends Error {
     this.originalError = originalError;
   }
 
-  static fromResponse(response: Response, data?: any): ApiClientError {
+  static fromResponse(response: Response, data?: { error?: string; message?: string; details?: Record<string, string[]> }): ApiClientError {
     const statusCode = response.status;
     let type: ApiErrorType;
     let message = data?.error || data?.message || response.statusText || 'Unknown error';
@@ -189,7 +188,7 @@ export class ApiClient {
         if (!response.ok) {
           let errorData;
           try {
-            errorData = await response.json();
+            errorData = await response.json() as { error?: string; message?: string; details?: Record<string, string[]> };
           } catch {
             // Response might not be JSON
           }
@@ -197,8 +196,8 @@ export class ApiClient {
         }
 
         // Parse response
-        const data = await response.json();
-        return data;
+        const data = await response.json() as { error?: string; message?: string; details?: Record<string, string[]> };
+        return data as T;
 
       } catch (error) {
         clearTimeout(timeoutId);
@@ -250,7 +249,7 @@ export class ApiClient {
   /**
    * POST request
    */
-  async post<T>(endpoint: string, data?: any, options?: RequestOptions): Promise<T> {
+  async post<T, D = unknown>(endpoint: string, data?: D, options?: RequestOptions): Promise<T> {
     return this.makeRequest<T>(endpoint, {
       ...options,
       method: 'POST',
@@ -261,7 +260,7 @@ export class ApiClient {
   /**
    * PUT request
    */
-  async put<T>(endpoint: string, data?: any, options?: RequestOptions): Promise<T> {
+  async put<T>(endpoint: string, data?:  { error?: string; message?: string; details?: Record<string, string[]> }, options?: RequestOptions): Promise<T> {
     return this.makeRequest<T>(endpoint, {
       ...options,
       method: 'PUT',
@@ -272,7 +271,7 @@ export class ApiClient {
   /**
    * PATCH request
    */
-  async patch<T>(endpoint: string, data?: any, options?: RequestOptions): Promise<T> {
+  async patch<T>(endpoint: string, data?:  { error?: string; message?: string; details?: Record<string, string[]> }, options?: RequestOptions): Promise<T> {
     return this.makeRequest<T>(endpoint, {
       ...options,
       method: 'PATCH',
@@ -316,14 +315,14 @@ export class ApiClient {
    * Create a new streaming proxy
    */
   async createProxy(data: CreateProxyRequest): Promise<ApiResponse<StreamingProxy>> {
-    return this.post<ApiResponse<StreamingProxy>>('/streaming-proxies', data);
+    return this.post<ApiResponse<StreamingProxy>, CreateProxyRequest>('/streaming-proxies', data);
   }
 
   /**
    * Update an existing streaming proxy
    */
   async updateProxy(id: string, data: UpdateProxyRequest): Promise<ApiResponse<StreamingProxy>> {
-    return this.patch<ApiResponse<StreamingProxy>>(`/streaming-proxies/${id}`, data);
+    return this.patch<ApiResponse<StreamingProxy>>(`/streaming-proxies/${id}`, data as { error?: string; message?: string; details?: Record<string, string[]> });
   }
 
   /**
@@ -357,7 +356,7 @@ export class ApiClient {
   /**
    * Get analytics data
    */
-  async getAnalytics(timeRange: string, p0: number, timeRange: '7d' | '30d' | '90d' = '7d'): Promise<ApiResponse<AnalyticsData>> {
+  async getAnalytics(timeRange: '7d' | '30d' | '90d' = '7d'): Promise<ApiResponse<AnalyticsData>> {
     return this.get<ApiResponse<AnalyticsData>>(`/streaming-proxies/analytics?timeRange=${timeRange}`);
   }
 

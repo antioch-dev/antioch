@@ -1,14 +1,16 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { type SystemStats, type AnalyticsData, type UseStreamingStatsReturn } from '../types';
 import { apiClient } from '../api-client';
 
-export function useStreamingStats(timeRange = '30d'): UseStreamingStatsReturn {
+
+export function useStreamingStats(): UseStreamingStatsReturn {
   const [stats, setStats] = useState<SystemStats | null>(null);
   const [analytics, setAnalytics] = useState<AnalyticsData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const timeRange = useRef<'7d' | '30d' | '90d'>('30d');
 
   const refresh = useCallback(async () => {
     try {
@@ -17,7 +19,7 @@ export function useStreamingStats(timeRange = '30d'): UseStreamingStatsReturn {
       
       const [statsResponse, analyticsResponse] = await Promise.all([
         apiClient.getSystemStats(),
-        apiClient.getAnalytics(timeRange, 0) 
+        apiClient.getAnalytics(timeRange.current)
       ]);
       
       setStats(statsResponse.data);
