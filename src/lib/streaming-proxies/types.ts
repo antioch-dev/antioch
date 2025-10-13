@@ -1,5 +1,5 @@
 // Core TypeScript interfaces and enums for Streaming Proxy Management System
-import { RealTimeUpdate } from './types/realtime';
+import { type RealTimeUpdate } from './types/realtime';
 
 export interface StreamingProxy {
   id: string;
@@ -32,6 +32,8 @@ export interface StreamingSession {
   totalDataTransferred: number; // bytes
   status: SessionStatus;
 }
+
+export type SettingValue = string | number | boolean | readonly string[] | null;
 
 export enum ProxyStatus {
   ACTIVE = 'active',
@@ -467,7 +469,7 @@ export interface UseRealTimeReturn {
   error: string | null;
   connect: () => void;
   disconnect: () => void;
-  sendMessage: (message: any) => void;
+  sendMessage: (message: string) => void;
 }
 
 // Context types

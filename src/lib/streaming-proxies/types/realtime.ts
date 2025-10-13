@@ -1,4 +1,4 @@
-import { StreamingProxy, SystemStats, HealthCheckResult } from '..';
+import { type StreamingProxy, type SystemStats, type HealthCheckResult } from '..';
 
 export type RealTimeUpdate = 
   | {
