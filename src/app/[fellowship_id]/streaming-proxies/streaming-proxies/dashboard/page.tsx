@@ -36,7 +36,7 @@ export default function StreamingProxyDashboard() {
     error: proxiesError,
     refresh: refreshProxies,
     updateProxyInState,
-  } = useStreamingProxies();
+  } =  useStreamingProxies();
 
   const {
     stats,

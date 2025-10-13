@@ -29,7 +29,7 @@ export default function AdminPanel() {
         // Replace with actual API calls
         const response = await fetch('/api/admin/stats');
         if (response.ok) {
-          const data = await response.json();
+          const data = await response.json() as { totalProxies: number | null, activeStreams: number | null, totalUsers: number | null, systemHealth: string | null };
           setQuickStats([
             { label: 'Total Proxies', value: data.totalProxies?.toString() || '--', icon: <Server className="h-5 w-5" /> },
             { label: 'Active Streams', value: data.activeStreams?.toString() || '--', icon: <Activity className="h-5 w-5" /> },
@@ -42,7 +42,7 @@ export default function AdminPanel() {
       }
     };
 
-    loadStats();
+   void loadStats();
   }, []);
 
   return (
@@ -99,14 +99,14 @@ export default function AdminPanel() {
               <div className="flex items-center justify-between py-3 border-b border-gray-200">
                 <div className="flex items-center">
                   <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
-                  <span className="text-sm text-gray-900">New proxy "US-East-1" created</span>
+                  <span className="text-sm text-gray-900">New proxy `US-East-1` created</span>
                 </div>
                 <span className="text-xs text-gray-500">2 hours ago</span>
               </div>
               <div className="flex items-center justify-between py-3 border-b border-gray-200">
                 <div className="flex items-center">
                   <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
-                  <span className="text-sm text-gray-900">Stream started on proxy "EU-West-1"</span>
+                  <span className="text-sm text-gray-900">Stream started on proxy `EU-West-1`</span>
                 </div>
                 <span className="text-xs text-gray-500">4 hours ago</span>
               </div>

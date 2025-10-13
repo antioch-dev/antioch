@@ -54,7 +54,7 @@ export default function RoleAssignmentModal({
     
     setIsLoading(true);
     try {
-      await onAssignRole(user.id, selectedRole);
+       onAssignRole(user.id, selectedRole);
       onClose();
     } catch (error) {
       console.error('Failed to assign role:', error);

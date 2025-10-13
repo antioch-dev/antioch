@@ -1,6 +1,6 @@
 'use client';
 
-import { SystemStats } from '@/lib/streaming-proxies/types';
+import { type SystemStats } from '@/lib/streaming-proxies/types';
 import { formatNumber, formatBandwidth } from '@/lib/streaming-proxies/utils/formatters';
 import { COMPONENT_STYLES, LAYOUT_STYLES } from '@/lib/streaming-proxies/utils/constants';
 import { cn } from '@/lib/utils';

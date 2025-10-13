@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { ArrowLeft, Play, Server, Users, Settings, CheckCircle, AlertCircle } from 'lucide-react';
+import { ArrowLeft, Play, Server, Settings, CheckCircle, AlertCircle } from 'lucide-react';
 
 export default function StartStream() {
   const router = useRouter();
@@ -40,9 +40,20 @@ export default function StartStream() {
       try {
         const response = await fetch('/api/streaming-proxies?status=active');
         if (response.ok) {
-          const data = await response.json();
-          if (data.success && data.data) {
-            setAvailableProxies(data.data.map((proxy: any) => ({
+          const data = await response.json() as {
+            success: boolean;
+            data: Array<{
+              id: string;
+              name: string;
+              serverLocation: string;
+              status: string;
+              currentActiveStreams: number;
+              maxConcurrentStreams: number;
+              bandwidthUsed: number;
+            }>;
+          };
+          if (data.success && Array.isArray(data.data)) {
+            setAvailableProxies(data.data.map((proxy) => ({
               id: proxy.id,
               name: proxy.name,
               location: proxy.serverLocation,
@@ -61,7 +72,7 @@ export default function StartStream() {
       }
     };
 
-    loadProxies();
+   void loadProxies();
   }, []);
 
   const handleInputChange = (field: string, value: string | number | boolean) => {
@@ -95,7 +106,7 @@ export default function StartStream() {
         }),
       });
 
-      const data = await response.json();
+      const data = await response.json() as { success: boolean; error?: string };
       
       if (response.ok && data.success) {
         alert('Stream started successfully!');

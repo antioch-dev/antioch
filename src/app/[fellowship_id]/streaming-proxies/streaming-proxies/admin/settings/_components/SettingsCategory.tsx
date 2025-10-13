@@ -8,7 +8,7 @@ import SettingInput from './SettingInput';
 
 interface Setting {
   key: string;
-  value: any;
+  value: number | string | boolean | readonly string[] | null;
   type: 'string' | 'number' | 'boolean' | 'select';
   description: string;
   category: string;
@@ -29,7 +29,7 @@ interface SettingsCategoryProps {
     icon: string;
   };
   settings: Setting[];
-  onSave: (categoryId: string, changes: Record<string, any>) => Promise<void>;
+  onSave: (categoryId: string, changes: Record<string, number | string | boolean | readonly string[] | null>) => Promise<void>;
   onReset: (categoryId: string) => void;
   isLoading?: boolean;
 }
@@ -41,8 +41,8 @@ export default function SettingsCategory({
   onReset, 
   isLoading = false 
 }: SettingsCategoryProps) {
-  const [localSettings, setLocalSettings] = useState<Record<string, any>>(() => {
-    const initial: Record<string, any> = {};
+  const [localSettings, setLocalSettings] = useState<Record<string, number | string | boolean | readonly string[] | null>>(() => {
+    const initial: Record<string, number | string | boolean | readonly string[] | null> = {};
     settings.forEach(setting => {
       initial[setting.key] = setting.value;
     });
@@ -53,7 +53,7 @@ export default function SettingsCategory({
   const [modifiedKeys, setModifiedKeys] = useState<Set<string>>(new Set());
   const [isSaving, setIsSaving] = useState(false);
 
-  const handleSettingChange = (key: string, value: any) => {
+  const handleSettingChange = (key: string, value: number | string | boolean | readonly string[] | null) => {
     setLocalSettings(prev => ({ ...prev, [key]: value }));
     
     // Track modified keys
@@ -122,7 +122,7 @@ export default function SettingsCategory({
 
       // Select validations
       if (setting.type === 'select' && validation.options) {
-        if (!validation.options.includes(value)) {
+        if (!validation.options.includes(typeof value === 'string' ? value : '')) {
           newErrors[setting.key] = `Must be one of: ${validation.options.join(', ')}`;
         }
       }
@@ -139,9 +139,9 @@ export default function SettingsCategory({
 
     setIsSaving(true);
     try {
-      const changes: Record<string, any> = {};
+      const changes: Record<string, number | string | boolean | readonly string[] | null> = {};
       Array.from(modifiedKeys).forEach(key => {
-        changes[key] = localSettings[key];
+        changes[key] = localSettings[key] ?? null;
       });
 
       await onSave(category.id, changes);
@@ -155,7 +155,7 @@ export default function SettingsCategory({
   };
 
   const handleReset = () => {
-    const resetSettings: Record<string, any> = {};
+    const resetSettings: Record<string, number | string | boolean | readonly string[] | null> = {};
     settings.forEach(setting => {
       resetSettings[setting.key] = setting.value;
     });

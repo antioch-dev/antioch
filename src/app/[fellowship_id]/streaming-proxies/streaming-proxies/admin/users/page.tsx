@@ -11,7 +11,7 @@ import UserFilters from './_components/UserFilters';
 import RoleAssignmentModal from './_components/RoleAssignmentModal';
 import PermissionManagementModal from './_components/PermissionManagementModal';
 
-import { useUsers, User } from '@/lib/streaming-proxies/hooks/useUsers';
+import { useUsers, type User } from '@/lib/streaming-proxies/hooks/useUsers';
 import { useRoles } from '@/lib/streaming-proxies/hooks/useRoles';
 import { usePermissions } from '@/lib/streaming-proxies/hooks/usePermissions';
 

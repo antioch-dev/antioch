@@ -21,7 +21,7 @@ export default function ProxyDetailsPage() {
   const params = useParams();
   const proxyId = params.id as string;
 
-  const { proxies, loading: proxiesLoading, error: proxiesError } = useStreamingProxies();
+  const { proxies, loading: proxiesLoading } = useStreamingProxies();
   const { sessions, loading: sessionsLoading } = useStreamingSessions({
     autoRefresh: true,
     refreshInterval: 10000
@@ -32,7 +32,7 @@ export default function ProxyDetailsPage() {
 
   useEffect(() => {
     if (!proxiesLoading && proxies.length > 0) {
-      const foundProxy = proxies.find(p => p.id === proxyId);
+      const foundProxy = proxies.find((p: { id: string; }) => p.id === proxyId);
       if (foundProxy) {
         setProxy(foundProxy);
         setNotFound(false);

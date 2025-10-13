@@ -1,9 +1,8 @@
 'use client';
 
 import React, { useState, memo, useCallback, useMemo } from 'react';
-import { ErrorBoundary, ErrorMessages } from '@/components/ui/error-boundary';
 import Link from 'next/link';
-import { BarChart2, ExternalLink } from 'lucide-react';
+import { BarChart2 } from 'lucide-react';
 import { ClientOnly } from '@/components/ClientOnly';
 // Define types directly to avoid import issues
 enum ProxyStatus {
@@ -40,11 +39,7 @@ const formatBandwidth = (mbps: number): string => {
   return `${mbps.toFixed(1)} Mbps`;
 };
 
-const getUtilizationColor = (percentage: number): string => {
-  if (percentage >= 90) return 'bg-red-500';
-  if (percentage >= 70) return 'bg-yellow-500';
-  return 'bg-green-500';
-};
+
 
 // Define styles locally
 const COMPONENT_STYLES = {
@@ -174,7 +169,6 @@ const ProxyCardContent = memo(({
   onDelete,
   className
 }: ProxyCardProps) => {
-  const [isLoading, setIsLoading] = useState(false);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
   
   // Memoize computed values to prevent unnecessary recalculations
@@ -191,7 +185,7 @@ const ProxyCardContent = memo(({
       ? (activeStreams / maxStreams) * 100 
       : 0;
 
-    const canStartStream = proxy.status === 'active' && activeStreams < maxStreams;
+    const canStartStream = proxy.status === ProxyStatus.ACTIVE && activeStreams < maxStreams;
 
     return {
       maxStreams,
@@ -214,7 +208,7 @@ const ProxyCardContent = memo(({
     
     setActionLoading('start');
     try {
-      await onStartStream(proxy.id);
+      onStartStream(proxy.id);
     } finally {
       setActionLoading(null);
     }
@@ -246,7 +240,7 @@ const ProxyCardContent = memo(({
     
     setActionLoading('delete');
     try {
-      await onDelete(proxy.id);
+      onDelete(proxy.id);
     } finally {
       setActionLoading(null);
     }
@@ -424,19 +418,19 @@ const ProxyCardContent = memo(({
       )}
 
       {/* Status Messages */}
-      {!computedValues.canStartStream && proxy.status === 'active' && (
+      {!computedValues.canStartStream && proxy.status === ProxyStatus.ACTIVE && (
         <div className="mt-2 text-xs text-amber-600 bg-amber-50 px-2 py-1 rounded">
           Maximum streams reached
         </div>
       )}
       
-      {proxy.status === 'maintenance' && (
+      {proxy.status === ProxyStatus.MAINTENANCE && (
         <div className="mt-2 text-xs text-yellow-600 bg-yellow-50 px-2 py-1 rounded">
           Under maintenance
         </div>
       )}
       
-      {proxy.status === 'inactive' && (
+      {proxy.status === ProxyStatus.INACTIVE && (
         <div className="mt-2 text-xs text-gray-600 bg-gray-50 px-2 py-1 rounded">
           Proxy inactive
         </div>

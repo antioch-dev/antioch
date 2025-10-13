@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { StreamingProxy, ProxyStatus, HealthStatus } from '@/lib/streaming-proxies/types';
+import { type StreamingProxy, type ProxyStatus, type HealthStatus } from '@/lib/streaming-proxies/types';
 import { formatRelativeTime, formatStreamCount, formatBandwidth } from '@/lib/streaming-proxies/utils/formatters';
 import { COMPONENT_STYLES, LAYOUT_STYLES } from '@/lib/streaming-proxies/utils/constants';
 import { cn } from '@/lib/utils';
@@ -40,7 +40,7 @@ export default function ProxyTable({
 
   // Filter and sort proxies
   const filteredAndSortedProxies = useMemo(() => {
-    let filtered = proxies.filter(proxy => {
+    const filtered = proxies.filter(proxy => {
       const matchesSearch = proxy.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            proxy.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            proxy.serverLocation.toLowerCase().includes(searchTerm.toLowerCase());
@@ -53,7 +53,7 @@ export default function ProxyTable({
 
     // Sort
     filtered.sort((a, b) => {
-      let aValue: any, bValue: any;
+      let aValue: string, bValue: string;
       
       switch (sortField) {
         case 'name':
@@ -69,16 +69,16 @@ export default function ProxyTable({
           bValue = b.serverLocation;
           break;
         case 'streams':
-          aValue = a.currentActiveStreams;
-          bValue = b.currentActiveStreams;
+          aValue = a.currentActiveStreams.toString();
+          bValue = b.currentActiveStreams.toString();
           break;
         case 'health':
           aValue = a.healthStatus;
           bValue = b.healthStatus;
           break;
         case 'updated':
-          aValue = new Date(a.updatedAt).getTime();
-          bValue = new Date(b.updatedAt).getTime();
+          aValue = new Date(a.updatedAt).getTime().toString();
+          bValue = new Date(b.updatedAt).getTime().toString();
           break;
         default:
           return 0;
@@ -124,7 +124,7 @@ export default function ProxyTable({
     
     setActionLoading(action);
     try {
-      await onBulkAction(action, Array.from(selectedIds));
+      onBulkAction(action, Array.from(selectedIds));
       setSelectedIds(new Set());
     } finally {
       setActionLoading(null);
@@ -136,7 +136,7 @@ export default function ProxyTable({
     
     setActionLoading(`health-${proxyId}`);
     try {
-      await onHealthCheck(proxyId);
+      onHealthCheck(proxyId);
     } finally {
       setActionLoading(null);
     }

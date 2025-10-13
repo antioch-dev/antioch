@@ -1,12 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { AlertCircle, Check, X } from 'lucide-react';
+import { AlertCircle, Check } from 'lucide-react';
 
 interface SettingInputProps {
   setting: {
     key: string;
-    value: any;
+    value: number | string | boolean | readonly string[] | null;
     type: 'string' | 'number' | 'boolean' | 'select';
     description: string;
     validation?: {
@@ -17,16 +17,16 @@ interface SettingInputProps {
       options?: string[];
     };
   };
-  onChange: (key: string, value: any) => void;
+  onChange: (key: string, value: number | string | boolean) => void;
   error?: string;
   isModified?: boolean;
 }
 
 export default function SettingInput({ setting, onChange, error, isModified }: SettingInputProps) {
   const [localValue, setLocalValue] = useState(setting.value);
-  const [isFocused, setIsFocused] = useState(false);
+  const [, setIsFocused] = useState(false);
 
-  const handleChange = (value: any) => {
+  const handleChange = (value: number | string | boolean) => {
     setLocalValue(value);
     onChange(setting.key, value);
   };
@@ -43,7 +43,7 @@ export default function SettingInput({ setting, onChange, error, isModified }: S
         return (
           <input
             type="text"
-            value={localValue || ''}
+            value={typeof localValue === 'string' || typeof localValue === 'number' ? localValue : ''}
             onChange={(e) => handleChange(e.target.value)}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
@@ -56,7 +56,7 @@ export default function SettingInput({ setting, onChange, error, isModified }: S
         return (
           <input
             type="number"
-            value={localValue || ''}
+            value={typeof localValue === 'string' || typeof localValue === 'number' ? localValue : ''}
             onChange={(e) => handleChange(parseFloat(e.target.value) || 0)}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
@@ -71,7 +71,7 @@ export default function SettingInput({ setting, onChange, error, isModified }: S
           <label className="relative inline-flex items-center cursor-pointer">
             <input
               type="checkbox"
-              checked={localValue || false}
+              checked={typeof localValue === 'boolean' ? localValue : false}
               onChange={(e) => handleChange(e.target.checked)}
               className="sr-only peer"
             />
@@ -82,7 +82,7 @@ export default function SettingInput({ setting, onChange, error, isModified }: S
       case 'select':
         return (
           <select
-            value={localValue || ''}
+            value={typeof localValue === 'string' || typeof localValue === 'number' ? localValue : ''}
             onChange={(e) => handleChange(e.target.value)}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}

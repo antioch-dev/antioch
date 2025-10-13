@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Users, Settings, Shield, MoreHorizontal, UserX, UserCheck } from 'lucide-react';
+import { Users, Settings, Shield, UserX, UserCheck } from 'lucide-react';
 
 interface User {
   id: string;

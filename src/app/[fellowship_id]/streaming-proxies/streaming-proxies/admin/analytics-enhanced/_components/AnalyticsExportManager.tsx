@@ -6,11 +6,7 @@ import { Button } from '@/components/ui/button';
 import { 
   Download, 
   FileText, 
-  Image, 
   Database, 
-  Calendar,
-  Filter,
-  Settings,
   CheckCircle,
   Clock,
   AlertCircle,
@@ -157,7 +153,7 @@ export default function AnalyticsExportManager({
               variant="outline"
               className="h-auto p-4 flex flex-col items-center gap-2"
               onClick={() => {
-                setExportOptions({ ...exportOptions, type: type.value as any });
+                setExportOptions({ ...exportOptions, type: type.value as ExportOptions['type'] });
                 setShowExportDialog(true);
               }}
             >
@@ -279,7 +275,7 @@ export default function AnalyticsExportManager({
                     {exportTypes.map((type) => (
                       <button
                         key={type.value}
-                        onClick={() => setExportOptions({ ...exportOptions, type: type.value as any })}
+                        onClick={() => setExportOptions({ ...exportOptions, type: type.value as ExportOptions['type'] })}
                         className={`p-3 border rounded-lg text-left transition-colors ${
                           exportOptions.type === type.value
                             ? 'border-blue-500 bg-blue-50'
@@ -309,7 +305,7 @@ export default function AnalyticsExportManager({
                           name="dataType"
                           value={dataType.value}
                           checked={exportOptions.dataType === dataType.value}
-                          onChange={(e) => setExportOptions({ ...exportOptions, dataType: e.target.value as any })}
+                          onChange={(e) => setExportOptions({ ...exportOptions, dataType: e.target.value as ExportOptions['dataType'] })}
                           className="mt-1"
                         />
                         <div>

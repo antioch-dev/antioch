@@ -118,8 +118,8 @@ export default function TimeRangeSelector({
     }
 
     const customRange: CustomDateRange = {
-      start: start.toISOString().split('T')[0],
-      end: end.toISOString().split('T')[0]
+      start: start.toISOString().split('T')[0] ?? '',
+      end: end.toISOString().split('T')[0] ?? ''
     };
 
     setTempCustomRange(customRange);

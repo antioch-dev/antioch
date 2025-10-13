@@ -1,9 +1,9 @@
 'use client';
 
-import { Component, ErrorInfo, ReactNode } from 'react';
+import { Component, type ErrorInfo, type ReactNode } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { AlertTriangle, RefreshCw, Home, Settings, ArrowLeft, Bug } from 'lucide-react';
+import { AlertTriangle, RefreshCw, Home, ArrowLeft, Bug } from 'lucide-react';
 import Link from 'next/link';
 
 interface AdminErrorBoundaryProps {

@@ -14,7 +14,6 @@ import {
   AlertTriangle, 
   DollarSign,
   BarChart3,
-  PieChart,
   LineChart,
   RefreshCw
 } from 'lucide-react';

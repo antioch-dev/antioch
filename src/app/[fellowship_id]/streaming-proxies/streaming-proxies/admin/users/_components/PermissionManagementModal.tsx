@@ -60,7 +60,7 @@ export default function PermissionManagementModal({
   const handleUpdatePermissions = async () => {
     setIsLoading(true);
     try {
-      await onUpdatePermissions(user.id, selectedPermissions);
+       onUpdatePermissions(user.id, selectedPermissions);
       onClose();
     } catch (error) {
       console.error('Failed to update permissions:', error);
@@ -74,7 +74,7 @@ export default function PermissionManagementModal({
     if (!acc[permission.category]) {
       acc[permission.category] = [];
     }
-    acc[permission.category].push(permission);
+    acc[permission.category]!.push(permission);
     return acc;
   }, {} as Record<string, Permission[]>);
 

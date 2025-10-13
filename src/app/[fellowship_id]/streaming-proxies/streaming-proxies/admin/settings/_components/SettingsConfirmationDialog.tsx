@@ -7,8 +7,8 @@ import { AlertTriangle, X, Check } from 'lucide-react';
 
 interface SettingsChange {
   key: string;
-  oldValue: any;
-  newValue: any;
+  oldValue: number | string | boolean | readonly string[] | null;
+  newValue: number | string | boolean | readonly string[] | null;
   description: string;
 }
 
@@ -32,7 +32,7 @@ export default function SettingsConfirmationDialog({
 
   if (!isOpen) return null;
 
-  const formatValue = (value: any): string => {
+  const formatValue = (value: number | string | boolean | readonly string[] | null): string => {
     if (typeof value === 'boolean') {
       return value ? 'Enabled' : 'Disabled';
     }

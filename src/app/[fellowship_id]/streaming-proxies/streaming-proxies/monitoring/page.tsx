@@ -2,42 +2,19 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { getProxyById } from '@/lib/streaming-proxies/data';
-import dynamic from 'next/dynamic';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, AlertCircle } from 'lucide-react';
 import Link from 'next/link';
-import Skeleton from '@/components/ui/skeleton';
+import { Skeleton } from '@/components/ui/skeleton';
 
 import React from 'react';
-import { StreamingProxy } from '@/lib/streaming-proxies/types';
 
-// Define the props type for BandwidthChart
-interface BandwidthChartProps {
-  proxy: StreamingProxy;
-  timeRange?: '1h' | '24h' | '7d' | '30d';
-  className?: string;
-  onRefresh?: () => void;
-}
 
-// Dynamically import BandwidthChart with no SSR to avoid hydration issues
-const BandwidthChart = dynamic<BandwidthChartProps>(
-  () => import('../_components/BandwidthChart').then(mod => mod.default),
-  { 
-    ssr: false,
-    loading: () => (
-      <div className="space-y-4">
-        <Skeleton className="h-8 w-48" />
-        <Skeleton className="h-64 w-full" />
-      </div>
-    )
-  }
-) as React.ComponentType<BandwidthChartProps>;
 
 export default function SystemMonitoringPage() {
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error,] = useState<string | null>(null);
   const router = useRouter();
 
   useEffect(() => {

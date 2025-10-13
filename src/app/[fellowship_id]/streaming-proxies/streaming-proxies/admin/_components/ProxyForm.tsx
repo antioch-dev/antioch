@@ -3,8 +3,8 @@
 import { useState, useEffect } from 'react';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { CreateProxySchema, UpdateProxySchema } from '@/lib/streaming-proxies/utils/validation';
+import { type z } from 'zod';
+import { CreateProxySchema, type UpdateProxySchema } from '@/lib/streaming-proxies/utils/validation';
 import type { StreamingProxy } from '@/lib/streaming-proxies/types';
 import { SERVER_LOCATIONS, COMPONENT_STYLES } from '@/lib/streaming-proxies/utils/constants';
 import { apiUtils } from '@/lib/streaming-proxies/api';
