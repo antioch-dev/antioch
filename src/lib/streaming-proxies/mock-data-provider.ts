@@ -183,10 +183,11 @@ export class MockDataProvider {
       'stream_count',
       'health_check',
       'system_stats',
+
     ];
 
-    const randomType = updateTypes[Math.floor(Math.random() * updateTypes.length)];
-    const update = this.generateUpdate(randomType);
+    const randomType= updateTypes[Math.floor(Math.random() * updateTypes.length)];
+    const update = this.generateUpdate(randomType ?? 'system_stats');
     
     if (update) {
     void this.broadcastUpdate(update);
@@ -206,11 +207,11 @@ export class MockDataProvider {
         const newStatus = statuses[Math.floor(Math.random() * statuses.length)];
         
         const updatedProxy = { ...proxy, status: newStatus, updatedAt: timestamp };
-        this.updateProxyInMockData(updatedProxy);
+        this.updateProxyInMockData(updatedProxy as StreamingProxy);
 
         return {
           type: 'proxy_status',
-          data: updatedProxy,
+          data: updatedProxy as StreamingProxy,
           timestamp,
         };
       }
@@ -257,7 +258,7 @@ export class MockDataProvider {
           lastHealthCheck: timestamp,
           updatedAt: timestamp 
         };
-        this.updateProxyInMockData(updatedProxy);
+        this.updateProxyInMockData(updatedProxy as StreamingProxy);
         this.updateMockStats();
 
         return {
@@ -288,8 +289,8 @@ export class MockDataProvider {
     }
   }
 
-  private getRandomProxy(): StreamingProxy | null {
-    if (this.mockProxies.length === 0) return null;
+  private getRandomProxy(): StreamingProxy | undefined {
+    if (this.mockProxies.length === 0) return undefined;
     return this.mockProxies[Math.floor(Math.random() * this.mockProxies.length)];
   }
 

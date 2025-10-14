@@ -50,6 +50,26 @@ export interface UseRealTimeDataReturn {
   updateCount: number;
 }
 
+// Type guard to check if an object has a valid ID
+function hasValidId(obj: { id: string }): obj is { id: string } {
+  return typeof obj?.id === 'string' && obj.id.trim() !== '';
+}
+
+// Type guard for proxy status update
+function isValidProxyStatusUpdate(update: RealTimeUpdate): update is RealTimeUpdate & { type: 'proxy_status'; data: StreamingProxy } {
+  return update.type === 'proxy_status' && hasValidId(update.data);
+}
+
+// Type guard for stream count update
+function isValidStreamCountUpdate(update: RealTimeUpdate): update is RealTimeUpdate & { type: 'stream_count'; data: { proxyId: string; count: number } } {
+  return update.type === 'stream_count' && typeof update.data?.proxyId === 'string' && update.data.proxyId.trim() !== '';
+}
+
+// Type guard for health check update
+function isValidHealthCheckUpdate(update: RealTimeUpdate): update is RealTimeUpdate & { type: 'health_check'; data: HealthCheckResult & { proxyId: string } } {
+  return update.type === 'health_check' && typeof update.data?.proxyId === 'string' && update.data.proxyId.trim() !== '';
+}
+
 export function useRealTimeData(
   options: UseRealTimeDataOptions = {}
 ): UseRealTimeDataReturn {
@@ -80,20 +100,24 @@ export function useRealTimeData(
   const lastUpdateTimeRef = useRef<number>(0);
 
   // Initialize with mock data if using mock provider
-  useEffect(() => {
-    if (connection.isUsingMockData) {
-      const mockProvider = getMockDataProvider();
-      if (mockProvider) {
-        // Load initial mock data
-        if (enableProxyUpdates && proxies.length === 0) {
-          setProxies(mockProvider.getMockProxies());
-        }
-        if (enableStatsUpdates && !stats) {
-          setStats(mockProvider.getMockStats());
-        }
+ useEffect(() => {
+  if (connection.isUsingMockData) {
+    const provider = getMockDataProvider() as { getMockProxies: () => StreamingProxy[]; getMockStats: () => SystemStats };
+
+    if (provider) {
+      if (enableProxyUpdates && proxies.length === 0) {
+        const mockProxies = provider.getMockProxies();
+        const validProxies = mockProxies.filter(hasValidId);
+        setProxies(validProxies);
+      }
+
+      if (enableStatsUpdates && !stats) {
+        const mockStats = provider.getMockStats();
+        if (mockStats) setStats(mockStats);
       }
     }
-  }, [connection.isUsingMockData, enableProxyUpdates, enableStatsUpdates, proxies.length, stats]);
+  }
+}, [connection.isUsingMockData, enableProxyUpdates, enableStatsUpdates, proxies.length, stats]);
 
   // Process a batch of updates efficiently
   const processBatchedUpdates = useCallback((updates: RealTimeUpdate[]) => {
@@ -102,25 +126,27 @@ export function useRealTimeData(
     const healthUpdates = new Map<string, RealTimeUpdate>();
     let latestStatsUpdate: RealTimeUpdate | null = null;
 
-    // Group and deduplicate updates
+    // Group and deduplicate updates with proper type checking
     updates.forEach(update => {
       switch (update.type) {
         case 'proxy_status':
+          if (enableProxyUpdates && isValidProxyStatusUpdate(update)) {
+            proxyUpdates.set(update.data.id, update);
+          }
+          break;
         case 'stream_count':
-          if (enableProxyUpdates) {
-            const proxyId = update.type === 'proxy_status' ? update.data.id : update.data.proxyId;
-            proxyUpdates.set(proxyId, update);
+          if (enableProxyUpdates && isValidStreamCountUpdate(update)) {
+            proxyUpdates.set(update.data.proxyId, update);
           }
           break;
         case 'health_check':
-          if (enableHealthUpdates && 'proxyId' in update.data) {
-            const healthData = update.data;
-            healthUpdates.set(healthData.proxyId, update);
+          if (enableHealthUpdates && isValidHealthCheckUpdate(update)) {
+            healthUpdates.set(update.data.proxyId, update);
           }
           break;
         case 'system_stats':
           if (enableStatsUpdates) {
-            latestStatsUpdate = update; // Only keep the latest stats update
+            latestStatsUpdate = update;
           }
           break;
       }
@@ -133,20 +159,28 @@ export function useRealTimeData(
         let hasChanges = false;
 
         proxyUpdates.forEach(update => {
-          if (update.type === 'proxy_status') {
+          if (isValidProxyStatusUpdate(update)) {
             const index = newProxies.findIndex(p => p.id === update.data.id);
-            if (index !== -1) {
-              newProxies[index] = update.data;
-              hasChanges = true;
-            } else {
-              newProxies.push(update.data);
-              hasChanges = true;
-            }
-          } else if (update.type === 'stream_count') {
-            const index = newProxies.findIndex(p => p.id === update.data.proxyId);
             if (index !== -1) {
               newProxies[index] = {
                 ...newProxies[index],
+                ...update.data,
+                updatedAt: update.timestamp,
+              };
+              hasChanges = true;
+            } else {
+              // Type-safe addition - we know update.data has valid ID
+              newProxies.push({
+                ...update.data,
+                updatedAt: update.timestamp,
+              });
+              hasChanges = true;
+            }
+          } else if (isValidStreamCountUpdate(update)) {
+            const index = newProxies.findIndex(p => p.id === update.data.proxyId);
+            if (index !== -1) {
+              newProxies[index] = {
+                ...newProxies[index]!,
                 currentActiveStreams: update.data.count,
                 updatedAt: update.timestamp,
               };
@@ -166,8 +200,7 @@ export function useRealTimeData(
         let hasChanges = false;
 
         healthUpdates.forEach(update => {
-          // Type guard to ensure update.data has proxyId
-          if (update.type === 'health_check' && 'proxyId' in update.data) {
+          if (isValidHealthCheckUpdate(update)) {
             const healthData = update.data;
             const index = newHealthChecks.findIndex(h => h.proxyId === healthData.proxyId);
             if (index !== -1) {
@@ -187,13 +220,12 @@ export function useRealTimeData(
             let proxyChanges = false;
 
             healthUpdates.forEach(update => {
-              // Type guard to ensure update.data has proxyId
-              if (update.type === 'health_check' && 'proxyId' in update.data) {
+              if (isValidHealthCheckUpdate(update)) {
                 const healthData = update.data;
                 const index = newProxies.findIndex(p => p.id === healthData.proxyId);
                 if (index !== -1) {
-                  newProxies[index]  = {
-                    ...newProxies[index],
+                  newProxies[index] = {
+                    ...newProxies[index]!,
                     healthStatus: healthData.status,
                     lastHealthCheck: healthData.lastChecked,
                     updatedAt: update.timestamp,
@@ -213,10 +245,7 @@ export function useRealTimeData(
 
     // Apply stats update
     if (latestStatsUpdate) {
-      const statsUpdate = latestStatsUpdate as RealTimeUpdate;
-      if (statsUpdate.type === 'system_stats') {
-        setStats(statsUpdate.data);
-      }
+      setStats(latestStatsUpdate);
     }
   }, [enableProxyUpdates, enableStatsUpdates, enableHealthUpdates]);
 
@@ -302,7 +331,7 @@ export function useRealTimeData(
         updateBatchRef.current = [];
       }
     };
-  }, [connection, connection.onUpdate, handleRealTimeUpdate, processBatchedUpdates]);
+  }, [connection, handleRealTimeUpdate, processBatchedUpdates]);
 
   // Manual update methods
   const updateProxy = useCallback((proxy: StreamingProxy) => {
@@ -336,19 +365,20 @@ export function useRealTimeData(
 
     // Also update the proxy's health status
     setProxies(prev => {
-      const index = prev.findIndex(p => p.id === healthCheck.proxyId);
-      if (index !== -1) {
-        const newProxies = [...prev];
-        newProxies[index] = {
-          ...newProxies[index],
-          healthStatus: healthCheck.status,
-          lastHealthCheck: healthCheck.lastChecked,
-          updatedAt: new Date(),
-        };
-        return newProxies;
-      }
-      return prev;
-    });
+  const index = prev.findIndex(p => p.id === healthCheck.proxyId);
+  if (index !== -1) {
+    const newProxies = [...prev];
+    newProxies[index] = {
+      ...newProxies[index]!,
+      healthStatus: healthCheck.status,
+      lastHealthCheck: healthCheck.lastChecked,
+      updatedAt: new Date(),
+    };
+    return newProxies;
+  }
+  return prev;
+});
+
   }, []);
 
   return {

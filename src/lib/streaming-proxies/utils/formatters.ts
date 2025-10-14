@@ -282,7 +282,7 @@ export interface FormattedAnalyticsProxyData {
   streamCount: number;
 }
 
-export interface AnalyticsData {
+export interface AnalyticsDatas {
   usageByDay?: AnalyticsUsageData[];
   topProxies?: AnalyticsProxyData[];
   totalStreams?: number;
@@ -308,7 +308,7 @@ export const formatChartData = (data: ChartDataPoint[]): FormattedChartDataPoint
 };
 
 // Analytics data formatting
-export const formatAnalyticsData = (data: AnalyticsData): FormattedAnalyticsData => {
+export const formatAnalyticsData = (data: AnalyticsDatas): FormattedAnalyticsData => {
   const formattedData: FormattedAnalyticsData = {
   ...data,
   usageByDay: data.usageByDay
