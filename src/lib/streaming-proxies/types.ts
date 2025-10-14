@@ -33,7 +33,36 @@ export interface StreamingSession {
   status: SessionStatus;
 }
 
-export type SettingValue = string | number | boolean | readonly string[] | null;
+export type SettingValue = string | number | boolean | string[] | number[] | boolean[] | null | undefined;
+
+export interface SystemSetting {
+  key: string;
+  value: SettingValue;
+  description: string;
+  category: string;
+  type: 'string' | 'number' | 'boolean' | 'array';
+  options?: string[];
+  min?: number;
+  max?: number;
+}
+
+export interface SettingsCategory {
+  id: string;
+  name: string;
+  description: string;
+}
+
+export interface SettingsChange {
+  key: string;
+  oldValue: SettingValue;
+  newValue: SettingValue;
+  description: string;
+}
+
+export interface SettingsUpdate {
+  key: string;
+  value: SettingValue;
+}
 
 export enum ProxyStatus {
   ACTIVE = 'active',

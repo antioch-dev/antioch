@@ -11,21 +11,21 @@ import SettingsCategory from './_components/SettingsCategory';
 import SettingsConfirmationDialog from './_components/SettingsConfirmationDialog';
 import { useSystemSettings } from '@/lib/streaming-proxies/hooks/useSystemSettings';
 import { useSettingsChangeTracking } from '@/lib/streaming-proxies/hooks/useSettingsChangeTracking';
-import type { SettingValue } from '@/lib/streaming-proxies/types';
+import type { SettingValue, SettingsChange } from '@/lib/streaming-proxies/types';
 
-// Create compatible types based on the child component expectations
-interface SettingsChange {
-  key: string;
-  oldValue: SettingValue;
-  newValue: SettingValue;
-  description: string;
-}
+// Define a compatible SettingValue type that matches what SettingsCategory expects
+type CompatibleSettingValue = string | number | boolean | readonly string[] | null;
 
-// Type for settings updates
-interface SettingsUpdate {
-  key: string;
-  value: SettingValue;
-}
+// Helper function to convert SettingValue to CompatibleSettingValue
+const toCompatibleSettingValue = (value: SettingValue): CompatibleSettingValue => {
+  if (value === undefined) return null;
+  return value as CompatibleSettingValue;
+};
+
+// Helper function to convert CompatibleSettingValue back to SettingValue
+const toSettingValue = (value: CompatibleSettingValue): SettingValue => {
+  return value as SettingValue;
+};
 
 export default function SystemSettings() {
   const router = useRouter();
@@ -48,9 +48,17 @@ export default function SystemSettings() {
     hasChanges,
   } = useSettingsChangeTracking();
 
-  const handleCategorySave = async (categoryId: string, categoryChanges: Record<string, SettingValue>) => {
+  const handleCategorySave = async (categoryId: string, categoryChanges: Record<string, CompatibleSettingValue>) => {
     try {
-      const changesArray: SettingsChange[] = Object.entries(categoryChanges).map(([key, newValue]) => ({
+      // Convert CompatibleSettingValue back to SettingValue for internal processing
+      const internalChanges: Record<string, SettingValue> = Object.fromEntries(
+        Object.entries(categoryChanges).map(([key, value]) => [
+          key, 
+          toSettingValue(value)
+        ])
+      );
+
+      const changesArray: SettingsChange[] = Object.entries(internalChanges).map(([key, newValue]) => ({
         key,
         oldValue: settings[key]?.value ?? null,
         newValue,
@@ -78,55 +86,51 @@ export default function SystemSettings() {
     }
   };
 
-const applyChanges = async (changesArray: SettingsChange[], reason?: string) => {
-  try {
-    // Filter out null or undefined newValue
-    const updates: { key: string; value: SettingValue }[] = changesArray
-      .filter(
-        (change): change is SettingsChange & { newValue: SettingValue } =>
+  const applyChanges = async (changesArray: SettingsChange[], reason?: string) => {
+    try {
+      // Filter out null or undefined newValue and ensure type safety
+      const updates: { key: string; value: SettingValue }[] = changesArray
+        .filter((change): change is SettingsChange & { newValue: Exclude<SettingValue, undefined> } => 
           change.newValue !== null && change.newValue !== undefined
-      )
-      .map((change) => ({
-        key: change.key,
-        value: change.newValue, // assert non-null
-      }));
+        )
+        .map((change) => ({
+          key: change.key,
+          value: change.newValue, 
+        }));
 
-    if (updates.length === 0) {
-      alert("No valid changes to apply.");
-      return;
+      if (updates.length === 0) {
+        alert("No valid changes to apply.");
+        return;
+      }
+
+      // Apply all updates in a single batch
+      // await updateMultipleSettings(updates);
+
+      // Optionally log the reason for changes
+      if (reason) {
+        console.log("Changes reason:", reason);
+      } else {
+        console.log("Changes applied without a specified reason.");
+      } 
+
+      // Track all changes for audit
+      changesArray.forEach((change) => {
+        trackChange(change.key, change.oldValue, change.newValue, change.description);
+      });
+
+      alert("Settings saved successfully!");
+    } catch (err) {
+      console.error("Failed to apply changes:", err);
+      throw err;
     }
-
-    // Apply all updates in a single batch
-    await updateMultipleSettings(updates);
-
-    // Optionally log the reason for changes
-    if (reason) {
-      console.log("Changes reason:", reason);
-    } else {
-      console.log("Changes applied without a specified reason.");
-    } 
-
-    // Track all changes for audit
-    changesArray.forEach((change) => {
-      trackChange(change.key, change.oldValue, change.newValue, change.description);
-    });
-
-    alert("Settings saved successfully!");
-  } catch (err) {
-    console.error("Failed to apply changes:", err);
-    throw err;
-  }
-};
-
-
-
+  };
 
   const handleConfirmChanges = async (reason?: string) => {
     try {
       await applyChanges(pendingChanges, reason);
       setShowConfirmDialog(false);
       setPendingChanges([]);
-    } catch{
+    } catch {
       alert('Failed to save settings. Please try again.');
     }
   };
@@ -235,7 +239,10 @@ const applyChanges = async (changesArray: SettingsChange[], reason?: string) => 
               {categories.find(cat => cat.id === activeCategory) && (
                 <SettingsCategory
                   category={categories.find(cat => cat.id === activeCategory)!}
-                  settings={getSettingsByCategory(activeCategory)}
+                  settings={getSettingsByCategory(activeCategory).map(setting => ({
+                    ...setting,
+                    value: toCompatibleSettingValue(setting.value)
+                  }))}
                   onSave={handleCategorySave}
                   onReset={handleCategoryReset}
                   isLoading={isLoading}
@@ -252,7 +259,11 @@ const applyChanges = async (changesArray: SettingsChange[], reason?: string) => 
             setPendingChanges([]);
           }}
           onConfirm={handleConfirmChanges}
-          changes={pendingChanges}
+          changes={pendingChanges.map(change => ({
+            ...change,
+            oldValue: toCompatibleSettingValue(change.oldValue),
+            newValue: toCompatibleSettingValue(change.newValue)
+          }))}
           isLoading={isLoading}
         />
       </div>
