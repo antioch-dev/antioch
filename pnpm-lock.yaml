@@ -139,10 +139,11 @@ importers:
         version: 8.6.0(react@19.2.0)
       framer-motion:
         specifier: ^12.23.12
+
         version: 12.23.22(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       geist:
         specifier: ^1.5.1
-        version: 1.5.1(next@15.5.4(react-dom@19.2.0(react@19.2.0))(react@19.2.0))
+        version: 1.5.1(next@15.5.4(react-dom@19.2.0(react@19.
       html2canvas:
         specifier: ^1.4.1
         version: 1.4.1

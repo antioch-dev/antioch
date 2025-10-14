@@ -28,6 +28,12 @@ export function Header() {
           <Link href="/fellowship1/task-manager" className="text-sm font-medium transition-colors hover:text-primary">
             Task Manager
           </Link>
+          <Link href="/fellowship1/fellowship-blog" className="text-sm font-medium transition-colors hover:text-primary">
+            Fellowship Blog
+          </Link>
+          <Link href="/fellowship1/emailsystem" className="text-sm font-medium transition-colors hover:text-primary">
+            emailsystem
+          </Link>
           <Link href="/fellowship1/forms" className="text-sm font-medium transition-colors hover:text-primary">
             Forms
           </Link>
