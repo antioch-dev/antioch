@@ -68,6 +68,12 @@ export function Header() {
           <Link href="/fellowship1/polling" className="text-sm font-medium transition-colors hover:text-primary">
             Polling
           </Link>
+          <Link href="/fellowship1/church-finance" className="text-sm font-medium transition-colors hover:text-primary">
+           Finance
+          </Link>
+          <Link href="/fellowship1/Feedback" className="text-sm font-medium transition-colors hover:text-primary">
+           Feedback
+          </Link>
         </nav>
         <div className="flex items-center gap-4">
           <Link href="/auth/login" className="flex items-center gap-1 text-sm font-medium">
