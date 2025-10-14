@@ -8,16 +8,14 @@ import {
 } from '../types';
 import type { RealTimeUpdate } from '../types/realtime';
 
-
-
-
 export function useRealTime(): UseRealTimeReturn {
   const [connected, setConnected] = useState(false);
-  const [lastUpdate,] = useState<RealTimeUpdate | null>(null);
+  const [lastUpdate, setLastUpdate] = useState<RealTimeUpdate | null>(null);
   const [error, setError] = useState<string | null>(null);
   const wsRef = useRef<WebSocket | null>(null);
   const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const reconnectAttemptsRef = useRef(0);
+  const maxReconnectAttempts = 5;
 
   const cleanup = useCallback(() => {
     if (wsRef.current) {
@@ -52,7 +50,25 @@ export function useRealTime(): UseRealTimeReturn {
       const ws = new WebSocket(wsUrl);
       wsRef.current = ws;
 
-      
+      ws.onopen = () => {
+        console.log('WebSocket connected');
+        setConnected(true);
+        setError(null);
+        reconnectAttemptsRef.current = 0;
+      };
+
+      ws.onclose = (event) => {
+        console.log('WebSocket disconnected:', event.code, event.reason);
+        setConnected(false);
+        
+        // Attempt to reconnect if not a normal closure
+        if (event.code !== 1000 && reconnectAttemptsRef.current < maxReconnectAttempts) {
+          reconnectAttemptsRef.current += 1;
+          reconnectTimeoutRef.current = setTimeout(() => {
+            connect();
+          }, Math.min(1000 * reconnectAttemptsRef.current, 30000)); // Exponential backoff, max 30s
+        }
+      };
 
       ws.onerror = (error) => {
         const errorMessage = 'WebSocket error: ' + (error instanceof Error ? error.message : 'Unknown error');
@@ -61,8 +77,19 @@ export function useRealTime(): UseRealTimeReturn {
         setConnected(false);
       };
 
+      ws.onmessage = (event: { data: string }) => {
+        try {
+          const data = JSON.parse(event.data) as RealTimeUpdate;
+          setLastUpdate(data);
+        } catch (parseError) {
+          console.error('Failed to parse WebSocket message:', parseError);
+          setError('Invalid message format received');
+        }
+      };
+
     } catch (error) {
       console.error('Failed to create WebSocket connection:', error);
+      setError('Failed to establish connection');
       setConnected(false);
     }
   }, [cleanup]);
@@ -74,7 +101,7 @@ export function useRealTime(): UseRealTimeReturn {
     }
 
     if (wsRef.current) {
-      wsRef.current.close();
+      wsRef.current.close(1000, 'Manual disconnect');
       wsRef.current = null;
     }
 
@@ -82,14 +109,23 @@ export function useRealTime(): UseRealTimeReturn {
     reconnectAttemptsRef.current = 0;
   }, []);
 
-  const sendMessage = useCallback((message: RealTimeUpdate) => {
+  const sendMessage = useCallback((message: string) => {
     if (!wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) {
       console.warn('WebSocket is not connected');
-      return;
+      return false;
     }
-    wsRef.current.send(JSON.stringify(message));
+    
+    try {
+      wsRef.current.send(message);
+      return true;
+    } catch (error) {
+      console.error('Failed to send message:', error);
+      return false;
+    }
   }, []);
 
+  // Helper function to send RealTimeUpdate objects
+ 
   useEffect(() => {
     connect();
 
@@ -107,8 +143,6 @@ export function useRealTime(): UseRealTimeReturn {
     sendMessage,
   };
 }
-
-
 
 // Specialized hooks for different types of real-time updates
 export function useRealTimeProxyUpdates(
@@ -176,7 +210,7 @@ export function simulateRealTimeUpdates() {
       data: { proxyId: 'proxy-1', count: 2 },
       timestamp: new Date(),
     },
-  ] as unknown as RealTimeUpdate[];
+  ] as RealTimeUpdate[];
 
   let index = 0;
   setInterval(() => {

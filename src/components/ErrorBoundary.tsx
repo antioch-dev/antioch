@@ -1,6 +1,6 @@
 'use client';
 
-import { Component, ErrorInfo, ReactNode } from 'react';
+import { Component, type ErrorInfo, type ReactNode } from 'react';
 import { Button } from './ui/button';
 import { AlertCircle, RefreshCw, Home, Bug, Clock } from 'lucide-react';
 import Link from 'next/link';

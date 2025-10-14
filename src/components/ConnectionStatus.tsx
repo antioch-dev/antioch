@@ -1,7 +1,34 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { ConnectionState, ConnectionStatus as ConnectionStatusType } from '@/lib/streaming-proxies/websocket-manager';
+
+// Define more specific types for connection states
+type ConnectionStatus = 'connected' | 'connecting' | 'error' | 'disconnected';
+
+interface BaseConnectionState {
+  status: ConnectionStatus;
+  lastConnected?: Date;
+  reconnectAttempts: number;
+}
+
+interface ConnectedState extends BaseConnectionState {
+  status: 'connected';
+}
+
+interface ConnectingState extends BaseConnectionState {
+  status: 'connecting';
+}
+
+interface ErrorState extends BaseConnectionState {
+  status: 'error';
+  error: string;
+}
+
+interface DisconnectedState extends BaseConnectionState {
+  status: 'disconnected';
+}
+
+export type ConnectionState = ConnectedState | ConnectingState | ErrorState | DisconnectedState;
 
 interface ConnectionStatusProps {
   connectionState: ConnectionState;
@@ -31,7 +58,7 @@ export function ConnectionStatus({
     };
   }, []);
 
-  const getStatusInfo = () => {
+  const getStatusInfo = (connectionState: ConnectionState) => {
     if (!isOnline) {
       return {
         status: 'offline' as const,
@@ -57,11 +84,12 @@ export function ConnectionStatus({
           description: 'Establishing connection...',
         };
       case 'error':
+        // TypeScript now knows connectionState has 'error' property
         return {
           status: 'error' as const,
           color: 'bg-red-500',
           text: 'Error',
-          description: connectionState.error || 'Connection failed',
+          description: connectionState.error,
         };
       case 'disconnected':
       default:
@@ -74,9 +102,9 @@ export function ConnectionStatus({
     }
   };
 
-  const statusInfo = getStatusInfo();
+  const statusInfo = getStatusInfo(connectionState);
 
-  const formatLastConnected = () => {
+  const formatLastConnected = (connectionState: ConnectionState) => {
     if (!connectionState.lastConnected) return null;
     
     const now = new Date();
@@ -113,7 +141,7 @@ export function ConnectionStatus({
         <div className="text-xs text-gray-500 dark:text-gray-400">
           <div>{statusInfo.description}</div>
           {connectionState.lastConnected && statusInfo.status !== 'connected' && (
-            <div>Last connected: {formatLastConnected()}</div>
+            <div>Last connected: {formatLastConnected(connectionState)}</div>
           )}
           {connectionState.reconnectAttempts > 0 && (
             <div>Reconnect attempts: {connectionState.reconnectAttempts}</div>
@@ -175,12 +203,13 @@ export function ConnectionBanner({
     }
 
     if (connectionState.status === 'error') {
+      // TypeScript now knows connectionState has 'error' property
       return {
         type: 'error' as const,
         bgColor: 'bg-red-50 dark:bg-red-900/20',
         textColor: 'text-red-800 dark:text-red-200',
         title: 'Connection Error',
-        message: connectionState.error || 'Unable to connect to real-time updates',
+        message: connectionState.error,
         showRetry: true,
       };
     }
