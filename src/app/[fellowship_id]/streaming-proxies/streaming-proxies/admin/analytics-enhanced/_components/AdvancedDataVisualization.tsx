@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -320,7 +320,7 @@ export default function AdvancedDataVisualization({
             key={type}
             variant={chartType === type ? 'default' : 'ghost'}
             size="sm"
-            onClick={() => setChartType(type as any)}
+            onClick={() => setChartType(type as 'line' | 'bar' | 'pie' | 'area')}
             className="h-8 px-3 capitalize"
           >
             {type === 'line' && <LineChart className="h-4 w-4" />}

@@ -1,11 +1,23 @@
-import { type ClassValue, clsx } from 'clsx';
 import { toast } from '@/components/ui/use-toast';
 
-type ErrorWithMessage = {
+export interface ErrorWithMessage {
   message: string;
   status?: number;
   details?: unknown;
-};
+}
+
+export interface ErrorHandlerOptions {
+  showToast?: boolean;
+  logLevel?: 'error' | 'warning' | 'info';
+  context?: Record<string, unknown>;
+}
+
+export interface ToastOptions {
+  title?: string;
+  description?: string;
+  variant?: 'default' | 'destructive';
+  duration?: number;
+}
 
 /**
  * Type guard to check if an error has a message property
@@ -24,6 +36,12 @@ function isErrorWithMessage(error: unknown): error is ErrorWithMessage {
  */
 export function toErrorWithMessage(error: unknown): ErrorWithMessage {
   if (isErrorWithMessage(error)) return error;
+
+  if (error instanceof Error) {
+    return {
+      message: error.message,
+    };
+  }
 
   try {
     return {
@@ -44,7 +62,7 @@ export function logError(
   error: unknown,
   context: Record<string, unknown> = {},
   level: 'error' | 'warning' | 'info' = 'error'
-) {
+): void {
   const errorWithMessage = toErrorWithMessage(error);
   const timestamp = new Date().toISOString();
   
@@ -75,18 +93,16 @@ export function logError(
 /**
  * Show a toast notification for an error
  */
-export function showErrorToast(error: unknown, options: {
-  title?: string;
-  description?: string;
-  variant?: 'default' | 'destructive';
-  duration?: number;
-} = {}) {
+export function showErrorToast(
+  error: unknown, 
+  options: ToastOptions = {}
+): void {
   const errorWithMessage = toErrorWithMessage(error);
   
   toast({
     title: options.title || 'Error',
     description: options.description || errorWithMessage.message,
-    variant: (options.variant || 'destructive') as 'destructive',
+    variant: options.variant || 'destructive',
     duration: options.duration || 5000,
   });
 }
@@ -96,12 +112,8 @@ export function showErrorToast(error: unknown, options: {
  */
 export function handleApiError(
   error: unknown,
-  options: {
-    showToast?: boolean;
-    logLevel?: 'error' | 'warning' | 'info';
-    context?: Record<string, unknown>;
-  } = {}
-) {
+  options: ErrorHandlerOptions = {}
+): ErrorWithMessage {
   const errorWithMessage = toErrorWithMessage(error);
   const {
     showToast = true,
@@ -124,15 +136,11 @@ export function handleApiError(
 /**
  * Create a safe function that wraps an async function with error handling
  */
-export function withErrorHandling<T extends (...args: any[]) => Promise<any>>(
-  fn: T,
-  options: {
-    showToast?: boolean;
-    logLevel?: 'error' | 'warning' | 'info';
-    context?: Record<string, unknown>;
-  } = {}
-): (...args: Parameters<T>) => Promise<Awaited<ReturnType<T>> | { error: ErrorWithMessage }> {
-  return async (...args: Parameters<T>) => {
+export function withErrorHandling<Args extends unknown[], ReturnType>(
+  fn: (...args: Args) => Promise<ReturnType>,
+  options: ErrorHandlerOptions = {}
+): (...args: Args) => Promise<ReturnType | { error: ErrorWithMessage }> {
+  return async (...args: Args): Promise<ReturnType | { error: ErrorWithMessage }> => {
     try {
       return await fn(...args);
     } catch (error) {
@@ -143,18 +151,39 @@ export function withErrorHandling<T extends (...args: any[]) => Promise<any>>(
 }
 
 /**
+ * Handler context for API routes
+ */
+export interface ApiHandlerContext {
+  params?: Record<string, string>;
+  user?: unknown;
+}
+
+/**
  * Create a function that can be used as an API route handler with error handling
  */
-export function createApiHandler<T = any>(
-  handler: (req: Request, context: any) => Promise<T>,
+export function createApiHandler<ResponseData = unknown>(
+  handler: (req: Request, context: ApiHandlerContext) => Promise<ResponseData>,
   options: {
     logLevel?: 'error' | 'warning' | 'info';
     context?: Record<string, unknown>;
   } = {}
-) {
-  return async (req: Request, context: any) => {
+): (req: Request, context: ApiHandlerContext) => Promise<Response> {
+  return async (req: Request, context: ApiHandlerContext): Promise<Response> => {
     try {
-      return await handler(req, context);
+      const result = await handler(req, context);
+      
+      return new Response(
+        JSON.stringify({
+          success: true,
+          data: result,
+        }),
+        {
+          status: 200,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
     } catch (error) {
       const errorWithMessage = toErrorWithMessage(error);
       logError(errorWithMessage, options.context, options.logLevel);
@@ -176,4 +205,22 @@ export function createApiHandler<T = any>(
       );
     }
   };
+}
+
+/**
+ * Utility to check if a result is an error
+ */
+export function isErrorResult<T>(
+  result: T | { error: ErrorWithMessage }
+): result is { error: ErrorWithMessage } {
+  return typeof result === 'object' && result !== null && 'error' in result;
+}
+
+/**
+ * Utility to extract data from a result that might be an error
+ */
+export function getResultData<T>(
+  result: T | { error: ErrorWithMessage }
+): T | null {
+  return isErrorResult(result) ? null : result;
 }

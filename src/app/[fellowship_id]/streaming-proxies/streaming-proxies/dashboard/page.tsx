@@ -25,6 +25,11 @@ import {
 } from './_components/ErrorBoundaryWrappers';
 import { ProxyStatus } from '@/lib/streaming-proxies/types';
 
+// Type guard to check if value is an Error
+function isError(value: unknown): value is Error {
+  return value instanceof Error;
+}
+
 export default function StreamingProxyDashboard() {
   const router = useRouter();
   const [refreshing, setRefreshing] = useState(false);
@@ -36,7 +41,7 @@ export default function StreamingProxyDashboard() {
     error: proxiesError,
     refresh: refreshProxies,
     updateProxyInState,
-  } =  useStreamingProxies();
+  } = useStreamingProxies();
 
   const {
     stats,
@@ -51,7 +56,6 @@ export default function StreamingProxyDashboard() {
     loading: sessionsLoading,
     refresh: refreshSessions,
     endSession,
-    
   } = useStreamingSessions({
     autoRefresh: true,
     refreshInterval: 30000, // 30 seconds
@@ -98,6 +102,14 @@ export default function StreamingProxyDashboard() {
       total: proxies.length
     };
   }, [proxies]);
+
+  // Safe error checking
+  const hasProxiesError = isError(proxiesError);
+  const hasStatsError = isError(statsError);
+  
+  // Safe real-time data access
+  const isConnected = !isError(realTimeData) && realTimeData.isConnected;
+  const isUsingMockData = !isError(realTimeData) && realTimeData.isUsingMockData;
 
   // Memoize event handlers to prevent child re-renders
   const handleStartStream = useCallback(() => {
@@ -164,13 +176,13 @@ export default function StreamingProxyDashboard() {
               <div className="flex items-center gap-2">
                 <div className={cn(
                   'w-2 h-2 rounded-full',
-                  proxiesError || statsError ? 'bg-red-500' : 
-                  realTimeData.isConnected ? 'bg-green-500' : 'bg-yellow-500'
+                  hasProxiesError || hasStatsError ? 'bg-red-500' : 
+                  isConnected ? 'bg-green-500' : 'bg-yellow-500'
                 )} />
                 <span className="text-xs text-gray-500">
-                  {proxiesError || statsError ? 'Error' : 
-                   realTimeData.isConnected ? 'Live' : 
-                   realTimeData.isUsingMockData ? 'Mock' : 'API Only'}
+                  {hasProxiesError || hasStatsError ? 'Error' : 
+                   isConnected ? 'Live' : 
+                   isUsingMockData ? 'Mock' : 'API Only'}
                 </span>
               </div>
             </div>
@@ -233,7 +245,7 @@ export default function StreamingProxyDashboard() {
 
               {proxiesLoading ? (
                 <ProxyGridSkeleton count={6} />
-              ) : proxiesError ? (
+              ) : hasProxiesError ? (
                 <div className="text-center py-12">
                   <div className="text-red-600 mb-4">Failed to load proxies</div>
                   <button
@@ -293,8 +305,8 @@ export default function StreamingProxyDashboard() {
               <div className="flex items-center gap-4">
                 <span>Auto-refresh: On</span>
                 <span>•</span>
-                <span>Real-time updates: {realTimeData.isConnected ? 'Active' : 'Disabled'}</span>
-                {realTimeData.isUsingMockData && (
+                <span>Real-time updates: {isConnected ? 'Active' : 'Disabled'}</span>
+                {isUsingMockData && (
                   <>
                     <span>•</span>
                     <span className="text-orange-600">Using mock data</span>

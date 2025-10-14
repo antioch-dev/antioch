@@ -4,15 +4,18 @@ import { useEffect, useState, useCallback, useRef } from 'react';
 import { type RealTimeUpdate } from '../types/realtime';
 import { 
   type WebSocketManager, 
-  type ConnectionState, 
-  getWebSocketManager, 
+  type ConnectionState,
+  type ConnectionStatus,
   type WebSocketManagerConfig 
-} from '../websocket-manager';
+} from '../types';
 import { 
   type MockDataProvider, 
-  getMockDataProvider, 
   type MockDataProviderConfig 
-} from '../mock-data-provider';
+} from '../types';
+
+// Import the factory functions - ensure these return properly typed objects
+import { getWebSocketManager } from '../websocket-manager';
+import { getMockDataProvider } from '../mock-data-provider';
 
 export interface UseRealTimeConnectionOptions {
   wsConfig?: Partial<WebSocketManagerConfig>;
@@ -42,7 +45,7 @@ export interface UseRealTimeConnectionReturn {
   onUpdate: (handler: (update: RealTimeUpdate) => void) => () => void;
   
   // Utility methods
-  send: (message: any) => boolean;
+  send: (message: unknown) => boolean;
   getConnectionInfo: () => {
     type: 'websocket' | 'mock' | 'offline';
     status: string;
@@ -95,19 +98,20 @@ export function useRealTimeConnection(
     };
   }, []);
 
-  // Initialize managers
-  useEffect(() => {
-    wsManagerRef.current = getWebSocketManager(wsConfig);
+  // Handle real-time updates
+  const handleUpdate = useCallback((update: RealTimeUpdate) => {
+    setLastUpdate(update);
+    setUpdateCount(prev => prev + 1);
     
-    if (fallbackToMock) {
-      mockProviderRef.current = getMockDataProvider(mockConfig);
-    }
-
-    return () => {
-      // Cleanup on unmount
-      disconnect();
-    };
-  }, [wsConfig, mockConfig, fallbackToMock]);
+    // Broadcast to all registered handlers
+    updateHandlersRef.current.forEach(handler => {
+      try {
+        handler(update);
+      } catch (error) {
+        console.error('Error in update handler:', error);
+      }
+    });
+  }, []);
 
   // Handle connection state changes
   const handleConnectionStateChange = useCallback((newState: ConnectionState) => {
@@ -131,7 +135,8 @@ export function useRealTimeConnection(
           wsUpdateUnsubscribeRef.current = null;
         }
         
-        mockUpdateUnsubscribeRef.current = mockProviderRef.current.subscribe(handleUpdate);
+        const unsubscribe = mockProviderRef.current.subscribe(handleUpdate);
+        mockUpdateUnsubscribeRef.current = unsubscribe;
         mockProviderRef.current.start();
       }
     }
@@ -152,63 +157,13 @@ export function useRealTimeConnection(
       }
       
       if (wsManagerRef.current) {
-        wsUpdateUnsubscribeRef.current = wsManagerRef.current.onUpdate(handleUpdate);
+        const unsubscribe = wsManagerRef.current.onUpdate(handleUpdate);
+        wsUpdateUnsubscribeRef.current = unsubscribe;
       }
     }
-  }, [fallbackToMock, isUsingMockData]);
-
-  // Handle real-time updates
-  const handleUpdate = useCallback((update: RealTimeUpdate) => {
-    setLastUpdate(update);
-    setUpdateCount(prev => prev + 1);
-    
-    // Broadcast to all registered handlers
-    updateHandlersRef.current.forEach(handler => {
-      try {
-        handler(update);
-      } catch (error) {
-        console.error('Error in update handler:', error);
-      }
-    });
-  }, []);
+  }, [fallbackToMock, isUsingMockData, handleUpdate]);
 
   // Connection methods
-  const connect = useCallback(() => {
-    if (!isOnline) {
-      console.warn('Cannot connect while offline');
-      return;
-    }
-
-    if (wsManagerRef.current) {
-      // Subscribe to connection state changes
-      if (connectionStateUnsubscribeRef.current) {
-        connectionStateUnsubscribeRef.current();
-      }
-      connectionStateUnsubscribeRef.current = wsManagerRef.current.onConnectionStateChange(handleConnectionStateChange);
-      
-      // Try to connect via WebSocket
-      wsManagerRef.current.connect();
-      
-      // Subscribe to WebSocket updates
-      if (wsUpdateUnsubscribeRef.current) {
-        wsUpdateUnsubscribeRef.current();
-      }
-      wsUpdateUnsubscribeRef.current = wsManagerRef.current.onUpdate(handleUpdate);
-    } else if (fallbackToMock && mockProviderRef.current) {
-      // Fallback to mock data immediately if no WebSocket manager
-      console.log('No WebSocket manager available, using mock data');
-      setIsUsingMockData(true);
-      mockUpdateUnsubscribeRef.current = mockProviderRef.current.subscribe(handleUpdate);
-      mockProviderRef.current.start();
-      
-      setConnectionState({
-        status: 'connected',
-        lastConnected: new Date(),
-        reconnectAttempts: 0,
-      });
-    }
-  }, [isOnline, handleConnectionStateChange, handleUpdate, fallbackToMock]);
-
   const disconnect = useCallback(() => {
     // Unsubscribe from all updates
     if (connectionStateUnsubscribeRef.current) {
@@ -243,10 +198,70 @@ export function useRealTimeConnection(
     });
   }, []);
 
+  const connect = useCallback(() => {
+    if (!isOnline) {
+      console.warn('Cannot connect while offline');
+      return;
+    }
+
+    if (wsManagerRef.current) {
+      // Subscribe to connection state changes
+      if (connectionStateUnsubscribeRef.current) {
+        connectionStateUnsubscribeRef.current();
+      }
+      const stateUnsubscribe = wsManagerRef.current.onConnectionStateChange(handleConnectionStateChange);
+      connectionStateUnsubscribeRef.current = stateUnsubscribe;
+      
+      // Try to connect via WebSocket
+      wsManagerRef.current.connect();
+      
+      // Subscribe to WebSocket updates
+      if (wsUpdateUnsubscribeRef.current) {
+        wsUpdateUnsubscribeRef.current();
+      }
+      const updateUnsubscribe = wsManagerRef.current.onUpdate(handleUpdate);
+      wsUpdateUnsubscribeRef.current = updateUnsubscribe;
+    } else if (fallbackToMock && mockProviderRef.current) {
+      // Fallback to mock data immediately if no WebSocket manager
+      console.log('No WebSocket manager available, using mock data');
+      setIsUsingMockData(true);
+      const unsubscribe = mockProviderRef.current.subscribe(handleUpdate);
+      mockUpdateUnsubscribeRef.current = unsubscribe;
+      mockProviderRef.current.start();
+      
+      setConnectionState({
+        status: 'connected',
+        lastConnected: new Date(),
+        reconnectAttempts: 0,
+      });
+    }
+  }, [isOnline, handleConnectionStateChange, handleUpdate, fallbackToMock]);
+
   const retry = useCallback(() => {
     disconnect();
     setTimeout(() => connect(), 1000);
   }, [connect, disconnect]);
+
+  // Initialize managers
+  // In your useEffect
+useEffect(() => {
+  // Use type assertions as a last resort
+  const wsManager = getWebSocketManager(wsConfig) as WebSocketManager;
+  if (wsManager && typeof wsManager.connect === 'function') {
+    wsManagerRef.current = wsManager;
+  }
+  
+  if (fallbackToMock) {
+    const mockProvider = getMockDataProvider(mockConfig) as MockDataProvider;
+    if (mockProvider && typeof mockProvider.start === 'function') {
+      mockProviderRef.current = mockProvider;
+    }
+  }
+
+  return () => {
+    disconnect();
+  };
+}, [wsConfig, mockConfig, fallbackToMock, disconnect]);
 
   // Auto-connect on mount
   useEffect(() => {
@@ -273,12 +288,20 @@ export function useRealTimeConnection(
   }, []);
 
   // Send message (only works with WebSocket)
-  const send = useCallback((message: any): boolean => {
+  const send = useCallback((message: unknown): boolean => {
     if (isUsingMockData || !wsManagerRef.current) {
       console.warn('Cannot send message: using mock data or no WebSocket connection');
       return false;
     }
-    return wsManagerRef.current.send(message);
+    
+    // Ensure the message is stringifiable
+    try {
+      const messageString = typeof message === 'string' ? message : JSON.stringify(message);
+      return wsManagerRef.current.send(messageString);
+    } catch (error) {
+      console.error('Failed to send message:', error);
+      return false;
+    }
   }, [isUsingMockData]);
 
   // Get connection info

@@ -1,4 +1,4 @@
-import { StreamingProxy, ProxyStatus, HealthStatus } from './types';
+import { type StreamingProxy, ProxyStatus, HealthStatus } from './types';
 import { apiClient, ApiClientError } from './api-client';
 
 // Extend the StreamingProxy interface to include bandwidthUsed
@@ -77,7 +77,7 @@ export async function getProxyBandwidthData(
     );
     
     if (response.success && Array.isArray(response.data)) {
-      return response.data.map((item: any) => ({
+      return response.data.map((item: { timestamp: string; bytesTransferred: number }) => ({
         timestamp: new Date(item.timestamp).getTime(),
         bytesTransferred: Number(item.bytesTransferred),
       }));
@@ -122,13 +122,35 @@ export async function getAllProxies(): Promise<StreamingProxy[]> {
     const response = await apiClient.getProxies();
     
     if (response.success && Array.isArray(response.data)) {
+      // Create a type for the raw API data that has string dates
+      interface RawProxyData {
+        id: string;
+        name: string;
+        description?: string;
+        rtmpUrl: string;
+        serverLocation: string;
+        maxConcurrentStreams: number;
+        currentActiveStreams: number;
+        status: ProxyStatus;
+        bandwidthLimit: number;
+        churchBranchId: string;
+        createdBy: string;
+        createdAt: string; // API returns string
+        updatedAt: string; // API returns string
+        lastHealthCheck?: string; // API returns string or undefined
+        healthStatus: HealthStatus;
+      }
+
       // Transform the API response to match the StreamingProxy type
-      return response.data.map((proxyData: any) => ({
-        ...proxyData,
-        createdAt: new Date(proxyData.createdAt),
-        updatedAt: new Date(proxyData.updatedAt),
-        lastHealthCheck: proxyData.lastHealthCheck ? new Date(proxyData.lastHealthCheck) : undefined,
-      }));
+      return response.data.map((proxyData: unknown) => {
+        const rawData = proxyData as RawProxyData;
+        return {
+          ...rawData,
+          createdAt: new Date(rawData.createdAt),
+          updatedAt: new Date(rawData.updatedAt),
+          lastHealthCheck: rawData.lastHealthCheck ? new Date(rawData.lastHealthCheck) : undefined,
+        };
+      });
     } else {
       throw new Error('Invalid data format received from API');
     }
@@ -144,7 +166,6 @@ export async function getAllProxies(): Promise<StreamingProxy[]> {
     throw error; // Re-throw to be handled by the calling component
   }
 }
-
 // Update proxy
 export async function updateProxy(
   id: string, 
@@ -169,22 +190,26 @@ export async function updateProxy(
     console.error('Error updating proxy:', error);
     
     // Fallback to mock data in development
-    if (process.env.NODE_ENV === 'development') {
-      console.warn('Using mock data as fallback');
-      const index = MOCK_PROXIES.findIndex(p => p.id === id);
-      if (index === -1) {
-        throw new Error(`Proxy with id ${id} not found`);
-      }
-      
-      const updatedProxy = { 
-        ...MOCK_PROXIES[index], 
-        ...updates, 
-        updatedAt: new Date() 
-      };
-      MOCK_PROXIES[index] = updatedProxy;
-      
-      return updatedProxy;
-    }
+   if (process.env.NODE_ENV === 'development') {
+  console.warn('Using mock data as fallback');
+  const index = MOCK_PROXIES.findIndex(p => p.id === id);
+  if (index === -1) {
+    throw new Error(`Proxy with id ${id} not found`);
+  }
+  
+  const updatedProxy = { 
+    ...MOCK_PROXIES[index], 
+    ...updates, 
+    updatedAt: new Date(),
+    // Ensure required properties that might be undefined in updates
+    id: MOCK_PROXIES[index]!.id,
+    healthStatus: (updates.healthStatus ?? MOCK_PROXIES[index]!.healthStatus),
+  } as ExtendedStreamingProxy;
+  
+  MOCK_PROXIES[index] = updatedProxy;
+  
+  return updatedProxy;
+}
     
     throw error; // Re-throw to be handled by the calling component
   }

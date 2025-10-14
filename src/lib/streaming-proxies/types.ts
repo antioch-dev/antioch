@@ -486,3 +486,44 @@ export interface StreamingProxyContextType {
   startSession: (data: CreateSessionRequest) => Promise<StreamingSession>;
   endSession: (sessionId: string) => Promise<void>;
 }
+
+// types/websocket.ts
+export type ConnectionStatus = 
+  | 'connecting' 
+  | 'connected' 
+  | 'disconnected' 
+  | 'error' 
+  | 'disabled';
+
+export interface ConnectionState {
+  status: ConnectionStatus;
+  reconnectAttempts: number;
+  lastConnected?: Date;
+}
+
+export interface WebSocketManagerConfig {
+  url: string;
+  reconnectAttempts: number;
+  reconnectInterval: number;
+  timeout: number;
+}
+
+export interface WebSocketManager {
+  connect: () => void;
+  disconnect: () => void;
+  send: (message: string) => boolean;
+  onUpdate: (handler: (update: RealTimeUpdate) => void) => () => void;
+  onConnectionStateChange: (handler: (state: ConnectionState) => void) => () => void;
+}
+
+// types/mock-data.ts
+export interface MockDataProviderConfig {
+  updateInterval: number;
+  enabled: boolean;
+}
+
+export interface MockDataProvider {
+  start: () => void;
+  stop: () => void;
+  subscribe: (handler: (update: RealTimeUpdate) => void) => () => void;
+}

@@ -177,7 +177,7 @@ export const formatErrorMessage = (error: unknown): string => {
   if (typeof error === 'string') return error;
   if (error instanceof Error) return error.message;
   if (typeof error === 'object' && error !== null && 'message' in error) {
-    return String(error.message);
+    return String((error as { message: unknown }).message);
   }
   return 'An unknown error occurred';
 };
@@ -246,8 +246,60 @@ export const getUtilizationColor = (percentage: number): string => {
   return 'bg-green-500';
 };
 
+// Chart data formatting interfaces
+export interface ChartDataPoint {
+  date: string;
+  value: number;
+}
+
+export interface FormattedChartDataPoint {
+  date: string;
+  value: number;
+  formattedValue: string;
+}
+
+export interface AnalyticsUsageData {
+  date: string;
+  totalDataTransferred: number;
+  peakViewers: number;
+}
+
+export interface FormattedAnalyticsUsageData {
+  date: string;
+  totalDataTransferred: string;
+  peakViewers: string;
+}
+
+export interface AnalyticsProxyData {
+  name: string;
+  totalDataTransferred: number;
+  streamCount: number;
+}
+
+export interface FormattedAnalyticsProxyData {
+  name: string;
+  totalDataTransferred: string;
+  streamCount: number;
+}
+
+export interface AnalyticsData {
+  usageByDay?: AnalyticsUsageData[];
+  topProxies?: AnalyticsProxyData[];
+  totalStreams?: number;
+  totalDataTransferred?: number;
+  averageViewers?: number;
+}
+
+export interface FormattedAnalyticsData {
+  usageByDay?: FormattedAnalyticsUsageData[];
+  topProxies?: FormattedAnalyticsProxyData[];
+  totalStreams?: number;
+  totalDataTransferred?: number;
+  averageViewers?: number;
+}
+
 // Chart data formatting
-export const formatChartData = (data: Array<{ date: string; value: number }>) => {
+export const formatChartData = (data: ChartDataPoint[]): FormattedChartDataPoint[] => {
   return data.map(item => ({
     ...item,
     date: formatDate(item.date),
@@ -255,41 +307,103 @@ export const formatChartData = (data: Array<{ date: string; value: number }>) =>
   }));
 };
 
-export const formatAnalyticsData = (data: any) => {
-  return {
-    ...data,
-    usageByDay: data.usageByDay?.map((item: any) => ({
+// Analytics data formatting
+export const formatAnalyticsData = (data: AnalyticsData): FormattedAnalyticsData => {
+  const formattedData: FormattedAnalyticsData = {
+  ...data,
+  usageByDay: data.usageByDay
+    ? data.usageByDay.map((item) => ({
+        ...item,
+        totalDataTransferred: String(item.totalDataTransferred),
+        peakViewers: String(item.peakViewers), 
+      }))
+    : undefined,
+
+  topProxies: data.topProxies
+    ? data.topProxies.map((item) => ({
+        ...item,
+        totalDataTransferred: String(item.totalDataTransferred),
+      }))
+    : undefined,
+};
+
+     
+
+
+  if (data.usageByDay && Array.isArray(data.usageByDay)) {
+    formattedData.usageByDay = data.usageByDay.map((item: AnalyticsUsageData) => ({
       ...item,
       date: formatDate(item.date),
       totalDataTransferred: formatBytes(item.totalDataTransferred),
       peakViewers: formatViewerCount(item.peakViewers),
-    })),
-    topProxies: data.topProxies?.map((item: any) => ({
+    }));
+  }
+
+  if (data.topProxies && Array.isArray(data.topProxies)) {
+    formattedData.topProxies = data.topProxies.map((item: AnalyticsProxyData) => ({
       ...item,
       totalDataTransferred: formatBytes(item.totalDataTransferred),
-    })),
-  };
+    }));
+  }
+
+  return formattedData;
 };
 
 // Form helpers
-export const formatFormValue = (value: any, type: string): string => {
+export type FormValueType = 'date' | 'datetime-local' | 'number' | 'text' | 'email';
+
+export const formatFormValue = (value: unknown, type: FormValueType): string => {
   if (value === null || value === undefined) return '';
   
   switch (type) {
     case 'date':
-      return value instanceof Date ? format(value, 'yyyy-MM-dd') : value;
+      if (value instanceof Date) {
+        return format(value, 'yyyy-MM-dd');
+      }
+      if (typeof value === 'string') {
+        try {
+          const date = new Date(value);
+          return isValid(date) ? format(date, 'yyyy-MM-dd') : String(value);
+        } catch {
+          return String(value);
+        }
+      }
+      return JSON.stringify(value);
+      
     case 'datetime-local':
-      return value instanceof Date ? format(value, "yyyy-MM-dd'T'HH:mm") : value;
+      if (value instanceof Date) {
+        return format(value, "yyyy-MM-dd'T'HH:mm");
+      }
+      if (typeof value === 'string') {
+        try {
+          const date = new Date(value);
+          return isValid(date) ? format(date, "yyyy-MM-dd'T'HH:mm") : String(value);
+        } catch {
+          return String(value);
+        }
+      }
+      return JSON.stringify(value);
+      
     case 'number':
-      return typeof value === 'number' ? value.toString() : value;
+      if (typeof value === 'number') {
+        return value.toString();
+      }
+      return JSON.stringify(value);
+      
     default:
-      return String(value);
+      return JSON.stringify(value);
   }
 };
 
 // Copy to clipboard helper
-export const formatForClipboard = (data: any): string => {
+export const formatForClipboard = (data: unknown): string => {
   if (typeof data === 'string') return data;
-  if (typeof data === 'object') return JSON.stringify(data, null, 2);
+  if (typeof data === 'object' && data !== null) {
+    try {
+      return JSON.stringify(data, null, 2);
+    } catch {
+      return JSON.stringify(data);
+    }
+  }
   return String(data);
 };

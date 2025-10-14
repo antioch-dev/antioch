@@ -4,14 +4,14 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { ArrowLeft, Settings, RotateCcw, Activity, AlertTriangle, Shield } from 'lucide-react';
+import { ArrowLeft, Settings, RotateCcw, Activity, Shield } from 'lucide-react';
 
 import AdminErrorBoundary from '../_components/AdminErrorBoundary';
 import SettingsCategory from './_components/SettingsCategory';
 import SettingsConfirmationDialog from './_components/SettingsConfirmationDialog';
 import { useSystemSettings } from '@/lib/streaming-proxies/hooks/useSystemSettings';
 import { useSettingsChangeTracking } from '@/lib/streaming-proxies/hooks/useSettingsChangeTracking';
-import { type SettingValue } from '@/lib/streaming-proxies/types';
+import type { SettingValue } from '@/lib/streaming-proxies/types';
 
 // Create compatible types based on the child component expectations
 interface SettingsChange {
@@ -24,7 +24,7 @@ interface SettingsChange {
 // Type for settings updates
 interface SettingsUpdate {
   key: string;
-  value: SettingValue | null;
+  value: SettingValue;
 }
 
 export default function SystemSettings() {
@@ -37,12 +37,9 @@ export default function SystemSettings() {
     settings,
     categories,
     isLoading,
-    error: _error,
-    updateSetting: _updateSetting,
     updateMultipleSettings,
     refreshSettings,
     getSettingsByCategory,
-    hasUnsavedChanges: _hasUnsavedChanges
   } = useSystemSettings();
 
   const {
@@ -81,35 +78,55 @@ export default function SystemSettings() {
     }
   };
 
-  const applyChanges = async (changesArray: SettingsChange[], reason?: string) => {
-    try {
-      const updates: SettingsUpdate[] = changesArray
-        .filter(change => change.newValue !== null)
-        .map(change => ({
-          key: change.key,
-          value: change.newValue!
-        })) as Array<{ key: string; value: SettingValue}>;
+const applyChanges = async (changesArray: SettingsChange[], reason?: string) => {
+  try {
+    // Filter out null or undefined newValue
+    const updates: { key: string; value: SettingValue }[] = changesArray
+      .filter(
+        (change): change is SettingsChange & { newValue: SettingValue } =>
+          change.newValue !== null && change.newValue !== undefined
+      )
+      .map((change) => ({
+        key: change.key,
+        value: change.newValue, // assert non-null
+      }));
 
-      await updateMultipleSettings(updates , reason);
-
-      // Track changes for audit
-      changesArray.forEach(change => {
-        trackChange(change.key, change.oldValue, change.newValue, change.description);
-      });
-
-      alert('Settings saved successfully!');
-    } catch (err) {
-      console.error('Failed to apply changes:', err);
-      throw err;
+    if (updates.length === 0) {
+      alert("No valid changes to apply.");
+      return;
     }
-  };
+
+    // Apply all updates in a single batch
+    await updateMultipleSettings(updates);
+
+    // Optionally log the reason for changes
+    if (reason) {
+      console.log("Changes reason:", reason);
+    } else {
+      console.log("Changes applied without a specified reason.");
+    } 
+
+    // Track all changes for audit
+    changesArray.forEach((change) => {
+      trackChange(change.key, change.oldValue, change.newValue, change.description);
+    });
+
+    alert("Settings saved successfully!");
+  } catch (err) {
+    console.error("Failed to apply changes:", err);
+    throw err;
+  }
+};
+
+
+
 
   const handleConfirmChanges = async (reason?: string) => {
     try {
       await applyChanges(pendingChanges, reason);
       setShowConfirmDialog(false);
       setPendingChanges([]);
-    } catch (err) {
+    } catch{
       alert('Failed to save settings. Please try again.');
     }
   };

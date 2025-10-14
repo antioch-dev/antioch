@@ -108,7 +108,7 @@ export function useRealTime(): UseRealTimeReturn {
   };
 }
 
-// Type definitions for real-time updates
+
 
 // Specialized hooks for different types of real-time updates
 export function useRealTimeProxyUpdates(

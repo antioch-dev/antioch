@@ -114,7 +114,7 @@ export function useRealTimeData(
           break;
         case 'health_check':
           if (enableHealthUpdates && 'proxyId' in update.data) {
-            const healthData = update.data as HealthCheckResult;
+            const healthData = update.data;
             healthUpdates.set(healthData.proxyId, update);
           }
           break;
@@ -168,7 +168,7 @@ export function useRealTimeData(
         healthUpdates.forEach(update => {
           // Type guard to ensure update.data has proxyId
           if (update.type === 'health_check' && 'proxyId' in update.data) {
-            const healthData = update.data as HealthCheckResult;
+            const healthData = update.data;
             const index = newHealthChecks.findIndex(h => h.proxyId === healthData.proxyId);
             if (index !== -1) {
               newHealthChecks[index] = healthData;
@@ -189,10 +189,10 @@ export function useRealTimeData(
             healthUpdates.forEach(update => {
               // Type guard to ensure update.data has proxyId
               if (update.type === 'health_check' && 'proxyId' in update.data) {
-                const healthData = update.data as HealthCheckResult;
+                const healthData = update.data;
                 const index = newProxies.findIndex(p => p.id === healthData.proxyId);
                 if (index !== -1) {
-                  newProxies[index] = {
+                  newProxies[index]  = {
                     ...newProxies[index],
                     healthStatus: healthData.status,
                     lastHealthCheck: healthData.lastChecked,
@@ -302,7 +302,7 @@ export function useRealTimeData(
         updateBatchRef.current = [];
       }
     };
-  }, [connection.onUpdate, handleRealTimeUpdate, processBatchedUpdates]);
+  }, [connection, connection.onUpdate, handleRealTimeUpdate, processBatchedUpdates]);
 
   // Manual update methods
   const updateProxy = useCallback((proxy: StreamingProxy) => {

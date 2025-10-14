@@ -91,7 +91,7 @@ export class GlobalErrorBoundary extends Component<GlobalErrorBoundaryProps, Glo
                 Something went wrong
               </h1>
               <p className="text-gray-700 mb-6">
-                We're sorry, but an unexpected error occurred. Our team has been notified.
+               {` We're sorry, but an unexpected error occurred. Our team has been notified.`}
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <button
