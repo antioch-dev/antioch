@@ -113,7 +113,7 @@ export default function StreamingProxyDashboard() {
 
   // Memoize event handlers to prevent child re-renders
   const handleStartStream = useCallback(() => {
-    router.push('/fellowship1/streaming-proxies/streaming-proxies/dashboard/start-stream');
+    router.push('/fellowship1/streaming-proxies/dashboard/start-stream');
   }, [router]);
 
   const handleKillAllStreams = useCallback(async () => {
@@ -139,11 +139,11 @@ export default function StreamingProxyDashboard() {
   }, [router]);
 
   const handleViewAnalytics = useCallback(() => {
-    router.push('/fellowship1/streaming-proxies/streaming-proxies/admin/analytics');
+    router.push('/fellowship1/streaming-proxies/admin/analytics');
   }, [router]);
 
   const handleViewProxyDetails = useCallback((proxy: { id: string }) => {
-    router.push(`/fellowship1/streaming-proxies/streaming-proxies/dashboard/${proxy.id}`);
+    router.push(`/fellowship1/streaming-proxies/dashboard/${proxy.id}`);
   }, [router]);
 
   const handleEndStream = useCallback(async (sessionId: string) => {
@@ -225,7 +225,7 @@ export default function StreamingProxyDashboard() {
           {/* Proxy Grid */}
           <ProxyGridErrorBoundary
             onCreateProxy={handleCreateProxy}
-            onViewAllProxies={() => router.push('/fellowship1/streaming-proxies/streaming-proxies/admin')}
+            onViewAllProxies={() => router.push('/fellowship1/streaming-proxies/admin')}
           >
             <div>
               <div className="flex items-center justify-between mb-6">
@@ -235,7 +235,7 @@ export default function StreamingProxyDashboard() {
                     {filteredProxies.active.length} active
                   </span>
                   <button
-                    onClick={() => router.push('/fellowship1/streaming-proxies/streaming-proxies/admin')}
+                    onClick={() => router.push('/fellowship1/streaming-proxies/admin')}
                     className="text-sm text-blue-600 hover:text-blue-700 font-medium"
                   >
                     Manage All →
