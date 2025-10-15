@@ -70,7 +70,7 @@ export default function ProxyDetailsPage() {
           <AlertCircle className="h-12 w-12 text-red-500 mx-auto mb-4" />
           <h1 className="text-2xl font-bold text-gray-900 mb-2">Proxy Not Found</h1>
           <p className="text-gray-600 mb-4">The requested proxy could not be found.</p>
-          <Button onClick={() => router.push('/fellowship1/streaming-proxies/streaming-proxies/dashboard')}>
+          <Button onClick={() => router.push('/fellowship1/streaming-proxies/dashboard')}>
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Dashboard
           </Button>
@@ -90,7 +90,7 @@ export default function ProxyDetailsPage() {
           <div className="mb-8">
             <Button
               variant="ghost"
-              onClick={() => router.push('/fellowship1/streaming-proxies/streaming-proxies/dashboard')}
+              onClick={() => router.push('/fellowship1/streaming-proxies/dashboard')}
               className="mb-4"
             >
               <ArrowLeft className="h-4 w-4 mr-2" />

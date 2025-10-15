@@ -73,7 +73,7 @@ export async function getProxyBandwidthData(
   try {
     // Use the API client to fetch bandwidth data
     const response = await apiClient.get<{ success: boolean; data: Array<{ timestamp: string; bytesTransferred: number }> }>(
-      `/fellowship1/streaming-proxies/streaming-proxies/${proxyId}/bandwidth?range=${timeRange}`
+      `/fellowship1/streaming-proxies/${proxyId}/bandwidth?range=${timeRange}`
     );
     
     if (response.success && Array.isArray(response.data)) {

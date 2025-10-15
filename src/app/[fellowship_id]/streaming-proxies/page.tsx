@@ -11,10 +11,10 @@ import { cn } from '@/lib/utils';
 import { ClientOnly } from '@/components/ClientOnly';
 import { LastUpdated } from '@/components/ui/TimeDisplay';
 
-import SystemOverview from './streaming-proxies/dashboard/_components/SystemOverview';
-import ActiveStreams from './streaming-proxies/dashboard/_components/ActiveStreams';
-import QuickActions from './streaming-proxies/dashboard/_components/QuickActions';
-import { CompactProxyCard } from './streaming-proxies/_components/ProxyCard';
+import SystemOverview from '../streaming-proxies/dashboard/_components/SystemOverview';
+import ActiveStreams from '../streaming-proxies/dashboard/_components/ActiveStreams';
+import QuickActions from '../streaming-proxies/dashboard/_components/QuickActions';
+import { CompactProxyCard } from '../streaming-proxies/_components/ProxyCard';
 import { ProxyGridSkeleton } from '@/components/ui/loading-skeletons';
 import { 
   SystemOverviewErrorBoundary,
@@ -22,7 +22,7 @@ import {
   ActiveStreamsErrorBoundary,
   ProxyGridErrorBoundary,
   ProxyCardErrorBoundary
-} from './streaming-proxies/dashboard/_components/ErrorBoundaryWrappers';
+} from '../streaming-proxies/dashboard/_components/ErrorBoundaryWrappers';
 import { ProxyStatus } from '@/lib/streaming-proxies/types';
 
 // Type guard to check if value is an Error
@@ -135,7 +135,7 @@ export default function StreamingProxyDashboard() {
   }, [refreshProxies, refreshStats, refreshSessions]);
 
   const handleCreateProxy = useCallback(() => {
-    router.push('/fellowship1/streaming-proxies/streaming-proxies/admin/create');
+    router.push('/fellowship1/streaming-proxies/admin/create');
   }, [router]);
 
   const handleViewAnalytics = useCallback(() => {
@@ -235,7 +235,7 @@ export default function StreamingProxyDashboard() {
                     {filteredProxies.active.length} active
                   </span>
                   <button
-                    onClick={() => router.push('/fellowship1/streaming-proxies/streaming-proxies/admin')}
+                    onClick={() => router.push('/fellowship1/streaming-proxies/admin')}
                     className="text-sm text-blue-600 hover:text-blue-700 font-medium"
                   >
                     Manage All →

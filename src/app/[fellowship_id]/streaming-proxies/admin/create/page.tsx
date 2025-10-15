@@ -57,7 +57,7 @@ export default function CreateProxy() {
     // Here you would typically submit to an API
     console.log('Creating proxy with data:', formData);
     alert('Proxy created successfully!');
-    router.push('/fellowship1/streaming-proxies/streaming-proxies/admin');
+    router.push('/fellowship1/streaming-proxies/admin');
   };
 
   const renderStepContent = () => {
@@ -252,7 +252,7 @@ export default function CreateProxy() {
             <div className="flex items-center">
               <Button
                 variant="ghost"
-                onClick={() => router.push('/fellowship1/streaming-proxies/streaming-proxies/admin')}
+                onClick={() => router.push('/fellowship1/streaming-proxies/admin')}
                 className="mr-4"
               >
                 <ArrowLeft className="h-4 w-4 mr-2" />

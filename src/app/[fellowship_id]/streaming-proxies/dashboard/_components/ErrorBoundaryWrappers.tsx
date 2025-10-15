@@ -17,7 +17,7 @@ export function SystemOverviewErrorBoundary({ children }: { children: React.Reac
           retry={retry}
           sectionName="System Overview"
           onNavigateHome={() => router.push('/')}
-          onOpenSettings={() => router.push('/fellowship1/streaming-proxies/streaming-proxies/admin')}
+          onOpenSettings={() => router.push('/fellowship1/streaming-proxies/admin')}
         />
       )}
       onError={(error, errorInfo) => {
@@ -43,7 +43,7 @@ export function QuickActionsErrorBoundary({ children }: { children: React.ReactN
           retry={retry}
           sectionName="Quick Actions"
           onNavigateHome={() => router.push('/')}
-          onOpenSettings={() => router.push('/fellowship1/streaming-proxies/streaming-proxies/admin')}
+          onOpenSettings={() => router.push('/fellowship1/streaming-proxies/admin')}
         />
       )}
       onError={(error, errorInfo) => {
@@ -68,7 +68,7 @@ export function ActiveStreamsErrorBoundary({ children }: { children: React.React
           retry={retry}
           sectionName="Active Streams"
           onNavigateHome={() => router.push('/')}
-          onOpenSettings={() => router.push('/fellowship1/streaming-proxies/streaming-proxies/admin')}
+          onOpenSettings={() => router.push('/fellowship1/streaming-proxies/admin')}
         />
       )}
       onError={(error, errorInfo) => {
