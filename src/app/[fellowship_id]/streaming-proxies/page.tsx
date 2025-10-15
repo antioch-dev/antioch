@@ -235,7 +235,7 @@ export default function StreamingProxyDashboard() {
                     {filteredProxies.active.length} active
                   </span>
                   <button
-                    onClick={() => router.push('/fellowship1/streaming-proxies/admin')}
+                    onClick={() => router.push('/fellowship1/streaming-proxies/streaming-proxies/admin')}
                     className="text-sm text-blue-600 hover:text-blue-700 font-medium"
                   >
                     Manage All →
