@@ -33,7 +33,7 @@ const adminPages: AdminPage[] = [
     id: 'overview',
     title: 'Overview',
     description: 'Admin panel dashboard and quick stats',
-    path: '/streaming-proxies/admin',
+    path: '/fellowship1/streaming-proxies/streaming-proxies/admin',
     icon: <LayoutDashboard className="h-6 w-6" />,
     color: 'bg-blue-500 hover:bg-blue-600'
   },
@@ -41,7 +41,7 @@ const adminPages: AdminPage[] = [
     id: 'users',
     title: 'User Management',
     description: 'Manage user access and permissions',
-    path: '/streaming-proxies/admin/users',
+    path: '/fellowship1/streaming-proxies/streaming-proxies/admin/users',
     icon: <Users className="h-6 w-6" />,
     permission: 'manage_users',
     color: 'bg-orange-500 hover:bg-orange-600'
@@ -50,7 +50,7 @@ const adminPages: AdminPage[] = [
     id: 'settings',
     title: 'System Settings',
     description: 'Configure global system settings',
-    path: '/streaming-proxies/admin/settings',
+    path: '/fellowship1/streaming-proxies/streaming-proxies/admin/settings',
     icon: <Settings className="h-6 w-6" />,
     permission: 'manage_settings',
     color: 'bg-purple-500 hover:bg-purple-600'
@@ -59,7 +59,7 @@ const adminPages: AdminPage[] = [
     id: 'analytics',
     title: 'View Analytics',
     description: 'Monitor performance and usage statistics',
-    path: '/streaming-proxies/admin/analytics-enhanced',
+    path: '/fellowship1/streaming-proxies/streaming-proxies/admin/analytics-enhanced',
     icon: <BarChart3 className="h-6 w-6" />,
     permission: 'view_analytics',
     color: 'bg-green-500 hover:bg-green-600'
@@ -68,7 +68,7 @@ const adminPages: AdminPage[] = [
     id: 'create',
     title: 'Create Proxy',
     description: 'Set up a new streaming proxy server',
-    path: '/streaming-proxies/admin/create',
+    path: '/fellowship1/streaming-proxies/streaming-proxies/admin/create',
     icon: <Plus className="h-6 w-6" />,
     color: 'bg-indigo-500 hover:bg-indigo-600'
   }
@@ -92,7 +92,7 @@ export default function AdminNavigation({
   // Get current page info
   const currentPage = adminPages.find(page => 
     page.path === pathname || 
-    (page.path !== '/streaming-proxies/admin' && pathname.startsWith(page.path))
+    (page.path !== '/fellowship1/streaming-proxies/streaming-proxies/admin' && pathname.startsWith(page.path))
   );
 
   return (
@@ -102,7 +102,7 @@ export default function AdminNavigation({
         <div className="mb-6">
           <nav className="flex items-center space-x-2 text-sm text-gray-500">
             <Link 
-              href="/streaming-proxies/admin"
+              href="/fellowship1/streaming-proxies/streaming-proxies/admin"
               className="hover:text-gray-700 transition-colors"
             >
               Admin Panel
@@ -117,7 +117,7 @@ export default function AdminNavigation({
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {visiblePages.map((page) => {
           const isCurrentPage = pathname === page.path || 
-            (page.path !== '/streaming-proxies/admin' && pathname.startsWith(page.path));
+            (page.path !== '/fellowship1/streaming-proxies/streaming-proxies/admin' && pathname.startsWith(page.path));
           
           return (
             <Link key={page.id} href={page.path}>
@@ -193,14 +193,14 @@ export default function AdminNavigation({
           <h2 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h2>
           <div className="flex flex-wrap gap-3">
             <Button variant="outline" size="sm" asChild>
-              <Link href="/streaming-proxies/dashboard">
+              <Link href="/fellowship1/streaming-proxies/streaming-proxies/dashboard">
                 <LayoutDashboard className="h-4 w-4 mr-2" />
                 View Dashboard
               </Link>
             </Button>
             {hasPermission('manage_users') && (
               <Button variant="outline" size="sm" asChild>
-                <Link href="/streaming-proxies/admin/users">
+                <Link href="/fellowship1/streaming-proxies/streaming-proxies/admin/users">
                   <Users className="h-4 w-4 mr-2" />
                   Manage Users
                 </Link>
@@ -208,7 +208,7 @@ export default function AdminNavigation({
             )}
             {hasPermission('view_analytics') && (
               <Button variant="outline" size="sm" asChild>
-                <Link href="/streaming-proxies/admin/analytics-enhanced">
+                <Link href="/fellowship1/streaming-proxies/streaming-proxies/admin/analytics-enhanced">
                   <BarChart3 className="h-4 w-4 mr-2" />
                   View Analytics
                 </Link>

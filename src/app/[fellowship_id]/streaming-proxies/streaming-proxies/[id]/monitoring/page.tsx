@@ -28,7 +28,7 @@ export default async function ProxyMonitoringPage({
           </p>
         </div>
         <Button asChild variant="outline">
-          <Link href={`/streaming-proxies/${proxy.id}`}>
+          <Link href={`/fellowship1/streaming-proxies/streaming-proxies/${proxy.id}`}>
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back to Proxy
           </Link>

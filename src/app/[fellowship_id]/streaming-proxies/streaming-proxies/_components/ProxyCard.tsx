@@ -291,7 +291,7 @@ const ProxyCardContent = memo(({
         {proxy.bandwidthLimit && (
           <div className="flex items-center justify-between">
             <Link 
-              href={`/streaming-proxies/${proxy.id}/monitoring`} 
+              href={`/fellowship1/streaming-proxies/streaming-proxies/${proxy.id}/monitoring`} 
               className="text-xs text-blue-600 hover:text-blue-800 flex items-center"
               title="View detailed monitoring"
             >

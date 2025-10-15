@@ -110,7 +110,7 @@ export default function StartStream() {
       
       if (response.ok && data.success) {
         alert('Stream started successfully!');
-        router.push('/streaming-proxies/dashboard');
+        router.push('/fellowship1/streaming-proxies/streaming-proxies/dashboard');
       } else {
         throw new Error(data.error || 'Failed to start stream');
       }
@@ -141,7 +141,7 @@ export default function StartStream() {
             <div className="flex items-center">
               <Button
                 variant="ghost"
-                onClick={() => router.push('/streaming-proxies/dashboard')}
+                onClick={() => router.push('/fellowship1/streaming-proxies/streaming-proxies/dashboard')}
                 className="mr-4"
               >
                 <ArrowLeft className="h-4 w-4 mr-2" />
@@ -182,7 +182,7 @@ export default function StartStream() {
               <div className="text-center py-8">
                 <p className="text-gray-500">No active proxies available</p>
                 <button
-                  onClick={() => router.push('/streaming-proxies/admin/create')}
+                  onClick={() => router.push('/fellowship1/streaming-proxies/streaming-proxies/admin/create')}
                   className="mt-2 text-blue-600 hover:text-blue-700 font-medium"
                 >
                   Create a proxy first
@@ -392,7 +392,7 @@ export default function StartStream() {
           <div className="flex justify-between">
             <Button
               variant="outline"
-              onClick={() => router.push('/streaming-proxies/dashboard')}
+              onClick={() => router.push('/fellowship1/streaming-proxies/streaming-proxies/dashboard')}
             >
               Cancel
             </Button>

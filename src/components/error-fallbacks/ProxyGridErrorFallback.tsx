@@ -154,7 +154,7 @@ export function ProxyGridErrorFallback({
                 Refresh Page
               </Button>
               <Button
-                onClick={() => window.location.href = '/streaming-proxies/admin'}
+                onClick={() => window.location.href = '/fellowship1/streaming-proxies/streaming-proxies/admin'}
                 variant="ghost"
                 size="sm"
                 className="text-red-600 hover:bg-red-100"
@@ -162,7 +162,7 @@ export function ProxyGridErrorFallback({
                 Go to Admin Panel
               </Button>
               <Button
-                onClick={() => window.location.href = '/streaming-proxies/monitoring'}
+                onClick={() => window.location.href = '/fellowship1/streaming-proxies/streaming-proxies/monitoring'}
                 variant="ghost"
                 size="sm"
                 className="text-red-600 hover:bg-red-100"

@@ -57,7 +57,7 @@ export default function AdminPanel() {
                 <p className="text-sm text-gray-500">Manage your streaming proxy infrastructure</p>
               </div>
               <Button
-                onClick={() => router.push('/streaming-proxies/dashboard')}
+                onClick={() => router.push('/fellowship1/streaming-proxies/streaming-proxies/dashboard')}
                 variant="outline"
               >
                 Back to Dashboard

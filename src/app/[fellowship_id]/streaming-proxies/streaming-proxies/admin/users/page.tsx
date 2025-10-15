@@ -93,7 +93,7 @@ export default function UserManagement() {
               <div className="flex items-center">
                 <Button
                   variant="ghost"
-                  onClick={() => router.push('/streaming-proxies/admin')}
+                  onClick={() => router.push('/fellowship1/streaming-proxies/streaming-proxies/admin')}
                   className="mr-4"
                 >
                   <ArrowLeft className="h-4 w-4 mr-2" />

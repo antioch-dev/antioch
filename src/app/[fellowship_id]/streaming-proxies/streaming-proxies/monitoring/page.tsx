@@ -60,7 +60,7 @@ export default function SystemMonitoringPage() {
           </p>
         </div>
         <Button asChild variant="outline">
-          <Link href="/streaming-proxies/dashboard">
+          <Link href="/fellowship1/streaming-proxies/streaming-proxies/dashboard">
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back to Dashboard
           </Link>

@@ -299,7 +299,7 @@ export class ApiClient {
     if (filters?.search) params.append('search', filters.search);
 
     const queryString = params.toString();
-    const endpoint = `/streaming-proxies${queryString ? `?${queryString}` : ''}`;
+    const endpoint = `/fellowship1/streaming-proxies/streaming-proxies${queryString ? `?${queryString}` : ''}`;
     
     return this.get<ApiResponse<StreamingProxy[]>>(endpoint);
   }
@@ -308,56 +308,56 @@ export class ApiClient {
    * Get a single streaming proxy by ID
    */
   async getProxy(id: string): Promise<ApiResponse<StreamingProxy>> {
-    return this.get<ApiResponse<StreamingProxy>>(`/streaming-proxies/${id}`);
+    return this.get<ApiResponse<StreamingProxy>>(`/fellowship1/streaming-proxies/streaming-proxies/${id}`);
   }
 
   /**
    * Create a new streaming proxy
    */
   async createProxy(data: CreateProxyRequest): Promise<ApiResponse<StreamingProxy>> {
-    return this.post<ApiResponse<StreamingProxy>, CreateProxyRequest>('/streaming-proxies', data);
+    return this.post<ApiResponse<StreamingProxy>, CreateProxyRequest>('/fellowship1/streaming-proxies/streaming-proxies', data);
   }
 
   /**
    * Update an existing streaming proxy
    */
   async updateProxy(id: string, data: UpdateProxyRequest): Promise<ApiResponse<StreamingProxy>> {
-    return this.patch<ApiResponse<StreamingProxy>>(`/streaming-proxies/${id}`, data as { error?: string; message?: string; details?: Record<string, string[]> });
+    return this.patch<ApiResponse<StreamingProxy>>(`/fellowship1/streaming-proxies/streaming-proxies/${id}`, data as { error?: string; message?: string; details?: Record<string, string[]> });
   }
 
   /**
    * Delete a streaming proxy
    */
   async deleteProxy(id: string): Promise<ApiResponse<void>> {
-    return this.delete<ApiResponse<void>>(`/streaming-proxies/${id}`);
+    return this.delete<ApiResponse<void>>(`/fellowship1/streaming-proxies/streaming-proxies/${id}`);
   }
 
   /**
    * Run health check for a specific proxy
    */
   async runHealthCheck(id: string): Promise<ApiResponse<HealthCheckResult>> {
-    return this.post<ApiResponse<HealthCheckResult>>(`/streaming-proxies/${id}/health-check`);
+    return this.post<ApiResponse<HealthCheckResult>>(`/fellowship1/streaming-proxies/streaming-proxies/${id}/health-check`);
   }
 
   /**
    * Run health checks for all proxies
    */
   async runAllHealthChecks(): Promise<ApiResponse<HealthCheckResult[]>> {
-    return this.post<ApiResponse<HealthCheckResult[]>>('/streaming-proxies/health-check');
+    return this.post<ApiResponse<HealthCheckResult[]>>('/fellowship1/streaming-proxies/streaming-proxies/health-check');
   }
 
   /**
    * Get system statistics
    */
   async getSystemStats(): Promise<ApiResponse<SystemStats>> {
-    return this.get<ApiResponse<SystemStats>>('/streaming-proxies/stats');
+    return this.get<ApiResponse<SystemStats>>('/fellowship1/streaming-proxies/streaming-proxies/stats');
   }
 
   /**
    * Get analytics data
    */
   async getAnalytics(timeRange: '7d' | '30d' | '90d' = '7d'): Promise<ApiResponse<AnalyticsData>> {
-    return this.get<ApiResponse<AnalyticsData>>(`/streaming-proxies/analytics?timeRange=${timeRange}`);
+    return this.get<ApiResponse<AnalyticsData>>(`/fellowship1/streaming-proxies/streaming-proxies/analytics?timeRange=${timeRange}`);
   }
 
   // Streaming Session API methods
@@ -404,7 +404,7 @@ export class ApiClient {
    * Get active sessions for a specific proxy
    */
   async getActiveSessions(proxyId: string): Promise<ApiResponse<StreamingSession[]>> {
-    return this.get<ApiResponse<StreamingSession[]>>(`/streaming-proxies/${proxyId}/sessions/active`);
+    return this.get<ApiResponse<StreamingSession[]>>(`/fellowship1/streaming-proxies/streaming-proxies/${proxyId}/sessions/active`);
   }
 }
 

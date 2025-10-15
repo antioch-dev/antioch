@@ -278,7 +278,7 @@ export class AdminErrorBoundary extends Component<AdminErrorBoundaryProps, Admin
               )}
               
               <Button variant="outline" asChild className="gap-2">
-                <Link href="/streaming-proxies/admin">
+                <Link href="/fellowship1/streaming-proxies/streaming-proxies/admin">
                   <ArrowLeft className="h-4 w-4" />
                   Back to Admin
                 </Link>
@@ -292,18 +292,18 @@ export class AdminErrorBoundary extends Component<AdminErrorBoundaryProps, Admin
                 </p>
                 <div className="flex flex-wrap justify-center gap-2">
                   <Button variant="ghost" size="sm" asChild>
-                    <Link href="/streaming-proxies/dashboard">
+                    <Link href="/fellowship1/streaming-proxies/streaming-proxies/dashboard">
                       <Home className="h-4 w-4 mr-2" />
                       Dashboard
                     </Link>
                   </Button>
                   <Button variant="ghost" size="sm" asChild>
-                    <Link href="/streaming-proxies/admin/create">
+                    <Link href="/fellowship1/streaming-proxies/streaming-proxies/admin/create">
                       Create Proxy
                     </Link>
                   </Button>
                   <Button variant="ghost" size="sm" asChild>
-                    <Link href="/streaming-proxies/admin/analytics">
+                    <Link href="/fellowship1/streaming-proxies/streaming-proxies/admin/analytics">
                       View Analytics
                     </Link>
                   </Button>
