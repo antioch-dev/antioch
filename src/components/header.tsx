@@ -68,6 +68,9 @@ export function Header() {
           <Link href="/fellowship1/Feedback" className="text-sm font-medium transition-colors hover:text-primary">
            Feedback
           </Link>
+          <Link href="/fellowship1/streaming-proxies" className="text-sm font-medium transition-colors hover:text-primary">
+           S-Proxies
+          </Link>
         </nav>
         <div className="flex items-center gap-4">
           <Link href="/auth/login" className="flex items-center gap-1 text-sm font-medium">

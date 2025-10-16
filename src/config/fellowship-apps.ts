@@ -1,6 +1,5 @@
 import {
   BookOpen,
-  Calendar,
   DollarSign,
   FileText,
   Heart,
@@ -13,6 +12,7 @@ import {
   BarChart3,
   HelpCircle,
   type LucideIcon,
+  ScreenShare,
 } from "lucide-react"
 
 export interface FellowshipApp {
@@ -143,6 +143,17 @@ export const getFellowshipApps = (fellowshipId: string): FellowshipApp[] => [
     category: "analytics",
     color: "bg-sky-500",
   },
+
+  {
+   id: "streaming-proxies",
+   name: "Streaming Proxies",
+   description: "Manage streaming proxies for services",  
+   href: `/${fellowshipId}/streaming-proxies`,
+   icon: ScreenShare,
+   category: "communication",
+   color: "bg-blue-200",
+  }
+
 ]
 
 export const CATEGORY_LABELS = {
