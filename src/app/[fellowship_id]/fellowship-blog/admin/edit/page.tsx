@@ -1,13 +1,14 @@
-
 "use client";
 
 import { useEffect, useState } from "react";
 
 
+// --- Mock Dependencies ---
+
 const useRouter = () => ({
   push: (path: string) => {
     console.log(`Mock Navigation: Redirecting to ${path}`);
-   
+    
   },
 });
 
@@ -53,7 +54,6 @@ const getAllPosts = (): BlogPost[] => {
 
 const savePost = (updatedPost: BlogPost): void => {
   console.log("Mock: Post saved:", updatedPost.id);
-  // In a real app, this would update Firestore/localStorage
 };
 
 // 3. Mock Components (Simplified UI for a runnable example)
@@ -139,10 +139,10 @@ const MarkdownEditor = ({
 
 interface EditPostPageProps {
   params: {
-   
-    fellowship_id: string;
-    id: string;
+    fellowship_id: string; // From the [fellowship_id] segment
+    id: string;           // From the [id] segment
   };
+  searchParams: Record<string, string | string[] | undefined>;
 }
 
 export default function EditPostPage({ params }: EditPostPageProps) {
@@ -161,12 +161,11 @@ export default function EditPostPage({ params }: EditPostPageProps) {
 
   const handleSave = (updatedPost: BlogPost) => {
     savePost(updatedPost);
-    router.push("/admin");
+    router.push(`/${params.fellowship_id}/fellowship-blog/admin`); 
   };
 
   const handleCancel = () => {
-    // Use router.push which is now a mock function
-    router.push("/admin");
+    router.push(`/${params.fellowship_id}/fellowship-blog/admin`);
   };
 
   const LoadingState = (

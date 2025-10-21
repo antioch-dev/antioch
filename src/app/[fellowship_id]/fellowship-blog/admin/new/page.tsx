@@ -12,11 +12,11 @@ export default function NewPostPage() {
 
   const handleSave = (post: BlogPost) => {
     savePost(post)
-    router.push("/admin")
+    router.push("/fellowship1/fellowship-blog/admin")
   }
 
   const handleCancel = () => {
-    router.push("/admin")
+    router.push("/fellowship1/fellowship-blog/admin")
   }
 
   return (

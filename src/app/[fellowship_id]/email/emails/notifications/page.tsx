@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useParams } from "next/navigation"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
@@ -15,12 +16,10 @@ import {
 } from "@/lib/mock-data"
 import { Bell, Mail, Send, Users, Clock, CheckCircle, XCircle } from "lucide-react"
 
-interface NotificationsPageProps {
-  params: { fellowship_id: string }
-}
-
-export default function NotificationsPage({ params }: NotificationsPageProps) {
-  const fellowshipId = params.fellowship_id
+export default function NotificationsPage() {
+ 
+  const params = useParams()
+  const fellowshipId = params.fellowship_id as string 
   const [notifications] = useState<EmailNotification[]>(getNotificationsByFellowship(fellowshipId))
   const [requests] = useState(getRequestsByFellowship(fellowshipId))
   const [sentEmails] = useState(getSentEmailsByFellowship(fellowshipId))

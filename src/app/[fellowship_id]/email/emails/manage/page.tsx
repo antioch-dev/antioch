@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useParams } from "next/navigation"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -20,13 +21,16 @@ import { EmailStatusBadge } from "@/components/email-status-badge"
 import { getRequestsByFellowship, type UserEmailRequest } from "@/lib/mock-data"
 import { Settings, Users, Check, X, RotateCcw, Edit, Mail, Shield } from "lucide-react"
 
-interface ManageEmailPageProps {
-  params: { fellowship_id: string }
-}
+export default function ManageEmailPage() {
+  const params = useParams()
+  let fellowshipId: string | undefined
+  if (params && typeof params.fellowship_id === "string") {
+    fellowshipId = params.fellowship_id
+  } else if (params && Array.isArray(params.fellowship_id) && params.fellowship_id.length > 0) {
+    fellowshipId = params.fellowship_id[0]
+  }
 
-export default function ManageEmailPage({ params }: ManageEmailPageProps) {
-  const fellowshipId = params.fellowship_id
-  const [requests, setRequests] = useState<UserEmailRequest[]>(getRequestsByFellowship(fellowshipId))
+  const [requests, setRequests] = useState<UserEmailRequest[]>(getRequestsByFellowship(fellowshipId || ""))
   const [selectedRequest, setSelectedRequest] = useState<UserEmailRequest | null>(null)
   const [actionType, setActionType] = useState<"approve" | "reject" | "revoke" | "edit" | null>(null)
   const [rejectionReason, setRejectionReason] = useState("")
@@ -37,9 +41,13 @@ export default function ManageEmailPage({ params }: ManageEmailPageProps) {
   })
 
   const [showConfigureDialog, setShowConfigureDialog] = useState(false)
+  const capitalizedFellowship =
+    fellowshipId && typeof fellowshipId === "string"
+      ? fellowshipId.charAt(0).toUpperCase() + fellowshipId.slice(1)
+      : ""
   const [fellowshipEmailConfig, setFellowshipEmailConfig] = useState({
-    displayName: `Fellowship ${fellowshipId.charAt(0).toUpperCase() + fellowshipId.slice(1)}`,
-    signature: `Best regards,\nFellowship ${fellowshipId.charAt(0).toUpperCase() + fellowshipId.slice(1)} Team\n\nAntioch Platform`,
+    displayName: `Fellowship ${capitalizedFellowship}`,
+    signature: `Best regards,\nFellowship ${capitalizedFellowship} Team\n\nAntioch Platform`,
     autoReply: false,
     autoReplyMessage: "Thank you for your message. We will get back to you soon.",
     forwardingEnabled: false,
@@ -53,12 +61,15 @@ export default function ManageEmailPage({ params }: ManageEmailPageProps) {
     },
   })
 
-  // Fellowship official email settings
   const [fellowshipEmail] = useState({
-    email: `fellowship-${fellowshipId}@mail.antioch.com`,
+    email: `fellowship-${fellowshipId || "unknown"}@mail.antioch.com`,
     status: "active",
     isOfficial: true,
   })
+
+  if (!fellowshipId) {
+    return <div>Invalid or missing fellowship ID</div>
+  }
 
   const handleAction = (request: UserEmailRequest, action: "approve" | "reject" | "revoke" | "edit") => {
     setSelectedRequest(request)
@@ -104,7 +115,6 @@ export default function ManageEmailPage({ params }: ManageEmailPageProps) {
       }),
     )
 
-    // Reset form
     setSelectedRequest(null)
     setActionType(null)
     setRejectionReason("")

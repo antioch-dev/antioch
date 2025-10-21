@@ -5,8 +5,20 @@ import { Header } from "@/components/layout/header"
 import { BlogCard } from "@/components/blog/blog-card"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
-import { getPublishedPosts } from "@/lib/storage"
+import { getAllPosts } from "@/lib/storage"
 import type { BlogPost } from "@/lib/types"
+
+function parseDate(value: unknown): Date {
+  if (!value) return new Date(0)
+  if (value instanceof Date) return value
+  if (typeof value === "number") return new Date(value)
+  if (typeof value === "string") {
+    const d = new Date(value)
+    // Check if the date conversion was successful
+    return isNaN(d.getTime()) ? new Date(0) : d
+  }
+  return new Date(0)
+}
 
 export default function HomePage() {
   const [posts, setPosts] = useState<BlogPost[]>([])
@@ -16,9 +28,14 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const publishedPosts = getPublishedPosts().sort(
-      (a, b) => new Date(b.publishedAt || b.createdAt).getTime() - new Date(a.publishedAt || a.createdAt).getTime(),
-    )
+    const publishedPosts = getAllPosts()
+      .filter((p) => p.status === "published")
+      .sort((a: BlogPost, b: BlogPost) => {
+        const aDate = parseDate(a.publishedAt ?? a.createdAt)
+        const bDate = parseDate(b.publishedAt ?? b.createdAt)
+        return bDate.getTime() - aDate.getTime()
+      })
+
     setPosts(publishedPosts)
     setFilteredPosts(publishedPosts)
     setLoading(false)
@@ -26,14 +43,13 @@ export default function HomePage() {
 
   useEffect(() => {
     let filtered = posts
-
-    // Filter by search query
     if (searchQuery) {
+      const q = searchQuery.toLowerCase()
       filtered = filtered.filter(
         (post) =>
-          post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          post.content.toLowerCase().includes(searchQuery.toLowerCase()),
+          post.title.toLowerCase().includes(q) ||
+          post.excerpt.toLowerCase().includes(q) ||
+          post.content.toLowerCase().includes(q),
       )
     }
 

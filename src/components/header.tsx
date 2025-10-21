@@ -40,6 +40,10 @@ export function Header() {
           <Link href="/fellowship1/shared_music" className="text-sm font-medium transition-colors hover:text-primary">
             Shared Music
           </Link>
+             <Link href="/fellowship1/event-management" className="text-sm font-medium transition-colors hover:text-primary">
+            event management
+          </Link>
+          
           
            <Link
             href="/fellowship1/Prayer-system"

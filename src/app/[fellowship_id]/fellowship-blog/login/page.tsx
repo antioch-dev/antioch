@@ -12,7 +12,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      router.push("/admin")
+      router.push("/fellowship1/fellowship-blog/admin")
     }
   }, [isAuthenticated, router])
 

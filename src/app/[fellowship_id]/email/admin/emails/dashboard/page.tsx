@@ -133,7 +133,6 @@ export default function PlatformAdminDashboard() {
     if (actionType === "create") {
       const newRequest: UserEmailRequest = {
         id: `manual-${Date.now()}`,
-        userId: `user-${Date.now()}`,
         userName: newEmail.userName,
         fellowshipId: newEmail.fellowshipId,
         fellowshipName: newEmail.fellowshipName,

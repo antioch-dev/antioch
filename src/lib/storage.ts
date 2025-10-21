@@ -1,42 +1,6 @@
-
-export interface User {
-  id: string;
-  name: string;
-  email: string;
-  role: "admin" | "author";
-  createdAt: string;
-}
-
-export interface BlogPost {
-  id: string;
-  authorId: string;
-  title: string;
-  slug: string;
-  content: string;
-  status: "draft" | "published";
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface Comment {
-  id: string;
-  postId: string;
-  author: string;
-  content: string;
-  status: "pending" | "approved" | "rejected";
-  createdAt: string;
-}
-
-export interface BlogData {
-  users: User[];
-  posts: BlogPost[];
-  comments: Comment[];
-}
-// --- End Type Definitions ---
-
+import type { BlogData, BlogPost, Comment } from "./types"
 
 const STORAGE_KEY = "fellowship-blog-data"
-
 const initialData: BlogData = {
   users: [
     {
@@ -61,10 +25,8 @@ export function getBlogData(): BlogData {
   }
 
   try {
-    // FIX: Asserting the type to resolve the "Unsafe return of a value of type any" error.
     return JSON.parse(stored) as BlogData
   } catch {
-    console.error("Failed to parse blog data from localStorage. Returning initial data.")
     return initialData
   }
 }
@@ -107,7 +69,6 @@ export function deletePost(postId: string): void {
   saveBlogData(data)
 }
 
-// Comment operations
 export function getCommentsByPostId(postId: string): Comment[] {
   return getBlogData().comments.filter((comment) => comment.postId === postId)
 }

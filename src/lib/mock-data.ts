@@ -63,7 +63,7 @@ export interface Event {
   fellowshipId: string
   attendees: number
   maxAttendees?: number
-  type: "service" | "bible-study" | "fellowship" | "outreach" | "prayer"
+  type: "service" | "bible-study" | "fellowship" | "outreach" | "prayer" | "conference"
 }
 
 export interface FellowshipApplication {
@@ -220,6 +220,8 @@ export const mockFellowships: Fellowship[] = [
       canViewAnalytics: true,
       canEditInfo: true,
     },
+    slug: "",
+    color: ""
   },
   {
     id: "fellowship-2",
@@ -246,6 +248,8 @@ export const mockFellowships: Fellowship[] = [
       canViewAnalytics: false,
       canEditInfo: true,
     },
+    slug: "",
+    color: ""
   },
   {
     id: "fellowship-3",
@@ -273,6 +277,8 @@ export const mockFellowships: Fellowship[] = [
       canViewAnalytics: true,
       canEditInfo: true,
     },
+    slug: "",
+    color: ""
   },
   {
     id: "fellowship-4",
@@ -299,6 +305,8 @@ export const mockFellowships: Fellowship[] = [
       canViewAnalytics: false,
       canEditInfo: false,
     },
+    slug: "",
+    color: ""
   },
   {
     id: "fellowship-5",
@@ -325,6 +333,8 @@ export const mockFellowships: Fellowship[] = [
       canViewAnalytics: true,
       canEditInfo: true,
     },
+    slug: "",
+    color: ""
   },
   {
     id: "fellowship-6",
@@ -351,6 +361,8 @@ export const mockFellowships: Fellowship[] = [
       canViewAnalytics: true,
       canEditInfo: true,
     },
+    slug: "",
+    color: ""
   },
   {
     id: "fellowship-7",
@@ -377,6 +389,8 @@ export const mockFellowships: Fellowship[] = [
       canViewAnalytics: true,
       canEditInfo: true,
     },
+    slug: "",
+    color: ""
   },
 ]
 
@@ -619,6 +633,15 @@ export const mockEvents: Event[] = [
     attendees: 120,
     maxAttendees: 150,
     type: "service",
+    startDate: "",
+    endDate: "",
+    isHybrid: false,
+    onlineLinks: [],
+    paymentRequired: false,
+    materials: [],
+    registrationEnabled: false,
+    status: "ended",
+    fellowship: ""
   },
   {
     id: "event-2",
@@ -631,6 +654,15 @@ export const mockEvents: Event[] = [
     attendees: 45,
     maxAttendees: 60,
     type: "bible-study",
+    startDate: "",
+    endDate: "",
+    isHybrid: false,
+    onlineLinks: [],
+    paymentRequired: false,
+    materials: [],
+    registrationEnabled: false,
+    status: "ended",
+    fellowship: ""
   },
   {
     id: "event-3",
@@ -643,6 +675,15 @@ export const mockEvents: Event[] = [
     attendees: 28,
     maxAttendees: 40,
     type: "fellowship",
+    startDate: "",
+    endDate: "",
+    isHybrid: false,
+    onlineLinks: [],
+    paymentRequired: false,
+    materials: [],
+    registrationEnabled: false,
+    status: "ended",
+    fellowship: ""
   },
 ]
 
@@ -2443,3 +2484,550 @@ export const getStatusColor = (status: string) => {
       return "status-pending"
   }
 }
+
+
+export interface Event {
+  id: string
+  title: string
+  description: string
+  startDate: string
+  endDate: string
+  location: string
+  isHybrid: boolean
+  onlineLinks: string[]
+  paymentRequired: boolean
+  price?: number
+  bankDetails?: {
+    accountName: string
+    accountNumber: string
+    bankName: string
+    currency: string
+  }
+  wechatQR?: string
+  alipayQR?: string
+  coverImage?: string
+  materials: EventMaterial[]
+  registrationEnabled: boolean
+  status: "upcoming" | "live" | "ended"
+  fellowship: string
+}
+
+export interface EventMaterial {
+  id: string
+  name: string
+  url: string
+  type: "pdf" | "doc" | "image" | "video"
+}
+
+export interface Registration {
+  id: string
+  eventId: string
+  memberName: string
+  email: string
+  fellowship: string
+  phone: string
+  notes?: string
+  paymentProofURL?: string
+  paymentProof?: string | null
+  approved: boolean
+  checkedIn: boolean
+  checkedInAt?: string | null
+  registrationDate: string
+  approvalStatus: "pending" | "approved" | "rejected" | "more-info-needed"
+  manuallyAdded?: boolean
+}
+
+export interface ChatMessage {
+  id: string
+  user: string
+  message: string
+  timestamp: string
+  eventId: string
+}
+
+export interface Fellowship {
+  id: string
+  name: string
+  slug: string
+  description: string
+  color: string
+}
+export interface Event {
+  id: string
+  title: string
+  description: string
+  startDate: string
+  endDate: string
+  location: string
+  isHybrid: boolean
+  onlineLinks: string[]
+  paymentRequired: boolean
+  price?: number
+  bankDetails?: {
+    accountName: string
+    accountNumber: string
+    bankName: string
+    currency: string
+  }
+  wechatQR?: string
+  alipayQR?: string
+  coverImage?: string
+  materials: EventMaterial[]
+  registrationEnabled: boolean
+  status: "upcoming" | "live" | "ended"
+  fellowship: string
+}
+
+export interface EventMaterial {
+  id: string
+  name: string
+  url: string
+  type: "pdf" | "doc" | "image" | "video"
+}
+
+export interface Registration {
+  id: string
+  eventId: string
+  memberName: string
+  email: string
+  fellowship: string
+  phone: string
+  notes?: string
+  paymentProofURL?: string
+  paymentProof?: string | null
+  approved: boolean
+  checkedIn: boolean
+  checkedInAt?: string | null
+  registrationDate: string
+  approvalStatus: "pending" | "approved" | "rejected" | "more-info-needed"
+  manuallyAdded?: boolean
+}
+
+export interface ChatMessage {
+  id: string
+  user: string
+  message: string
+  timestamp: string
+  eventId: string
+}
+
+export interface Fellowship {
+  id: string
+  name: string
+  slug: string
+  description: string
+  color: string
+}
+
+// Mock Fellowships
+export const mockFellowshipsList: Fellowship[] = [
+  {
+    id: "1",
+    name: "Grace Community Fellowship",
+    slug: "grace-community",
+    description: "A vibrant community focused on grace and service",
+    color: "bg-blue-500",
+    location: {
+      address: "",
+      city: "",
+      state: "",
+      zipCode: "",
+      coordinates: undefined
+    },
+    memberCount: 0,
+    pastor: "",
+    established: "",
+    status: "active",
+    contactEmail: "",
+    contactPhone: "",
+    adminIds: [],
+    applicationStatus: "pending",
+    applicationDate: "",
+    permissions: {
+      canCreateEvents: false,
+      canManageMembers: false,
+      canViewAnalytics: false,
+      canEditInfo: false
+    }
+  },
+  {
+    id: "2",
+    name: "Hope Valley Church",
+    slug: "hope-valley",
+    description: "Bringing hope to the valley community",
+    color: "bg-green-500",
+    location: {
+      address: "",
+      city: "",
+      state: "",
+      zipCode: "",
+      coordinates: undefined
+    },
+    memberCount: 0,
+    pastor: "",
+    established: "",
+    status: "pending",
+    contactEmail: "",
+    contactPhone: "",
+    adminIds: [],
+    applicationStatus: "pending",
+    applicationDate: "",
+    permissions: {
+      canCreateEvents: false,
+      canManageMembers: false,
+      canViewAnalytics: false,
+      canEditInfo: false
+    }
+  },
+  {
+    id: "3",
+    name: "Faith Bridge Ministry",
+    slug: "faith-bridge",
+    description: "Building bridges through faith and fellowship",
+    color: "bg-purple-500",
+    location: {
+      address: "",
+      city: "",
+      state: "",
+      zipCode: "",
+      coordinates: undefined
+    },
+    memberCount: 0,
+    pastor: "",
+    established: "",
+    status: "active",
+    contactEmail: "",
+    contactPhone: "",
+    adminIds: [],
+    applicationStatus: "pending",
+    applicationDate: "",
+    permissions: {
+      canCreateEvents: false,
+      canManageMembers: false,
+      canViewAnalytics: false,
+      canEditInfo: false
+    }
+  },
+  {
+    id: "4",
+    name: "New Life Assembly",
+    slug: "new-life",
+    description: "Experiencing new life together in Christ",
+    color: "bg-orange-500",
+    location: {
+      address: "",
+      city: "",
+      state: "",
+      zipCode: "",
+      coordinates: undefined
+    },
+    memberCount: 0,
+    pastor: "",
+    established: "",
+    status: "active",
+    contactEmail: "",
+    contactPhone: "",
+    adminIds: [],
+    applicationStatus: "pending",
+    applicationDate: "",
+    permissions: {
+      canCreateEvents: false,
+      canManageMembers: false,
+      canViewAnalytics: false,
+      canEditInfo: false
+    }
+  },
+]
+
+// Mock Events
+export const mockEventsDetailed: Event[] = [
+  {
+    id: "1",
+    title: "Sunday Morning Worship",
+    description: "Join us for our weekly worship service with inspiring messages and uplifting music.",
+    startDate: "2024-01-21T10:00:00Z",
+    endDate: "2024-01-21T12:00:00Z",
+    location: "Main Sanctuary, 123 Church Street",
+    isHybrid: true,
+    onlineLinks: ["https://youtube.com/watch?v=example1"],
+    paymentRequired: false,
+    coverImage: "/church-worship.png",
+    materials: [
+      {
+        id: "1",
+        name: "Service Bulletin",
+        url: "/mock-bulletin.pdf",
+        type: "pdf",
+      },
+      {
+        id: "2",
+        name: "Song Lyrics",
+        url: "/mock-lyrics.pdf",
+        type: "pdf",
+      },
+    ],
+    registrationEnabled: true,
+    status: "upcoming",
+    fellowship: "grace-community",
+    date: "",
+    time: "",
+    fellowshipId: "",
+    attendees: 0,
+    type: "service"
+  },
+  {
+    id: "2",
+    title: "Youth Conference 2024",
+    description: "A three-day conference for young adults featuring workshops, worship, and fellowship.",
+    startDate: "2024-02-15T09:00:00Z",
+    endDate: "2024-02-17T18:00:00Z",
+    location: "Conference Center, Downtown",
+    isHybrid: true,
+    onlineLinks: [
+      "https://youtube.com/watch?v=day1",
+      "https://youtube.com/watch?v=day2",
+      "https://youtube.com/watch?v=day3",
+    ],
+    paymentRequired: true,
+    price: 150,
+    bankDetails: {
+      accountName: "Grace Community Fellowship",
+      accountNumber: "1234567890",
+      bankName: "China Construction Bank",
+      currency: "CNY",
+    },
+    wechatQR: "/placeholder-5ka3u.png",
+    alipayQR: "/alipay-qr-code.png",
+    coverImage: "/youth-conference-event.png",
+    materials: [
+      {
+        id: "3",
+        name: "Conference Schedule",
+        url: "/mock-schedule.pdf",
+        type: "pdf",
+      },
+      {
+        id: "4",
+        name: "Workshop Materials",
+        url: "/mock-workshop.pdf",
+        type: "pdf",
+      },
+    ],
+    registrationEnabled: true,
+    status: "upcoming",
+    fellowship: "grace-community",
+    date: "",
+    time: "",
+    fellowshipId: "",
+    attendees: 0,
+    type: "service"
+  },
+  {
+    id: "3",
+    title: "Community Outreach Day",
+    description: "Join us as we serve our local community through various outreach activities.",
+    startDate: "2024-01-15T08:00:00Z",
+    endDate: "2024-01-15T16:00:00Z",
+    location: "Various locations in the city",
+    isHybrid: false,
+    onlineLinks: [],
+    paymentRequired: false,
+    coverImage: "/community-service-outreach.png",
+    materials: [],
+    registrationEnabled: true,
+    status: "ended",
+    fellowship: "hope-valley",
+    date: "",
+    time: "",
+    fellowshipId: "",
+    attendees: 0,
+    type: "service"
+  },
+]
+
+// Mock Registrations
+export const mockRegistrations: Registration[] = [
+  {
+    id: "1",
+    eventId: "1",
+    memberName: "John Smith",
+    email: "john.smith@email.com",
+    fellowship: "grace-community",
+    phone: "+86 138 0013 8000",
+    notes: "Looking forward to the service!",
+    approved: true,
+    checkedIn: false,
+    registrationDate: "2024-01-10T10:00:00Z",
+    approvalStatus: "approved",
+  },
+  {
+    id: "2",
+    eventId: "2",
+    memberName: "Sarah Johnson",
+    email: "sarah.j@email.com",
+    fellowship: "grace-community",
+    phone: "+86 139 0013 9000",
+    notes: "Excited for the youth conference!",
+    paymentProofURL: "/payment-receipt.png",
+    paymentProof: "/payment-receipt.png",
+    approved: false,
+    checkedIn: false,
+    registrationDate: "2024-01-12T14:30:00Z",
+    approvalStatus: "pending",
+  },
+  {
+    id: "3",
+    eventId: "2",
+    memberName: "Michael Chen",
+    email: "michael.chen@email.com",
+    fellowship: "grace-community",
+    phone: "+86 137 0013 7000",
+    paymentProofURL: "/alipay-payment-proof.png",
+    paymentProof: "/alipay-payment-proof.png",
+    approved: true,
+    checkedIn: true,
+    checkedInAt: "2024-02-15T09:15:00Z",
+    registrationDate: "2024-01-08T09:15:00Z",
+    approvalStatus: "approved",
+  },
+]
+
+// Mock Chat Messages
+export const mockChatMessages: ChatMessage[] = [
+  {
+    id: "1",
+    user: "Pastor David",
+    message: "Welcome everyone to our live service!",
+    timestamp: "2024-01-21T10:05:00Z",
+    eventId: "1",
+  },
+  {
+    id: "2",
+    user: "Mary Wilson",
+    message: "Thank you for the wonderful message today!",
+    timestamp: "2024-01-21T11:30:00Z",
+    eventId: "1",
+  },
+  {
+    id: "3",
+    user: "James Lee",
+    message: "The worship music was amazing!",
+    timestamp: "2024-01-21T11:32:00Z",
+    eventId: "1",
+  },
+  {
+    id: "4",
+    user: "Lisa Zhang",
+    message: "Can we get the sermon notes?",
+    timestamp: "2024-01-21T11:45:00Z",
+    eventId: "1",
+  },
+]
+
+// Mock API functions
+export const mockAPI = {
+  // Events
+  getEventsByFellowship: async (fellowshipSlug: string): Promise<Event[]> => {
+    await new Promise((resolve) => setTimeout(resolve, 500)) // Simulate API delay
+    return mockEventsDetailed.filter((event) => event.fellowship === fellowshipSlug)
+  },
+
+  getEventById: async (eventId: string): Promise<Event | null> => {
+    await new Promise((resolve) => setTimeout(resolve, 300))
+    return mockEventsDetailed.find((event) => event.id === eventId) || null
+  },
+
+  createEvent: async (eventData: Partial<Event>): Promise<Event> => {
+    await new Promise((resolve) => setTimeout(resolve, 800))
+    const newEvent: Event = {
+      id: Date.now().toString(),
+      title: eventData.title || "",
+      description: eventData.description || "",
+      startDate: eventData.startDate || "",
+      endDate: eventData.endDate || "",
+      location: eventData.location || "",
+      isHybrid: eventData.isHybrid || false,
+      onlineLinks: eventData.onlineLinks || [],
+      paymentRequired: eventData.paymentRequired || false,
+      materials: eventData.materials || [],
+      registrationEnabled: eventData.registrationEnabled || true,
+      status: "upcoming",
+      fellowship: eventData.fellowship || "",
+      date: "",
+      time: "",
+      fellowshipId: "",
+      attendees: 0,
+      type: "service"
+    }
+    mockEventsDetailed.push(newEvent)
+    return newEvent
+  },
+
+  // Registrations
+  getRegistrationsByEvent: async (eventId: string): Promise<Registration[]> => {
+    await new Promise((resolve) => setTimeout(resolve, 400))
+    return mockRegistrations.filter((reg) => reg.eventId === eventId)
+  },
+
+  createRegistration: async (regData: Partial<Registration> | Registration): Promise<Registration> => {
+    await new Promise((resolve) => setTimeout(resolve, 600))
+
+    if ("id" in regData && regData.id && "approvalStatus" in regData) {
+      const newRegistration = regData as Registration
+      mockRegistrations.push(newRegistration)
+      return newRegistration
+    }
+
+    // Otherwise, create a new registration with defaults (from user registration form)
+    const newRegistration: Registration = {
+      id: Date.now().toString(),
+      eventId: regData.eventId || "",
+      memberName: regData.memberName || "",
+      email: regData.email || "",
+      fellowship: regData.fellowship || "",
+      phone: regData.phone || "",
+      notes: regData.notes,
+      paymentProofURL: regData.paymentProofURL,
+      paymentProof: regData.paymentProof || null,
+      approved: false,
+      checkedIn: false,
+      checkedInAt: null,
+      registrationDate: new Date().toISOString(),
+      approvalStatus: "pending",
+      manuallyAdded: false,
+    }
+    mockRegistrations.push(newRegistration)
+    return newRegistration
+  },
+
+  updateRegistrationStatus: async (regId: string, status: Registration["approvalStatus"]): Promise<Registration> => {
+    await new Promise((resolve) => setTimeout(resolve, 300))
+    const registration = mockRegistrations.find((reg) => reg.id === regId)
+    if (registration) {
+      registration.approvalStatus = status
+      registration.approved = status === "approved"
+    }
+    return registration!
+  },
+
+  // Chat
+  getChatMessages: async (eventId: string): Promise<ChatMessage[]> => {
+    await new Promise((resolve) => setTimeout(resolve, 200))
+    return mockChatMessages.filter((msg) => msg.eventId === eventId)
+  },
+
+  sendChatMessage: async (eventId: string, user: string, message: string): Promise<ChatMessage> => {
+    await new Promise((resolve) => setTimeout(resolve, 100))
+    const newMessage: ChatMessage = {
+      id: Date.now().toString(),
+      user,
+      message,
+      timestamp: new Date().toISOString(),
+      eventId,
+    }
+    mockChatMessages.push(newMessage)
+    return newMessage
+  },
+}
+
+

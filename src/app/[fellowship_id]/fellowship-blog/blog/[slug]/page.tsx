@@ -129,7 +129,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
                 </div>
               </div>
               <Button variant="outline" asChild>
-                <Link href="/">View All Posts</Link>
+                <Link href="//fellowship1/fellowship-blog">View All Posts</Link>
               </Button>
             </div>
           </footer>
