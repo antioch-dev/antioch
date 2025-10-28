@@ -1,21 +1,10 @@
-
+import type { BlogPost } from "./types";
 export interface User {
   id: string;
   name: string;
   email: string;
   role: "admin" | "author";
   createdAt: string;
-}
-
-export interface BlogPost {
-  id: string;
-  authorId: string;
-  title: string;
-  slug: string;
-  content: string;
-  status: "draft" | "published";
-  createdAt: string;
-  updatedAt: string;
 }
 
 export interface Comment {

@@ -1,23 +1,19 @@
-"use client"
+"use client" 
 
 import { useState } from "react"
+import { useParams } from "next/navigation" 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { FellowshipNav } from "@/components/fellowship-nav"
 import { EmailStatusBadge } from "@/components/email-status-badge"
-import { mockUserEmailRequests, mockEmailAccounts, type UserEmailRequest } from "@/lib/mock-data"
+import { mockUserEmailRequests, mockEmailAccounts, type UserEmailRequest } from "@/lib/mock-data" 
 import { User, Mail, Key, Server, AlertCircle, CheckCircle, XCircle, Plus, ExternalLink } from "lucide-react"
 import Link from "next/link"
 
-interface MyEmailPageProps {
-  params: { fellowship_id: string }
-}
-
-export default function MyEmailPage({ params }: MyEmailPageProps) {
-  const fellowshipId = params.fellowship_id
-
-  // Mock current user - in a real app, this would come from authentication
+export default function MyEmailPage() { 
+  const params = useParams()
+  const fellowshipId = params.fellowship_id as string 
   const currentUserId = "user-1"
   const currentUserName = "John Smith"
 
@@ -27,8 +23,6 @@ export default function MyEmailPage({ params }: MyEmailPageProps) {
       mockUserEmailRequests.find((req) => req.fellowshipId === fellowshipId && req.userName === currentUserName) || null
     )
   })
-
-  // Find user's email account if created
   const [emailAccount] = useState(() => {
     return mockEmailAccounts.find((acc) => acc.userId === currentUserId && acc.fellowshipId === fellowshipId) || null
   })
@@ -83,10 +77,12 @@ export default function MyEmailPage({ params }: MyEmailPageProps) {
   }
 
   const statusInfo = getStatusMessage()
+  // --- End Status Message Logic ---
 
   return (
     <div className="min-h-screen bg-background">
-      <FellowshipNav fellowshipId={fellowshipId} userRole="user" />
+      {/* Use fellowshipId from the hook */}
+      <FellowshipNav fellowshipId={fellowshipId} userRole="user" /> 
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
@@ -200,7 +196,8 @@ export default function MyEmailPage({ params }: MyEmailPageProps) {
                 {/* Action Buttons */}
                 <div className="flex gap-3 pt-4">
                   {statusInfo.action === "apply" && (
-                    <Link href={"/fellowshipid/emails/apply"}>
+                    // Corrected the Link path to use the dynamic fellowshipId
+                    <Link href={`/${fellowshipId}/emails/apply`}>
                       <Button className="flex items-center gap-2">
                         <Plus className="h-4 w-4" />
                         Apply for Email
