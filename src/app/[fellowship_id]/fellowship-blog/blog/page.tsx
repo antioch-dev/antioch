@@ -20,7 +20,7 @@ export default async function BlogPostPage({ params }: { params: Promise<BlogPos
   const { slug, fellowship_id } = await params
   const post = getPostBySlug(slug) as BlogPost | null
 
-  if (!post || post.status !== "published") {
+  if (post?.status !== "published") {
     notFound()
   }
 

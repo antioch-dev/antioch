@@ -81,7 +81,7 @@ export function QuestionnaireAnalytics({ questionnaire }: QuestionnaireAnalytics
   const getMultipleChoiceStats = (questionId: string) => {
     if (!questionId) return []
 
-    const question = questions.find((q: Question) => q && q.id === questionId)
+    const question = questions.find((q: Question) => q?.id === questionId)
     if (!question?.options || !Array.isArray(question.options)) return []
 
     const counts: Record<string, number> = {}
