@@ -81,7 +81,7 @@ export function MarkdownEditor({ post, onSave, onCancel }: MarkdownEditorProps) 
         content,
         excerpt: generateExcerpt(content),
         authorId: user.id,
-        author: user,
+        author: user as BlogPost["author"],
         status,
         tags: tagArray,
         createdAt: post?.createdAt || now,

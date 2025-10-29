@@ -24,9 +24,10 @@ export interface BlogPost {
 
 export interface Comment {
   id: string
+  author?:string
   postId: string
-  authorName: string
-  authorEmail: string
+  authorName?: string
+  authorEmail?: string
   content: string
   status: "pending" | "approved" | "rejected"
   createdAt: string

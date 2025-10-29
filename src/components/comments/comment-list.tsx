@@ -98,7 +98,7 @@ export function CommentList({ postId, refreshTrigger }: CommentListProps) {
               <CardContent className="pt-6">
                 <div className="flex items-start space-x-3">
                   <Avatar className="h-10 w-10">
-                    <AvatarFallback className="text-sm">{getInitials(comment.authorName)}</AvatarFallback>
+                    <AvatarFallback className="text-sm">{getInitials(comment.authorName ?? "")}</AvatarFallback>
                   </Avatar>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between mb-2">

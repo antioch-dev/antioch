@@ -33,19 +33,22 @@ export function CommentManagement() {
     const sortedComments = data.comments.sort(
       (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
     )
-    setComments(sortedComments)
+    setComments(sortedComments as unknown as Comment[])
     setLoading(false)
   }
 
-  const updateCommentStatus = (commentId: string, status: "approved" | "rejected") => {
-    const data = getBlogData()
-    const commentIndex = data.comments.findIndex((c) => c.id === commentId)
-    if (commentIndex >= 0) {
-      data.comments[commentIndex].status = status
-      saveBlogData(data)
-      loadComments()
-    }
+ const updateCommentStatus = (commentId: string, status: "approved" | "rejected") => {
+  const data = getBlogData();
+  const comments = data?.comments;
+  if (!comments) return;
+
+  const commentIndex = comments.findIndex((c) => c.id === commentId);
+  if (commentIndex >= 0) {
+    comments[commentIndex]!.status = status;
+    saveBlogData(data);
+    loadComments();
   }
+};
 
   const handleDeleteComment = (commentId: string) => {
     deleteComment(commentId)

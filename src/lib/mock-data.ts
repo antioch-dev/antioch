@@ -2222,6 +2222,7 @@ export const getEngagementScore = () => {
 export interface UserEmailRequest {
   id: string
   userName: string
+  userId: string
   fellowshipId: string
   fellowshipName: string
   desiredUsername: string
@@ -2287,6 +2288,7 @@ export const mockUserEmailRequests: UserEmailRequest[] = [
     reason: "Need official email for youth ministry coordination",
     createdAt: new Date("2024-01-15"),
     updatedAt: new Date("2024-01-15"),
+    userId: "1"
   },
   {
     id: "2",
@@ -2298,6 +2300,7 @@ export const mockUserEmailRequests: UserEmailRequest[] = [
     reason: "Official communication with community partners",
     createdAt: new Date("2024-01-10"),
     updatedAt: new Date("2024-01-12"),
+    userId: "2"
   },
   {
     id: "3",
@@ -2310,6 +2313,7 @@ export const mockUserEmailRequests: UserEmailRequest[] = [
     rejectionReason: "Email requests must be for official ministry purposes",
     createdAt: new Date("2024-01-08"),
     updatedAt: new Date("2024-01-09"),
+    userId: "3"
   },
   {
     id: "4",
@@ -2322,6 +2326,7 @@ export const mockUserEmailRequests: UserEmailRequest[] = [
     rejectionReason: "Account misuse - personal communications",
     createdAt: new Date("2024-01-05"),
     updatedAt: new Date("2024-01-20"),
+    userId: "4"
   },
 ]
 

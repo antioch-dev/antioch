@@ -22,7 +22,7 @@ export function LoginForm() {
     setLoading(true)
 
     try {
-      const success = await signIn(email)
+      const success = await signIn(email, "")
       if (!success) {
         setError("Invalid email address. Please contact your fellowship administrator.")
       }

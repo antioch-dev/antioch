@@ -10,7 +10,7 @@ export interface User {
 export interface Comment {
   id: string;
   postId: string;
-  author: string;
+  author?: string;
   content: string;
   status: "pending" | "approved" | "rejected";
   createdAt: string;
