@@ -69,7 +69,7 @@ export function PostManagement() {
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle>Blog Posts ({posts.length})</CardTitle>
         <Button asChild>
-          <Link href="/admin/new">
+          <Link href="admin/new">
             <Plus className="h-4 w-4 mr-2" />
             New Post
           </Link>
@@ -80,7 +80,7 @@ export function PostManagement() {
           <div className="text-center py-8">
             <p className="text-muted-foreground mb-4">No blog posts yet.</p>
             <Button asChild>
-              <Link href="/admin/new">Create Your First Post</Link>
+              <Link href="admin/new">Create Your First Post</Link>
             </Button>
           </div>
         ) : (
@@ -119,7 +119,7 @@ export function PostManagement() {
                           </Button>
                         )}
                         <Button variant="ghost" size="sm" asChild>
-                          <Link href={`/admin/edit/${post.id}`}>
+                          <Link href={`admin/edit/${post.id}`}>
                             <Edit className="h-4 w-4" />
                           </Link>
                         </Button>

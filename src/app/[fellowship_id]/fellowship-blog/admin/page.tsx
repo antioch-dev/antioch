@@ -1,7 +1,7 @@
 "use client"
 
 import { ProtectedRoute } from "@/components/auth/protected-route"
-import { Header } from "@/components/layout/header"
+// import { Header } from "@/components/layout/header"
 import { DashboardStats } from "@/components/admin/dashboard-stats"
 import { PostManagement } from "@/components/admin/post-management"
 import { CommentManagement } from "@/components/admin/comment-management"
@@ -11,7 +11,7 @@ export default function AdminPage() {
   return (
     // <ProtectedRoute>
     <>
-      <Header />
+      {/* <Header /> */}
       <div className="min-h-screen bg-background">
         <div className="container mx-auto px-4 py-8">
           <div className="mb-8">
