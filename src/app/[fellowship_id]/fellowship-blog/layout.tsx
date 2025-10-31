@@ -19,7 +19,9 @@ export default function RootLayout({
   return (
     <>
     {/* <Header /> */}
+          <AuthProvider>
           {children}
+        </AuthProvider>
     </>
   )
 }

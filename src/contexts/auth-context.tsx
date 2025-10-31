@@ -6,9 +6,10 @@ import { createContext, useContext, useEffect, useState } from "react"
 const useRouter = () => ({ push: (path: string) => console.log(`Navigating to: ${path}`) });
 
 // Mock User type (based on what the context and usage needs)
-interface User {
+export interface User {
   id: string;
   email: string;
+  name: string ;
   role: "admin" | "author";
 }
 
@@ -21,10 +22,13 @@ const getCurrentUser = async (): Promise<User | null> => {
 const authSignIn = async (email: string, password: string): Promise<{ user: User } | null> => {
     console.log(`Mock sign in attempt for: ${email}`);
     if (email === "admin@fellowship.org" && password === "secret") {
-        return { user: { id: "mock-admin-456", email, role: "admin" } };
-    }
+    return { 
+        user: {  id: "mock-admin-456", email, role: "admin",name: "Admin User"  
+        } 
+    };
+}
     if (email === "author@fellowship.org" && password === "secret") {
-        return { user: { id: "mock-user-123", email, role: "author" } };
+        return { user: { id: "mock-user-123", email, role: "author",name:"fellowship Author" } };
     }
     return null;
 };
@@ -52,13 +56,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter()
 
   useEffect(() => {
-    // FIX 1: Use an async function and await getCurrentUser() to resolve error 2345 (promise not assignable)
     const initAuth = async () => {
         const currentUser = await getCurrentUser()
         setUser(currentUser)
         setLoading(false)
     }
-    // FIX 1: Use 'void' operator to explicitly indicate the promise is not handled (resolves no-floating-promises)
     void initAuth() 
   }, [])
 
@@ -66,7 +68,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const signIn = async (email: string, password: string): Promise<boolean> => {
     const response = await authSignIn(email, password)
     
-    // FIX 2: Use optional chaining for conciseness (resolves prefer-optional-chain)
     if (response?.user) {
       setUser(response.user)
       return true
@@ -99,3 +100,4 @@ export function useAuth() {
   }
   return context
 }
+

@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Header } from "@/components/layout/header"
+import { Header } from "@/components/fellowshipblog/header"
 import { BlogCard } from "@/components/blog/blog-card"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
@@ -66,7 +66,7 @@ export default function HomePage() {
   if (loading) {
     return (
       <>
-        {/* <Header /> */}
+        <Header />
         <main className="min-h-screen bg-background">
           <div className="container mx-auto px-4 py-8">
             <div className="flex items-center justify-center min-h-[400px]">
@@ -83,7 +83,7 @@ export default function HomePage() {
 
   return (
     <>
-      {/* <Header /> */}
+      <Header />
       <main className="min-h-screen bg-background">
         <div className="container mx-auto px-4 py-8">
           {/* Hero Section */}

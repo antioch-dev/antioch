@@ -68,8 +68,6 @@ const savePost = (updatedPost: BlogPost): void => {
   console.log("Updated Post Data:", updatedPost);
 };
 
-// --- Custom Components ---
-
 const Header = () => (
   <header className="bg-white shadow-lg p-4 sticky top-0 z-10 border-b border-indigo-100">
     <div className="max-w-7xl mx-auto flex justify-between items-center">
@@ -169,7 +167,6 @@ export default function EditPostPage() {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
-  // Destructure for cleaner useEffect dependency array
   const { id, fellowship_id } = params;
 
   useEffect(() => {

@@ -2,7 +2,7 @@
 
 import { useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { Header } from "@/components/layout/header"
+import { Header } from "@/components/fellowshipblog/header"
 import { LoginForm } from "@/components/auth/login-form"
 import { useAuth } from "@/contexts/auth-context"
 
@@ -12,7 +12,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      router.push("/admin")
+      router.push("/fellowshipid/fellowship-blog/admin")
     }
   }, [isAuthenticated, router])
 
