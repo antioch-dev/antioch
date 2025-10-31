@@ -15,37 +15,37 @@ export function FellowshipNav({ fellowshipId, userRole = "user" }: FellowshipNav
 
   const navItems = [
     {
-      href: `/${fellowshipId}/emails/notifications`,
+      href: `/${fellowshipId}/email/notifications`,
       label: "Notifications",
       icon: Bell,
       roles: ["admin", "user", "platform-admin"],
     },
     {
-      href: `/${fellowshipId}/emails/send`,
+      href: `/${fellowshipId}/email/send`,
       label: "Send Email",
       icon: Send,
       roles: ["admin", "platform-admin"],
     },
     {
-      href: `/${fellowshipId}/emails/manage`,
+      href: `/${fellowshipId}/email/manage`,
       label: "Manage Accounts",
       icon: Settings,
       roles: ["admin", "platform-admin"],
     },
     {
-      href: `/${fellowshipId}/emails/my-email`,
+      href: `/${fellowshipId}/email/my-email`,
       label: "My Email",
       icon: User,
       roles: ["user"],
     },
     {
-      href: `/${fellowshipId}/emails/apply`,
+      href: `/${fellowshipId}/email/apply`,
       label: "Apply for Email",
       icon: Plus,
       roles: ["user"],
     },
     {
-      href: `/admin/emails/dashboard`,
+      href: `/${fellowshipId}/admins/dashboard`,
       label: "Platform Admin",
       icon: Shield,
       roles: ["platform-admin"],

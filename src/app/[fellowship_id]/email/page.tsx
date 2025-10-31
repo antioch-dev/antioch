@@ -66,7 +66,7 @@ export default function HomePage() {
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-3">
-                      <Link href={`/${fellowship.id}/email/emails/notifications`}>
+                      <Link href={`/${fellowship.id}/email/notifications`}>
                         <Button className="w-full group-hover:bg-primary/90 transition-colors flex items-center gap-2">
                           <Mail className="h-4 w-4" />
                           Access Email System
@@ -96,7 +96,7 @@ export default function HomePage() {
                 <CardDescription>Global email management and oversight across all fellowships</CardDescription>
               </CardHeader>
               <CardContent>
-                <Link href="/fellowshipid/email/admin/emails/dashboard">
+                <Link href="/fellowshipid/email/admin/dashboard">
                   <Button className="w-full group-hover:bg-primary/90 transition-colors flex items-center gap-2">
                     <Shield className="h-4 w-4" />
                     Admin Dashboard

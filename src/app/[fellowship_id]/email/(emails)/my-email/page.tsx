@@ -77,7 +77,6 @@ export default function MyEmailPage() {
   }
 
   const statusInfo = getStatusMessage()
-  // --- End Status Message Logic ---
 
   return (
     <div className="min-h-screen bg-background">
@@ -196,8 +195,7 @@ export default function MyEmailPage() {
                 {/* Action Buttons */}
                 <div className="flex gap-3 pt-4">
                   {statusInfo.action === "apply" && (
-                    // Corrected the Link path to use the dynamic fellowshipId
-                    <Link href={`/${fellowshipId}/emails/apply`}>
+                    <Link href={`/${fellowshipId}/email/apply`}>
                       <Button className="flex items-center gap-2">
                         <Plus className="h-4 w-4" />
                         Apply for Email
@@ -206,7 +204,7 @@ export default function MyEmailPage() {
                   )}
 
                   {statusInfo.action === "reapply" && (
-                    <Link href={`/${fellowshipId}/emails/apply`}>
+                    <Link href={`/${fellowshipId}/email/apply`}>
                       <Button variant="outline" className="flex items-center gap-2 bg-transparent">
                         <Plus className="h-4 w-4" />
                         Apply Again
