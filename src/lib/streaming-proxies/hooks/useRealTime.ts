@@ -151,8 +151,8 @@ export function useRealTimeProxyUpdates(
   const { lastUpdate } = useRealTime();
 
   useEffect(() => {
-    if (lastUpdate && lastUpdate.type === 'proxy_status') {
-      onProxyUpdate(lastUpdate.data);
+    if (lastUpdate?.type === 'proxy_status') {
+      onProxyUpdate(lastUpdate?.data);
     }
   }, [lastUpdate, onProxyUpdate]);
 
@@ -165,8 +165,8 @@ export function useRealTimeStatsUpdates(
   const { lastUpdate } = useRealTime();
 
   useEffect(() => {
-    if (lastUpdate && lastUpdate.type === 'system_stats') {
-      onStatsUpdate(lastUpdate.data);
+    if (lastUpdate?.type === 'system_stats') {
+      onStatsUpdate(lastUpdate?.data);
     }
   }, [lastUpdate, onStatsUpdate]);
 
@@ -179,7 +179,7 @@ export function useRealTimeStreamUpdates(
   const { lastUpdate } = useRealTime();
 
   useEffect(() => {
-    if (lastUpdate && lastUpdate.type === 'stream_count') {
+    if (lastUpdate?.type === 'stream_count') {
       onStreamCountUpdate(lastUpdate.data.proxyId, lastUpdate.data.count);
     }
   }, [lastUpdate, onStreamCountUpdate]);

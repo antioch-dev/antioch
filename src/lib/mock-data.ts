@@ -2219,3 +2219,232 @@ export const getEngagementScore = () => {
   return Math.round(80 + Math.random() * 15) // 80-95% engagement
 }
  
+export interface UserEmailRequest {
+  id: string
+  userName: string
+  userId: string
+  fellowshipId: string
+  fellowshipName: string
+  desiredUsername: string
+  status: "pending" | "created" | "rejected" | "revoked"
+  reason: string
+  createdAt: Date
+  updatedAt: Date
+  rejectionReason?: string
+}
+
+export interface EmailAccount {
+  id: string
+  userId: string
+  fellowshipId: string
+  email: string
+  status: "pending" | "created" | "rejected" | "revoked"
+  loginDetails?: {
+    username: string
+    password: string
+    serverUrl: string
+  }
+}
+
+export interface EmailNotification {
+  id: string
+  type: "received" | "sent" | "request" | "approval" | "denial"
+  subject: string
+  from: string
+  to: string
+  date: Date
+  status: "read" | "unread"
+  fellowshipId?: string
+}
+
+export interface FellowshipEmail {
+  id: string
+  fellowshipId: string
+  email: string
+  status: "active" | "inactive"
+  isOfficial: boolean
+}
+
+export interface SentEmail {
+  id: string
+  to: string
+  cc?: string
+  subject: string
+  message: string
+  sentAt: Date
+  fellowshipId: string
+  sentBy: string
+}
+
+// Mock data
+export const mockUserEmailRequests: UserEmailRequest[] = [
+  {
+    id: "1",
+    userName: "John Smith",
+    fellowshipId: "fellowship-1",
+    fellowshipName: "Grace Community Fellowship",
+    desiredUsername: "john.smith",
+    status: "pending",
+    reason: "Need official email for youth ministry coordination",
+    createdAt: new Date("2024-01-15"),
+    updatedAt: new Date("2024-01-15"),
+    userId: "1"
+  },
+  {
+    id: "2",
+    userName: "Sarah Johnson",
+    fellowshipId: "fellowship-2",
+    fellowshipName: "Hope Baptist Fellowship",
+    desiredUsername: "sarah.johnson",
+    status: "created",
+    reason: "Official communication with community partners",
+    createdAt: new Date("2024-01-10"),
+    updatedAt: new Date("2024-01-12"),
+    userId: "2"
+  },
+  {
+    id: "3",
+    userName: "Michael Brown",
+    fellowshipId: "fellowship-1",
+    fellowshipName: "Grace Community Fellowship",
+    desiredUsername: "mike.brown",
+    status: "rejected",
+    reason: "Personal use only",
+    rejectionReason: "Email requests must be for official ministry purposes",
+    createdAt: new Date("2024-01-08"),
+    updatedAt: new Date("2024-01-09"),
+    userId: "3"
+  },
+  {
+    id: "4",
+    userName: "Emily Davis",
+    fellowshipId: "fellowship-3",
+    fellowshipName: "Faith Community Church",
+    desiredUsername: "emily.davis",
+    status: "revoked",
+    reason: "Worship team coordination",
+    rejectionReason: "Account misuse - personal communications",
+    createdAt: new Date("2024-01-05"),
+    updatedAt: new Date("2024-01-20"),
+    userId: "4"
+  },
+]
+
+export const mockEmailAccounts: EmailAccount[] = [
+  {
+    id: "1",
+    userId: "user-2",
+    fellowshipId: "fellowship-2",
+    email: "sarah.johnson@mail.antioch.com",
+    status: "created",
+    loginDetails: {
+      username: "sarah.johnson",
+      password: "temp123!",
+      serverUrl: "mail.antioch.com",
+    },
+  },
+  {
+    id: "2",
+    userId: "user-4",
+    fellowshipId: "fellowship-3",
+    email: "emily.davis@mail.antioch.com",
+    status: "revoked",
+  },
+]
+
+export const mockNotifications: EmailNotification[] = [
+  {
+    id: "1",
+    type: "received",
+    subject: "Welcome to the Community Outreach Program",
+    from: "outreach@mail.antioch.com",
+    to: "fellowship-1@mail.antioch.com",
+    date: new Date("2024-01-20T10:30:00"),
+    status: "unread",
+    fellowshipId: "fellowship-1",
+  },
+  {
+    id: "2",
+    type: "request",
+    subject: "New Email Request from John Smith",
+    from: "system@antioch.com",
+    to: "admin@fellowship-1",
+    date: new Date("2024-01-15T14:20:00"),
+    status: "read",
+    fellowshipId: "fellowship-1",
+  },
+  {
+    id: "3",
+    type: "sent",
+    subject: "Youth Ministry Meeting Reminder",
+    from: "fellowship-1@mail.antioch.com",
+    to: "youth-group@mail.antioch.com",
+    date: new Date("2024-01-18T16:45:00"),
+    status: "read",
+    fellowshipId: "fellowship-1",
+  },
+]
+
+export const mockFellowshipEmails: FellowshipEmail[] = [
+  {
+    id: "1",
+    fellowshipId: "fellowship-1",
+    email: "fellowship-1@mail.antioch.com",
+    status: "active",
+    isOfficial: true,
+  },
+  {
+    id: "2",
+    fellowshipId: "fellowship-2",
+    email: "fellowship-2@mail.antioch.com",
+    status: "active",
+    isOfficial: true,
+  },
+]
+
+export const mockSentEmails: SentEmail[] = [
+  {
+    id: "1",
+    to: "community@mail.antioch.com",
+    cc: "leadership@mail.antioch.com",
+    subject: "Monthly Fellowship Update",
+    message: "Dear community members, we are excited to share our monthly updates...",
+    sentAt: new Date("2024-01-19T09:15:00"),
+    fellowshipId: "fellowship-1",
+    sentBy: "Pastor Johnson",
+  },
+  {
+    id: "2",
+    to: "volunteers@mail.antioch.com",
+    subject: "Volunteer Appreciation Event",
+    message: "Thank you for your continued service. Join us for our appreciation event...",
+    sentAt: new Date("2024-01-17T11:30:00"),
+    fellowshipId: "fellowship-1",
+    sentBy: "Sarah Wilson",
+  },
+]
+
+// Helper functions
+export const getRequestsByFellowship = (fellowshipId: string) =>
+  mockUserEmailRequests.filter((req) => req.fellowshipId === fellowshipId)
+
+export const getNotificationsByFellowship = (fellowshipId: string) =>
+  mockNotifications.filter((notif) => notif.fellowshipId === fellowshipId)
+
+export const getSentEmailsByFellowship = (fellowshipId: string) =>
+  mockSentEmails.filter((email) => email.fellowshipId === fellowshipId)
+
+export const getStatusColor = (status: string) => {
+  switch (status) {
+    case "pending":
+      return "status-pending"
+    case "created":
+      return "status-created"
+    case "rejected":
+      return "status-rejected"
+    case "revoked":
+      return "status-revoked"
+    default:
+      return "status-pending"
+  }
+}

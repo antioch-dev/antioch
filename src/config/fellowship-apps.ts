@@ -13,6 +13,8 @@ import {
   HelpCircle,
   type LucideIcon,
   ScreenShare,
+  Mail,
+  PenSquare,
 } from "lucide-react"
 
 export interface FellowshipApp {
@@ -152,7 +154,26 @@ export const getFellowshipApps = (fellowshipId: string): FellowshipApp[] => [
    icon: ScreenShare,
    category: "communication",
    color: "bg-blue-200",
-  }
+  },
+
+  {
+    id: "email",
+    name: "Email",
+    description: "Send and manage email communications",
+    href: `/${fellowshipId}/email`,
+    icon: Mail,
+    category: "communication",
+    color: "bg-blue-600",
+  },
+  {
+    id: "blog",
+    name: "Blog",
+    description: "Share updates, articles, and insights",
+    href: `/${fellowshipId}/fellowship-blog`,
+    icon: PenSquare,
+    category: "communication",
+    color: "bg-slate-600",
+  },
 
 ]
 
